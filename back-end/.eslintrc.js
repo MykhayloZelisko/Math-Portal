@@ -55,10 +55,9 @@ module.exports = {
     'no-duplicate-imports': 'error',
     'no-duplicate-case': 'error',
     'prefer-const': 'warn',
-    quotes: ['warn', 'single'],
     curly: 'warn',
     eqeqeq: ['warn', 'smart'],
-    'no-magic-numbers': ['warn', { 'ignore': [-1, 0, 1, 2]}],
+    'no-magic-numbers': ['warn', { 'ignore': [-1, 0, 1, 2, 5]}],
     '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/explicit-member-accessibility': ['warn']
   },
