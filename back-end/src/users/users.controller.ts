@@ -1,55 +1,74 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Param,
   Delete,
   Put,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { User } from './entities/user.entity';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { User } from './models/user.model';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard';
+import { AdminGuard } from '../auth/guards/admin/admin.guard';
+import { UpdateUserRoleDto } from './dto/update-user-role.dto';
 
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  public constructor(private readonly usersService: UsersService) {}
 
-  @ApiOperation({ summary: 'Create user' })
+  @ApiOperation({ summary: 'Update user role' })
   @ApiResponse({ status: 200, type: User })
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  @UseGuards(AdminGuard)
+  @ApiBearerAuth()
+  @Put('/role')
+  public updateUserRole(@Body() updateUserRoleDto: UpdateUserRoleDto) {
+    return this.usersService.updateUserRole(updateUserRoleDto);
   }
 
   @ApiOperation({ summary: 'Get all user' })
   @ApiResponse({ status: 200, type: [User] })
+  @UseGuards(AdminGuard)
+  @ApiBearerAuth()
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  public getAllUsers() {
+    return this.usersService.getAllUsers();
   }
 
-  @ApiOperation({ summary: 'Get user by id' })
+  @ApiOperation({ summary: 'Get current user' })
   @ApiResponse({ status: 200, type: User })
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Get('/current')
+  public getCurrentUser(@Req() request: Request) {
+    const token = request.headers.authorization.split(' ')[1];
+    return this.usersService.getCurrentUser({ token });
   }
 
-  @ApiOperation({ summary: 'Update user data' })
-  @ApiResponse({ status: 200, type: User })
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  @ApiOperation({ summary: 'Delete current user' })
+  @ApiResponse({ status: 200, type: Boolean })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Delete('/current')
+  public removeCurrentUser(@Req() request: Request) {
+    const token = request.headers.authorization.split(' ')[1];
+    return this.usersService.removeCurrentUser({ token });
   }
 
   @ApiOperation({ summary: 'Delete user' })
   @ApiResponse({ status: 200, type: Boolean })
+  @UseGuards(AdminGuard)
+  @ApiBearerAuth()
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  public removeUser(@Param('id') id: string) {
+    return this.usersService.removeUser(+id);
   }
 }

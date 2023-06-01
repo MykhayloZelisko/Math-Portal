@@ -3,7 +3,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import * as process from 'process';
-import { User } from './users/entities/user.entity';
+import { User } from './users/models/user.model';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { User } from './users/entities/user.entity';
       autoLoadModels: true,
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
