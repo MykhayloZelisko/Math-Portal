@@ -21,7 +21,6 @@
     text-decoration: none;
     font-size: 50px;
     background: linear-gradient(to right, $yellow-1, $yellow-2);
-    -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: #ffd700;
@@ -36,12 +35,11 @@
   }
 
   &__login {
-    font-family: $source;
-    font-size: 16px;
     padding: 8px 24px;
     color: $yellow-1;
     cursor: pointer;
     border-radius: 5px;
+    text-decoration: none;
 
     &:hover {
       background-color: $brown-2;
@@ -49,7 +47,6 @@
   }
 
   &__menu {
-
     &-inner {
       max-width: 1400px;
       margin: 0 auto;
