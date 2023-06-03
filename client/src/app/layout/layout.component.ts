@@ -10,8 +10,6 @@ import { FooterComponent } from './components/footer/footer.component';
   imports: [CommonModule, HeaderComponent, RouterOutlet, FooterComponent],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutComponent {
-
-}
+export class LayoutComponent {}

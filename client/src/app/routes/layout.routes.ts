@@ -9,13 +9,14 @@ export const LayoutRoutes: Routes = [
     children: [
       {
         path: LayoutRouteNameEnum.User,
-        loadChildren: () =>
-          import('./user.routes').then((m) => m.UserRoutes),
+        loadChildren: () => import('./user.routes').then((m) => m.UserRoutes),
       },
       {
         path: LayoutRouteNameEnum.PageNotFound,
         loadComponent: () =>
-          import('../user/pages/page-not-found/page-not-found.component').then((m) => m.PageNotFoundComponent),
+          import('../user/pages/page-not-found/page-not-found.component').then(
+            (m) => m.PageNotFoundComponent,
+          ),
       },
     ],
   },

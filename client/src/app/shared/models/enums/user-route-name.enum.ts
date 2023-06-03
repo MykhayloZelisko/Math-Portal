@@ -4,5 +4,5 @@ export enum UserRouteNameEnum {
   Registration = 'registration',
   Articles = 'articles',
   Applications = 'applications',
-  Contacts = 'contacts'
+  Contacts = 'contacts',
 }

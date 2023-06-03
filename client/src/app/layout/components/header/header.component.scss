@@ -21,7 +21,6 @@
     text-decoration: none;
     font-size: 50px;
     background: linear-gradient(to right, $yellow-1, $yellow-2);
-    -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: #ffd700;
@@ -48,7 +47,6 @@
   }
 
   &__menu {
-
     &-inner {
       max-width: 1400px;
       margin: 0 auto;
