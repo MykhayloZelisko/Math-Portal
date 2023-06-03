@@ -36,12 +36,11 @@
   }
 
   &__login {
-    font-family: $source;
-    font-size: 16px;
     padding: 8px 24px;
     color: $yellow-1;
     cursor: pointer;
     border-radius: 5px;
+    text-decoration: none;
 
     &:hover {
       background-color: $brown-2;
