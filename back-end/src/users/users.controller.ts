@@ -49,22 +49,22 @@ export class UsersController {
   @ApiBearerAuth()
   @Get('/current')
   public getCurrentUser(@Req() request: Request) {
-    const token = request.headers.authorization.split(' ')[1];
+    const token = request.headers['authorization'].split(' ')[1];
     return this.usersService.getCurrentUser({ token });
   }
 
   @ApiOperation({ summary: 'Delete current user' })
-  @ApiResponse({ status: 200, type: Boolean })
+  @ApiResponse({ status: 200 })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Delete('/current')
   public removeCurrentUser(@Req() request: Request) {
-    const token = request.headers.authorization.split(' ')[1];
+    const token = request.headers['authorization'].split(' ')[1];
     return this.usersService.removeCurrentUser({ token });
   }
 
   @ApiOperation({ summary: 'Delete user' })
-  @ApiResponse({ status: 200, type: Boolean })
+  @ApiResponse({ status: 200 })
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')

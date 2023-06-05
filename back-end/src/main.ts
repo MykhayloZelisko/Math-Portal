@@ -6,6 +6,10 @@ async function bootstrap() {
   const PORT = +process.env.PORT;
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: '*',
+  });
+
   const config = new DocumentBuilder()
     .setTitle('Math Portal')
     .setDescription('The Math Portal API description')
