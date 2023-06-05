@@ -54,7 +54,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Delete current user' })
-  @ApiResponse({ status: 200, type: Boolean })
+  @ApiResponse({ status: 200 })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Delete('/current')
