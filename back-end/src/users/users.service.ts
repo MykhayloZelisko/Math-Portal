@@ -39,7 +39,7 @@ export class UsersService {
     });
     if (user) {
       await this.userRepository.destroy({ where: { id: user.id } });
-      return true;
+      return;
     }
     throw new BadRequestException({ message: 'User not found' });
   }

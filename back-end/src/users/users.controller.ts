@@ -49,7 +49,7 @@ export class UsersController {
   @ApiBearerAuth()
   @Get('/current')
   public getCurrentUser(@Req() request: Request) {
-    const token = request.headers.authorization.split(' ')[1];
+    const token = request.headers['authorization'].split(' ')[1];
     return this.usersService.getCurrentUser({ token });
   }
 
@@ -59,12 +59,12 @@ export class UsersController {
   @ApiBearerAuth()
   @Delete('/current')
   public removeCurrentUser(@Req() request: Request) {
-    const token = request.headers.authorization.split(' ')[1];
+    const token = request.headers['authorization'].split(' ')[1];
     return this.usersService.removeCurrentUser({ token });
   }
 
   @ApiOperation({ summary: 'Delete user' })
-  @ApiResponse({ status: 200, type: Boolean })
+  @ApiResponse({ status: 200 })
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')

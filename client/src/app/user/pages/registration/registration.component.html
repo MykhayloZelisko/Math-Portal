@@ -1,1 +1,66 @@
-<p>registration works!</p>
+<div class="registration">
+  <h3 class="registration__title">Реєстрація</h3>
+
+  <form [formGroup]="registrationForm">
+    <div class="registration__field">
+      <label class="registration__label" for="email">Пошта: </label>
+      <input
+        id="email"
+        class="registration__input"
+        formControlName="email"
+        type="email"
+        placeholder="Введіть електронну пошту"
+      />
+    </div>
+    <div class="registration__field">
+      <label class="registration__label" for="firstName">Ім'я: </label>
+      <input
+        id="firstName"
+        class="registration__input"
+        formControlName="firstName"
+        type="text"
+        placeholder="Введіть ім'я"
+      />
+    </div>
+    <div class="registration__field">
+      <label class="registration__label" for="lastName">Прізвище: </label>
+      <input
+        id="lastName"
+        class="registration__input"
+        formControlName="lastName"
+        type="text"
+        placeholder="Введіть прізвище"
+      />
+    </div>
+    <div class="registration__field">
+      <label class="registration__label" for="password">Пароль: </label>
+      <input
+        id="password"
+        class="registration__input"
+        formControlName="password"
+        type="password"
+        placeholder="Введіть пароль"
+      />
+    </div>
+    <div class="registration__field">
+      <label class="registration__label" for="confirmPassword"
+        >Підтвердження пароля:
+      </label>
+      <input
+        id="confirmPassword"
+        class="registration__input"
+        formControlName="confirmPassword"
+        type="password"
+        placeholder="Підтвердіть пароль"
+      />
+    </div>
+
+    <button
+      class="btn"
+      [disabled]="isInvalid || registrationForm.invalid"
+      (click)="registration()"
+    >
+      Зареєструватися
+    </button>
+  </form>
+</div>

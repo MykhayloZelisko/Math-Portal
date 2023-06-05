@@ -5,6 +5,7 @@ import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './app/routes/app.routes';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthModule } from './app/auth/auth.module';
 
 if (environment.production) {
   enableProdMode();
@@ -18,6 +19,7 @@ bootstrapApplication(AppComponent, {
         anchorScrolling: 'enabled',
       }),
       HttpClientModule,
+      AuthModule,
     ),
   ],
 })

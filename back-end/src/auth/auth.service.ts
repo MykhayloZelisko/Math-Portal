@@ -36,7 +36,7 @@ export class AuthService {
       ...createUserDto,
       password: hashPassword,
     });
-    return this.generateToken(user);
+    return;
   }
 
   private async generateToken(user: User) {
