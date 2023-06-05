@@ -11,8 +11,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -47,34 +48,46 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     ],
   });
 
-  public valueChangesSub: Subscription = new Subscription();
+  private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  public constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.isFormInvalid();
   }
 
-  ngOnDestroy(): void {
-    this.valueChangesSub && this.valueChangesSub.unsubscribe();
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  registration(): void {
+  public registration(): void {
     const data = this.registrationForm.getRawValue();
-    this.authService.registration(data).subscribe();
+    this.authService
+      .registration(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => this.router.navigateByUrl('login'),
+      });
   }
 
   private isFormInvalid(): void {
-    this.valueChangesSub = this.registrationForm.valueChanges.subscribe(
-      (data) => {
-        this.isInvalid =
-          !data.email ||
-          !data.firstName ||
-          !data.lastName ||
-          !data.password ||
-          !data.confirmPassword ||
-          data.password !== data.confirmPassword;
-      },
-    );
+    this.registrationForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.isInvalid =
+            !data.email ||
+            !data.firstName ||
+            !data.lastName ||
+            !data.password ||
+            !data.confirmPassword ||
+            data.password !== data.confirmPassword;
+        },
+      });
   }
 }

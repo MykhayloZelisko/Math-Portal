@@ -14,19 +14,13 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
-    const authRequest = request.clone({
-      headers: request.headers.append('Access-Control-Allow-Origin', '*')
-    });
-    request.headers.append('Access-Control-Allow-Origin', '*');
     if (request.url.includes('auth')) {
       return next.handle(request);
     } else {
-      const token = sessionStorage.getItem('token');
-      if (token) {
+      if (sessionStorage.getItem('token')) {
+        const token = JSON.parse(sessionStorage.getItem('token') as string);
         const authRequest = request.clone({
-          headers: request.headers
-            .append('Authorization', token)
-            .append('Access-Control-Allow-Origin', '*'),
+          headers: request.headers.append('Authorization', token),
         });
         return next.handle(authRequest);
       } else {

@@ -1,1 +1,37 @@
-<p>login works!</p>
+<div class="login">
+  <h3 class="login__title">Вхід</h3>
+
+  <form [formGroup]="loginForm">
+    <div class="login__field">
+      <label class="login__label" for="email">Пошта: </label>
+      <input
+        id="email"
+        class="login__input"
+        formControlName="email"
+        type="email"
+        placeholder="Введіть електронну пошту"
+      />
+    </div>
+    <div class="login__field">
+      <label class="login__label" for="password">Пароль: </label>
+      <input
+        id="password"
+        class="login__input"
+        formControlName="password"
+        type="password"
+        placeholder="Введіть пароль"
+      />
+    </div>
+
+    <div class="login__buttons">
+      <button class="login__btn" (click)="registration()">Реєстрація</button>
+      <button
+        class="login__btn"
+        [disabled]="loginForm.invalid"
+        (click)="login()"
+      >
+        Вхід
+      </button>
+    </div>
+  </form>
+</div>
