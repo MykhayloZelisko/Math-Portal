@@ -4,9 +4,13 @@
       <span class="header__logo--light">Math</span
       ><span class="header__logo--bold">Portal</span>
     </a>
-    <div class="header__right">
+    <div *ngIf="!user" class="header__no-auth">
       <a class="header__login" routerLink="/login">Вхід</a>
       <a class="header__login" routerLink="/registration">Реєстрація</a>
+    </div>
+    <div *ngIf="user" class="header__auth">
+<!--      <a class="header__login" routerLink="/login">Вхід</a>-->
+      <button class="header__logout" (click)="logout()">Вихід</button>
     </div>
   </div>
 
