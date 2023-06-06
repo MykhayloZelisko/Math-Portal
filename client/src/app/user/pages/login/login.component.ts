@@ -11,6 +11,7 @@ import { Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
 import { UsersService } from '../../../shared/services/users.service';
 import { TokenInterface } from '../../../shared/models/interfaces/token.interface';
+import { UserInterface } from '../../../shared/models/interfaces/user.interface';
 
 @Component({
   selector: 'app-login',
@@ -57,7 +58,7 @@ export class LoginComponent implements OnDestroy {
         tap((token: TokenInterface) => {
           sessionStorage.setItem(
             'token',
-            `Bearer ${JSON.stringify(token.token)}`,
+            JSON.stringify(`Bearer ${token.token}`),
           );
         }),
         switchMap(() => {
@@ -67,7 +68,10 @@ export class LoginComponent implements OnDestroy {
         }),
       )
       .subscribe({
-        next: () => this.router.navigateByUrl(''),
+        next: (user: UserInterface) => {
+          this.usersService.user$.next(user);
+          this.router.navigateByUrl('');
+        },
       });
   }
 

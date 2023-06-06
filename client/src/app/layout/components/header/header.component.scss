@@ -12,7 +12,12 @@
     align-items: center;
   }
 
-  &__right {
+  &__no-auth {
+    display: flex;
+    align-items: center;
+  }
+
+  &__auth {
     display: flex;
     align-items: center;
   }
@@ -40,6 +45,21 @@
     cursor: pointer;
     border-radius: 5px;
     text-decoration: none;
+
+    &:hover {
+      background-color: $brown-2;
+    }
+  }
+
+  &__logout {
+    font-family: $source;
+    font-size: 16px;
+    background-color: $brown-1;
+    padding: 8px 24px;
+    color: $yellow-1;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
 
     &:hover {
       background-color: $brown-2;
