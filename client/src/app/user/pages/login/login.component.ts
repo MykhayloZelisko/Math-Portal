@@ -12,6 +12,12 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { UsersService } from '../../../shared/services/users.service';
 import { TokenInterface } from '../../../shared/models/interfaces/token.interface';
 import { UserInterface } from '../../../shared/models/interfaces/user.interface';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  DialogService,
+  DialogTypeEnum,
+} from '../../../shared/services/dialog.service';
+import { StatusCodeEnum } from '../../../shared/models/enums/status-code.enum';
 
 @Component({
   selector: 'app-login',
@@ -43,6 +49,7 @@ export class LoginComponent implements OnDestroy {
     private router: Router,
     private authService: AuthService,
     private usersService: UsersService,
+    private dialogService: DialogService,
   ) {}
 
   public ngOnDestroy() {
@@ -71,6 +78,17 @@ export class LoginComponent implements OnDestroy {
         next: (user: UserInterface) => {
           this.usersService.user$.next(user);
           this.router.navigateByUrl('');
+        },
+        error: (err: HttpErrorResponse) => {
+          if (err.status === StatusCodeEnum.Unauthorized) {
+            this.dialogService
+              .openDialog(DialogTypeEnum.ConflictRegistration, {
+                title: 'ПОВІДОМЛЕННЯ',
+                text: 'Невірна електронна пошта або пароль. Перевірте введені дані та повторіть спробу.',
+              })
+              .afterClosed()
+              .subscribe();
+          }
         },
       });
   }

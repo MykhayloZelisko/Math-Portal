@@ -1,0 +1,87 @@
+@import "variables";
+
+::ng-deep.mat-dialog {
+  &-container {
+    padding: 0;
+    overflow: unset;
+    border-radius: unset;
+  }
+
+  &-content {
+    margin: 0;
+  }
+
+  &-actions {
+    margin: 0 24px 0 0;
+  }
+}
+
+.dialog {
+  font-family: $source;
+  font-size: 16px;
+  line-height: 20px;
+  color: #fff;
+  width: 600px;
+
+  &__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 24px;
+    //border-bottom: 1px solid $brown-1;
+    background-color: $brown-1;
+    color: $yellow-1;
+  }
+
+  &__text {
+    font-family: $source;
+    font-size: 16px;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  &__content {
+    padding: 12px 24px;
+  }
+
+  &__actions {
+    justify-content: flex-end;
+    padding: 15px 24px;
+  }
+
+  &__button {
+    font-family: $source;
+    font-size: 16px;
+    background-color: $brown-1;
+    padding: 8px 24px;
+    color: $yellow-1;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+  }
+
+  ::ng-deep.mat-dialog-container {
+    padding: 0;
+    overflow: unset;
+    border-radius: unset;
+  }
+}
+
+.mat-button {
+  font-family: $source;
+  border-radius: unset;
+}
+
+.mat-dialog-actions {
+  min-height: 0;
+}
+
+.mat-dialog-title {
+  margin: 0;
+}
+
+/* stylelint-disable */
+.mdc-dialog__title::before {
+  display: none;
+}
