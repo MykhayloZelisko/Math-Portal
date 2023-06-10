@@ -1,16 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
@@ -20,6 +10,14 @@ import {
   DialogTypeEnum,
 } from '../../../shared/services/dialog.service';
 import { StatusCodeEnum } from '../../../shared/models/enums/status-code.enum';
+import {
+  emailPatternValidator,
+  minMaxLengthValidator,
+  namePatternValidator,
+  passwordPatternValidator,
+  requiredValidator,
+  showErrorMessage,
+} from '../../../shared/utils/validators';
 
 @Component({
   selector: 'app-registration',
@@ -29,28 +27,48 @@ import { StatusCodeEnum } from '../../../shared/models/enums/status-code.enum';
   styleUrls: ['./registration.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegistrationComponent implements OnInit, OnDestroy {
+export class RegistrationComponent implements OnDestroy {
   public regPassword: RegExp =
-    /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}\[\]:;<>,.?\/~_+\-=|\\]).{8,}$/;
+    /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}\[\]:;<>,.?\/~_+\-=|\\]).{8,32}$/;
 
   public regEmail: RegExp =
-    /^\w+[\w.+-]*@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$/;
+    /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
   public regName: RegExp = /^([A-Z]{1}[a-z-]+|[А-Я]{1}[а-я-]+)$/;
 
-  public isInvalid: boolean = true;
-
   public registrationForm: FormGroup = this.fb.group({
-    email: [null, [Validators.required, Validators.pattern(this.regEmail)]],
-    firstName: [null, [Validators.required, Validators.pattern(this.regName)]],
-    lastName: [null, [Validators.required, Validators.pattern(this.regName)]],
+    email: [null, [requiredValidator(), emailPatternValidator(this.regEmail)]],
+    firstName: [
+      null,
+      [
+        requiredValidator(),
+        minMaxLengthValidator(3, null),
+        namePatternValidator(this.regName),
+      ],
+    ],
+    lastName: [
+      null,
+      [
+        requiredValidator(),
+        minMaxLengthValidator(3, null),
+        namePatternValidator(this.regName),
+      ],
+    ],
     password: [
       null,
-      [Validators.required, Validators.pattern(this.regPassword)],
+      [
+        requiredValidator(),
+        minMaxLengthValidator(8, 32),
+        passwordPatternValidator(this.regPassword),
+      ],
     ],
     confirmPassword: [
       null,
-      [Validators.required, Validators.pattern(this.regPassword)],
+      [
+        requiredValidator(),
+        minMaxLengthValidator(8, 32),
+        passwordPatternValidator(this.regPassword),
+      ],
     ],
   });
 
@@ -62,10 +80,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialogService: DialogService,
   ) {}
-
-  public ngOnInit(): void {
-    this.isFormInvalid();
-  }
 
   public ngOnDestroy(): void {
     this.destroy$.next();
@@ -94,19 +108,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       });
   }
 
-  private isFormInvalid(): void {
-    this.registrationForm.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (data) => {
-          this.isInvalid =
-            !data.email ||
-            !data.firstName ||
-            !data.lastName ||
-            !data.password ||
-            !data.confirmPassword ||
-            data.password !== data.confirmPassword;
-        },
-      });
+  public showMessage(controlName: string): string {
+    const control = this.registrationForm.controls[controlName];
+    return showErrorMessage(control);
+  }
+
+  public matchPasswords(): boolean {
+    const password = this.registrationForm.controls['password'].value;
+    const confirmPassword =
+      this.registrationForm.controls['confirmPassword'].value;
+    return !!password && !!confirmPassword && password === confirmPassword;
   }
 }

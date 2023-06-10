@@ -11,6 +11,16 @@
         type="email"
         placeholder="Введіть електронну пошту"
       />
+      <p
+        class="registration__error"
+        *ngIf="
+          registrationForm.controls['email'].invalid &&
+          (registrationForm.controls['email'].dirty ||
+            registrationForm.controls['email'].touched)
+        "
+      >
+        {{ showMessage('email') }}
+      </p>
     </div>
     <div class="registration__field">
       <label class="registration__label" for="firstName">Ім'я: </label>
@@ -21,6 +31,16 @@
         type="text"
         placeholder="Введіть ім'я"
       />
+      <p
+        class="registration__error"
+        *ngIf="
+          registrationForm.controls['firstName'].invalid &&
+          (registrationForm.controls['firstName'].dirty ||
+            registrationForm.controls['firstName'].touched)
+        "
+      >
+        {{ showMessage('firstName') }}
+      </p>
     </div>
     <div class="registration__field">
       <label class="registration__label" for="lastName">Прізвище: </label>
@@ -31,6 +51,16 @@
         type="text"
         placeholder="Введіть прізвище"
       />
+      <p
+        class="registration__error"
+        *ngIf="
+          registrationForm.controls['lastName'].invalid &&
+          (registrationForm.controls['lastName'].dirty ||
+            registrationForm.controls['lastName'].touched)
+        "
+      >
+        {{ showMessage('lastName') }}
+      </p>
     </div>
     <div class="registration__field">
       <label class="registration__label" for="password">Пароль: </label>
@@ -41,6 +71,16 @@
         type="password"
         placeholder="Введіть пароль"
       />
+      <p
+        class="registration__error"
+        *ngIf="
+          registrationForm.controls['password'].invalid &&
+          (registrationForm.controls['password'].dirty ||
+            registrationForm.controls['password'].touched)
+        "
+      >
+        {{ showMessage('password') }}
+      </p>
     </div>
     <div class="registration__field">
       <label class="registration__label" for="confirmPassword"
@@ -53,11 +93,27 @@
         type="password"
         placeholder="Підтвердіть пароль"
       />
+      <p
+        class="registration__error"
+        *ngIf="
+          registrationForm.controls['confirmPassword'].invalid &&
+          (registrationForm.controls['confirmPassword'].dirty ||
+            registrationForm.controls['confirmPassword'].touched)
+        "
+      >
+        {{ showMessage('confirmPassword') }}
+      </p>
+      <p
+        class="registration__error"
+        *ngIf="!matchPasswords() && !showMessage('confirmPassword')"
+      >
+        Паролі не співпадають
+      </p>
     </div>
 
     <button
-      class="btn"
-      [disabled]="isInvalid || registrationForm.invalid"
+      class="registration__btn"
+      [disabled]="registrationForm.invalid && !matchPasswords()"
       (click)="registration()"
     >
       Зареєструватися

@@ -1,11 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
@@ -18,6 +13,10 @@ import {
   DialogTypeEnum,
 } from '../../../shared/services/dialog.service';
 import { StatusCodeEnum } from '../../../shared/models/enums/status-code.enum';
+import {
+  requiredValidator,
+  showErrorMessage,
+} from '../../../shared/utils/validators';
 
 @Component({
   selector: 'app-login',
@@ -28,18 +27,9 @@ import { StatusCodeEnum } from '../../../shared/models/enums/status-code.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnDestroy {
-  public regPassword: RegExp =
-    /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}\[\]:;<>,.?\/~_+\-=|\\]).{8,}$/;
-
-  public regEmail: RegExp =
-    /^\w+[\w.+-]*@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$/;
-
   public loginForm: FormGroup = this.fb.group({
-    email: [null, [Validators.required, Validators.pattern(this.regEmail)]],
-    password: [
-      null,
-      [Validators.required, Validators.pattern(this.regPassword)],
-    ],
+    email: [null, [requiredValidator()]],
+    password: [null, [requiredValidator()]],
   });
 
   private destroy$: Subject<void> = new Subject<void>();
@@ -82,7 +72,7 @@ export class LoginComponent implements OnDestroy {
         error: (err: HttpErrorResponse) => {
           if (err.status === StatusCodeEnum.Unauthorized) {
             this.dialogService
-              .openDialog(DialogTypeEnum.ConflictRegistration, {
+              .openDialog(DialogTypeEnum.WrongCredentials, {
                 title: 'ПОВІДОМЛЕННЯ',
                 text: 'Невірна електронна пошта або пароль. Перевірте введені дані та повторіть спробу.',
               })
@@ -95,5 +85,10 @@ export class LoginComponent implements OnDestroy {
 
   public registration(): void {
     this.router.navigateByUrl('registration');
+  }
+
+  public showMessage(controlName: string): string {
+    const control = this.loginForm.controls[controlName];
+    return showErrorMessage(control);
   }
 }
