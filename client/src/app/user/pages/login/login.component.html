@@ -11,6 +11,16 @@
         type="email"
         placeholder="Введіть електронну пошту"
       />
+      <p
+        class="login__error"
+        *ngIf="
+          loginForm.controls['email'].invalid &&
+          (loginForm.controls['email'].dirty ||
+            loginForm.controls['email'].touched)
+        "
+      >
+        {{ showMessage('email') }}
+      </p>
     </div>
     <div class="login__field">
       <label class="login__label" for="password">Пароль: </label>
@@ -21,6 +31,16 @@
         type="password"
         placeholder="Введіть пароль"
       />
+      <p
+        class="login__error"
+        *ngIf="
+          loginForm.controls['password'].invalid &&
+          (loginForm.controls['password'].dirty ||
+            loginForm.controls['password'].touched)
+        "
+      >
+        {{ showMessage('password') }}
+      </p>
     </div>
 
     <div class="login__buttons">

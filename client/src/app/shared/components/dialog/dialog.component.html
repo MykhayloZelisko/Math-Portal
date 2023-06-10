@@ -1,0 +1,37 @@
+<div class="dialog">
+  <div mat-dialog-title class="dialog__title" *ngIf="data.data.title">
+    <h4 class="dialog__text">
+      <ng-container [ngSwitch]="data.dialogType">
+        <ng-container *ngSwitchCase="DialogType.ConflictRegistration">
+          {{ data.data.title }}
+        </ng-container>
+        <ng-container *ngSwitchCase="DialogType.WrongCredentials">
+          {{ data.data.title }}
+        </ng-container>
+      </ng-container>
+    </h4>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content class="dialog__content">
+    <ng-container [ngSwitch]="data.dialogType">
+      <ng-container *ngSwitchCase="DialogType.ConflictRegistration">
+        Користувач з електронною поштою {{ data.data.text }} вже існує.
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.WrongCredentials">
+        {{ data.data.text }}
+      </ng-container>
+    </ng-container>
+  </div>
+  <div mat-dialog-actions class="dialog__actions">
+    <ng-container [ngSwitch]="data.dialogType">
+      <ng-container *ngSwitchCase="DialogType.ConflictRegistration">
+        <button class="dialog__button" (click)="close()">Закрити</button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.WrongCredentials">
+        <button class="dialog__button" (click)="close()">Закрити</button>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

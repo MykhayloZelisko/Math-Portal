@@ -1,5 +1,6 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -23,7 +24,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(private usersService: UsersService, private cdr: ChangeDetectorRef,) {}
+  public constructor(
+    private usersService: UsersService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   public ngOnInit(): void {
     this.usersService.user$.pipe(takeUntil(this.destroy$)).subscribe({
