@@ -19,6 +19,8 @@ import { User } from './models/user.model';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard';
 import { AdminGuard } from '../auth/guards/admin/admin.guard';
 import { UpdateUserRoleDto } from './dto/update-user-role.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UserWithTokenDto } from './dto/user-with-token.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -70,5 +72,15 @@ export class UsersController {
   @Delete(':id')
   public removeUser(@Param('id') id: string) {
     return this.usersService.removeUser(+id);
+  }
+
+  @ApiOperation({ summary: 'Update current user' })
+  @ApiResponse({ status: 200, type: UserWithTokenDto })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Put('/current')
+  public updateCurrentUser(@Req() request: Request, @Body() updateUserDto: UpdateUserDto) {
+    const token = request.headers['authorization'].split(' ')[1];
+    return this.usersService.updateUser({ token }, updateUserDto);
   }
 }
