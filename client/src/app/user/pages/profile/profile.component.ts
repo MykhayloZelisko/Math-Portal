@@ -1,5 +1,6 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -135,10 +136,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
           });
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err.status);
           if (err.status === StatusCodeEnum.BadRequest) {
             this.clearPasswordFields();
-            console.log(this.profileForm.controls['password']);
             this.dialogService.openDialog(DialogTypeEnum.Alert, {
               title: 'ПОВІДОМЛЕННЯ',
               text: 'Ви ввели неправильний пароль. Перевірте пароль та повторіть спробу.',

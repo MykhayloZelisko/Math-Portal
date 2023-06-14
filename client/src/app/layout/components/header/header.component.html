@@ -27,11 +27,11 @@
 <!--</div>-->
 
 <div class="header">
-  <div class='header__inner'>
+  <div class="header__inner">
     <div class="header__left">
       <a routerLink="/" class="header__logo">
-      <span class="header__logo--light">Math</span
-      ><span class="header__logo--bold">Portal</span>
+        <span class="header__logo--light">Math</span
+        ><span class="header__logo--bold">Portal</span>
       </a>
       <nav class="header__menu">
         <a
@@ -39,25 +39,62 @@
           routerLink="/"
           routerLinkActive="header__menu-link--active"
           [routerLinkActiveOptions]="{ exact: true }"
-        >Головна</a>
-        <a class="header__menu-link" routerLink="/articles" routerLinkActive="header__menu-link--active">Статті</a>
-        <a class="header__menu-link" routerLink="/applications" routerLinkActive="header__menu-link--active">Додатки</a>
-        <a class="header__menu-link" routerLink="/contacts" routerLinkActive="header__menu-link--active">Контакти</a>
-        <a *ngIf='user && user.isAdmin' class="header__menu-link" routerLink="/admin" routerLinkActive="header__menu-link--active">Адмін</a>
+          >Головна</a
+        >
+        <a
+          class="header__menu-link"
+          routerLink="/articles"
+          routerLinkActive="header__menu-link--active"
+          >Статті</a
+        >
+        <a
+          class="header__menu-link"
+          routerLink="/applications"
+          routerLinkActive="header__menu-link--active"
+          >Додатки</a
+        >
+        <a
+          class="header__menu-link"
+          routerLink="/contacts"
+          routerLinkActive="header__menu-link--active"
+          >Контакти</a
+        >
+        <a
+          *ngIf="user && user.isAdmin"
+          class="header__menu-link"
+          routerLink="/admin"
+          routerLinkActive="header__menu-link--active"
+          >Адмін</a
+        >
       </nav>
     </div>
-    <div class='header__right'>
+    <div class="header__right">
       <div *ngIf="!user" class="header__no-auth">
         <a class="header__login" routerLink="/login">Вхід</a>
         <a class="header__login" routerLink="/registration">Реєстрація</a>
       </div>
-      <div *ngIf="user" class="header__auth" appClickOutside (clickOutside)="closeDropDown()">
+      <div
+        *ngIf="user"
+        class="header__auth"
+        appClickOutside
+        (clickOutside)="closeDropDown()"
+      >
         <button class="header__profile" (click)="openDropDown()">
-          <svg-icon class="header__profile-icon" src="assets/images/user-icon.svg"></svg-icon>
+          <svg-icon
+            class="header__profile-icon"
+            src="assets/images/user-icon.svg"
+          ></svg-icon>
         </button>
-        <div *ngIf="isActiveDropDown" class='header__drop-down'>
-          <a class='header__drop-down-item' routerLink='profile' (click)='closeDropDown()'>Профіль</a>
-          <button class='header__drop-down-item' (click)="logout()">Вихід</button>
+        <div *ngIf="isActiveDropDown" class="header__drop-down">
+          <a
+            class="header__drop-down-item"
+            routerLink="profile"
+            (click)="closeDropDown()"
+            >Профіль</a
+          >
+          <button class="header__drop-down-item" (click)="logout()">
+            Вихід
+          </button>
         </div>
       </div>
     </div>
