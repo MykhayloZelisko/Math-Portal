@@ -3,8 +3,9 @@
 .header {
   background-color: $brown-1;
   font-family: $source;
+  padding: 0 10px;
 
-  &__top {
+  &__inner {
     max-width: 1400px;
     margin: 0 auto;
     display: flex;
@@ -12,14 +13,10 @@
     align-items: center;
   }
 
-  &__no-auth {
+  &__left {
     display: flex;
-    align-items: center;
-  }
-
-  &__auth {
-    display: flex;
-    align-items: center;
+    align-items: stretch;
+    gap: 24px;
   }
 
   &__logo {
@@ -51,47 +48,74 @@
     }
   }
 
-  &__logout {
-    font-family: $source;
-    font-size: 16px;
-    background-color: $brown-1;
-    padding: 8px 24px;
+  &__menu {
+    display: flex;
+    align-items: stretch;
+  }
+
+  &__menu-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
     color: $yellow-1;
+    padding: 8px;
     cursor: pointer;
-    border-radius: 5px;
-    border: none;
+
+    &--active {
+      box-shadow: 0 -3px $yellow-1 inset;
+      background-color: $brown-2;
+    }
 
     &:hover {
       background-color: $brown-2;
     }
   }
 
-  &__menu {
-    &-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 10px 0;
-    }
+  &__profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background-color: $brown-1;
 
-    &-link {
-      text-decoration: none;
-      color: $yellow-1;
-      padding: 8px;
-      cursor: pointer;
+    &-icon {
+      position: relative;
+      top: 1px;
 
-      &:hover {
-        background-color: $brown-2;
+      & svg {
+        width: 30px;
+        height: 30px;
+
+        & path {
+          fill: $yellow-1;
+        }
       }
     }
   }
 
-  &__profile {
-    & svg {
-      width: 30px;
-      height: 30px;
+  &__drop-down {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    right: 0;
 
-      & path {
-        fill: $yellow-1;
+    &-item {
+      font-family: $source;
+      font-size: 16px;
+      padding: 8px 24px;
+      color: $yellow-1;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      background-color: $brown-1;
+
+      &:hover {
+        background-color: $brown-2;
       }
     }
   }
