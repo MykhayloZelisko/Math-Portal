@@ -1,5 +1,7 @@
 import {
   ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -13,7 +15,7 @@ import { User } from '../users/models/user.model';
 @Injectable()
 export class AuthService {
   public constructor(
-    private userService: UsersService,
+    @Inject(forwardRef(() => UsersService)) private userService: UsersService,
     private jwtService: JwtService,
   ) {}
 
@@ -38,15 +40,12 @@ export class AuthService {
     });
   }
 
-  private async generateToken(user: User) {
-    const hashPassword = await bcrypt.hash(user.password, 5);
+  public async generateToken(user: User) {
     const payload = {
       id: user.id,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      isAdmin: user.isAdmin,
-      password: hashPassword,
     };
     return {
       token: this.jwtService.sign(payload),

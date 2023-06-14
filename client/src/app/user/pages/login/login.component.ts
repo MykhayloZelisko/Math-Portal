@@ -8,15 +8,13 @@ import { UsersService } from '../../../shared/services/users.service';
 import { TokenInterface } from '../../../shared/models/interfaces/token.interface';
 import { UserInterface } from '../../../shared/models/interfaces/user.interface';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  DialogService,
-  DialogTypeEnum,
-} from '../../../shared/services/dialog.service';
+import { DialogService } from '../../../shared/services/dialog.service';
 import { StatusCodeEnum } from '../../../shared/models/enums/status-code.enum';
 import {
   requiredValidator,
   showErrorMessage,
 } from '../../../shared/utils/validators';
+import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
 
 @Component({
   selector: 'app-login',
@@ -71,13 +69,10 @@ export class LoginComponent implements OnDestroy {
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === StatusCodeEnum.Unauthorized) {
-            this.dialogService
-              .openDialog(DialogTypeEnum.WrongCredentials, {
-                title: 'ПОВІДОМЛЕННЯ',
-                text: 'Невірна електронна пошта або пароль. Перевірте введені дані та повторіть спробу.',
-              })
-              .afterClosed()
-              .subscribe();
+            this.dialogService.openDialog(DialogTypeEnum.Alert, {
+              title: 'ПОВІДОМЛЕННЯ',
+              text: 'Невірна електронна пошта або пароль. Перевірте введені дані та повторіть спробу.',
+            });
           }
         },
       });

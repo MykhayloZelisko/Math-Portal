@@ -7,10 +7,8 @@ import {
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  DialogDataInterface,
-  DialogTypeEnum,
-} from '../../services/dialog.service';
+import { DialogTypeEnum } from '../../models/enums/dialog-type.enum';
+import { DialogDataInterface } from '../../models/interfaces/dialog-data.interface';
 
 @Component({
   selector: 'app-dialog',
