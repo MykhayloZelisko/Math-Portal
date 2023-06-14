@@ -5,10 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  DialogService,
-  DialogTypeEnum,
-} from '../../../shared/services/dialog.service';
+import { DialogService } from '../../../shared/services/dialog.service';
 import { StatusCodeEnum } from '../../../shared/models/enums/status-code.enum';
 import {
   emailPatternValidator,
@@ -18,6 +15,7 @@ import {
   requiredValidator,
   showErrorMessage,
 } from '../../../shared/utils/validators';
+import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
 
 @Component({
   selector: 'app-registration',
@@ -100,9 +98,7 @@ export class RegistrationComponent implements OnDestroy {
               .openDialog(DialogTypeEnum.ConflictRegistration, {
                 title: 'ПОВІДОМЛЕННЯ',
                 text: `${email}`,
-              })
-              .afterClosed()
-              .subscribe();
+              });
           }
         },
       });

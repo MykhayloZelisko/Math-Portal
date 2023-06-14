@@ -79,7 +79,10 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Put('/current')
-  public updateCurrentUser(@Req() request: Request, @Body() updateUserDto: UpdateUserDto) {
+  public updateCurrentUser(
+    @Req() request: Request,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     const token = request.headers['authorization'].split(' ')[1];
     return this.usersService.updateUser({ token }, updateUserDto);
   }

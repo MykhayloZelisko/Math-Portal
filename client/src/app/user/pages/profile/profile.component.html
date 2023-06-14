@@ -1,0 +1,167 @@
+<div class="profile">
+  <h3 class="profile__title">Редагувааня профіля користувача</h3>
+
+  <form [formGroup]="profileForm" class="profile__form">
+    <div class="profile__field-group">
+      <div class="profile__photo-container">
+        <img
+          class="profile__photo"
+          *ngIf="user && user.photo; else elseBlock"
+          [src]="user.photo"
+          alt="photo"
+        />
+        <ng-template #elseBlock>
+          <img
+            class="profile__photo"
+            src="assets/images/user-icon.svg"
+            alt="photo"
+          />
+        </ng-template>
+      </div>
+      <button class="profile__btn profile__btn--delete">Видалити фото</button>
+    </div>
+    <div class="profile__field-group">
+      <div class="profile__field profile__field--required">
+        <label class="profile__label" for="email">Пошта: </label>
+        <input
+          id="email"
+          class="profile__input"
+          formControlName="email"
+          type="email"
+          placeholder="Введіть електронну пошту"
+        />
+        <p
+          class="profile__error"
+          *ngIf="
+            profileForm.controls['email'].invalid &&
+            (profileForm.controls['email'].dirty ||
+              profileForm.controls['email'].touched)
+          "
+        >
+          {{ showMessage('email') }}
+        </p>
+      </div>
+      <div class="profile__field profile__field--required">
+        <label class="profile__label" for="firstName">Ім'я: </label>
+        <input
+          id="firstName"
+          class="profile__input"
+          formControlName="firstName"
+          type="text"
+          placeholder="Введіть ім'я"
+        />
+        <p
+          class="profile__error"
+          *ngIf="
+            profileForm.controls['firstName'].invalid &&
+            (profileForm.controls['firstName'].dirty ||
+              profileForm.controls['firstName'].touched)
+          "
+        >
+          {{ showMessage('firstName') }}
+        </p>
+      </div>
+      <div class="profile__field profile__field--required">
+        <label class="profile__label" for="lastName">Прізвище: </label>
+        <input
+          id="lastName"
+          class="profile__input"
+          formControlName="lastName"
+          type="text"
+          placeholder="Введіть прізвище"
+        />
+        <p
+          class="profile__error"
+          *ngIf="
+            profileForm.controls['lastName'].invalid &&
+            (profileForm.controls['lastName'].dirty ||
+              profileForm.controls['lastName'].touched)
+          "
+        >
+          {{ showMessage('lastName') }}
+        </p>
+      </div>
+      <div class="profile__field profile__field--required">
+        <label class="profile__label" for="password">Пароль: </label>
+        <input
+          id="password"
+          class="profile__input"
+          formControlName="password"
+          type="password"
+          placeholder="Введіть пароль"
+        />
+        <p
+          class="profile__error"
+          *ngIf="
+            profileForm.controls['password'].invalid &&
+            (profileForm.controls['password'].dirty ||
+              profileForm.controls['password'].touched)
+          "
+        >
+          {{ showMessage('password') }}
+        </p>
+      </div>
+    </div>
+
+    <div class="profile__field-group">
+      <div class="profile__field">
+        <label class="profile__label" for="newPassword">Новий пароль: </label>
+        <input
+          id="newPassword"
+          class="profile__input"
+          formControlName="newPassword"
+          type="password"
+          placeholder="Введіть новий пароль"
+        />
+        <p
+          class="profile__error"
+          *ngIf="
+            profileForm.controls['newPassword'].invalid &&
+            (profileForm.controls['newPassword'].dirty ||
+              profileForm.controls['newPassword'].touched)
+          "
+        >
+          {{ showMessage('newPassword') }}
+        </p>
+      </div>
+      <div class="profile__field">
+        <label class="profile__label" for="confirmPassword"
+          >Підтвердження нового пароля:
+        </label>
+        <input
+          id="confirmPassword"
+          class="profile__input"
+          formControlName="confirmPassword"
+          type="password"
+          placeholder="Підтвердіть новий пароль"
+        />
+        <p
+          class="profile__error"
+          *ngIf="
+            profileForm.controls['confirmPassword'].invalid &&
+            (profileForm.controls['confirmPassword'].dirty ||
+              profileForm.controls['confirmPassword'].touched)
+          "
+        >
+          {{ showMessage('confirmPassword') }}
+        </p>
+        <p
+          class="profile__error"
+          *ngIf="!matchPasswords() && !showMessage('confirmPassword')"
+        >
+          Паролі не співпадають
+        </p>
+      </div>
+    </div>
+  </form>
+  <div class="profile__buttons">
+    <button
+      class="profile__btn"
+      [disabled]="profileForm.invalid || !matchPasswords()"
+      (click)="updateProfile()"
+    >
+      Оновити профіль
+    </button>
+    <button class="profile__btn profile__btn--delete" (click)="confirmDelete()">Видалити профіль</button>
+  </div>
+</div>

@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { UserRouteNameEnum } from '../shared/models/enums/user-route-name.enum';
+import { UserGuard } from '../user/guards/user.guard';
+import { ProfileGuard } from '../user/guards/profile.guard';
 
 export const UserRoutes: Routes = [
   {
@@ -41,5 +43,14 @@ export const UserRoutes: Routes = [
       import('../user/pages/contacts/contacts.component').then(
         (m) => m.ContactsComponent,
       ),
+  },
+  {
+    path: UserRouteNameEnum.Profile,
+    loadComponent: () =>
+      import('../user/pages/profile/profile.component').then(
+        (m) => m.ProfileComponent,
+      ),
+    canActivate: [UserGuard],
+    canDeactivate: [ProfileGuard],
   },
 ];

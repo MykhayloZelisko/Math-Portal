@@ -1,5 +1,7 @@
 import {
-  ConflictException, forwardRef, Inject,
+  ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -45,8 +47,6 @@ export class AuthService {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      isAdmin: user.isAdmin,
-      password: hashPassword,
     };
     return {
       token: this.jwtService.sign(payload),

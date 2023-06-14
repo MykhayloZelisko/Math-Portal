@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthModule } from './app/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 if (environment.production) {
   enableProdMode();
@@ -24,6 +25,7 @@ bootstrapApplication(AppComponent, {
       AuthModule,
       BrowserAnimationsModule,
       MatDialogModule,
+      AngularSvgIconModule.forRoot(),
     ),
   ],
 })

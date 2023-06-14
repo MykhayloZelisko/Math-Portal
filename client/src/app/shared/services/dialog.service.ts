@@ -1,21 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../components/dialog/dialog.component';
-
-export enum DialogTypeEnum {
-  ConflictRegistration,
-  WrongCredentials,
-}
-
-export interface DialogDataInterface {
-  dialogType: DialogTypeEnum;
-  data: DialogContentInterface;
-}
-
-export interface DialogContentInterface {
-  title?: string;
-  text?: string;
-}
+import { DialogContentInterface } from '../models/interfaces/dialog-content.interface';
+import { DialogDataInterface } from '../models/interfaces/dialog-data.interface';
+import { DialogTypeEnum } from '../models/enums/dialog-type.enum';
 
 @Injectable({
   providedIn: 'root',

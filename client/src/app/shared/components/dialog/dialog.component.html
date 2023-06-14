@@ -5,7 +5,13 @@
         <ng-container *ngSwitchCase="DialogType.ConflictRegistration">
           {{ data.data.title }}
         </ng-container>
-        <ng-container *ngSwitchCase="DialogType.WrongCredentials">
+        <ng-container *ngSwitchCase="DialogType.Alert">
+          {{ data.data.title }}
+        </ng-container>
+        <ng-container *ngSwitchCase="DialogType.ConfirmRedirect">
+          {{ data.data.title }}
+        </ng-container>
+        <ng-container *ngSwitchCase="DialogType.ConfirmDelete">
           {{ data.data.title }}
         </ng-container>
       </ng-container>
@@ -19,7 +25,13 @@
       <ng-container *ngSwitchCase="DialogType.ConflictRegistration">
         Користувач з електронною поштою {{ data.data.text }} вже існує.
       </ng-container>
-      <ng-container *ngSwitchCase="DialogType.WrongCredentials">
+      <ng-container *ngSwitchCase="DialogType.Alert">
+        {{ data.data.text }}
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmRedirect">
+        {{ data.data.text }}
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmDelete">
         {{ data.data.text }}
       </ng-container>
     </ng-container>
@@ -29,8 +41,16 @@
       <ng-container *ngSwitchCase="DialogType.ConflictRegistration">
         <button class="dialog__button" (click)="close()">Закрити</button>
       </ng-container>
-      <ng-container *ngSwitchCase="DialogType.WrongCredentials">
+      <ng-container *ngSwitchCase="DialogType.Alert">
         <button class="dialog__button" (click)="close()">Закрити</button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmRedirect">
+        <button class="dialog__button" [mat-dialog-close]="false">Відміна</button>
+        <button class="dialog__button" [mat-dialog-close]="true">Ок</button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmDelete">
+        <button class="dialog__button" (click)="close()">Ні</button>
+        <button class="dialog__button" [mat-dialog-close]="true">Так</button>
       </ng-container>
     </ng-container>
   </div>
