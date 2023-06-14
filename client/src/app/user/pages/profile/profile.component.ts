@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
@@ -92,6 +92,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private dialogService: DialogService,
     private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   public ngOnInit(): void {
@@ -134,8 +135,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
           });
         },
         error: (err: HttpErrorResponse) => {
+          console.log(err.status);
           if (err.status === StatusCodeEnum.BadRequest) {
             this.clearPasswordFields();
+            console.log(this.profileForm.controls['password']);
             this.dialogService.openDialog(DialogTypeEnum.Alert, {
               title: 'ПОВІДОМЛЕННЯ',
               text: 'Ви ввели неправильний пароль. Перевірте пароль та повторіть спробу.',
@@ -178,7 +181,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (value) => {
           if (value) {
-            this.clearPasswordFields();
             this.deleteProfile();
           }
         },
@@ -206,6 +208,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.profileForm.controls['password'].setValue('');
     this.profileForm.controls['newPassword'].setValue('');
     this.profileForm.controls['confirmPassword'].setValue('');
-    this.profileForm.controls['password'].markAsPristine();
+    this.cdr.detectChanges();
   }
 }
