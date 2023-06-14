@@ -41,7 +41,6 @@ export class AuthService {
   }
 
   public async generateToken(user: User) {
-    const hashPassword = await bcrypt.hash(user.password, 5);
     const payload = {
       id: user.id,
       email: user.email,

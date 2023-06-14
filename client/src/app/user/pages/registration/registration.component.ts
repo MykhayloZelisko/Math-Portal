@@ -94,11 +94,10 @@ export class RegistrationComponent implements OnDestroy {
         error: (err: HttpErrorResponse) => {
           if (err.status === StatusCodeEnum.Conflict) {
             const email = this.registrationForm.controls['email'].value;
-            this.dialogService
-              .openDialog(DialogTypeEnum.ConflictRegistration, {
-                title: 'ПОВІДОМЛЕННЯ',
-                text: `${email}`,
-              });
+            this.dialogService.openDialog(DialogTypeEnum.ConflictRegistration, {
+              title: 'ПОВІДОМЛЕННЯ',
+              text: `${email}`,
+            });
           }
         },
       });

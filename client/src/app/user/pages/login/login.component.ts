@@ -69,11 +69,10 @@ export class LoginComponent implements OnDestroy {
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === StatusCodeEnum.Unauthorized) {
-            this.dialogService
-              .openDialog(DialogTypeEnum.Alert, {
-                title: 'ПОВІДОМЛЕННЯ',
-                text: 'Невірна електронна пошта або пароль. Перевірте введені дані та повторіть спробу.',
-              });
+            this.dialogService.openDialog(DialogTypeEnum.Alert, {
+              title: 'ПОВІДОМЛЕННЯ',
+              text: 'Невірна електронна пошта або пароль. Перевірте введені дані та повторіть спробу.',
+            });
           }
         },
       });

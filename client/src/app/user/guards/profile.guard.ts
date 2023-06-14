@@ -9,16 +9,16 @@ import { DialogTypeEnum } from '../../shared/models/enums/dialog-type.enum';
   providedIn: 'root',
 })
 export class ProfileGuard implements CanDeactivate<ProfileComponent> {
-  public constructor(private dialogService: DialogService) {
-  }
-  public canDeactivate(
-    component: ProfileComponent
-  ): Observable<boolean> {
+  public constructor(private dialogService: DialogService) {}
+
+  public canDeactivate(component: ProfileComponent): Observable<boolean> {
     if (component.profileForm.valid) {
-      return this.dialogService.openDialog(DialogTypeEnum.ConfirmRedirect, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: 'Ви покидаєте сторінку. Всі незбережені дані будуть втрачені.',
-      }).afterClosed();
+      return this.dialogService
+        .openDialog(DialogTypeEnum.ConfirmRedirect, {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Ви покидаєте сторінку. Всі незбережені дані будуть втрачені.',
+        })
+        .afterClosed();
     } else {
       return of(true);
     }

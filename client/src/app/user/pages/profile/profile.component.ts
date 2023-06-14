@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
@@ -128,57 +128,61 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.usersService.user$.next(userWithToken.user);
           this.clearPasswordFields();
           this.initProfileForm(userWithToken.user);
-          this.dialogService
-            .openDialog(DialogTypeEnum.Alert, {
-              title: 'ПОВІДОМЛЕННЯ',
-              text: 'Дані користувача успішно оновлені.',
-            });
+          this.dialogService.openDialog(DialogTypeEnum.Alert, {
+            title: 'ПОВІДОМЛЕННЯ',
+            text: 'Дані користувача успішно оновлені.',
+          });
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === StatusCodeEnum.BadRequest) {
             this.clearPasswordFields();
-            this.dialogService
-              .openDialog(DialogTypeEnum.Alert, {
-                title: 'ПОВІДОМЛЕННЯ',
-                text: 'Ви ввели неправильний пароль. Перевірте пароль та повторіть спробу.',
-              });
+            this.dialogService.openDialog(DialogTypeEnum.Alert, {
+              title: 'ПОВІДОМЛЕННЯ',
+              text: 'Ви ввели неправильний пароль. Перевірте пароль та повторіть спробу.',
+            });
           }
-        }
+        },
       });
   }
 
   public deleteProfile(): void {
-    this.usersService.deleteCurrentUser().pipe(takeUntil(this.destroy$)).subscribe({
-      next: () => {
-        this.dialogService.openDialog(DialogTypeEnum.Alert, {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Профіль успішно видалено.',
-        });
-        this.router.navigateByUrl('');
-        sessionStorage.removeItem('token');
-        this.usersService.user$.next(null);
-      },
-      error: () => {
-        this.dialogService.openDialog(DialogTypeEnum.Alert, {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Щось пішло не так. Повторіть спробу пізніше.',
-        });
-      },
-    });
+    this.usersService
+      .deleteCurrentUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.dialogService.openDialog(DialogTypeEnum.Alert, {
+            title: 'ПОВІДОМЛЕННЯ',
+            text: 'Профіль успішно видалено.',
+          });
+          this.router.navigateByUrl('');
+          sessionStorage.removeItem('token');
+          this.usersService.user$.next(null);
+        },
+        error: () => {
+          this.dialogService.openDialog(DialogTypeEnum.Alert, {
+            title: 'ПОВІДОМЛЕННЯ',
+            text: 'Щось пішло не так. Повторіть спробу пізніше.',
+          });
+        },
+      });
   }
 
   public confirmDelete(): void {
-    this.dialogService.openDialog(DialogTypeEnum.ConfirmDelete, {
-      title: 'ПОВІДОМЛЕННЯ',
-      text: 'Ви впевнені, що хочете видалити профіль?',
-    }).afterClosed().subscribe({
-      next: (value) => {
-        if (value) {
-          this.clearPasswordFields();
-          this.deleteProfile();
-        }
-      }
-    })
+    this.dialogService
+      .openDialog(DialogTypeEnum.ConfirmDelete, {
+        title: 'ПОВІДОМЛЕННЯ',
+        text: 'Ви впевнені, що хочете видалити профіль?',
+      })
+      .afterClosed()
+      .subscribe({
+        next: (value) => {
+          if (value) {
+            this.clearPasswordFields();
+            this.deleteProfile();
+          }
+        },
+      });
   }
 
   private initUser(): void {
