@@ -12,7 +12,7 @@ import { DOCUMENT } from '@angular/common';
 
 @Directive({
   selector: '[appClickOutside]',
-  standalone: true
+  standalone: true,
 })
 export class ClickOutsideDirective implements AfterViewInit, OnDestroy {
   @Output()
@@ -20,7 +20,10 @@ export class ClickOutsideDirective implements AfterViewInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(private element: ElementRef, @Inject(DOCUMENT) private document: Document) {}
+  public constructor(
+    private element: ElementRef,
+    @Inject(DOCUMENT) private document: Document,
+  ) {}
 
   public ngAfterViewInit(): void {
     fromEvent(this.document, 'click')
@@ -32,7 +35,10 @@ export class ClickOutsideDirective implements AfterViewInit, OnDestroy {
   }
 
   public inside(element: HTMLElement): boolean {
-    return element === this.element.nativeElement || this.element.nativeElement.contains(element);
+    return (
+      element === this.element.nativeElement ||
+      this.element.nativeElement.contains(element)
+    );
   }
 
   public ngOnDestroy(): void {

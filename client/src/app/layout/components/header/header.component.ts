@@ -18,7 +18,13 @@ import { ClickOutsideDirective } from '../../../shared/directives/click-outside.
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, AngularSvgIconModule, ClickOutsideDirective, RouterLinkActive],
+  imports: [
+    CommonModule,
+    RouterLink,
+    AngularSvgIconModule,
+    ClickOutsideDirective,
+    RouterLinkActive,
+  ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
