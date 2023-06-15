@@ -14,7 +14,10 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
-    if (request.url.includes('auth')) {
+    if (
+      request.url.includes('auth') ||
+      (request.url.includes('tag') && request.method === 'GET')
+    ) {
       return next.handle(request);
     } else {
       if (sessionStorage.getItem('token')) {
@@ -26,7 +29,6 @@ export class AuthInterceptor implements HttpInterceptor {
       } else {
         return next.handle(request).pipe(
           catchError((error: HttpErrorResponse) => {
-            // TODO: add dialog when email already exists (error #409)
             return throwError(() => error);
           }),
         );
