@@ -36,7 +36,7 @@ export class UsersController {
     return this.usersService.updateUserRole(updateUserRoleDto);
   }
 
-  @ApiOperation({ summary: 'Get all user' })
+  @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [User] })
   @UseGuards(AdminGuard)
   @ApiBearerAuth()

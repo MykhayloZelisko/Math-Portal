@@ -29,23 +29,24 @@ export class UsersService {
 
   public async getAllUsers() {
     const users = await this.userRepository.findAll();
-    return users;
+    if (users) {
+      return users;
+    }
+    throw new BadRequestException({ message: 'Users not found' });
   }
 
   public async removeUser(id: number) {
-    const user = await this.userRepository.findOne({ where: { id } });
+    const user = await this.userRepository.findByPk(id);
     if (user) {
       await this.userRepository.destroy({ where: { id } });
-      return true;
+      return;
     }
     throw new BadRequestException({ message: 'User not found' });
   }
 
   public async removeCurrentUser(tokenDto: TokenDto) {
     const currentUser = await this.jwtService.verifyAsync(tokenDto.token);
-    const user = await this.userRepository.findOne({
-      where: { id: currentUser.id },
-    });
+    const user = await this.userRepository.findByPk(currentUser.id);
     if (user) {
       await this.userRepository.destroy({ where: { id: user.id } });
       return;
