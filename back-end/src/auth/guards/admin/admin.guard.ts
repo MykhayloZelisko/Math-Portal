@@ -1,8 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
-  HttpException,
-  HttpStatus,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -26,7 +25,7 @@ export class AdminGuard implements CanActivate {
       req.user = admin;
       return admin.isAdmin;
     } catch (e) {
-      throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
+      throw new ForbiddenException({ message: 'Access denied' });
     }
   }
 }

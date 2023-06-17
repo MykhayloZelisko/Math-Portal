@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Tag } from './models/tag.model';
 import { CreateTagDto } from './dto/create-tag.dto';
@@ -10,18 +15,24 @@ export class TagsService {
 
   public async getAllTags() {
     const tags = await this.tagRepository.findAll();
-    if (tags) {
-      return tags;
-    }
-    throw new BadRequestException({ message: 'Tags not found' });
+    return tags;
+  }
+
+  public async getTagByValue(value: string) {
+    const tag = await this.tagRepository.findOne({ where: { value } });
+    return tag;
   }
 
   public async createTag(createTagDto: CreateTagDto) {
-    const tag = await this.tagRepository.create(createTagDto);
+    const tag = await this.getTagByValue(createTagDto.value);
     if (tag) {
-      return tag;
+      throw new ConflictException({ message: 'Tag already exists' })
     }
-    throw new BadRequestException({ message: 'Tag not created' });
+    const newTag = await this.tagRepository.create(createTagDto);
+    if (newTag) {
+      return newTag;
+    }
+    throw new BadRequestException({ message: 'Tag is not created' });
   }
 
   public async removeTag(id: number) {
@@ -30,16 +41,19 @@ export class TagsService {
       await this.tagRepository.destroy({ where: { id } });
       return;
     }
-    throw new BadRequestException({ message: 'Tag not found' });
+    throw new NotFoundException({ message: 'Tag not found' });
   }
 
   public async updateTag(tagId: number, updateTagDto: UpdateTagDto) {
     const tag = await this.tagRepository.findByPk(tagId);
     if (tag) {
       tag.value = updateTagDto.value;
-      await tag.save();
+      const newTag = await tag.save();
+      if (!newTag) {
+        throw new BadRequestException({ message: 'Tag is not updated' })
+      }
       return tag;
     }
-    throw new BadRequestException({ message: 'Tag not found' });
+    throw new NotFoundException({ message: 'Tag not found' });
   }
 }
