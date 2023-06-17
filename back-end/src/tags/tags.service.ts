@@ -24,6 +24,9 @@ export class TagsService {
   }
 
   public async createTag(createTagDto: CreateTagDto) {
+    if (!createTagDto.value) {
+      throw new BadRequestException({ message: 'Tag is not created' });
+    }
     const tag = await this.getTagByValue(createTagDto.value);
     if (tag) {
       throw new ConflictException({ message: 'Tag already exists' })
@@ -45,6 +48,9 @@ export class TagsService {
   }
 
   public async updateTag(tagId: number, updateTagDto: UpdateTagDto) {
+    if (!updateTagDto.value) {
+      throw new BadRequestException({ message: 'Tag is not updated' });
+    }
     const tag = await this.tagRepository.findByPk(tagId);
     if (tag) {
       tag.value = updateTagDto.value;

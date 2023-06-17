@@ -59,11 +59,11 @@ export class UsersService {
   public async updateUserRole(updateUserRoleDto: UpdateUserRoleDto) {
     const user = await this.userRepository.findByPk(updateUserRoleDto.userId);
     if (user) {
-      user.isAdmin = updateUserRoleDto.isAdmin;
-      const newUser = await user.save();
-      if (!newUser) {
+      if (!(updateUserRoleDto.isAdmin ?? undefined)) {
         throw new BadRequestException({ message: 'User is not updated' })
       }
+      user.isAdmin = updateUserRoleDto.isAdmin;
+      const newUser = await user.save();
       return newUser;
     }
     throw new NotFoundException({ message: 'User not found' });
@@ -81,6 +81,9 @@ export class UsersService {
   }
 
   public async updateUser(tokenDto: TokenDto, updateUserDto: UpdateUserDto) {
+    if (!updateUserDto.email || !updateUserDto.password || !updateUserDto.firstName || !updateUserDto.lastName) {
+      throw new BadRequestException({ message: 'User is not updated' });
+    }
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
     if (userByToken) {
       const user = await this.userRepository.findByPk(userByToken.id);
@@ -100,9 +103,6 @@ export class UsersService {
         user.firstName = updateUserDto.firstName;
         user.password = hashPassword;
         const newUser = await user.save();
-        if (!newUser) {
-          throw new BadRequestException({ message: 'User is not updated' })
-        };
         const token = await this.authService.generateToken(newUser);
         return { user: newUser, token: token };
       }
