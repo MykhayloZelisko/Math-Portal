@@ -29,6 +29,9 @@ export class ArticlesService {
   ) {}
 
   public async createArticle(createArticleDto: CreateArticleDto) {
+    if (!createArticleDto.title || !createArticleDto.text || !createArticleDto.usersIds || !createArticleDto.tagsIds) {
+      throw new BadRequestException({ message: 'Article is not created' });
+    }
     const tags = await this.tagRepository.findAll({
       where: {
         id: createArticleDto.tagsIds
@@ -55,9 +58,12 @@ export class ArticlesService {
   }
 
   public async updateArticle(id: number, updateArticleDto: UpdateArticleDto) {
+    if (!updateArticleDto.title || !updateArticleDto.text || !updateArticleDto.usersIds || !updateArticleDto.tagsIds) {
+      throw new BadRequestException({ message: 'Article is not updated' });
+    }
     const article = await this.articleRepository.findByPk(id);
     if (!article) {
-      throw new NotFoundException({ message: 'Article is not found' });
+      throw new NotFoundException({ message: 'Article not found' });
     }
     if (updateArticleDto.tagsIds.length && updateArticleDto.usersIds.length) {
       const tags = await this.tagRepository.findAll({
