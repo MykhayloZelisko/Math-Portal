@@ -7,6 +7,10 @@ import { User } from './users/models/user.model';
 import { AuthModule } from './auth/auth.module';
 import { TagsModule } from './tags/tags.module';
 import { Tag } from './tags/models/tag.model';
+import { ArticlesModule } from './articles/articles.module';
+import { Article } from './articles/models/article.model';
+import { ArticleTags } from './articles/models/article-tags.model';
+import { ArticleUsers } from './articles/models/article-users.model';
 
 @Module({
   imports: [
@@ -20,12 +24,13 @@ import { Tag } from './tags/models/tag.model';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Tag],
+      models: [User, Tag, Article, ArticleTags, ArticleUsers],
       autoLoadModels: true,
     }),
     UsersModule,
     AuthModule,
     TagsModule,
+    ArticlesModule,
   ],
   controllers: [],
   providers: [],

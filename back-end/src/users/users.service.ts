@@ -2,7 +2,7 @@ import {
   BadRequestException,
   forwardRef,
   Inject,
-  Injectable,
+  Injectable, NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectModel } from '@nestjs/sequelize';
@@ -29,10 +29,7 @@ export class UsersService {
 
   public async getAllUsers() {
     const users = await this.userRepository.findAll();
-    if (users) {
-      return users;
-    }
-    throw new BadRequestException({ message: 'Users not found' });
+    return users;
   }
 
   public async removeUser(id: number) {
@@ -41,7 +38,7 @@ export class UsersService {
       await this.userRepository.destroy({ where: { id } });
       return;
     }
-    throw new BadRequestException({ message: 'User not found' });
+    throw new NotFoundException({ message: 'User not found' });
   }
 
   public async removeCurrentUser(tokenDto: TokenDto) {
@@ -51,7 +48,7 @@ export class UsersService {
       await this.userRepository.destroy({ where: { id: user.id } });
       return;
     }
-    throw new BadRequestException({ message: 'User not found' });
+    throw new NotFoundException({ message: 'User not found' });
   }
 
   public async getUserByEmail(email: string) {
@@ -63,10 +60,13 @@ export class UsersService {
     const user = await this.userRepository.findByPk(updateUserRoleDto.userId);
     if (user) {
       user.isAdmin = updateUserRoleDto.isAdmin;
-      await user.save();
-      return user;
+      const newUser = await user.save();
+      if (!newUser) {
+        throw new BadRequestException({ message: 'User is not updated' })
+      }
+      return newUser;
     }
-    throw new BadRequestException({ message: 'User not found' });
+    throw new NotFoundException({ message: 'User not found' });
   }
 
   public async getCurrentUser(tokenDto: TokenDto) {
@@ -77,7 +77,7 @@ export class UsersService {
         return user;
       }
     }
-    throw new BadRequestException({ message: 'User not found' });
+    throw new NotFoundException({ message: 'User not found' });
   }
 
   public async updateUser(tokenDto: TokenDto, updateUserDto: UpdateUserDto) {
@@ -95,23 +95,18 @@ export class UsersService {
         const hashPassword = updateUserDto.newPassword
           ? await bcrypt.hash(updateUserDto.newPassword, 5)
           : user.password;
-        await this.userRepository.update(
-          {
-            email: updateUserDto.email,
-            firstName: updateUserDto.firstName,
-            lastName: updateUserDto.lastName,
-            password: hashPassword,
-            isAdmin: user.isAdmin,
-          },
-          {
-            where: { id: user.id },
-          },
-        );
-        const updatedUser = await this.userRepository.findByPk(user.id);
-        const token = await this.authService.generateToken(updatedUser);
-        return { user: updatedUser, token: token };
+        user.email = updateUserDto.email;
+        user.lastName = updateUserDto.lastName;
+        user.firstName = updateUserDto.firstName;
+        user.password = hashPassword;
+        const newUser = await user.save();
+        if (!newUser) {
+          throw new BadRequestException({ message: 'User is not updated' })
+        };
+        const token = await this.authService.generateToken(newUser);
+        return { user: newUser, token: token };
       }
     }
-    throw new BadRequestException({ message: 'User not found' });
+    throw new NotFoundException({ message: 'User not found' });
   }
 }
