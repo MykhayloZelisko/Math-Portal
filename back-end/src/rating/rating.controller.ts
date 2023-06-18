@@ -42,7 +42,7 @@ export class RatingController {
   @Get(':id')
   public isRatingAvailable(
     @Req() request: Request,
-    @Param('id') articleId: number,
+    @Param('articleId') articleId: number,
   ) {
     const token = request.headers['authorization']
       ? request.headers['authorization'].split(' ')[1]
