@@ -1,9 +1,17 @@
-import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  HasMany,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { Tag } from '../../tags/models/tag.model';
 import { ArticleTags } from './article-tags.model';
 import { User } from '../../users/models/user.model';
 import { ArticleUsers } from './article-users.model';
+import { Rating } from '../../rating/models/rating.model';
 
 interface ArticleCreationAttrsInterface {
   title: string;
@@ -34,8 +42,11 @@ export class Article extends Model<Article, ArticleCreationAttrsInterface> {
   public rating: number;
 
   @BelongsToMany(() => Tag, () => ArticleTags)
-  tags: Tag[];
+  public tags: Tag[];
 
   @BelongsToMany(() => User, () => ArticleUsers)
-  users: User[];
+  public authors: User[];
+
+  @HasMany(() => Rating)
+  public ratings: Rating[];
 }

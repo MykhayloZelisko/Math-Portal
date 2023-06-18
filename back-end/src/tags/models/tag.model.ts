@@ -1,4 +1,10 @@
-import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { Article } from '../../articles/models/article.model';
 import { ArticleTags } from '../../articles/models/article-tags.model';
@@ -23,5 +29,5 @@ export class Tag extends Model<Tag, TagCreationAttrsInterface> {
   public value: string;
 
   @BelongsToMany(() => Article, () => ArticleTags)
-  articles: Article[];
+  public articles: Article[];
 }

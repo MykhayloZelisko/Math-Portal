@@ -1,5 +1,10 @@
-import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
-import { Tag } from '../../tags/models/tag.model';
+import {
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { Article } from './article.model';
 import { User } from '../../users/models/user.model';
 
@@ -19,5 +24,5 @@ export class ArticleUsers extends Model<ArticleUsers> {
 
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
-  public userId: number;
+  public authorId: number;
 }

@@ -11,5 +11,5 @@ export class CreateArticleDto {
   public readonly tagsIds: number[];
 
   @ApiProperty({ example: [1], description: 'Array of users' })
-  public readonly usersIds: number[];
+  public readonly authorsIds: number[];
 }

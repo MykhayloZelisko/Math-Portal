@@ -2,7 +2,8 @@ import {
   BadRequestException,
   forwardRef,
   Inject,
-  Injectable, NotFoundException,
+  Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectModel } from '@nestjs/sequelize';
@@ -60,7 +61,7 @@ export class UsersService {
     const user = await this.userRepository.findByPk(updateUserRoleDto.userId);
     if (user) {
       if (!(updateUserRoleDto.isAdmin ?? undefined)) {
-        throw new BadRequestException({ message: 'User is not updated' })
+        throw new BadRequestException({ message: 'User is not updated' });
       }
       user.isAdmin = updateUserRoleDto.isAdmin;
       const newUser = await user.save();
@@ -81,7 +82,12 @@ export class UsersService {
   }
 
   public async updateUser(tokenDto: TokenDto, updateUserDto: UpdateUserDto) {
-    if (!updateUserDto.email || !updateUserDto.password || !updateUserDto.firstName || !updateUserDto.lastName) {
+    if (
+      !updateUserDto.email ||
+      !updateUserDto.password ||
+      !updateUserDto.firstName ||
+      !updateUserDto.lastName
+    ) {
       throw new BadRequestException({ message: 'User is not updated' });
     }
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
