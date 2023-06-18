@@ -12,6 +12,9 @@ import { User } from '../users/models/user.model';
 @Module({
   providers: [ArticlesService],
   controllers: [ArticlesController],
-  imports: [SequelizeModule.forFeature([Tag, Article, ArticleTags, ArticleUsers, User]), AuthModule],
+  imports: [
+    SequelizeModule.forFeature([Article, ArticleTags, ArticleUsers, Tag, User]),
+    AuthModule,
+  ],
 })
 export class ArticlesModule {}

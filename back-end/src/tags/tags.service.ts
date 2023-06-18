@@ -29,7 +29,7 @@ export class TagsService {
     }
     const tag = await this.getTagByValue(createTagDto.value);
     if (tag) {
-      throw new ConflictException({ message: 'Tag already exists' })
+      throw new ConflictException({ message: 'Tag already exists' });
     }
     const newTag = await this.tagRepository.create(createTagDto);
     if (newTag) {
@@ -56,7 +56,7 @@ export class TagsService {
       tag.value = updateTagDto.value;
       const newTag = await tag.save();
       if (!newTag) {
-        throw new BadRequestException({ message: 'Tag is not updated' })
+        throw new BadRequestException({ message: 'Tag is not updated' });
       }
       return tag;
     }

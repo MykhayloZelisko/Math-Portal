@@ -1,8 +1,15 @@
-import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  HasMany,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
-import { Tag } from '../../tags/models/tag.model';
 import { Article } from '../../articles/models/article.model';
 import { ArticleUsers } from '../../articles/models/article-users.model';
+import { Rating } from '../../rating/models/rating.model';
 
 interface UserCreationAttrsInterface {
   email: string;
@@ -43,5 +50,8 @@ export class User extends Model<User, UserCreationAttrsInterface> {
   public isAdmin: boolean;
 
   @BelongsToMany(() => Article, () => ArticleUsers)
-  articles: Article[];
+  public articles: Article[];
+
+  @HasMany(() => Rating)
+  public ratings: Rating[];
 }

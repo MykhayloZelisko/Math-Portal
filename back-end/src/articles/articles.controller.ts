@@ -1,11 +1,24 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AdminGuard } from '../auth/guards/admin/admin.guard';
 import { Article } from './models/article.model';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { ArticlesService } from './articles.service';
 import { UpdateArticleDto } from './dto/update-article.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard';
 
 @ApiTags('Articles')
 @Controller('articles')
@@ -26,7 +39,10 @@ export class ArticlesController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Put(':id')
-  public updateArticle(@Param('id') id: number, @Body() updateArticleDto: UpdateArticleDto) {
+  public updateArticle(
+    @Param('id') id: number,
+    @Body() updateArticleDto: UpdateArticleDto,
+  ) {
     return this.articlesService.updateArticle(id, updateArticleDto);
   }
 
