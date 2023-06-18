@@ -38,7 +38,7 @@ export class Article extends Model<Article, ArticleCreationAttrsInterface> {
   public text: string;
 
   @ApiProperty({ example: 0, description: 'Rating' })
-  @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
+  @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 0 })
   public rating: number;
 
   @BelongsToMany(() => Tag, () => ArticleTags)
