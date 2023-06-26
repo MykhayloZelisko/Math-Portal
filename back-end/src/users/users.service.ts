@@ -14,6 +14,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from '../auth/auth.service';
 import * as bcrypt from 'bcryptjs';
+import { FindOptions } from 'sequelize';
 
 @Injectable()
 export class UsersService {
@@ -28,13 +29,13 @@ export class UsersService {
     return user;
   }
 
-  public async getAllUsers() {
-    const users = await this.userRepository.findAll();
+  public async getAllUsers(options?: FindOptions<User>) {
+    const users = await this.userRepository.findAll(options);
     return users;
   }
 
   public async removeUser(id: number) {
-    const user = await this.userRepository.findByPk(id);
+    const user = await this.getUserById(id);
     if (user) {
       await this.userRepository.destroy({ where: { id } });
       return;
@@ -44,7 +45,7 @@ export class UsersService {
 
   public async removeCurrentUser(tokenDto: TokenDto) {
     const currentUser = await this.jwtService.verifyAsync(tokenDto.token);
-    const user = await this.userRepository.findByPk(currentUser.id);
+    const user = await this.getUserById(currentUser.id);
     if (user) {
       await this.userRepository.destroy({ where: { id: user.id } });
       return;
@@ -57,10 +58,21 @@ export class UsersService {
     return user;
   }
 
+  public async getUserById(id: number) {
+    const user = await this.userRepository.findByPk(id);
+    if (!user) {
+      throw new NotFoundException({ message: 'User not found' });
+    }
+    return user;
+  }
+
   public async updateUserRole(updateUserRoleDto: UpdateUserRoleDto) {
-    const user = await this.userRepository.findByPk(updateUserRoleDto.userId);
+    const user = await this.getUserById(updateUserRoleDto.userId);
     if (user) {
-      if (!(updateUserRoleDto.isAdmin ?? undefined)) {
+      if (
+        updateUserRoleDto.isAdmin !== false &&
+        updateUserRoleDto.isAdmin !== true
+      ) {
         throw new BadRequestException({ message: 'User is not updated' });
       }
       user.isAdmin = updateUserRoleDto.isAdmin;

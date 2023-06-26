@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   forwardRef,
   Inject,
@@ -25,6 +26,16 @@ export class AuthService {
   }
 
   public async registration(createUserDto: CreateUserDto) {
+    if (
+      !createUserDto.email ||
+      !createUserDto.password ||
+      !createUserDto.firstName ||
+      !createUserDto.lastName
+    ) {
+      throw new BadRequestException({
+        message: 'User data is incorrect',
+      });
+    }
     const candidate = await this.userService.getUserByEmail(
       createUserDto.email,
     );
@@ -54,6 +65,11 @@ export class AuthService {
   }
 
   private async validateUser(loginDto: LoginDto) {
+    if (!loginDto.email || !loginDto.password) {
+      throw new BadRequestException({
+        message: 'User data is incorrect',
+      });
+    }
     const user = await this.userService.getUserByEmail(loginDto.email);
     if (user) {
       const passwordEquals = await bcrypt.compare(

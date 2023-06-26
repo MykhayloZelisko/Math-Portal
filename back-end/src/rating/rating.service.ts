@@ -2,34 +2,27 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Rating } from './models/rating.model';
-import { TokenDto } from '../auth/dto/token.dto';
-import { JwtService } from '@nestjs/jwt';
-import { User } from '../users/models/user.model';
-import { Article } from '../articles/models/article.model';
+import { UsersService } from '../users/users.service';
+import { ArticlesService } from '../articles/articles.service';
 
 @Injectable()
 export class RatingService {
   public constructor(
+    private usersService: UsersService,
+    private articlesService: ArticlesService,
     @InjectModel(Rating) private ratingRepository: typeof Rating,
-    @InjectModel(User) private userRepository: typeof User,
-    @InjectModel(Article) private articleRepository: typeof Article,
-    private jwtService: JwtService,
   ) {}
 
-  public async updateArticleRating(
-    createRatingDto: CreateRatingDto,
-    tokenDto: TokenDto,
-  ) {
-    const isAvailableRating = await this.isRatingAvailable(
-      createRatingDto.articleId,
-      tokenDto,
-    );
-    if (!isAvailableRating.isAvailable || !createRatingDto.rate) {
+  public async updateArticleRating(createRatingDto: CreateRatingDto) {
+    if (
+      !createRatingDto.rate ||
+      !createRatingDto.articleId ||
+      !createRatingDto.userId
+    ) {
       throw new BadRequestException({ message: 'Rating is not updated' });
     }
-    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
-    const user = await this.userRepository.findByPk(userByToken.id);
-    const article = await this.articleRepository.findByPk(
+    const user = await this.usersService.getUserById(createRatingDto.userId);
+    const article = await this.articlesService.getArticleById(
       createRatingDto.articleId,
     );
     if (!user || !article) {
@@ -53,29 +46,6 @@ export class RatingService {
     await article.save();
     return {
       rating: articleRating,
-    };
-  }
-
-  public async isRatingAvailable(articleId: number, tokenDto: TokenDto) {
-    if (!tokenDto || !tokenDto.token) {
-      return {
-        isAvailable: false,
-      };
-    }
-    const user = await this.jwtService.verifyAsync(tokenDto.token);
-    if (user) {
-      const rate = await this.ratingRepository.findOne({
-        where: {
-          userId: user.id,
-          articleId: articleId,
-        },
-      });
-      return {
-        isAvailable: !rate,
-      };
-    }
-    return {
-      isAvailable: false,
     };
   }
 }

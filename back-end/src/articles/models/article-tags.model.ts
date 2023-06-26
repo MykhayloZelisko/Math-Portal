@@ -8,7 +8,12 @@ import {
 import { Tag } from '../../tags/models/tag.model';
 import { Article } from './article.model';
 
-@Table({ tableName: 'article_tags', createdAt: false, updatedAt: false })
+@Table({
+  tableName: 'article_tags',
+  createdAt: false,
+  updatedAt: false,
+  underscored: true,
+})
 export class ArticleTags extends Model<ArticleTags> {
   @Column({
     type: DataType.INTEGER,
