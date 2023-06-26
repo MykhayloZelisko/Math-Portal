@@ -6,4 +6,7 @@ export class CreateRatingDto {
 
   @ApiProperty({ example: 5, description: 'Article id' })
   public readonly articleId: number;
+
+  @ApiProperty({ example: 5, description: 'User id' })
+  public readonly userId: number;
 }

@@ -37,7 +37,7 @@ export class TagsController {
   @ApiOperation({ summary: 'Get all tags' })
   @ApiResponse({ status: 200, type: [Tag] })
   @Get()
-  public getAllTag() {
+  public getAllTags() {
     return this.tagsService.getAllTags();
   }
 

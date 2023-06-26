@@ -9,6 +9,8 @@ import { Article } from './models/article.model';
 import { Tag } from '../tags/models/tag.model';
 import { User } from '../users/models/user.model';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import { TagsService } from '../tags/tags.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class ArticlesService {
@@ -20,7 +22,7 @@ export class ArticlesService {
         through: { attributes: [] },
       },
       {
-        association: 'users',
+        association: 'authors',
         model: User,
         through: { attributes: [] },
       },
@@ -28,9 +30,9 @@ export class ArticlesService {
   };
 
   public constructor(
+    private tagsService: TagsService,
+    private usersService: UsersService,
     @InjectModel(Article) private articleRepository: typeof Article,
-    @InjectModel(Tag) private tagRepository: typeof Tag,
-    @InjectModel(User) private userRepository: typeof User,
   ) {}
 
   public async createArticle(createArticleDto: CreateArticleDto) {
@@ -42,12 +44,12 @@ export class ArticlesService {
     ) {
       throw new BadRequestException({ message: 'Article is not created' });
     }
-    const tags = await this.tagRepository.findAll({
+    const tags = await this.tagsService.getAllTags({
       where: {
         id: createArticleDto.tagsIds,
       },
     });
-    const authors = await this.userRepository.findAll({
+    const authors = await this.usersService.getAllUsers({
       where: {
         id: createArticleDto.authorsIds,
       },
@@ -64,7 +66,7 @@ export class ArticlesService {
     }
     await article.$set('tags', tags);
     await article.$set('authors', authors);
-    return this.articleRepository.findByPk(article.id, this.articleOptions);
+    return this.getArticleById(article.id);
   }
 
   public async updateArticle(id: number, updateArticleDto: UpdateArticleDto) {
@@ -76,17 +78,17 @@ export class ArticlesService {
     ) {
       throw new BadRequestException({ message: 'Article is not updated' });
     }
-    const article = await this.articleRepository.findByPk(id);
+    const article = await this.getArticleById(id);
     if (!article) {
       throw new NotFoundException({ message: 'Article not found' });
     }
     if (updateArticleDto.tagsIds.length && updateArticleDto.authorsIds.length) {
-      const tags = await this.tagRepository.findAll({
+      const tags = await this.tagsService.getAllTags({
         where: {
           id: updateArticleDto.tagsIds,
         },
       });
-      const authors = await this.userRepository.findAll({
+      const authors = await this.usersService.getAllUsers({
         where: {
           id: updateArticleDto.authorsIds,
         },
@@ -99,21 +101,21 @@ export class ArticlesService {
       await article.save();
       await article.$set('tags', tags);
       await article.$set('authors', authors);
-      return this.articleRepository.findByPk(article.id, this.articleOptions);
+      return this.getArticleById(id);
     }
     throw new BadRequestException({ message: 'Article is not updated' });
   }
 
   public async removeArticle(id: number) {
-    const article = await this.articleRepository.findByPk(id);
+    const article = await this.getArticleById(id);
     if (article) {
-      await this.tagRepository.destroy({ where: { id } });
+      await this.articleRepository.destroy({ where: { id } });
       return;
     }
     throw new NotFoundException({ message: 'Article not found' });
   }
 
-  public async getArticle(id: number) {
+  public async getArticleById(id: number) {
     const article = await this.articleRepository.findByPk(
       id,
       this.articleOptions,

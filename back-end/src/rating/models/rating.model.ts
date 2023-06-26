@@ -14,7 +14,12 @@ interface RatingCreationAttrsInterface {
   rate: number;
 }
 
-@Table({ tableName: 'ratings', createdAt: false, updatedAt: false })
+@Table({
+  tableName: 'ratings',
+  createdAt: false,
+  updatedAt: false,
+  underscored: true,
+})
 export class Rating extends Model<Rating, RatingCreationAttrsInterface> {
   @ApiProperty({ example: 1, description: 'Unique identifier' })
   @Column({

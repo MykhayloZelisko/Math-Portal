@@ -13,7 +13,12 @@ interface TagCreationAttrsInterface {
   value: string;
 }
 
-@Table({ tableName: 'tags', createdAt: false, updatedAt: false })
+@Table({
+  tableName: 'tags',
+  createdAt: false,
+  updatedAt: false,
+  underscored: true,
+})
 export class Tag extends Model<Tag, TagCreationAttrsInterface> {
   @ApiProperty({ example: 1, description: 'Unique identifier' })
   @Column({

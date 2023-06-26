@@ -9,5 +9,6 @@ import { AuthModule } from '../auth/auth.module';
   controllers: [TagsController],
   providers: [TagsService],
   imports: [SequelizeModule.forFeature([Tag]), AuthModule],
+  exports: [TagsService],
 })
 export class TagsModule {}

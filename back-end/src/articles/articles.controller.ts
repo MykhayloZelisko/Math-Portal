@@ -58,8 +58,8 @@ export class ArticlesController {
   @ApiOperation({ summary: 'Get article' })
   @ApiResponse({ status: 200, type: Article })
   @Get(':id')
-  public getArticle(@Param('id') id: string) {
-    return this.articlesService.getArticle(+id);
+  public getArticleById(@Param('id') id: string) {
+    return this.articlesService.getArticleById(+id);
   }
 
   @ApiOperation({ summary: 'Get list of articles' })

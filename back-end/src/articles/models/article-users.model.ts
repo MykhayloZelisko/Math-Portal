@@ -8,7 +8,12 @@ import {
 import { Article } from './article.model';
 import { User } from '../../users/models/user.model';
 
-@Table({ tableName: 'article_users', createdAt: false, updatedAt: false })
+@Table({
+  tableName: 'article_users',
+  createdAt: false,
+  updatedAt: false,
+  underscored: true,
+})
 export class ArticleUsers extends Model<ArticleUsers> {
   @Column({
     type: DataType.INTEGER,

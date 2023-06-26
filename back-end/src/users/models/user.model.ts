@@ -10,6 +10,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Article } from '../../articles/models/article.model';
 import { ArticleUsers } from '../../articles/models/article-users.model';
 import { Rating } from '../../rating/models/rating.model';
+import { Comment } from '../../comments/models/comment.model';
 
 interface UserCreationAttrsInterface {
   email: string;
@@ -18,7 +19,12 @@ interface UserCreationAttrsInterface {
   lastName: string;
 }
 
-@Table({ tableName: 'users', createdAt: false, updatedAt: false })
+@Table({
+  tableName: 'users',
+  createdAt: false,
+  updatedAt: false,
+  underscored: true,
+})
 export class User extends Model<User, UserCreationAttrsInterface> {
   @ApiProperty({ example: 1, description: 'Unique identifier' })
   @Column({
@@ -54,4 +60,7 @@ export class User extends Model<User, UserCreationAttrsInterface> {
 
   @HasMany(() => Rating)
   public ratings: Rating[];
+
+  @HasMany(() => Comment)
+  public comments: Comment[];
 }

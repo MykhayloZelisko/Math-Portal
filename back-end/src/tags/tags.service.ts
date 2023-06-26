@@ -8,13 +8,14 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Tag } from './models/tag.model';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
+import { FindOptions } from 'sequelize';
 
 @Injectable()
 export class TagsService {
   public constructor(@InjectModel(Tag) private tagRepository: typeof Tag) {}
 
-  public async getAllTags() {
-    const tags = await this.tagRepository.findAll();
+  public async getAllTags(options?: FindOptions<Tag>) {
+    const tags = await this.tagRepository.findAll(options);
     return tags;
   }
 

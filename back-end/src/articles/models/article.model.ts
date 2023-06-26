@@ -12,13 +12,19 @@ import { ArticleTags } from './article-tags.model';
 import { User } from '../../users/models/user.model';
 import { ArticleUsers } from './article-users.model';
 import { Rating } from '../../rating/models/rating.model';
+import { CommentsTree } from '../../comments/models/comments-tree.model';
 
 interface ArticleCreationAttrsInterface {
   title: string;
   text: string;
 }
 
-@Table({ tableName: 'articles', createdAt: false, updatedAt: false })
+@Table({
+  tableName: 'articles',
+  createdAt: false,
+  updatedAt: false,
+  underscored: true,
+})
 export class Article extends Model<Article, ArticleCreationAttrsInterface> {
   @ApiProperty({ example: 1, description: 'Unique identifier' })
   @Column({
@@ -49,4 +55,7 @@ export class Article extends Model<Article, ArticleCreationAttrsInterface> {
 
   @HasMany(() => Rating)
   public ratings: Rating[];
+
+  @HasMany(() => CommentsTree)
+  public comments: CommentsTree[];
 }

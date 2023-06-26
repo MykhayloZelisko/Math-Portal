@@ -13,6 +13,9 @@ import { ArticleTags } from './articles/models/article-tags.model';
 import { ArticleUsers } from './articles/models/article-users.model';
 import { RatingModule } from './rating/rating.module';
 import { Rating } from './rating/models/rating.model';
+import { CommentsModule } from './comments/comments.module';
+import { Comment } from './comments/models/comment.model';
+import { CommentsTree } from './comments/models/comments-tree.model';
 
 @Module({
   imports: [
@@ -26,7 +29,16 @@ import { Rating } from './rating/models/rating.model';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Tag, Article, ArticleTags, ArticleUsers, Rating],
+      models: [
+        User,
+        Tag,
+        Article,
+        ArticleTags,
+        ArticleUsers,
+        Rating,
+        Comment,
+        CommentsTree,
+      ],
       autoLoadModels: true,
     }),
     UsersModule,
@@ -34,6 +46,7 @@ import { Rating } from './rating/models/rating.model';
     TagsModule,
     ArticlesModule,
     RatingModule,
+    CommentsModule,
   ],
   controllers: [],
   providers: [],
