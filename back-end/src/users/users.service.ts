@@ -99,7 +99,10 @@ export class UsersService {
     throw new NotFoundException({ message: 'User not found' });
   }
 
-  public async updateCurrentUser(tokenDto: TokenDto, updateUserDto: UpdateUserDto) {
+  public async updateCurrentUser(
+    tokenDto: TokenDto,
+    updateUserDto: UpdateUserDto,
+  ) {
     if (
       !updateUserDto.email ||
       !updateUserDto.password ||
@@ -149,7 +152,10 @@ export class UsersService {
     throw new NotFoundException({ message: 'User not found' });
   }
 
-  public async updateCurrentUserPhoto(image: Express.Multer.File, tokenDto: TokenDto) {
+  public async updateCurrentUserPhoto(
+    image: Express.Multer.File,
+    tokenDto: TokenDto,
+  ) {
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
     if (userByToken) {
       const user = await this.userRepository.findByPk(userByToken.id);
@@ -163,7 +169,9 @@ export class UsersService {
           const token = await this.authService.generateToken(newUser);
           return { user: newUser, token: token };
         } catch (err) {
-          throw new InternalServerErrorException({ message: 'User photo is not updated' })
+          throw new InternalServerErrorException({
+            message: 'User photo is not updated',
+          });
         }
       }
     }

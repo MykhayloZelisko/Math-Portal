@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as uuid from 'uuid';
@@ -7,7 +11,9 @@ import * as uuid from 'uuid';
 export class FilesService {
   public async createImageFile(file: Express.Multer.File) {
     if (file.mimetype !== 'image/jpeg') {
-      throw new BadRequestException({ message: 'File must be a picture in jpg/jpeg format' });
+      throw new BadRequestException({
+        message: 'File must be a picture in jpg/jpeg format',
+      });
     }
     try {
       const fileName = uuid.v4() + path.extname(file.originalname);
@@ -18,7 +24,9 @@ export class FilesService {
       await fs.promises.writeFile(path.join(filePath, fileName), file.buffer);
       return fileName;
     } catch (e) {
-      throw new InternalServerErrorException({ message: 'Something went wrong' });
+      throw new InternalServerErrorException({
+        message: 'Something went wrong',
+      });
     }
   }
 
@@ -26,7 +34,9 @@ export class FilesService {
     const filePath = path.resolve(__dirname, '..', 'static', fileName);
     fs.unlink(filePath, (err) => {
       if (err) {
-        throw new InternalServerErrorException({ message: 'File is not removed' });
+        throw new InternalServerErrorException({
+          message: 'File is not removed',
+        });
       } else {
         return;
       }

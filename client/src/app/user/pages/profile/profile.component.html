@@ -26,8 +26,16 @@
           #fileUpload
           accept="image/jpeg"
         />
-        <button class="profile__btn" (click)="fileUpload.click()">Оновити фото</button>
-        <button class="profile__btn profile__btn--delete" [disabled]="user && !user.photo" (click)='confirmDeletePhoto()'>Видалити фото</button>
+        <button class="profile__btn" (click)="fileUpload.click()">
+          Оновити фото
+        </button>
+        <button
+          class="profile__btn profile__btn--delete"
+          [disabled]="user && !user.photo"
+          (click)="confirmDeletePhoto()"
+        >
+          Видалити фото
+        </button>
       </div>
     </div>
     <div class="profile__field-group">

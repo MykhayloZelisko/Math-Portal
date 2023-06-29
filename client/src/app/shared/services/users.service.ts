@@ -34,14 +34,19 @@ export class UsersService {
   }
 
   public deleteCurrentUserPhoto(): Observable<UserWithTokenInterface> {
-    return this.httpClient.delete<UserWithTokenInterface>(`${this.baseUrl}/current/photo`);
+    return this.httpClient.delete<UserWithTokenInterface>(
+      `${this.baseUrl}/current/photo`,
+    );
   }
 
-  public updateCurrentUserPhoto(file: File): Observable<UserWithTokenInterface> {
+  public updateCurrentUserPhoto(
+    file: File,
+  ): Observable<UserWithTokenInterface> {
     const formData: FormData = new FormData();
     formData.append('file', file);
     return this.httpClient.put<UserWithTokenInterface>(
-      `${this.baseUrl}/current/photo`, formData
+      `${this.baseUrl}/current/photo`,
+      formData,
     );
   }
 
@@ -49,8 +54,8 @@ export class UsersService {
     if (user) {
       this.user$.next({
         ...user,
-        photo: user.photo ? `${environment.apiUrl}/${user.photo}`: null
-      })
+        photo: user.photo ? `${environment.apiUrl}/${user.photo}` : null,
+      });
     } else {
       this.user$.next(null);
     }

@@ -256,26 +256,29 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const target = event.target as HTMLInputElement;
     if (target.files) {
       const file = target.files[0];
-      this.usersService.updateCurrentUserPhoto(file).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (userWithToken: UserWithTokenInterface) => {
-          sessionStorage.setItem(
-            'token',
-            JSON.stringify(`Bearer ${userWithToken.token.token}`),
-          );
-          this.usersService.updateUserData(userWithToken.user);
-          this.cdr.detectChanges();
-          this.dialogService.openDialog(DialogTypeEnum.Alert, {
-            title: 'ПОВІДОМЛЕННЯ',
-            text: 'Фото успішно оновлено.',
-          });
-        },
-        error: () => {
-          this.dialogService.openDialog(DialogTypeEnum.Alert, {
-            title: 'ПОВІДОМЛЕННЯ',
-            text: 'Щось пішло не так. Повторіть спробу пізніше.',
-          });
-        }
-      })
+      this.usersService
+        .updateCurrentUserPhoto(file)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (userWithToken: UserWithTokenInterface) => {
+            sessionStorage.setItem(
+              'token',
+              JSON.stringify(`Bearer ${userWithToken.token.token}`),
+            );
+            this.usersService.updateUserData(userWithToken.user);
+            this.cdr.detectChanges();
+            this.dialogService.openDialog(DialogTypeEnum.Alert, {
+              title: 'ПОВІДОМЛЕННЯ',
+              text: 'Фото успішно оновлено.',
+            });
+          },
+          error: () => {
+            this.dialogService.openDialog(DialogTypeEnum.Alert, {
+              title: 'ПОВІДОМЛЕННЯ',
+              text: 'Щось пішло не так. Повторіть спробу пізніше.',
+            });
+          },
+        });
     }
   }
 }

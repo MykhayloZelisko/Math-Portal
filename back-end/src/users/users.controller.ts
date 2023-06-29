@@ -12,7 +12,9 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
-  ApiBearerAuth, ApiBody, ApiConsumes,
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -107,7 +109,7 @@ export class UsersController {
   @Put('/current/photo')
   public updateCurrentUserPhoto(
     @Req() request: Request,
-    @UploadedFile() image,
+    @UploadedFile() image: Express.Multer.File,
   ) {
     const token = request.headers['authorization'].split(' ')[1];
     return this.usersService.updateCurrentUserPhoto(image, { token });
