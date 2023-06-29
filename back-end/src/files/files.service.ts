@@ -17,7 +17,7 @@ export class FilesService {
     }
     try {
       const fileName = uuid.v4() + path.extname(file.originalname);
-      const filePath = path.resolve(__dirname, '..', 'static');
+      const filePath = path.resolve(__dirname, '..', '..', 'static');
       if (!fs.existsSync(filePath)) {
         await fs.promises.mkdir(filePath, { recursive: true });
       }
@@ -31,7 +31,7 @@ export class FilesService {
   }
 
   public async removeImageFile(fileName: string) {
-    const filePath = path.resolve(__dirname, '..', 'static', fileName);
+    const filePath = path.resolve(__dirname, '..', '..', 'static', fileName);
     fs.unlink(filePath, (err) => {
       if (err) {
         throw new InternalServerErrorException({
