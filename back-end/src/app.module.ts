@@ -16,6 +16,9 @@ import { Rating } from './rating/models/rating.model';
 import { CommentsModule } from './comments/comments.module';
 import { Comment } from './comments/models/comment.model';
 import { CommentsTree } from './comments/models/comments-tree.model';
+import { FilesModule } from './files/files.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 
 @Module({
   imports: [
@@ -47,6 +50,10 @@ import { CommentsTree } from './comments/models/comments-tree.model';
     ArticlesModule,
     RatingModule,
     CommentsModule,
+    FilesModule,
+    ServeStaticModule.forRoot({
+      rootPath: path.resolve(__dirname, 'static')
+    })
   ],
   controllers: [],
   providers: [],

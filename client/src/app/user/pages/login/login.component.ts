@@ -64,7 +64,7 @@ export class LoginComponent implements OnDestroy {
       )
       .subscribe({
         next: (user: UserInterface) => {
-          this.usersService.user$.next(user);
+          this.usersService.updateUserData(user);
           this.router.navigateByUrl('');
         },
         error: (err: HttpErrorResponse) => {

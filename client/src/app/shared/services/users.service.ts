@@ -32,4 +32,27 @@ export class UsersService {
   public deleteCurrentUser(): Observable<void> {
     return this.httpClient.delete<void>(`${this.baseUrl}/current`);
   }
+
+  public deleteCurrentUserPhoto(): Observable<UserWithTokenInterface> {
+    return this.httpClient.delete<UserWithTokenInterface>(`${this.baseUrl}/current/photo`);
+  }
+
+  public updateCurrentUserPhoto(file: File): Observable<UserWithTokenInterface> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    return this.httpClient.put<UserWithTokenInterface>(
+      `${this.baseUrl}/current/photo`, formData
+    );
+  }
+
+  public updateUserData(user: UserInterface | null): void {
+    if (user) {
+      this.user$.next({
+        ...user,
+        photo: user.photo ? `${environment.apiUrl}/${user.photo}`: null
+      })
+    } else {
+      this.user$.next(null);
+    }
+  }
 }

@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public logout(): void {
     sessionStorage.removeItem('token');
-    this.usersService.user$.next(null);
+    this.usersService.updateUserData(null);
     if (
       this.router.url.includes(UserRouteNameEnum.Profile) ||
       this.router.url.includes(LayoutRouteNameEnum.Admin)

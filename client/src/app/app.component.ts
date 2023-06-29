@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
         .getCurrentUser()
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (user: UserInterface) => this.usersService.user$.next(user),
+          next: (user: UserInterface) => this.usersService.updateUserData(user),
         });
     }
   }

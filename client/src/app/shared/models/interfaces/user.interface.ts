@@ -6,5 +6,5 @@ export interface UserInterface {
   firstName: string;
   lastName: string;
   isAdmin: boolean;
-  photo?: string;
+  photo: string | null;
 }
