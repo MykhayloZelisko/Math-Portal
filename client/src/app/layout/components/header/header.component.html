@@ -52,10 +52,18 @@
         (clickOutside)="closeDropDown()"
       >
         <button class="header__profile" (click)="openDropDown()">
-          <svg-icon
-            class="header__profile-icon"
-            src="assets/images/user-icon.svg"
-          ></svg-icon>
+          <img
+            class="header__photo"
+            *ngIf="user && user.photo; else elseBlock"
+            [src]="user.photo"
+            alt="photo"
+          />
+          <ng-template #elseBlock>
+            <svg-icon
+              class="header__profile-icon"
+              src="assets/images/user-icon.svg"
+            ></svg-icon>
+          </ng-template>
         </button>
         <div *ngIf="isActiveDropDown" class="header__drop-down">
           <a
