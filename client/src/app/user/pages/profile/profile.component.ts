@@ -127,7 +127,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             'token',
             JSON.stringify(`Bearer ${userWithToken.token.token}`),
           );
-          this.usersService.user$.next(userWithToken.user);
+          this.usersService.updateUserData(userWithToken.user);
           this.clearPasswordFields();
           this.initProfileForm(userWithToken.user);
           this.dialogService.openDialog(DialogTypeEnum.Alert, {
@@ -147,7 +147,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  public deleteProfile(): void {
+  private deleteProfile(): void {
     this.usersService
       .deleteCurrentUser()
       .pipe(takeUntil(this.destroy$))
@@ -159,7 +159,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           });
           this.router.navigateByUrl('');
           sessionStorage.removeItem('token');
-          this.usersService.user$.next(null);
+          this.usersService.updateUserData(null);
         },
         error: () => {
           this.dialogService.openDialog(DialogTypeEnum.Alert, {
@@ -208,5 +208,77 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.profileForm.controls['newPassword'].setValue('');
     this.profileForm.controls['confirmPassword'].setValue('');
     this.cdr.detectChanges();
+  }
+
+  public confirmDeletePhoto(): void {
+    this.dialogService
+      .openDialog(DialogTypeEnum.ConfirmDelete, {
+        title: 'ПОВІДОМЛЕННЯ',
+        text: 'Ви впевнені, що хочете видалити фото?',
+      })
+      .afterClosed()
+      .subscribe({
+        next: (value) => {
+          if (value) {
+            this.deletePhoto();
+          }
+        },
+      });
+  }
+
+  private deletePhoto() {
+    this.usersService
+      .deleteCurrentUserPhoto()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (userWithToken: UserWithTokenInterface) => {
+          sessionStorage.setItem(
+            'token',
+            JSON.stringify(`Bearer ${userWithToken.token.token}`),
+          );
+          this.usersService.updateUserData(userWithToken.user);
+          this.cdr.detectChanges();
+          this.dialogService.openDialog(DialogTypeEnum.Alert, {
+            title: 'ПОВІДОМЛЕННЯ',
+            text: 'Фото успішно видалено.',
+          });
+        },
+        error: () => {
+          this.dialogService.openDialog(DialogTypeEnum.Alert, {
+            title: 'ПОВІДОМЛЕННЯ',
+            text: 'Щось пішло не так. Повторіть спробу пізніше.',
+          });
+        },
+      });
+  }
+
+  public updatePhoto(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files) {
+      const file = target.files[0];
+      this.usersService
+        .updateCurrentUserPhoto(file)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (userWithToken: UserWithTokenInterface) => {
+            sessionStorage.setItem(
+              'token',
+              JSON.stringify(`Bearer ${userWithToken.token.token}`),
+            );
+            this.usersService.updateUserData(userWithToken.user);
+            this.cdr.detectChanges();
+            this.dialogService.openDialog(DialogTypeEnum.Alert, {
+              title: 'ПОВІДОМЛЕННЯ',
+              text: 'Фото успішно оновлено.',
+            });
+          },
+          error: () => {
+            this.dialogService.openDialog(DialogTypeEnum.Alert, {
+              title: 'ПОВІДОМЛЕННЯ',
+              text: 'Щось пішло не так. Повторіть спробу пізніше.',
+            });
+          },
+        });
+    }
   }
 }

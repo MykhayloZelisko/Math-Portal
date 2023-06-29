@@ -7,10 +7,14 @@ import {
   Put,
   UseGuards,
   Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
   ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -21,6 +25,7 @@ import { AdminGuard } from '../auth/guards/admin/admin.guard';
 import { UpdateUserRoleDto } from './dto/update-user-role.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserWithTokenDto } from './dto/user-with-token.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Users')
 @Controller('users')
@@ -55,6 +60,16 @@ export class UsersController {
     return this.usersService.getCurrentUser({ token });
   }
 
+  @ApiOperation({ summary: 'Delete current user photo' })
+  @ApiResponse({ status: 200, type: UserWithTokenDto })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Delete('/current/photo')
+  public removeCurrentUserPhoto(@Req() request: Request) {
+    const token = request.headers['authorization'].split(' ')[1];
+    return this.usersService.removeCurrentUserPhoto({ token });
+  }
+
   @ApiOperation({ summary: 'Delete current user' })
   @ApiResponse({ status: 200 })
   @UseGuards(JwtAuthGuard)
@@ -74,6 +89,32 @@ export class UsersController {
     return this.usersService.removeUser(+id);
   }
 
+  @ApiOperation({ summary: 'Update current user photo' })
+  @ApiResponse({ status: 200, type: UserWithTokenDto })
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiBearerAuth()
+  @Put('/current/photo')
+  public updateCurrentUserPhoto(
+    @Req() request: Request,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    const token = request.headers['authorization'].split(' ')[1];
+    return this.usersService.updateCurrentUserPhoto(image, { token });
+  }
+
   @ApiOperation({ summary: 'Update current user' })
   @ApiResponse({ status: 200, type: UserWithTokenDto })
   @UseGuards(JwtAuthGuard)
@@ -84,6 +125,6 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     const token = request.headers['authorization'].split(' ')[1];
-    return this.usersService.updateUser({ token }, updateUserDto);
+    return this.usersService.updateCurrentUser({ token }, updateUserDto);
   }
 }

@@ -18,7 +18,25 @@
           />
         </ng-template>
       </div>
-      <button class="profile__btn profile__btn--delete">Видалити фото</button>
+      <div class="profile__photo-buttons">
+        <input
+          class="profile__file"
+          (change)="updatePhoto($event)"
+          type="file"
+          #fileUpload
+          accept="image/jpeg"
+        />
+        <button class="profile__btn" (click)="fileUpload.click()">
+          Оновити фото
+        </button>
+        <button
+          class="profile__btn profile__btn--delete"
+          [disabled]="user && !user.photo"
+          (click)="confirmDeletePhoto()"
+        >
+          Видалити фото
+        </button>
+      </div>
     </div>
     <div class="profile__field-group">
       <div class="profile__field profile__field--required">

@@ -51,6 +51,13 @@ export class User extends Model<User, UserCreationAttrsInterface> {
   @Column({ type: DataType.STRING, allowNull: false })
   public password: string;
 
+  @ApiProperty({
+    example: '0beb787a-e8c2-4c55-b225-aa117352c766',
+    description: 'unique photo name',
+  })
+  @Column({ type: DataType.STRING, defaultValue: null })
+  public photo: string | null;
+
   @ApiProperty({ example: false, description: 'User is an admin or not' })
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false })
   public isAdmin: boolean;
