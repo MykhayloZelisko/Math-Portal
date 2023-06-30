@@ -4,9 +4,6 @@ export class CreateCommentDto {
   @ApiProperty({ example: 'Comment', description: 'Content' })
   public content: string;
 
-  @ApiProperty({ example: 34, description: 'User id' })
-  public userId: number;
-
   @ApiProperty({ example: 123, description: 'Article id' })
   public articleId: number;
 

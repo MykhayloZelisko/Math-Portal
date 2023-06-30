@@ -5,7 +5,7 @@ import {
   Body,
   Param,
   Delete,
-  UseGuards,
+  UseGuards, Req,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -29,8 +29,9 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Post()
-  public createComment(@Body() createCommentDto: CreateCommentDto) {
-    return this.commentsService.createComment(createCommentDto);
+  public createComment(@Req() request: Request, @Body() createCommentDto: CreateCommentDto) {
+    const token = request.headers['authorization'].split(' ')[1];
+    return this.commentsService.createComment(createCommentDto, { token });
   }
 
   @ApiOperation({ summary: 'Get list of comments for current article' })

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -20,7 +20,8 @@ export class RatingController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Post()
-  public updateArticleRating(@Body() createRatingDto: CreateRatingDto) {
-    return this.ratingService.updateArticleRating(createRatingDto);
+  public updateArticleRating(@Req() request: Request, @Body() createRatingDto: CreateRatingDto) {
+    const token = request.headers['authorization'].split(' ')[1];
+    return this.ratingService.updateArticleRating(createRatingDto, { token });
   }
 }
