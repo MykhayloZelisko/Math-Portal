@@ -11,6 +11,8 @@ import { User } from '../../users/models/user.model';
 import { Article } from '../../articles/models/article.model';
 
 interface RatingCreationAttrsInterface {
+  articleId: number;
+  userId: number;
   rate: number;
 }
 

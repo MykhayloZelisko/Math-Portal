@@ -12,6 +12,8 @@ import { ArticlesService } from '../articles/articles.service';
 import { User } from '../users/models/user.model';
 import { FindOptions } from 'sequelize/types/model';
 import sequelize, { Op } from 'sequelize';
+import { TokenDto } from '../auth/dto/token.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class CommentsService {
@@ -20,13 +22,13 @@ export class CommentsService {
     @InjectModel(CommentsTree) private treeRepository: typeof CommentsTree,
     private usersService: UsersService,
     private articlesService: ArticlesService,
+    private jwtService: JwtService,
   ) {}
 
-  public async createComment(createCommentDto: CreateCommentDto) {
+  public async createComment(createCommentDto: CreateCommentDto, tokenDto: TokenDto) {
     if (
       !createCommentDto.content ||
       !createCommentDto.articleId ||
-      !createCommentDto.userId ||
       !createCommentDto.level ||
       !(
         createCommentDto.parentCommentId ||
@@ -36,48 +38,52 @@ export class CommentsService {
       throw new BadRequestException({ message: 'Comment is not created 1' });
     }
 
-    const user = await this.usersService.getUserById(createCommentDto.userId);
-    const article = await this.articlesService.getArticleById(
-      createCommentDto.articleId,
-    );
-    if (!user || !article) {
-      throw new BadRequestException({ message: 'Comment is not created 2' });
-    }
+    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    if (userByToken) {
+      const user = await this.usersService.getUserById(userByToken.id);
+      const article = await this.articlesService.getArticleById(
+        createCommentDto.articleId,
+      );
+      if (!user || !article) {
+        throw new BadRequestException({ message: 'Comment is not created' });
+      }
 
-    const comment = await this.commentRepository.create({
-      content: createCommentDto.content,
-      userId: createCommentDto.userId,
-    });
+      const comment = await this.commentRepository.create({
+        content: createCommentDto.content,
+        userId: user.id,
+      });
 
-    const ancestors = await this.commentRepository.findAll({
-      include: {
-        model: CommentsTree,
-        as: 'descendantsList',
-        where: {
-          descendantId: createCommentDto.parentCommentId,
+      const ancestors = await this.commentRepository.findAll({
+        include: {
+          model: CommentsTree,
+          as: 'descendantsList',
+          where: {
+            descendantId: createCommentDto.parentCommentId,
+          },
         },
-      },
-    });
-    ancestors.push(comment);
+      });
+      ancestors.push(comment);
 
-    for (const ancestor of ancestors) {
-      await this.treeRepository.create({
-        ancestorId: ancestor.id,
-        nearestAncestorId: createCommentDto.parentCommentId,
-        descendantId: comment.id,
-        level: createCommentDto.level,
-        articleId: createCommentDto.articleId,
+      for (const ancestor of ancestors) {
+        await this.treeRepository.create({
+          ancestorId: ancestor.id,
+          nearestAncestorId: createCommentDto.parentCommentId,
+          descendantId: comment.id,
+          level: createCommentDto.level,
+          articleId: createCommentDto.articleId,
+        });
+      }
+
+      return this.getCommentById(comment.id, {
+        include: [
+          {
+            association: 'user',
+            model: User,
+          },
+        ],
       });
     }
-
-    return this.getCommentById(comment.id, {
-      include: [
-        {
-          association: 'user',
-          model: User,
-        },
-      ],
-    });
+    throw new NotFoundException({ message: 'User not found'})
   }
 
   public async getCommentById(
