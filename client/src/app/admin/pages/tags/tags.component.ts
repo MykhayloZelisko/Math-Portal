@@ -7,8 +7,6 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './tags.component.html',
   styleUrls: ['./tags.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TagsComponent {
-
-}
+export class TagsComponent {}

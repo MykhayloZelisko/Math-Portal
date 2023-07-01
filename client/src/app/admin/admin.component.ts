@@ -11,7 +11,7 @@ import { AdminRouteNameEnum } from '../shared/models/enums/admin-route-name.enum
   imports: [CommonModule, TabsComponent, RouterOutlet],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminComponent {
   public tabs: TabItemInterface[] = [

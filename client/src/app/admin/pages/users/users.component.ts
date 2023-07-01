@@ -7,8 +7,6 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersComponent {
-
-}
+export class UsersComponent {}

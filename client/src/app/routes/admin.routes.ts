@@ -10,23 +10,23 @@ export const AdminRoutes: Routes = [
       {
         path: AdminRouteNameEnum.Users,
         loadComponent: () =>
-          import(
-            '../admin/pages/users/users.component'
-            ).then((m) => m.UsersComponent),
+          import('../admin/pages/users/users.component').then(
+            (m) => m.UsersComponent,
+          ),
         data: { path: AdminRouteNameEnum.Users },
       },
       {
         path: AdminRouteNameEnum.Tags,
         loadComponent: () =>
-          import(
-            '../admin/pages/tags/tags.component'
-            ).then((m) => m.TagsComponent),
-        data: { path: AdminRouteNameEnum.Tags }
+          import('../admin/pages/tags/tags.component').then(
+            (m) => m.TagsComponent,
+          ),
+        data: { path: AdminRouteNameEnum.Tags },
       },
       {
         path: '',
         redirectTo: AdminRouteNameEnum.Users,
       },
-    ]
+    ],
   },
 ];
