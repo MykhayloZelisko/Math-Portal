@@ -12,6 +12,10 @@ export const LayoutRoutes: Routes = [
         loadChildren: () => import('./user.routes').then((m) => m.UserRoutes),
       },
       {
+        path: LayoutRouteNameEnum.Admin,
+        loadChildren: () => import('./admin.routes').then((m) => m.AdminRoutes),
+      },
+      {
         path: LayoutRouteNameEnum.PageNotFound,
         loadComponent: () =>
           import('../user/pages/page-not-found/page-not-found.component').then(
