@@ -33,5 +33,5 @@ export const USERS_TABLE_HEADER: TableHeaderInterface[] = [
     tableContentPosition: 'end',
     isSortable: false,
     sorting: 'none',
-  }
-]
+  },
+];

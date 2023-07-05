@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { UsersService } from '../../shared/services/users.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdminGuard implements CanActivate {
   public constructor(

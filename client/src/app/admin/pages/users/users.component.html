@@ -1,9 +1,9 @@
-<div class='users'>
+<div class="users">
   <app-users-filter></app-users-filter>
   <app-users-table
     [tableContent]="usersTable"
-    [paginatorConfig]='paginatorConfig'
-    (changePaginatorConfig)='onChangePaginatorConfig($event)'
-    (sortColumn)='onSortColumn($event)'
+    [paginatorConfig]="paginatorConfig"
+    (changePaginatorConfig)="onChangePaginatorConfig($event)"
+    (sortColumn)="onSortColumn($event)"
   ></app-users-table>
 </div>

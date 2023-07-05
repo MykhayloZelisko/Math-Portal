@@ -7,8 +7,6 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './users-filter.component.html',
   styleUrls: ['./users-filter.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersFilterComponent {
-
-}
+export class UsersFilterComponent {}

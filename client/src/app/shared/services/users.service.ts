@@ -52,17 +52,18 @@ export class UsersService {
     );
   }
 
-  public getUsersList(tableParams: UsersTableParamsInterface): Observable<UsersTableInterface> {
+  public getUsersList(
+    tableParams: UsersTableParamsInterface,
+  ): Observable<UsersTableInterface> {
     let params = new HttpParams();
     params = params.append('page', tableParams.page);
     params = params.append('size', tableParams.size);
     params = params.append('sortByName', tableParams.sortByName);
     params = params.append('sortByRole', tableParams.sortByRole);
     params = params.append('filter', tableParams.filter);
-    return this.httpClient.get<UsersTableInterface>(
-      `${this.baseUrl}`,
-      { params },
-    )
+    return this.httpClient.get<UsersTableInterface>(`${this.baseUrl}`, {
+      params,
+    });
   }
 
   public updateUserData(user: UserInterface | null): void {

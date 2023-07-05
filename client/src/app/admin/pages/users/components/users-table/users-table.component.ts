@@ -9,37 +9,33 @@ import {
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  TableHeaderInterface
-} from '../../../../../shared/models/interfaces/table-header.interface';
+import { TableHeaderInterface } from '../../../../../shared/models/interfaces/table-header.interface';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { UsersTableInterface } from '../../../../../shared/models/interfaces/users-table.interface';
 import { SortingType } from '../../../../../shared/models/types/sorting.type';
 import { USERS_TABLE_HEADER } from '../../../../../shared/models/constants/user-table-header';
-import {
-  TableContentPositionType
-} from '../../../../../shared/models/types/table-content-position.type';
-import {
-  HeaderContentPositionType
-} from '../../../../../shared/models/types/header-content-position.type';
+import { TableContentPositionType } from '../../../../../shared/models/types/table-content-position.type';
+import { HeaderContentPositionType } from '../../../../../shared/models/types/header-content-position.type';
 import { NgxPaginationModule } from 'ngx-pagination';
-import {
-  PaginatorConfigInterface
-} from '../../../../../shared/models/interfaces/paginator-config.interface';
+import { PaginatorConfigInterface } from '../../../../../shared/models/interfaces/paginator-config.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import {
-  UsersTableColumnNameEnum
-} from '../../../../../shared/models/enums/users-table-column-name.enum';
+import { UsersTableColumnNameEnum } from '../../../../../shared/models/enums/users-table-column-name.enum';
 import { SortColumnInterface } from '../../../../../shared/models/interfaces/sort-column.interface';
 
 @Component({
   selector: 'app-users-table',
   standalone: true,
-  imports: [CommonModule, AngularSvgIconModule, NgxPaginationModule, ReactiveFormsModule, MatSelectModule],
+  imports: [
+    CommonModule,
+    AngularSvgIconModule,
+    NgxPaginationModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+  ],
   templateUrl: './users-table.component.html',
   styleUrls: ['./users-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersTableComponent implements OnInit, OnChanges {
   @Input()
@@ -53,10 +49,12 @@ export class UsersTableComponent implements OnInit, OnChanges {
   // @Input() public clearCurrentPageField = false;
 
   @Output()
-  public changePaginatorConfig: EventEmitter<PaginatorConfigInterface> = new EventEmitter<PaginatorConfigInterface>();
+  public changePaginatorConfig: EventEmitter<PaginatorConfigInterface> =
+    new EventEmitter<PaginatorConfigInterface>();
 
   @Output()
-  public sortColumn: EventEmitter<SortColumnInterface> = new EventEmitter<SortColumnInterface>();
+  public sortColumn: EventEmitter<SortColumnInterface> =
+    new EventEmitter<SortColumnInterface>();
 
   // @Output()
   // public clearPageControl: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -82,27 +80,30 @@ export class UsersTableComponent implements OnInit, OnChanges {
     if (this.tableContent && !this.isPaginatorInit) {
       this.initPaginator();
     }
-  //   if (this.clearCurrentPageField) {
-  //     this.paginationForm.controls['currentPage'].setValue(1);
-  //     this.clearPageControl.emit(false);
-  //   }
+    //   if (this.clearCurrentPageField) {
+    //     this.paginationForm.controls['currentPage'].setValue(1);
+    //     this.clearPageControl.emit(false);
+    //   }
   }
 
   public onSortColumn(columnName: UsersTableColumnNameEnum): void {
     switch (this.sortParams[columnName]) {
-    case 'default':
-      this.sortParams[columnName] = 'asc';
-      break;
-    case 'asc':
-      this.sortParams[columnName] = 'desc';
-      break;
-    case 'desc':
-      this.sortParams[columnName] = 'default';
-      break;
-    default:
-      break;
+      case 'default':
+        this.sortParams[columnName] = 'asc';
+        break;
+      case 'asc':
+        this.sortParams[columnName] = 'desc';
+        break;
+      case 'desc':
+        this.sortParams[columnName] = 'default';
+        break;
+      default:
+        break;
     }
-    this.sortColumn.emit({columnName: columnName, sorting: this.sortParams[columnName]});
+    this.sortColumn.emit({
+      columnName: columnName,
+      sorting: this.sortParams[columnName],
+    });
     this.paginationForm.controls['currentPage'].setValue(1);
   }
 

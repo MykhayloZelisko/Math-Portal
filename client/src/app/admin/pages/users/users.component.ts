@@ -10,17 +10,11 @@ import { UsersFilterComponent } from './components/users-filter/users-filter.com
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { Subject, takeUntil } from 'rxjs';
 import { UsersService } from '../../../shared/services/users.service';
-import {
-  UsersTableParamsInterface,
-} from '../../../shared/models/interfaces/users-table-params.interface';
+import { UsersTableParamsInterface } from '../../../shared/models/interfaces/users-table-params.interface';
 import { UsersTableInterface } from '../../../shared/models/interfaces/users-table.interface';
-import {
-  PaginatorConfigInterface,
-} from '../../../shared/models/interfaces/paginator-config.interface';
+import { PaginatorConfigInterface } from '../../../shared/models/interfaces/paginator-config.interface';
 import { SortColumnInterface } from '../../../shared/models/interfaces/sort-column.interface';
-import {
-  UsersTableColumnNameEnum,
-} from '../../../shared/models/enums/users-table-column-name.enum';
+import { UsersTableColumnNameEnum } from '../../../shared/models/enums/users-table-column-name.enum';
 
 @Component({
   selector: 'app-users',
@@ -59,9 +53,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private initUsersTable(
-    params: UsersTableParamsInterface,
-  ): void {
+  private initUsersTable(params: UsersTableParamsInterface): void {
     this.usersService
       .getUsersList(params)
       .pipe(takeUntil(this.destroy$))
@@ -93,10 +85,10 @@ export class UsersComponent implements OnInit, OnDestroy {
     };
     if (event.columnName === UsersTableColumnNameEnum.Role) {
       this.filterParams.sortByRole = event.sorting;
-    };
+    }
     if (event.columnName === UsersTableColumnNameEnum.UserName) {
       this.filterParams.sortByName = event.sorting;
-    };
+    }
     this.initUsersTable(this.filterParams);
   }
 }
