@@ -21,8 +21,7 @@ import {
 import { UserWithTokenInterface } from '../../../shared/models/interfaces/user-with-token.interface';
 import { DialogService } from '../../../shared/services/dialog.service';
 import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
-import { HttpErrorResponse } from '@angular/common/http';
-import { StatusCodeEnum } from '../../../shared/models/enums/status-code.enum';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
@@ -136,7 +135,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           });
         },
         error: (err: HttpErrorResponse) => {
-          if (err.status === StatusCodeEnum.BadRequest) {
+          if (err.status === HttpStatusCode.BadRequest) {
             this.clearPasswordFields();
             this.dialogService.openDialog(DialogTypeEnum.Alert, {
               title: 'ПОВІДОМЛЕННЯ',
