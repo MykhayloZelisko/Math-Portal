@@ -15,7 +15,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from '../auth/auth.service';
 import * as bcrypt from 'bcryptjs';
-import { FindOptions } from 'sequelize';
+import { FindOptions, Op } from 'sequelize';
 import { FilesService } from '../files/files.service';
 
 @Injectable()
@@ -35,6 +35,54 @@ export class UsersService {
   public async getAllUsers(options?: FindOptions<User>) {
     const users = await this.userRepository.findAll(options);
     return users;
+  }
+
+  public async getAllUsersWithParams(
+    page: number,
+    size: number,
+    sortByName: string,
+    sortByRole: string,
+    filter: string,
+  ) {
+    const order = [];
+    if (
+      sortByRole.toLowerCase() === 'asc' ||
+      sortByRole.toLowerCase() === 'desc'
+    ) {
+      order.push([['isAdmin', sortByRole]]);
+    }
+    if (
+      sortByName.toLowerCase() === 'asc' ||
+      sortByName.toLowerCase() === 'desc'
+    ) {
+      order.push([['fullName', sortByName]]);
+    }
+
+    let filterOptions: FindOptions<User> = {
+      offset: (page - 1) * size,
+      limit: size,
+      order: order,
+    };
+    let countOptions: FindOptions<User> | null = null;
+    if (!!filter && !!filter.trim()) {
+      countOptions = {
+        where: {
+          fullName: {
+            [Op.substring]: filter,
+          },
+        },
+      };
+      filterOptions = {
+        ...countOptions,
+        ...filterOptions,
+      };
+    }
+
+    const users = await this.getAllUsers(filterOptions);
+    const total = countOptions
+      ? await this.userRepository.count(countOptions)
+      : await this.userRepository.count();
+    return { total, users };
   }
 
   public async removeUser(id: number) {

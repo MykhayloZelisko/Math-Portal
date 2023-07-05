@@ -10,7 +10,6 @@
     background-color: $gray-4;
     height: 1px;
     bottom: 0;
-    z-index: 1;
   }
 }
 
@@ -18,11 +17,10 @@
   .mat-mdc-tab-nav-bar {
     width: fit-content;
     height: 100%;
-    z-index: 2;
   }
 
   .mat-ripple-element {
-    background-color: $brown-1 !important;
+    background-color: $brown-2 !important;
   }
 
   .mat-mdc-tab-links {
@@ -38,7 +36,7 @@
 
   /* stylelint-disable */
   .mdc-tab-indicator__content--underline {
-    border-color: $brown-1 !important;
+    border-color: $brown-2 !important;
     border-top-width: 3px !important;
   }
 
@@ -47,16 +45,16 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 18px !important;
-    color: $brown-1 !important;
+    color: $brown-2 !important;
     letter-spacing: normal !important;
   }
 
   .mdc-tab--active .mdc-tab__text-label {
-    color: $brown-1 !important;
+    color: $brown-2 !important;
   }
 
   .mdc-tab__ripple::before {
-    background-color: $brown-1 !important;
+    background-color: $brown-2 !important;
   }
 }
 /* stylelint-enable */
