@@ -1,0 +1,106 @@
+<table class="users-table" *ngIf='tableContent'>
+  <thead class="users-table__header">
+  <tr class="users-table__header-row">
+    <th class="users-table__header-cell" *ngFor="let headerItem of usersTableHeader">
+      <div
+        class="users-table__header-cell-wrapper"
+        [ngStyle]="getHeaderStyle(headerItem)"
+      >
+        <span>{{ headerItem.title }}</span>
+        <button
+          class="users-table__sort-button"
+          *ngIf="headerItem.isSortable"
+          (click)='onSortColumn(headerItem.columnName)'
+        >
+          <svg-icon
+            src="assets/images/table-swap.svg"
+            [ngClass]="{
+                'users-table__sort-icon--down':
+                  sortParams[headerItem.columnName] === 'desc',
+                'users-table__sort-icon--up':
+                  sortParams[headerItem.columnName] === 'asc',
+                'users-table__sort-icon':
+                  sortParams[headerItem.columnName] === 'default'
+              }"
+          ></svg-icon>
+        </button>
+      </div>
+    </th>
+  </tr>
+  </thead>
+  <tbody class="users-table__body">
+    <tr
+      class="users-table__row"
+      *ngFor="
+          let user of tableContent.users
+          | paginate: paginatorConfig
+        "
+    >
+      <td class="users-table__cell" [ngStyle]="getContentPosition(0)">
+        {{user.fullName}}
+      </td>
+      <td class="users-table__cell" [ngStyle]="getContentPosition(1)">
+        {{user.email}}
+      </td>
+      <td class="users-table__cell" [ngStyle]="getContentPosition(2)">
+        <button class="users-table__btn users-table__btn--user" *ngIf='!user.isAdmin'>Користувач</button>
+        <button class="users-table__btn users-table__btn--admin" *ngIf='user.isAdmin'>Адміністратор</button>
+      </td>
+      <td class="users-table__cell" [ngStyle]="getContentPosition(3)">
+        <button class="users-table__delete-btn">
+          <svg-icon class="users-table__delete-img" src="assets/images/delete.svg"></svg-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot class="users-table__footer">
+    <tr>
+      <td colspan="100%">
+        <div class="users-table__footer-cell">
+          <div>
+            <span class="users-table__total">Всього користувачів: {{ tableContent.total }}</span>
+          </div>
+          <div class="users-table__paginator">
+            <form class="users-table__paginator-form" [formGroup]="paginationForm">
+              <div>
+                <span class="users-table__footer-label">Рядків на сторінку</span>
+                <mat-form-field appearance="outline">
+                  <mat-select
+                    formControlName="pageSize"
+                    (selectionChange)="updatePageSize()"
+                  >
+                    <mat-option
+                      *ngFor="let item of rowsPerPage"
+                      [value]="item"
+                    >{{ item }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div>
+                <span class="users-table__footer-label">До сторінки</span>
+                <mat-form-field appearance="outline">
+                  <mat-select
+                    formControlName="currentPage"
+                    (selectionChange)="updateCurrentPage()"
+                  >
+                    <mat-option
+                      *ngFor="let row of pageArray; let i = index"
+                      [value]="i + 1"
+                    >{{ i + 1 }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </form>
+            <pagination-controls
+              previousLabel=""
+              nextLabel=""
+              (pageChange)="onPageChange($event)"
+            ></pagination-controls>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tfoot>
+</table>

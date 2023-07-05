@@ -43,6 +43,12 @@ export class User extends Model<User, UserCreationAttrsInterface> {
   @Column({ type: DataType.STRING, allowNull: false })
   public lastName: string;
 
+  @ApiProperty({ example: 'John Doe', description: 'Full name' })
+  @Column({ type: DataType.STRING, allowNull: false })
+  public get fullName(): string {
+    return `${this.firstName} ${this.lastName}`
+  };
+
   @ApiProperty({ example: 'email@mail.com', description: 'Email' })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   public email: string;

@@ -54,7 +54,6 @@ export class TabsComponent implements OnInit, OnDestroy {
   private setActiveRoute() {
     this.activeRoute = this.activatedRoute.children[0]?.snapshot.data['path'];
     this.changeDetector.detectChanges();
-    console.log(this.activeRoute, this.activatedRoute.children[0]?.snapshot);
   }
 
   public ngOnDestroy(): void {

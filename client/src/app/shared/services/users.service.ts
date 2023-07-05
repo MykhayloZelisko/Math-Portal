@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserInterface } from '../models/interfaces/user.interface';
 import { UserWithTokenInterface } from '../models/interfaces/user-with-token.interface';
+import { UsersTableParamsInterface } from '../models/interfaces/users-table-params.interface';
+import { UsersTableInterface } from '../models/interfaces/users-table.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +50,19 @@ export class UsersService {
       `${this.baseUrl}/current/photo`,
       formData,
     );
+  }
+
+  public getUsersList(tableParams: UsersTableParamsInterface): Observable<UsersTableInterface> {
+    let params = new HttpParams();
+    params = params.append('page', tableParams.page);
+    params = params.append('size', tableParams.size);
+    params = params.append('sortByName', tableParams.sortByName);
+    params = params.append('sortByRole', tableParams.sortByRole);
+    params = params.append('filter', tableParams.filter);
+    return this.httpClient.get<UsersTableInterface>(
+      `${this.baseUrl}`,
+      { params },
+    )
   }
 
   public updateUserData(user: UserInterface | null): void {
