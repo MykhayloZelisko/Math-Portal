@@ -16,7 +16,9 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     if (
       request.url.includes('auth') ||
-      (request.url.includes('tag') && request.method === 'GET')
+      (request.url.includes('tags') && request.method === 'GET') ||
+      (request.url.includes('articles') && request.method === 'GET') ||
+      (request.url.includes('comments') && request.method === 'GET')
     ) {
       return next.handle(request);
     } else {

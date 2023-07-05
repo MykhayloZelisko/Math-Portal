@@ -138,11 +138,9 @@ export class UsersService {
 
   public async getCurrentUser(tokenDto: TokenDto) {
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
-    if (userByToken) {
-      const user = await this.userRepository.findByPk(userByToken.id);
-      if (user) {
-        return user;
-      }
+    const user = await this.userRepository.findByPk(userByToken.id);
+    if (user) {
+      return user;
     }
     throw new NotFoundException({ message: 'User not found' });
   }
@@ -160,42 +158,38 @@ export class UsersService {
       throw new BadRequestException({ message: 'User is not updated' });
     }
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
-    if (userByToken) {
-      const user = await this.userRepository.findByPk(userByToken.id);
-      if (user) {
-        const passwordEquals = await bcrypt.compare(
-          updateUserDto.password,
-          user.password,
-        );
-        if (!passwordEquals) {
-          throw new BadRequestException({ message: 'Password is incorrect' });
-        }
-        const hashPassword = updateUserDto.newPassword
-          ? await bcrypt.hash(updateUserDto.newPassword, 5)
-          : user.password;
-        user.email = updateUserDto.email;
-        user.lastName = updateUserDto.lastName;
-        user.firstName = updateUserDto.firstName;
-        user.password = hashPassword;
-        const newUser = await user.save();
-        const token = await this.authService.generateToken(newUser);
-        return { user: newUser, token: token };
+    const user = await this.userRepository.findByPk(userByToken.id);
+    if (user) {
+      const passwordEquals = await bcrypt.compare(
+        updateUserDto.password,
+        user.password,
+      );
+      if (!passwordEquals) {
+        throw new BadRequestException({ message: 'Password is incorrect' });
       }
+      const hashPassword = updateUserDto.newPassword
+        ? await bcrypt.hash(updateUserDto.newPassword, 5)
+        : user.password;
+      user.email = updateUserDto.email;
+      user.lastName = updateUserDto.lastName;
+      user.firstName = updateUserDto.firstName;
+      user.password = hashPassword;
+      const newUser = await user.save();
+      const token = await this.authService.generateToken(newUser);
+      return { user: newUser, token: token };
     }
     throw new NotFoundException({ message: 'User not found' });
   }
 
   public async removeCurrentUserPhoto(tokenDto: TokenDto) {
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
-    if (userByToken) {
-      const user = await this.userRepository.findByPk(userByToken.id);
-      if (user && user.photo) {
-        await this.filesService.removeImageFile(user.photo);
-        user.photo = null;
-        const newUser = await user.save();
-        const token = await this.authService.generateToken(newUser);
-        return { user: newUser, token: token };
-      }
+    const user = await this.userRepository.findByPk(userByToken.id);
+    if (user && user.photo) {
+      await this.filesService.removeImageFile(user.photo);
+      user.photo = null;
+      const newUser = await user.save();
+      const token = await this.authService.generateToken(newUser);
+      return { user: newUser, token: token };
     }
     throw new NotFoundException({ message: 'User not found' });
   }
@@ -205,22 +199,20 @@ export class UsersService {
     tokenDto: TokenDto,
   ) {
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
-    if (userByToken) {
-      const user = await this.userRepository.findByPk(userByToken.id);
-      if (user) {
-        try {
-          if (user.photo) {
-            await this.filesService.removeImageFile(user.photo);
-          }
-          user.photo = await this.filesService.createImageFile(image);
-          const newUser = await user.save();
-          const token = await this.authService.generateToken(newUser);
-          return { user: newUser, token: token };
-        } catch (err) {
-          throw new InternalServerErrorException({
-            message: 'User photo is not updated',
-          });
+    const user = await this.userRepository.findByPk(userByToken.id);
+    if (user) {
+      try {
+        if (user.photo) {
+          await this.filesService.removeImageFile(user.photo);
         }
+        user.photo = await this.filesService.createImageFile(image);
+        const newUser = await user.save();
+        const token = await this.authService.generateToken(newUser);
+        return { user: newUser, token: token };
+      } catch (err) {
+        throw new InternalServerErrorException({
+          message: 'User photo is not updated',
+        });
       }
     }
     throw new NotFoundException({ message: 'User not found' });

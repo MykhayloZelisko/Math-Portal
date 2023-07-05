@@ -42,51 +42,44 @@ export class CommentsService {
     }
 
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
-    if (userByToken) {
-      const user = await this.usersService.getUserById(userByToken.id);
-      const article = await this.articlesService.getArticleById(
-        createCommentDto.articleId,
-      );
-      if (!user || !article) {
-        throw new BadRequestException({ message: 'Comment is not created' });
-      }
-
-      const comment = await this.commentRepository.create({
-        content: createCommentDto.content,
-        userId: user.id,
-      });
-
-      const ancestors = await this.commentRepository.findAll({
-        include: {
-          model: CommentsTree,
-          as: 'descendantsList',
-          where: {
-            descendantId: createCommentDto.parentCommentId,
-          },
+    const user = await this.usersService.getUserById(userByToken.id);
+    const article = await this.articlesService.getArticleById(
+      createCommentDto.articleId,
+    );
+    if (!user || !article) {
+      throw new BadRequestException({ message: 'Comment is not created' });
+    }
+    const comment = await this.commentRepository.create({
+      content: createCommentDto.content,
+      userId: user.id,
+    });
+    const ancestors = await this.commentRepository.findAll({
+      include: {
+        model: CommentsTree,
+        as: 'descendantsList',
+        where: {
+          descendantId: createCommentDto.parentCommentId,
         },
-      });
-      ancestors.push(comment);
-
-      for (const ancestor of ancestors) {
-        await this.treeRepository.create({
-          ancestorId: ancestor.id,
-          nearestAncestorId: createCommentDto.parentCommentId,
-          descendantId: comment.id,
-          level: createCommentDto.level,
-          articleId: createCommentDto.articleId,
-        });
-      }
-
-      return this.getCommentById(comment.id, {
-        include: [
-          {
-            association: 'user',
-            model: User,
-          },
-        ],
+      },
+    });
+    ancestors.push(comment);
+    for (const ancestor of ancestors) {
+      await this.treeRepository.create({
+        ancestorId: ancestor.id,
+        nearestAncestorId: createCommentDto.parentCommentId,
+        descendantId: comment.id,
+        level: createCommentDto.level,
+        articleId: createCommentDto.articleId,
       });
     }
-    throw new NotFoundException({ message: 'User not found' });
+    return this.getCommentById(comment.id, {
+      include: [
+        {
+          association: 'user',
+          model: User,
+        },
+      ],
+    });
   }
 
   public async getCommentById(

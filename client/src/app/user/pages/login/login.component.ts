@@ -7,9 +7,8 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { UsersService } from '../../../shared/services/users.service';
 import { TokenInterface } from '../../../shared/models/interfaces/token.interface';
 import { UserInterface } from '../../../shared/models/interfaces/user.interface';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { DialogService } from '../../../shared/services/dialog.service';
-import { StatusCodeEnum } from '../../../shared/models/enums/status-code.enum';
 import {
   requiredValidator,
   showErrorMessage,
@@ -68,7 +67,7 @@ export class LoginComponent implements OnDestroy {
           this.router.navigateByUrl('');
         },
         error: (err: HttpErrorResponse) => {
-          if (err.status === StatusCodeEnum.Unauthorized) {
+          if (err.status === HttpStatusCode.Unauthorized) {
             this.dialogService.openDialog(DialogTypeEnum.Alert, {
               title: 'ПОВІДОМЛЕННЯ',
               text: 'Невірна електронна пошта або пароль. Перевірте введені дані та повторіть спробу.',

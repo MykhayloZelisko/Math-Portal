@@ -53,8 +53,6 @@ import * as path from 'path';
     FilesModule,
     ServeStaticModule.forRoot({
       rootPath: path.resolve(__dirname, '..', 'static'),
-      // serveRoot: path.resolve(__dirname, '..', 'static'),
-      // renderPath:path.resolve(__dirname, '..', 'static'),
     }),
   ],
   controllers: [],

@@ -28,37 +28,34 @@ export class RatingService {
       throw new BadRequestException({ message: 'Rating is not updated' });
     }
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
-    if (userByToken) {
-      const user = await this.usersService.getUserById(userByToken.id);
-      const article = await this.articlesService.getArticleById(
-        createRatingDto.articleId,
-      );
-      if (!user || !article) {
-        throw new BadRequestException({ message: 'Rating is not updated' });
-      }
-      const rating = await this.ratingRepository.create({
-        ...createRatingDto,
-        userId: user.id,
-      });
-      await rating.$set('user', user);
-      await rating.$set('article', article);
-      const sumRatingCurrentArticle = await this.ratingRepository.sum('rate', {
-        where: {
-          articleId: createRatingDto.articleId,
-        },
-      });
-      const countRatingCurrentArticle = await this.ratingRepository.count({
-        where: {
-          articleId: createRatingDto.articleId,
-        },
-      });
-      const articleRating = sumRatingCurrentArticle / countRatingCurrentArticle;
-      article.rating = articleRating;
-      await article.save();
-      return {
-        rating: articleRating,
-      };
+    const user = await this.usersService.getUserById(userByToken.id);
+    const article = await this.articlesService.getArticleById(
+      createRatingDto.articleId,
+    );
+    if (!user || !article) {
+      throw new BadRequestException({ message: 'Rating is not updated' });
     }
-    throw new NotFoundException({ message: 'User not found' });
+    const rating = await this.ratingRepository.create({
+      ...createRatingDto,
+      userId: user.id,
+    });
+    await rating.$set('user', user);
+    await rating.$set('article', article);
+    const sumRatingCurrentArticle = await this.ratingRepository.sum('rate', {
+      where: {
+        articleId: createRatingDto.articleId,
+      },
+    });
+    const countRatingCurrentArticle = await this.ratingRepository.count({
+      where: {
+        articleId: createRatingDto.articleId,
+      },
+    });
+    const articleRating = sumRatingCurrentArticle / countRatingCurrentArticle;
+    article.rating = articleRating;
+    await article.save();
+    return {
+      rating: articleRating,
+    };
   }
 }
