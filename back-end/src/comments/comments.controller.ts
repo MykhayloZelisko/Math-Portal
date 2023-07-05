@@ -5,7 +5,8 @@ import {
   Body,
   Param,
   Delete,
-  UseGuards, Req,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -29,7 +30,10 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Post()
-  public createComment(@Req() request: Request, @Body() createCommentDto: CreateCommentDto) {
+  public createComment(
+    @Req() request: Request,
+    @Body() createCommentDto: CreateCommentDto,
+  ) {
     const token = request.headers['authorization'].split(' ')[1];
     return this.commentsService.createComment(createCommentDto, { token });
   }

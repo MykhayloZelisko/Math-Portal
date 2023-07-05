@@ -6,13 +6,15 @@ export class UsersListDto {
   public readonly total: number;
 
   @ApiProperty({
-    example: [{
-      id: 1,
-      email: 'test@email',
-      firstName: 'John',
-      lastName: 'Doe',
-      isAdmin: false,
-    }],
+    example: [
+      {
+        id: 1,
+        email: 'test@email',
+        firstName: 'John',
+        lastName: 'Doe',
+        isAdmin: false,
+      },
+    ],
     description: 'Array of users',
   })
   public readonly users: User[];

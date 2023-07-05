@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Rating } from './models/rating.model';
@@ -16,11 +20,11 @@ export class RatingService {
     @InjectModel(Rating) private ratingRepository: typeof Rating,
   ) {}
 
-  public async updateArticleRating(createRatingDto: CreateRatingDto, tokenDto: TokenDto) {
-    if (
-      !createRatingDto.rate ||
-      !createRatingDto.articleId
-    ) {
+  public async updateArticleRating(
+    createRatingDto: CreateRatingDto,
+    tokenDto: TokenDto,
+  ) {
+    if (!createRatingDto.rate || !createRatingDto.articleId) {
       throw new BadRequestException({ message: 'Rating is not updated' });
     }
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
@@ -32,7 +36,10 @@ export class RatingService {
       if (!user || !article) {
         throw new BadRequestException({ message: 'Rating is not updated' });
       }
-      const rating = await this.ratingRepository.create({ ...createRatingDto, userId: user.id });
+      const rating = await this.ratingRepository.create({
+        ...createRatingDto,
+        userId: user.id,
+      });
       await rating.$set('user', user);
       await rating.$set('article', article);
       const sumRatingCurrentArticle = await this.ratingRepository.sum('rate', {
@@ -52,6 +59,6 @@ export class RatingService {
         rating: articleRating,
       };
     }
-    throw new NotFoundException({ message: 'User not found'})
+    throw new NotFoundException({ message: 'User not found' });
   }
 }

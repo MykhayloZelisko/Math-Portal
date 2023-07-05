@@ -8,7 +8,8 @@ import {
   UseGuards,
   Req,
   UploadedFile,
-  UseInterceptors, Query,
+  UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
@@ -54,7 +55,13 @@ export class UsersController {
     @Query('sortByRole') sortByRole: string,
     @Query('filter') filter: string,
   ) {
-    return this.usersService.getAllUsersWithParams(page, size, sortByName, sortByRole, filter);
+    return this.usersService.getAllUsersWithParams(
+      page,
+      size,
+      sortByName,
+      sortByRole,
+      filter,
+    );
   }
 
   @ApiOperation({ summary: 'Get current user' })

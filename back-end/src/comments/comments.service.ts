@@ -25,7 +25,10 @@ export class CommentsService {
     private jwtService: JwtService,
   ) {}
 
-  public async createComment(createCommentDto: CreateCommentDto, tokenDto: TokenDto) {
+  public async createComment(
+    createCommentDto: CreateCommentDto,
+    tokenDto: TokenDto,
+  ) {
     if (
       !createCommentDto.content ||
       !createCommentDto.articleId ||
@@ -83,7 +86,7 @@ export class CommentsService {
         ],
       });
     }
-    throw new NotFoundException({ message: 'User not found'})
+    throw new NotFoundException({ message: 'User not found' });
   }
 
   public async getCommentById(

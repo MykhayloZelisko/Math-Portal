@@ -20,7 +20,10 @@ export class RatingController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Post()
-  public updateArticleRating(@Req() request: Request, @Body() createRatingDto: CreateRatingDto) {
+  public updateArticleRating(
+    @Req() request: Request,
+    @Body() createRatingDto: CreateRatingDto,
+  ) {
     const token = request.headers['authorization'].split(' ')[1];
     return this.ratingService.updateArticleRating(createRatingDto, { token });
   }

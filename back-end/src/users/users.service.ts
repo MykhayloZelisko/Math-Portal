@@ -42,15 +42,21 @@ export class UsersService {
     size: number,
     sortByName: string,
     sortByRole: string,
-    filter: string
+    filter: string,
   ) {
     const order = [];
-    if (sortByRole.toLowerCase() === 'asc' || sortByRole.toLowerCase() === 'desc') {
-      order.push([['isAdmin', sortByRole]])
-    };
-    if (sortByName.toLowerCase() === 'asc' || sortByName.toLowerCase() === 'desc') {
+    if (
+      sortByRole.toLowerCase() === 'asc' ||
+      sortByRole.toLowerCase() === 'desc'
+    ) {
+      order.push([['isAdmin', sortByRole]]);
+    }
+    if (
+      sortByName.toLowerCase() === 'asc' ||
+      sortByName.toLowerCase() === 'desc'
+    ) {
       order.push([['fullName', sortByName]]);
-    };
+    }
 
     let filterOptions: FindOptions<User> = {
       offset: (page - 1) * size,
@@ -62,18 +68,20 @@ export class UsersService {
       countOptions = {
         where: {
           fullName: {
-            [Op.substring]: filter
-          }
+            [Op.substring]: filter,
+          },
         },
-      }
+      };
       filterOptions = {
         ...countOptions,
-        ...filterOptions
-      }
-    };
+        ...filterOptions,
+      };
+    }
 
     const users = await this.getAllUsers(filterOptions);
-    const total = countOptions ? await this.userRepository.count(countOptions) : await this.userRepository.count();
+    const total = countOptions
+      ? await this.userRepository.count(countOptions)
+      : await this.userRepository.count();
     return { total, users };
   }
 
