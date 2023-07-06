@@ -110,7 +110,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.initUsersTable(this.filterParams);
   }
 
-  public updateUserRole(event: UpdateUserRoleInterface): void {
+  private updateUserRole(event: UpdateUserRoleInterface): void {
     this.usersService.updateUserRole(event).pipe(takeUntil(this.destroy$)).subscribe({
       next: (user: UserWithNullTokenInterface) => {
         if(user.token) {
@@ -182,5 +182,25 @@ export class UsersComponent implements OnInit, OnDestroy {
           }
         }
       })
+  }
+
+  public confirmUpdateUserRole(event: UpdateUserRoleInterface) {
+    const currentUser = this.usersService.user$.getValue();
+    if (currentUser && currentUser.id === event.userId) {
+      this.dialogService.openDialog(DialogTypeEnum.ConfirmUpdateCurrentUserRole, {
+        title: 'ПОВІДОМЛЕННЯ',
+        text: 'Ви понижуєте себе до звичайного користувача. Бажаєте продовжити?',
+      })
+        .afterClosed()
+        .subscribe({
+          next: (value) => {
+            if (value) {
+              this.updateUserRole(event)
+            }
+          }
+        })
+    } else {
+      this.updateUserRole(event)
+    }
   }
 }
