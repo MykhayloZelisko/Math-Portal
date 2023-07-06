@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Rating } from './models/rating.model';

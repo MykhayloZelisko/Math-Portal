@@ -40,7 +40,10 @@ export class UsersController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Put('/role')
-  public updateUserRole(@Req() request: Request, @Body() updateUserRoleDto: UpdateUserRoleDto) {
+  public updateUserRole(
+    @Req() request: Request,
+    @Body() updateUserRoleDto: UpdateUserRoleDto,
+  ) {
     const token = request.headers['authorization'].split(' ')[1];
     return this.usersService.updateUserRole(updateUserRoleDto, { token });
   }

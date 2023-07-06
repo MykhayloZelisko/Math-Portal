@@ -120,7 +120,10 @@ export class UsersService {
     return user;
   }
 
-  public async updateUserRole(updateUserRoleDto: UpdateUserRoleDto, tokenDto: TokenDto) {
+  public async updateUserRole(
+    updateUserRoleDto: UpdateUserRoleDto,
+    tokenDto: TokenDto,
+  ) {
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
     const currentUser = await this.userRepository.findByPk(userByToken.id);
     const user = await this.getUserById(updateUserRoleDto.userId);

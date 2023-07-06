@@ -63,7 +63,7 @@ export class CommentsService {
       },
     });
     ancestors.push(comment);
-    
+
     for (const ancestor of ancestors) {
       await this.treeRepository.create({
         ancestorId: ancestor.id,
