@@ -28,6 +28,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UserWithTokenDto } from './dto/user-with-token.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersListDto } from './dto/users-list.dto';
+import { UserWithNullTokenDto } from './dto/user-with-null-token.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -35,12 +36,16 @@ export class UsersController {
   public constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ summary: 'Update user role' })
-  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: 200, type: UserWithNullTokenDto })
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Put('/role')
-  public updateUserRole(@Body() updateUserRoleDto: UpdateUserRoleDto) {
-    return this.usersService.updateUserRole(updateUserRoleDto);
+  public updateUserRole(
+    @Req() request: Request,
+    @Body() updateUserRoleDto: UpdateUserRoleDto,
+  ) {
+    const token = request.headers['authorization'].split(' ')[1];
+    return this.usersService.updateUserRole(updateUserRoleDto, { token });
   }
 
   @ApiOperation({ summary: 'Get all users' })

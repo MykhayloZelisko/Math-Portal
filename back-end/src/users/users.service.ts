@@ -120,9 +120,14 @@ export class UsersService {
     return user;
   }
 
-  public async updateUserRole(updateUserRoleDto: UpdateUserRoleDto) {
+  public async updateUserRole(
+    updateUserRoleDto: UpdateUserRoleDto,
+    tokenDto: TokenDto,
+  ) {
+    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    const currentUser = await this.userRepository.findByPk(userByToken.id);
     const user = await this.getUserById(updateUserRoleDto.userId);
-    if (user) {
+    if (user && currentUser) {
       if (
         updateUserRoleDto.isAdmin !== false &&
         updateUserRoleDto.isAdmin !== true
@@ -131,9 +136,26 @@ export class UsersService {
       }
       user.isAdmin = updateUserRoleDto.isAdmin;
       const newUser = await user.save();
-      return newUser;
+      let token: TokenDto | null = null;
+      if (user.id === currentUser.id) {
+        token = await this.authService.generateToken(newUser);
+      }
+      return { user: newUser, token: token };
     }
     throw new NotFoundException({ message: 'User not found' });
+    // const user = await this.getUserById(updateUserRoleDto.userId);
+    // if (user) {
+    //   if (
+    //     updateUserRoleDto.isAdmin !== false &&
+    //     updateUserRoleDto.isAdmin !== true
+    //   ) {
+    //     throw new BadRequestException({ message: 'User is not updated' });
+    //   }
+    //   user.isAdmin = updateUserRoleDto.isAdmin;
+    //   const newUser = await user.save();
+    //   return newUser;
+    // }
+    // throw new NotFoundException({ message: 'User not found' });
   }
 
   public async getCurrentUser(tokenDto: TokenDto) {
