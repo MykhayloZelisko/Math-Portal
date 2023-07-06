@@ -1,5 +1,5 @@
 <div class="users">
-  <app-users-filter (searchUser)='searchUser($event)'></app-users-filter>
+  <app-users-filter (searchUser)="searchUser($event)"></app-users-filter>
   <app-users-table
     [tableContent]="usersTable"
     [paginatorConfig]="paginatorConfig"

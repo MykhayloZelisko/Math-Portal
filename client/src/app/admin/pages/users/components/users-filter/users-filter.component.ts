@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
@@ -13,7 +20,7 @@ const DEBOUNCE_TIME = 600;
   styleUrls: ['./users-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersFilterComponent implements OnInit {
+export class UsersFilterComponent implements OnInit, OnDestroy {
   public searchUserCtrl = new FormControl();
 
   private destroy$: Subject<void> = new Subject<void>();
@@ -25,6 +32,11 @@ export class UsersFilterComponent implements OnInit {
     this.initSearchValue();
   }
 
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   private initSearchValue(): void {
     this.searchUserCtrl.valueChanges
       .pipe(
@@ -34,8 +46,8 @@ export class UsersFilterComponent implements OnInit {
       )
       .subscribe({
         next: (value) => {
-          this.searchUser.emit(value)
-        }
-      })
+          this.searchUser.emit(value);
+        },
+      });
   }
 }
