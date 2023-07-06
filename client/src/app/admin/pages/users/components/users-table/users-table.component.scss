@@ -14,7 +14,7 @@
   &__header-cell {
     border-bottom: solid 1px $brown-1;
     font-family: $source;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 18px;
     padding: 12px;
@@ -23,7 +23,7 @@
 
   &__cell {
     font-family: $source;
-    font-size: 14px;
+    font-size: 16px;
     border-bottom: solid 1px $brown-2;
     padding: 8px 12px;
     vertical-align: middle;
@@ -38,7 +38,7 @@
 
   &__total {
     font-family: $source;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 18px;
     font-weight: 600;
   }
@@ -48,7 +48,7 @@
     border: none;
     border-radius: 5px;
     font-family: $source;
-    font-size: 14px;
+    font-size: 16px;
     padding: 8px 24px;
 
     &--user {
@@ -93,7 +93,7 @@
 
   &__footer-label {
     font-family: $source;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 18px;
     margin-right: 6px;
   }
@@ -123,18 +123,18 @@
   &__sort-icon {
     svg {
       path:first-child {
-        fill: #ACAFBF;
+        fill: $gray-3;
       }
 
       path:last-child {
-        fill: #ACAFBF;
+        fill: $gray-3;
       }
     }
 
     &--up {
       svg {
         path:first-child {
-          fill: #ACAFBF;
+          fill: $gray-3;
         }
 
         path:last-child {
@@ -150,7 +150,7 @@
         }
 
         path:last-child {
-          fill: #ACAFBF;
+          fill: $gray-3;
         }
       }
     }
@@ -160,7 +160,7 @@
 ::ng-deep {
   .ngx-pagination {
     font-family: $source;
-    font-size: 14px;
+    font-size: 16px;
     color: $brown-2;
     line-height: 24px !important;
     margin: 0 !important;
@@ -264,8 +264,8 @@
 
   .mat-mdc-select-value-text {
     font-family: $source;
-    font-size: 12px;
-    line-height: 12px;
+    font-size: 14px;
+    line-height: 14px;
   }
 
   :host .mat-mdc-select-value, .mat-mdc-select {
@@ -282,8 +282,8 @@
 
   .mat-mdc-option {
     font-family: $source;
-    font-size: 12px;
-    line-height: 12px;
+    font-size: 14px;
+    line-height: 14px;
     padding: 0 12px !important;
     min-height: 24px !important;
 

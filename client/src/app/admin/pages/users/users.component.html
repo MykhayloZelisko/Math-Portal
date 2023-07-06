@@ -1,11 +1,13 @@
 <div class="users">
-  <app-users-filter></app-users-filter>
+  <app-users-filter (searchUser)='searchUser($event)'></app-users-filter>
   <app-users-table
     [tableContent]="usersTable"
     [paginatorConfig]="paginatorConfig"
+    [clearCurrentPageField]="clearCurrentPageField"
     (changePaginatorConfig)="onChangePaginatorConfig($event)"
     (sortColumn)="onSortColumn($event)"
     (updateRole)="confirmUpdateUserRole($event)"
     (removeUser)="confirmDelete($event)"
+    (clearPageControl)="onClearPageControl($event)"
   ></app-users-table>
 </div>
