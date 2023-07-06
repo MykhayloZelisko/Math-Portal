@@ -46,20 +46,20 @@
         <button
           class="users-table__btn users-table__btn--user"
           *ngIf="!user.isAdmin"
-          (click)='updateUserRole(user)'
+          (click)="updateUserRole(user)"
         >
           Користувач
         </button>
         <button
           class="users-table__btn users-table__btn--admin"
           *ngIf="user.isAdmin"
-          (click)='updateUserRole(user)'
+          (click)="updateUserRole(user)"
         >
           Адміністратор
         </button>
       </td>
       <td class="users-table__cell" [ngStyle]="getContentPosition(3)">
-        <button class="users-table__delete-btn" (click)='deleteUser(user)'>
+        <button class="users-table__delete-btn" (click)="deleteUser(user)">
           <svg-icon
             class="users-table__delete-img"
             src="assets/images/delete.svg"

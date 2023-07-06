@@ -55,14 +55,16 @@ export class UsersTableComponent implements OnInit, OnChanges {
     new EventEmitter<PaginatorConfigInterface>();
 
   @Output()
-  public updateRole: EventEmitter<UpdateUserRoleInterface> = new EventEmitter<UpdateUserRoleInterface>();
+  public updateRole: EventEmitter<UpdateUserRoleInterface> =
+    new EventEmitter<UpdateUserRoleInterface>();
 
   @Output()
   public sortColumn: EventEmitter<SortColumnInterface> =
     new EventEmitter<SortColumnInterface>();
 
   @Output()
-  public removeUser: EventEmitter<UserInterface> = new EventEmitter<UserInterface>();
+  public removeUser: EventEmitter<UserInterface> =
+    new EventEmitter<UserInterface>();
 
   // @Output()
   // public clearPageControl: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -196,7 +198,7 @@ export class UsersTableComponent implements OnInit, OnChanges {
 
   public updateUserRole(user: UserInterface) {
     if (user.id) {
-      this.updateRole.emit({ userId: user.id, isAdmin: !user.isAdmin })
+      this.updateRole.emit({ userId: user.id, isAdmin: !user.isAdmin });
     }
   }
 

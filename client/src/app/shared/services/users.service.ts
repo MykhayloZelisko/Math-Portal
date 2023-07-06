@@ -79,11 +79,16 @@ export class UsersService {
     }
   }
 
-  public updateUserRole(data: UpdateUserRoleInterface):Observable<UserWithNullTokenInterface> {
-    return this.httpClient.put<UserWithNullTokenInterface>(`${this.baseUrl}/role`, data)
+  public updateUserRole(
+    data: UpdateUserRoleInterface,
+  ): Observable<UserWithNullTokenInterface> {
+    return this.httpClient.put<UserWithNullTokenInterface>(
+      `${this.baseUrl}/role`,
+      data,
+    );
   }
 
   public deleteUser(id: number): Observable<void> {
-    return this.httpClient.delete<void>(`${this.baseUrl}/${id}`)
+    return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

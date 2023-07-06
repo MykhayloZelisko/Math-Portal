@@ -10,23 +10,13 @@ import { UsersFilterComponent } from './components/users-filter/users-filter.com
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { Subject, takeUntil } from 'rxjs';
 import { UsersService } from '../../../shared/services/users.service';
-import {
-  UsersTableParamsInterface,
-} from '../../../shared/models/interfaces/users-table-params.interface';
+import { UsersTableParamsInterface } from '../../../shared/models/interfaces/users-table-params.interface';
 import { UsersTableInterface } from '../../../shared/models/interfaces/users-table.interface';
-import {
-  PaginatorConfigInterface,
-} from '../../../shared/models/interfaces/paginator-config.interface';
+import { PaginatorConfigInterface } from '../../../shared/models/interfaces/paginator-config.interface';
 import { SortColumnInterface } from '../../../shared/models/interfaces/sort-column.interface';
-import {
-  UsersTableColumnNameEnum,
-} from '../../../shared/models/enums/users-table-column-name.enum';
-import {
-  UpdateUserRoleInterface,
-} from '../../../shared/models/interfaces/update-user-role.interface';
-import {
-  UserWithNullTokenInterface,
-} from '../../../shared/models/interfaces/user-with-null-token.interface';
+import { UsersTableColumnNameEnum } from '../../../shared/models/enums/users-table-column-name.enum';
+import { UpdateUserRoleInterface } from '../../../shared/models/interfaces/update-user-role.interface';
+import { UserWithNullTokenInterface } from '../../../shared/models/interfaces/user-with-null-token.interface';
 import { UserInterface } from '../../../shared/models/interfaces/user.interface';
 import { Router } from '@angular/router';
 import { DialogService } from '../../../shared/services/dialog.service';
@@ -111,22 +101,27 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   private updateUserRole(event: UpdateUserRoleInterface): void {
-    this.usersService.updateUserRole(event).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (user: UserWithNullTokenInterface) => {
-        if(user.token) {
-          this.usersService.updateUserData(user.user);
-          sessionStorage.setItem(
-            'token',
-            JSON.stringify(`Bearer ${user.token.token}`),
-          );
-          this.router.navigateByUrl('')
-        } else {
-          const users = this.usersTable.users.map((item: UserInterface) => user.user.id === item.id ? user.user : item);
-          this.usersTable = { ...this.usersTable, users };
-        }
-        this.cdr.detectChanges();
-      }
-    });
+    this.usersService
+      .updateUserRole(event)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (user: UserWithNullTokenInterface) => {
+          if (user.token) {
+            this.usersService.updateUserData(user.user);
+            sessionStorage.setItem(
+              'token',
+              JSON.stringify(`Bearer ${user.token.token}`),
+            );
+            this.router.navigateByUrl('');
+          } else {
+            const users = this.usersTable.users.map((item: UserInterface) =>
+              user.user.id === item.id ? user.user : item,
+            );
+            this.usersTable = { ...this.usersTable, users };
+          }
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   public confirmDelete(user: UserInterface): void {
@@ -137,14 +132,14 @@ export class UsersComponent implements OnInit, OnDestroy {
           title: 'ПОВІДОМЛЕННЯ',
           text: 'Ви впевнені, що хочете видалити свій профіль?',
         })
-          .afterClosed()
-          .subscribe({
-            next: (value) => {
-              if (value && currentUser.id) {
-                this.deleteUser(currentUser.id);
-              }
-            },
-          });
+        .afterClosed()
+        .subscribe({
+          next: (value) => {
+            if (value && currentUser.id) {
+              this.deleteUser(currentUser.id);
+            }
+          },
+        });
     } else {
       this.dialogService
         .openDialog(DialogTypeEnum.ConfirmDeleteOtherUser, {
@@ -156,16 +151,17 @@ export class UsersComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (userId) => {
             if (userId) {
-              this.deleteUser(userId)
+              this.deleteUser(userId);
             }
-          }
-        })
+          },
+        });
     }
   }
 
   private deleteUser(id: number) {
     const currentUser = this.usersService.user$.getValue();
-    this.usersService.deleteUser(id)
+    this.usersService
+      .deleteUser(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -180,27 +176,28 @@ export class UsersComponent implements OnInit, OnDestroy {
           } else {
             this.initUsersTable(this.filterParams);
           }
-        }
-      })
+        },
+      });
   }
 
   public confirmUpdateUserRole(event: UpdateUserRoleInterface) {
     const currentUser = this.usersService.user$.getValue();
     if (currentUser && currentUser.id === event.userId) {
-      this.dialogService.openDialog(DialogTypeEnum.ConfirmUpdateCurrentUserRole, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: 'Ви понижуєте себе до звичайного користувача. Бажаєте продовжити?',
-      })
+      this.dialogService
+        .openDialog(DialogTypeEnum.ConfirmUpdateCurrentUserRole, {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Ви понижуєте себе до звичайного користувача. Бажаєте продовжити?',
+        })
         .afterClosed()
         .subscribe({
           next: (value) => {
             if (value) {
-              this.updateUserRole(event)
+              this.updateUserRole(event);
             }
-          }
-        })
+          },
+        });
     } else {
-      this.updateUserRole(event)
+      this.updateUserRole(event);
     }
   }
 }
