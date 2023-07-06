@@ -15,7 +15,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from '../auth/auth.service';
 import * as bcrypt from 'bcryptjs';
-import { FindOptions, Op } from 'sequelize';
+import sequelize, { FindOptions, Op } from 'sequelize';
 import { FilesService } from '../files/files.service';
 
 @Injectable()
@@ -67,9 +67,10 @@ export class UsersService {
     if (!!filter && !!filter.trim()) {
       countOptions = {
         where: {
-          fullName: {
-            [Op.substring]: filter,
-          },
+          [Op.or]: [
+            sequelize.where(sequelize.fn('LOWER', sequelize.col('full_name')), 'LIKE', '%' + filter.toLowerCase() + '%'),
+            sequelize.where(sequelize.fn('LOWER', sequelize.col('email')), 'LIKE', '%' + filter.toLowerCase() + '%'),
+          ]
         },
       };
       filterOptions = {
@@ -143,19 +144,6 @@ export class UsersService {
       return { user: newUser, token: token };
     }
     throw new NotFoundException({ message: 'User not found' });
-    // const user = await this.getUserById(updateUserRoleDto.userId);
-    // if (user) {
-    //   if (
-    //     updateUserRoleDto.isAdmin !== false &&
-    //     updateUserRoleDto.isAdmin !== true
-    //   ) {
-    //     throw new BadRequestException({ message: 'User is not updated' });
-    //   }
-    //   user.isAdmin = updateUserRoleDto.isAdmin;
-    //   const newUser = await user.save();
-    //   return newUser;
-    // }
-    // throw new NotFoundException({ message: 'User not found' });
   }
 
   public async getCurrentUser(tokenDto: TokenDto) {

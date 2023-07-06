@@ -41,6 +41,8 @@ export class UsersComponent implements OnInit, OnDestroy {
     filter: '',
   };
 
+  public clearCurrentPageField = false;
+
   public paginatorConfig!: PaginatorConfigInterface;
 
   private destroy$: Subject<void> = new Subject<void>();
@@ -199,5 +201,22 @@ export class UsersComponent implements OnInit, OnDestroy {
     } else {
       this.updateUserRole(event);
     }
+  }
+
+  public searchUser(event: string) {
+    this.filterParams = {
+      ...this.filterParams,
+      sortByName: 'default',
+      sortByRole: 'default',
+      page: 1,
+      filter: event,
+    };
+    this.clearCurrentPageField = true;
+    console.log(this.filterParams);
+    this.initUsersTable(this.filterParams);
+  }
+
+  public onClearPageControl(event: boolean): void {
+    this.clearCurrentPageField = event;
   }
 }

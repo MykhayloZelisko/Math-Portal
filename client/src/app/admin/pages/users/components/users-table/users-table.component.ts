@@ -48,7 +48,7 @@ export class UsersTableComponent implements OnInit, OnChanges {
   @Input()
   public paginatorConfig!: PaginatorConfigInterface;
 
-  // @Input() public clearCurrentPageField = false;
+  @Input() public clearCurrentPageField = false;
 
   @Output()
   public changePaginatorConfig: EventEmitter<PaginatorConfigInterface> =
@@ -66,9 +66,9 @@ export class UsersTableComponent implements OnInit, OnChanges {
   public removeUser: EventEmitter<UserInterface> =
     new EventEmitter<UserInterface>();
 
-  // @Output()
-  // public clearPageControl: EventEmitter<boolean> = new EventEmitter<boolean>();
-  //
+  @Output()
+  public clearPageControl: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   public isPaginatorInit = false;
 
   public rowsPerPage: number[] = [10, 20, 50, 100];
@@ -90,10 +90,11 @@ export class UsersTableComponent implements OnInit, OnChanges {
     if (this.tableContent && !this.isPaginatorInit) {
       this.initPaginator();
     }
-    //   if (this.clearCurrentPageField) {
-    //     this.paginationForm.controls['currentPage'].setValue(1);
-    //     this.clearPageControl.emit(false);
-    //   }
+    if (this.clearCurrentPageField) {
+      this.paginationForm.controls['currentPage'].setValue(1);
+      this.clearPageControl.emit(false);
+      this.initSortParams();
+    }
   }
 
   public onSortColumn(columnName: UsersTableColumnNameEnum): void {
