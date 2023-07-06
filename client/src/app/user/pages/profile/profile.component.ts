@@ -171,9 +171,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public confirmDelete(): void {
     this.dialogService
-      .openDialog(DialogTypeEnum.ConfirmDelete, {
+      .openDialog(DialogTypeEnum.ConfirmDeleteProfile, {
         title: 'ПОВІДОМЛЕННЯ',
-        text: 'Ви впевнені, що хочете видалити профіль?',
+        text: 'Ви впевнені, що хочете видалити свій профіль?',
       })
       .afterClosed()
       .subscribe({
@@ -211,7 +211,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public confirmDeletePhoto(): void {
     this.dialogService
-      .openDialog(DialogTypeEnum.ConfirmDelete, {
+      .openDialog(DialogTypeEnum.ConfirmDeleteProfile, {
         title: 'ПОВІДОМЛЕННЯ',
         text: 'Ви впевнені, що хочете видалити фото?',
       })

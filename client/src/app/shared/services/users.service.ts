@@ -6,6 +6,8 @@ import { UserInterface } from '../models/interfaces/user.interface';
 import { UserWithTokenInterface } from '../models/interfaces/user-with-token.interface';
 import { UsersTableParamsInterface } from '../models/interfaces/users-table-params.interface';
 import { UsersTableInterface } from '../models/interfaces/users-table.interface';
+import { UpdateUserRoleInterface } from '../models/interfaces/update-user-role.interface';
+import { UserWithNullTokenInterface } from '../models/interfaces/user-with-null-token.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -75,5 +77,13 @@ export class UsersService {
     } else {
       this.user$.next(null);
     }
+  }
+
+  public updateUserRole(data: UpdateUserRoleInterface):Observable<UserWithNullTokenInterface> {
+    return this.httpClient.put<UserWithNullTokenInterface>(`${this.baseUrl}/role`, data)
+  }
+
+  public deleteUser(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.baseUrl}/${id}`)
   }
 }

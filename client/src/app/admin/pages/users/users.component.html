@@ -5,5 +5,7 @@
     [paginatorConfig]="paginatorConfig"
     (changePaginatorConfig)="onChangePaginatorConfig($event)"
     (sortColumn)="onSortColumn($event)"
+    (updateRole)='updateUserRole($event)'
+    (removeUser)='confirmDelete($event)'
   ></app-users-table>
 </div>

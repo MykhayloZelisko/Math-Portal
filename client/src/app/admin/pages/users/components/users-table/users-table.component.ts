@@ -22,6 +22,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { UsersTableColumnNameEnum } from '../../../../../shared/models/enums/users-table-column-name.enum';
 import { SortColumnInterface } from '../../../../../shared/models/interfaces/sort-column.interface';
+import { UserInterface } from '../../../../../shared/models/interfaces/user.interface';
+import { UpdateUserRoleInterface } from '../../../../../shared/models/interfaces/update-user-role.interface';
 
 @Component({
   selector: 'app-users-table',
@@ -53,8 +55,14 @@ export class UsersTableComponent implements OnInit, OnChanges {
     new EventEmitter<PaginatorConfigInterface>();
 
   @Output()
+  public updateRole: EventEmitter<UpdateUserRoleInterface> = new EventEmitter<UpdateUserRoleInterface>();
+
+  @Output()
   public sortColumn: EventEmitter<SortColumnInterface> =
     new EventEmitter<SortColumnInterface>();
+
+  @Output()
+  public removeUser: EventEmitter<UserInterface> = new EventEmitter<UserInterface>();
 
   // @Output()
   // public clearPageControl: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -184,5 +192,15 @@ export class UsersTableComponent implements OnInit, OnChanges {
       currentPage,
     };
     this.changePaginatorConfig.emit(this.paginatorConfig);
+  }
+
+  public updateUserRole(user: UserInterface) {
+    if (user.id) {
+      this.updateRole.emit({ userId: user.id, isAdmin: !user.isAdmin })
+    }
+  }
+
+  public deleteUser(user: UserInterface) {
+    this.removeUser.emit(user);
   }
 }
