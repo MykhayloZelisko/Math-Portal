@@ -1,0 +1,30 @@
+@import 'variables';
+
+.tag-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: $brown-3;
+  font-family: $source;
+  padding: 5px 10px;
+  border-radius: 10px;
+
+  &--editable {
+    background-color: $white;
+    box-shadow: inset 0px 0px 0px 1px $brown-1;
+    outline: none;
+  }
+
+  &__name {
+    font-size: 16px;
+  }
+
+  &__btn {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    position: relative;
+    width: 30px;
+    height: 30px;
+  }
+}

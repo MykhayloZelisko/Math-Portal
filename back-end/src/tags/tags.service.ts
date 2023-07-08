@@ -8,7 +8,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Tag } from './models/tag.model';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { FindOptions } from 'sequelize';
+import sequelize, { FindOptions } from 'sequelize';
 
 @Injectable()
 export class TagsService {
@@ -20,7 +20,9 @@ export class TagsService {
   }
 
   public async getTagByValue(value: string) {
-    const tag = await this.tagRepository.findOne({ where: { value } });
+    const tag = await this.tagRepository.findOne({
+      where: sequelize.where(sequelize.fn('LOWER', sequelize.col('value')), 'LIKE', value.toLowerCase())
+    });
     return tag;
   }
 

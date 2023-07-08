@@ -212,7 +212,6 @@ export class UsersComponent implements OnInit, OnDestroy {
       filter: event,
     };
     this.clearCurrentPageField = true;
-    console.log(this.filterParams);
     this.initUsersTable(this.filterParams);
   }
 

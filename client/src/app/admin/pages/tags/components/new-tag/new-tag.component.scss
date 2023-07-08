@@ -1,0 +1,62 @@
+@import 'variables';
+
+.new-tag {
+  font-family: $source;
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__input {
+    font-family: $source;
+    padding: 9px 12px;
+    border-radius: 3px;
+    border: 1px solid $brown-4;
+    box-sizing: border-box;
+    width: 300px;
+    font-size: 14px;
+
+    &:hover {
+      border-color: $brown-1;
+    }
+
+    &:focus {
+      border-color:  $brown-2;
+      outline: none;
+    }
+
+    &:active {
+      border-color: $brown-2;
+    }
+  }
+
+  &__add-btn {
+    background-color: $brown-1;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-family: $source;
+    font-size: 16px;
+    padding: 8px 24px;
+    color: $yellow-1;
+
+    &:hover {
+      background-color: $brown-2;
+    }
+
+    &:disabled,
+    &:disabled:hover {
+      background-color: $gray-2;
+      color: $gray-3;
+      cursor: default;
+    }
+  }
+
+  &__field-wrapper {
+    margin-top: 8px;
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+  }
+}
