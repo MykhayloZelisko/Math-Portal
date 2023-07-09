@@ -21,7 +21,11 @@ export class TagsService {
 
   public async getTagByValue(value: string) {
     const tag = await this.tagRepository.findOne({
-      where: sequelize.where(sequelize.fn('LOWER', sequelize.col('value')), 'LIKE', value.toLowerCase())
+      where: sequelize.where(
+        sequelize.fn('LOWER', sequelize.col('value')),
+        'LIKE',
+        value.toLowerCase(),
+      ),
     });
     return tag;
   }

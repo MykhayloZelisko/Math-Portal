@@ -68,9 +68,17 @@ export class UsersService {
       countOptions = {
         where: {
           [Op.or]: [
-            sequelize.where(sequelize.fn('LOWER', sequelize.col('full_name')), 'LIKE', '%' + filter.toLowerCase() + '%'),
-            sequelize.where(sequelize.fn('LOWER', sequelize.col('email')), 'LIKE', '%' + filter.toLowerCase() + '%'),
-          ]
+            sequelize.where(
+              sequelize.fn('LOWER', sequelize.col('full_name')),
+              'LIKE',
+              '%' + filter.toLowerCase() + '%',
+            ),
+            sequelize.where(
+              sequelize.fn('LOWER', sequelize.col('email')),
+              'LIKE',
+              '%' + filter.toLowerCase() + '%',
+            ),
+          ],
         },
       };
       filterOptions = {
