@@ -9,6 +9,7 @@ import { AuthModule } from './app/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { MathjaxModule } from 'mathjax-angular';
 
 if (environment.production) {
   enableProdMode();
@@ -26,6 +27,19 @@ bootstrapApplication(AppComponent, {
       BrowserAnimationsModule,
       MatDialogModule,
       AngularSvgIconModule.forRoot(),
+      MathjaxModule.forRoot({
+        config: {
+          loader: {
+            load: ['output/svg', 'output/chtml', '[tex]/require', '[tex]/ams'],
+          },
+          tex: {
+            inlineMath: [['$', '$']],
+            packages: ['base', 'require', 'ams'],
+          },
+          svg: { fontCache: 'global' },
+        },
+        src: 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/startup.js',
+      })
     ),
   ],
 })
