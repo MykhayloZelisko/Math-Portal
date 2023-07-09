@@ -5,7 +5,7 @@
       *ngFor='let tag of tagList'
       [tag]='tag'
       (removeTag)='removeTag($event)'
-      (cancelEdit)='cancelEditTag()'
-    >{{tag.value}}</app-tag-item>
+      (updateTag)='updateTag($event)'
+    ></app-tag-item>
   </div>
 </div>

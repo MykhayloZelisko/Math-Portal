@@ -24,4 +24,9 @@ export class TagsService {
   public removeTag(id:number): Observable<void> {
     return this.httpClient.delete<void>(`${this.baseUrl}/${id}`)
   }
+
+  public updateTag(id: number, value: string): Observable<TagInterface> {
+    const body = { value };
+    return this.httpClient.put<TagInterface>(`${this.baseUrl}/${id}`, body)
+  }
 }

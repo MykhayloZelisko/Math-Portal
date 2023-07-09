@@ -94,7 +94,7 @@ export class TagsComponent implements OnInit, OnDestroy {
         this.tagList = this.tagList.filter((tag) => tag.id !== id);
         this.dialogService.openDialog(DialogTypeEnum.Alert, {
           title: 'ПОВІДОМЛЕННЯ',
-          text: 'Тег видалено.',
+          text: 'Тег успішно видалено.',
         });
         this.cdr.detectChanges();
       },
@@ -107,7 +107,21 @@ export class TagsComponent implements OnInit, OnDestroy {
     })
   }
 
-  public cancelEditTag() {
-    this.initTagList();
+  public updateTag(tag: TagInterface) {
+    this.tagsService.updateTag(tag.id, tag.value).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (tag: TagInterface) => {
+        this.tagList = this.tagList.map((item: TagInterface) => item.id === tag.id ? tag : item);
+        this.dialogService.openDialog(DialogTypeEnum.Alert, {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Тег успішно оновлено.',
+        })
+      },
+      error: () => {
+        this.dialogService.openDialog(DialogTypeEnum.Alert, {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Помилка оновлення тега. Повторіть спробу пізніше.',
+        });
+      }
+    })
   }
 }

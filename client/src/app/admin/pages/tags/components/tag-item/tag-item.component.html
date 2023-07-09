@@ -3,7 +3,7 @@
   [contentEditable]='isEditable'
   [ngClass]="{'tag-item--editable': isEditable}"
 >
-  <p class='tag-item__name'>{{tag.value}}</p>
+  <p class='tag-item__name' #tagItem [innerHTML]='tag.value | bypassHtml'>{{tag.value}}</p>
   <div *ngIf='!isEditable'>
     <button class='tag-item__btn' (click)='editTag()'>
       <svg-icon
@@ -19,7 +19,7 @@
     </button>
   </div>
   <div *ngIf='isEditable'>
-    <button class='tag-item__btn'>
+    <button class='tag-item__btn' (click)='saveTag()'>
       <svg-icon
         class="tag-item__img"
         src="assets/images/save.svg"
