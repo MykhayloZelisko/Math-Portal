@@ -5,4 +5,5 @@ export enum DialogTypeEnum {
   ConfirmDeleteProfile,
   ConfirmDeleteOtherUser,
   ConfirmUpdateCurrentUserRole,
+  ConfirmDeleteTag,
 }

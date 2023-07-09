@@ -71,18 +71,11 @@
   }
 
   &__delete-btn {
-    position: relative;
     height: 24px;
     width: 24px;
     border: none;
     background-color: transparent;
     cursor: pointer;
-  }
-
-  &__delete-img {
-    position: absolute;
-    top: 0;
-    right: 0;
   }
 
   &__paginator {

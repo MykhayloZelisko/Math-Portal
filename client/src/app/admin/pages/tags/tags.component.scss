@@ -1,0 +1,13 @@
+.tags {
+  min-height: calc(100vh - 176px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}

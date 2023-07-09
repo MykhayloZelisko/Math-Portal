@@ -1,0 +1,9 @@
+<div class="new-tag">
+  <h3 class="new-tag__title">Введіть назву нового тега</h3>
+  <div class="new-tag__field-wrapper">
+    <input class="new-tag__input" type="text" [(ngModel)]="tag" />
+    <button class="new-tag__add-btn" [disabled]="!tag" (click)="onAddTag()">
+      Додати
+    </button>
+  </div>
+</div>
