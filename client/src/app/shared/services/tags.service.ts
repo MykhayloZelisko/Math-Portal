@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { TagInterface } from '../models/interfaces/tag.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TagsService {
   private baseUrl = `${environment.apiUrl}/tags`;
@@ -13,20 +13,20 @@ export class TagsService {
   public constructor(private httpClient: HttpClient) {}
 
   public getAllTags(): Observable<TagInterface[]> {
-    return this.httpClient.get<TagInterface[]>(`${this.baseUrl}`)
+    return this.httpClient.get<TagInterface[]>(`${this.baseUrl}`);
   }
 
   public createTag(value: string): Observable<TagInterface> {
     const body = { value };
-    return this.httpClient.post<TagInterface>(`${this.baseUrl}`, body)
+    return this.httpClient.post<TagInterface>(`${this.baseUrl}`, body);
   }
 
-  public removeTag(id:number): Observable<void> {
-    return this.httpClient.delete<void>(`${this.baseUrl}/${id}`)
+  public removeTag(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
   }
 
   public updateTag(id: number, value: string): Observable<TagInterface> {
     const body = { value };
-    return this.httpClient.put<TagInterface>(`${this.baseUrl}/${id}`, body)
+    return this.httpClient.put<TagInterface>(`${this.baseUrl}/${id}`, body);
   }
 }

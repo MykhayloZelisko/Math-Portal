@@ -1,31 +1,24 @@
 <div
-  class='tag-item'
-  [contentEditable]='isEditable'
-  [ngClass]="{'tag-item--editable': isEditable}"
+  class="tag-item"
+  [contentEditable]="isEditable"
+  [ngClass]="{ 'tag-item--editable': isEditable }"
 >
-  <p class='tag-item__name' #tagItem [innerHTML]='tag.value | bypassHtml'>{{tag.value}}</p>
-  <div *ngIf='!isEditable'>
-    <button class='tag-item__btn' (click)='editTag()'>
-      <svg-icon
-        class="tag-item__img"
-        src="assets/images/edit.svg"
-      ></svg-icon>
+  <p class="tag-item__name" #tagItem [innerHTML]="tag.value | bypassHtml">
+    {{ tag.value }}
+  </p>
+  <div *ngIf="!isEditable">
+    <button class="tag-item__btn" (click)="editTag()">
+      <svg-icon class="tag-item__img" src="assets/images/edit.svg"></svg-icon>
     </button>
-    <button class='tag-item__btn' (click)='deleteTag()'>
-      <svg-icon
-        class="tag-item__img"
-        src="assets/images/delete.svg"
-      ></svg-icon>
+    <button class="tag-item__btn" (click)="deleteTag()">
+      <svg-icon class="tag-item__img" src="assets/images/delete.svg"></svg-icon>
     </button>
   </div>
-  <div *ngIf='isEditable'>
-    <button class='tag-item__btn' (click)='saveTag()'>
-      <svg-icon
-        class="tag-item__img"
-        src="assets/images/save.svg"
-      ></svg-icon>
+  <div *ngIf="isEditable">
+    <button class="tag-item__btn" (click)="saveTag()">
+      <svg-icon class="tag-item__img" src="assets/images/save.svg"></svg-icon>
     </button>
-    <button class='tag-item__btn' (click)='cancelEditTag()'>
+    <button class="tag-item__btn" (click)="cancelEditTag()">
       <svg-icon
         class="tag-item__img"
         src="assets/images/content-clear.svg"

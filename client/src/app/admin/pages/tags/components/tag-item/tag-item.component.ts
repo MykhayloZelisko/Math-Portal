@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
-  Component, ElementRef,
+  Component,
+  ElementRef,
   EventEmitter,
   Input,
-  Output, ViewChild,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TagInterface } from '../../../../../shared/models/interfaces/tag.interface';
@@ -17,7 +19,7 @@ import { BypassHtmlPipe } from '../../../../../shared/pipes/bypass-html.pipe';
   imports: [CommonModule, AngularSvgIconModule, FormsModule, BypassHtmlPipe],
   templateUrl: './tag-item.component.html',
   styleUrls: ['./tag-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagItemComponent {
   @ViewChild('tagItem')
@@ -26,10 +28,12 @@ export class TagItemComponent {
   @Input() public tag!: TagInterface;
 
   @Output()
-  public removeTag: EventEmitter<TagInterface> = new EventEmitter<TagInterface>();
+  public removeTag: EventEmitter<TagInterface> =
+    new EventEmitter<TagInterface>();
 
   @Output()
-  public updateTag: EventEmitter<TagInterface> = new EventEmitter<TagInterface>();
+  public updateTag: EventEmitter<TagInterface> =
+    new EventEmitter<TagInterface>();
 
   public isEditable: boolean = false;
 

@@ -1,11 +1,11 @@
-<div class='tags'>
-  <app-new-tag (addTag)='addTag($event)'></app-new-tag>
-  <div class='tags__list'>
+<div class="tags">
+  <app-new-tag (addTag)="addTag($event)"></app-new-tag>
+  <div class="tags__list">
     <app-tag-item
-      *ngFor='let tag of tagList'
-      [tag]='tag'
-      (removeTag)='removeTag($event)'
-      (updateTag)='updateTag($event)'
+      *ngFor="let tag of tagList"
+      [tag]="tag"
+      (removeTag)="removeTag($event)"
+      (updateTag)="updateTag($event)"
     ></app-tag-item>
   </div>
 </div>
