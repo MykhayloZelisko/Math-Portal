@@ -7,8 +7,8 @@
     </button>
   </div>
   <div class='article-content__content-wrapper' *ngIf='!isContentEditable'>
-    <h2 class='article-content__content' [mathjax]='value'></h2>
-    <button class='article-content__button' (click)='editContent()'>
+    <div class='article-content__content' [mathjax]='value'></div>
+    <button class='article-content__button article-content__button--edit' (click)='editContent()'>
       <svg-icon src='assets/images/edit.svg'></svg-icon>
     </button>
   </div>

@@ -17,6 +17,7 @@
   }
 
   &__content-wrapper {
+    position: relative;
     display: flex;
     gap: 10px;
     align-items: flex-start;
@@ -59,11 +60,18 @@
         fill: $yellow-1;
       }
     }
+
+    &--edit {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
   }
 
   &__content {
     font-family: $source;
     font-size: 16px;
     line-height: 20px;
+    padding-right: 40px;
   }
 }

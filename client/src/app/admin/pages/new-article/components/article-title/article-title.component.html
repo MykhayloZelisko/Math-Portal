@@ -8,7 +8,7 @@
   </div>
   <div class='article-title__title-wrapper' *ngIf='!isTitleEditable'>
     <h2 class='article-title__title' [mathjax]='value'></h2>
-    <button class='article-title__button' (click)='editTitle()'>
+    <button class='article-title__button article-title__button--edit' (click)='editTitle()'>
       <svg-icon src='assets/images/edit.svg'></svg-icon>
     </button>
   </div>
