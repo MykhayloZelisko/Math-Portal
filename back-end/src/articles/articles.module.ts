@@ -5,7 +5,6 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Article } from './models/article.model';
 import { AuthModule } from '../auth/auth.module';
 import { ArticleTags } from './models/article-tags.model';
-import { ArticleUsers } from './models/article-users.model';
 import { TagsModule } from '../tags/tags.module';
 import { UsersModule } from '../users/users.module';
 
@@ -13,7 +12,7 @@ import { UsersModule } from '../users/users.module';
   providers: [ArticlesService],
   controllers: [ArticlesController],
   imports: [
-    SequelizeModule.forFeature([Article, ArticleTags, ArticleUsers]),
+    SequelizeModule.forFeature([Article, ArticleTags]),
     AuthModule,
     TagsModule,
     UsersModule,

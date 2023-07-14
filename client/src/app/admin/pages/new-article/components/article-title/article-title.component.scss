@@ -1,0 +1,68 @@
+@import 'variables';
+
+.article-title {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__label {
+    font-family: $source;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  &__input-wrapper {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__title-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  &__input {
+    font-family: $source;
+    padding: 9px 12px;
+    border-radius: 3px;
+    border: 1px solid $brown-4;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 16px;
+
+    &:hover {
+      border-color: $brown-1;
+    }
+
+    &:focus {
+      border-color:  $brown-2;
+      outline: none;
+    }
+
+    &:active {
+      border-color: $brown-2;
+    }
+  }
+
+  &__button {
+    border: none;
+    background-color: $brown-1;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+
+    & svg {
+      & path {
+        fill: $yellow-1;
+      }
+    }
+  }
+
+  &__title {
+    font-family: $source;
+    font-size: 24px;
+    line-height: 36px;
+  }
+}

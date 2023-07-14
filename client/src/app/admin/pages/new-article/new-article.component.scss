@@ -1,0 +1,9 @@
+@import 'variables';
+
+.new-article {
+  min-height: calc(100vh - 176px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

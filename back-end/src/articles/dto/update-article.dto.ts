@@ -10,7 +10,4 @@ export class UpdateArticleDto extends PartialType(CreateArticleDto) {
 
   @ApiProperty({ example: [1], description: 'Array of tags' })
   public readonly tagsIds: number[];
-
-  @ApiProperty({ example: [1], description: 'Array of users' })
-  public readonly authorsIds: number[];
 }

@@ -9,8 +9,6 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { Tag } from '../../tags/models/tag.model';
 import { ArticleTags } from './article-tags.model';
-import { User } from '../../users/models/user.model';
-import { ArticleUsers } from './article-users.model';
 import { Rating } from '../../rating/models/rating.model';
 import { CommentsTree } from '../../comments/models/comments-tree.model';
 
@@ -40,7 +38,7 @@ export class Article extends Model<Article, ArticleCreationAttrsInterface> {
   public title: string;
 
   @ApiProperty({ example: 'Text', description: 'Text' })
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.TEXT, allowNull: false })
   public text: string;
 
   @ApiProperty({ example: 0, description: 'Rating' })
@@ -49,9 +47,6 @@ export class Article extends Model<Article, ArticleCreationAttrsInterface> {
 
   @BelongsToMany(() => Tag, () => ArticleTags)
   public tags: Tag[];
-
-  @BelongsToMany(() => User, () => ArticleUsers)
-  public authors: User[];
 
   @HasMany(() => Rating)
   public ratings: Rating[];

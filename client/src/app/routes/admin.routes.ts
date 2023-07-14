@@ -24,6 +24,14 @@ export const AdminRoutes: Routes = [
         data: { path: AdminRouteNameEnum.Tags },
       },
       {
+        path: AdminRouteNameEnum.NewArticle,
+        loadComponent: () =>
+          import('../admin/pages/new-article/new-article.component').then(
+            (m) => m.NewArticleComponent,
+          ),
+        data: { path: AdminRouteNameEnum.NewArticle },
+      },
+      {
         path: '',
         redirectTo: AdminRouteNameEnum.Users,
       },

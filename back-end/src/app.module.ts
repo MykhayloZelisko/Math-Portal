@@ -10,7 +10,6 @@ import { Tag } from './tags/models/tag.model';
 import { ArticlesModule } from './articles/articles.module';
 import { Article } from './articles/models/article.model';
 import { ArticleTags } from './articles/models/article-tags.model';
-import { ArticleUsers } from './articles/models/article-users.model';
 import { RatingModule } from './rating/rating.module';
 import { Rating } from './rating/models/rating.model';
 import { CommentsModule } from './comments/comments.module';
@@ -37,7 +36,6 @@ import * as path from 'path';
         Tag,
         Article,
         ArticleTags,
-        ArticleUsers,
         Rating,
         Comment,
         CommentsTree,

@@ -1,0 +1,28 @@
+<div class='article-tags'>
+  <label class="article-tags__title">Теги</label>
+  <mat-form-field class="article-tags__list">
+    <mat-chip-grid #chipGrid>
+      <mat-chip-row *ngFor="let tag of selectedTags" (removed)="remove(tag)">
+        {{ tag.value }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      <input
+        placeholder="Додати тег"
+        #tagInput
+        [formControl]="tagCtrl"
+        [matChipInputFor]="chipGrid"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="selected($event)"
+      >
+        <mat-option *ngFor="let tag of filteredTags" [value]="tag.value">
+          {{ tag.value }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-chip-grid>
+  </mat-form-field>
+</div>
