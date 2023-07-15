@@ -10,7 +10,10 @@ export class BypassHtmlPipe implements PipeTransform {
     @Inject(DomSanitizer) private readonly sanitized: DomSanitizer,
   ) {}
 
-  public transform(value: string): SafeHtml {
+  public transform(value: string): SafeHtml | undefined {
+    if (!value) {
+      return;
+    }
     return this.sanitized.bypassSecurityTrustHtml(value);
   }
 }

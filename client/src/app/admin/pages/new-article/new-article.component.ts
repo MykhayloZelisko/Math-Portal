@@ -13,6 +13,7 @@ import { ArticlesService } from '../../../shared/services/articles.service';
 import { Subject, takeUntil } from 'rxjs';
 import { DialogService } from '../../../shared/services/dialog.service';
 import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
+import { AlertComponent } from './components/alert/alert.component';
 
 @Component({
   selector: 'app-new-article',
@@ -22,6 +23,7 @@ import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
     ArticleTagsComponent,
     ArticleTitleComponent,
     ArticleContentComponent,
+    AlertComponent,
   ],
   templateUrl: './new-article.component.html',
   styleUrls: ['./new-article.component.scss'],

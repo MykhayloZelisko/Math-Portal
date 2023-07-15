@@ -1,0 +1,24 @@
+<div class="alert">
+  <div class='alert__inner'>
+    <svg-icon
+      class="alert__info-icon"
+      src="assets/images/notification-info.svg"
+    ></svg-icon>
+    <div class="alert__message" *ngIf='isAlertVisible'>
+      При написанні статті дотримуйтесь наступних правил:
+      <ol class="alert__list">
+        <li class='alert__list-item'>Кожен абзац статті огортайте в тег &lt;p style="text-indent:30px"&gt;&lt;/p&gt;</li>
+        <li class='alert__list-item'>Для виділення тексту жирним шрифтом використовуйте тег &lt;span style="font-weight:600"&gt;&lt;/span&gt;</li>
+        <li class='alert__list-item'>Для виділення тексту курсивом використовуйте тег &lt;span style="font-style:italic"&gt;&lt;/span&gt;</li>
+        <li class='alert__list-item'>Для виділення тексту жирним курсивом використовуйте тег &lt;span style="font-style:italic;font-weight:600"&gt;&lt;/span&gt;</li>
+        <li class='alert__list-item'>Для набору математичних формул використовується синтаксис мови розмітки документів LaTeX</li>
+      </ol>
+    </div>
+  </div>
+  <button class="alert__button" *ngIf='isAlertVisible' (click)='toggleAlert()'>
+    <svg-icon class="alert__btn-icon" src="assets/images/eye-off.svg"></svg-icon>
+  </button>
+  <button class="alert__button" *ngIf='!isAlertVisible' (click)='toggleAlert()'>
+    <svg-icon class="alert__btn-icon" src="assets/images/eye.svg"></svg-icon>
+  </button>
+</div>
