@@ -1,0 +1,24 @@
+<div class="article-title">
+  <label class="article-title__label" for="input">Назва</label>
+  <div class="article-title__input-wrapper" *ngIf="isTitleEditable">
+    <input
+      id="input"
+      class="article-title__input"
+      type="text"
+      placeholder="Введіть назву статті"
+      [formControl]="titleCtrl"
+    />
+    <button class="article-title__button" (click)="showTitle()">
+      <svg-icon src="assets/images/eye.svg"></svg-icon>
+    </button>
+  </div>
+  <div class="article-title__title-wrapper" *ngIf="!isTitleEditable">
+    <h2 class="article-title__title" [mathjax]="title"></h2>
+    <button
+      class="article-title__button article-title__button--edit"
+      (click)="editTitle()"
+    >
+      <svg-icon src="assets/images/edit.svg"></svg-icon>
+    </button>
+  </div>
+</div>

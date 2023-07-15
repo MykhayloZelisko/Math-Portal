@@ -1,0 +1,36 @@
+@import 'variables';
+
+.new-article {
+  min-height: calc(100vh - 176px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__button-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__button {
+    background-color: $brown-1;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-family: $source;
+    font-size: 16px;
+    padding: 8px 24px;
+    color: $yellow-1;
+
+    &:hover {
+      background-color: $brown-2;
+    }
+
+    &:disabled,
+    &:disabled:hover {
+      background-color: $gray-2;
+      color: $gray-3;
+      cursor: default;
+    }
+  }
+}

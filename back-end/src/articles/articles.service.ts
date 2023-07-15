@@ -7,10 +7,8 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Article } from './models/article.model';
 import { Tag } from '../tags/models/tag.model';
-import { User } from '../users/models/user.model';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { TagsService } from '../tags/tags.service';
-import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class ArticlesService {
@@ -21,25 +19,18 @@ export class ArticlesService {
         model: Tag,
         through: { attributes: [] },
       },
-      {
-        association: 'authors',
-        model: User,
-        through: { attributes: [] },
-      },
     ],
   };
 
   public constructor(
     private tagsService: TagsService,
-    private usersService: UsersService,
     @InjectModel(Article) private articleRepository: typeof Article,
   ) {}
 
   public async createArticle(createArticleDto: CreateArticleDto) {
     if (
       !createArticleDto.title ||
-      !createArticleDto.text ||
-      !createArticleDto.authorsIds ||
+      !createArticleDto.content ||
       !createArticleDto.tagsIds
     ) {
       throw new BadRequestException({ message: 'Article is not created' });
@@ -49,31 +40,24 @@ export class ArticlesService {
         id: createArticleDto.tagsIds,
       },
     });
-    const authors = await this.usersService.getAllUsers({
-      where: {
-        id: createArticleDto.authorsIds,
-      },
-    });
-    if (!authors.length || !tags.length) {
+    if (!tags.length) {
       throw new BadRequestException({ message: 'Article is not created' });
     }
     const article = await this.articleRepository.create({
       title: createArticleDto.title,
-      text: createArticleDto.text,
+      content: createArticleDto.content,
     });
     if (!article) {
       throw new BadRequestException({ message: 'Article is not created' });
     }
     await article.$set('tags', tags);
-    await article.$set('authors', authors);
     return this.getArticleById(article.id);
   }
 
   public async updateArticle(id: number, updateArticleDto: UpdateArticleDto) {
     if (
       !updateArticleDto.title ||
-      !updateArticleDto.text ||
-      !updateArticleDto.authorsIds ||
+      !updateArticleDto.content ||
       !updateArticleDto.tagsIds
     ) {
       throw new BadRequestException({ message: 'Article is not updated' });
@@ -82,25 +66,19 @@ export class ArticlesService {
     if (!article) {
       throw new NotFoundException({ message: 'Article not found' });
     }
-    if (updateArticleDto.tagsIds.length && updateArticleDto.authorsIds.length) {
+    if (updateArticleDto.tagsIds.length) {
       const tags = await this.tagsService.getAllTags({
         where: {
           id: updateArticleDto.tagsIds,
         },
       });
-      const authors = await this.usersService.getAllUsers({
-        where: {
-          id: updateArticleDto.authorsIds,
-        },
-      });
-      if (!authors.length || !tags.length) {
+      if (!tags.length) {
         throw new BadRequestException({ message: 'Article is not updated' });
       }
       article.title = updateArticleDto.title;
-      article.text = updateArticleDto.text;
+      article.content = updateArticleDto.content;
       await article.save();
       await article.$set('tags', tags);
-      await article.$set('authors', authors);
       return this.getArticleById(id);
     }
     throw new BadRequestException({ message: 'Article is not updated' });

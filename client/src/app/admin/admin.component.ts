@@ -23,5 +23,9 @@ export class AdminComponent {
       label: 'Теги',
       route: AdminRouteNameEnum.Tags,
     },
+    {
+      label: 'Нова стаття',
+      route: AdminRouteNameEnum.NewArticle,
+    },
   ];
 }

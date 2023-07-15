@@ -1,14 +1,5 @@
-import {
-  BelongsToMany,
-  Column,
-  DataType,
-  HasMany,
-  Model,
-  Table,
-} from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
-import { Article } from '../../articles/models/article.model';
-import { ArticleUsers } from '../../articles/models/article-users.model';
 import { Rating } from '../../rating/models/rating.model';
 import { Comment } from '../../comments/models/comment.model';
 
@@ -67,9 +58,6 @@ export class User extends Model<User, UserCreationAttrsInterface> {
   @ApiProperty({ example: false, description: 'User is an admin or not' })
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false })
   public isAdmin: boolean;
-
-  @BelongsToMany(() => Article, () => ArticleUsers)
-  public articles: Article[];
 
   @HasMany(() => Rating)
   public ratings: Rating[];
