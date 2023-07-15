@@ -1,13 +1,13 @@
 <div class='article-content'>
   <label class='article-content__label' for='input'>Текст</label>
   <div class='article-content__textarea-wrapper' *ngIf='isContentEditable'>
-    <textarea id='input' class='article-content__textarea' placeholder='Введіть текст статті' rows='15' [(ngModel)]='value'></textarea>
+    <textarea id='input' class='article-content__textarea' placeholder='Введіть текст статті' rows='15' [formControl]="contentCtrl"></textarea>
     <button class='article-content__button' (click)='showContent()'>
       <svg-icon src='assets/images/eye.svg'></svg-icon>
     </button>
   </div>
   <div class='article-content__content-wrapper' *ngIf='!isContentEditable'>
-    <div class='article-content__content' [mathjax]='value'></div>
+    <div class='article-content__content' [mathjax]='content'></div>
     <button class='article-content__button article-content__button--edit' (click)='editContent()'>
       <svg-icon src='assets/images/edit.svg'></svg-icon>
     </button>

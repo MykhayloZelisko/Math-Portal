@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef, OnInit,
+  ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -35,8 +35,12 @@ import { MathjaxModule } from 'mathjax-angular';
   styleUrls: ['./article-tags.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArticleTagsComponent implements OnInit {
+export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('tagInput') public tagInput!: ElementRef<HTMLInputElement>;
+
+  @Input() public clearControl: boolean = false;
+
+  @Output() public saveTagsIds: EventEmitter<number[]> = new EventEmitter<number[]>();
 
   public tagCtrl: FormControl = new FormControl('');
 
@@ -53,6 +57,24 @@ export class ArticleTagsComponent implements OnInit {
   public ngOnInit(): void {
     this.initTagList();
     this.initFilteredList();
+  }
+
+  public ngOnChanges() {
+    this.clearTags();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private clearTags(): void {
+    if (this.clearControl) {
+      this.selectedTags = [];
+      this.tagInput.nativeElement.value = '';
+      this.tagCtrl.setValue('');
+      this.clearControl = false;
+    }
   }
 
   private initTagList(): void {
@@ -89,6 +111,7 @@ export class ArticleTagsComponent implements OnInit {
     this.selectedTags = this.selectedTags.filter(
       (item, itemIndex) => itemIndex !== index,
     );
+    this.saveTags(this.selectedTags);
   }
 
   public selected(event: MatAutocompleteSelectedEvent): void {
@@ -97,9 +120,15 @@ export class ArticleTagsComponent implements OnInit {
       const selectedTag = this.selectedTags.find((item) => item.id === tag.id);
       if (!selectedTag) {
         this.selectedTags.push(tag);
+        this.saveTags(this.selectedTags);
       }
       this.tagInput.nativeElement.value = '';
-      this.tagCtrl.setValue(null);
+      this.tagCtrl.setValue('');
     }
+  }
+
+  private saveTags(tags: TagInterface[]): void {
+    const tagsIds = tags.map((tag: TagInterface) => tag.id);
+    this.saveTagsIds.emit(tagsIds);
   }
 }

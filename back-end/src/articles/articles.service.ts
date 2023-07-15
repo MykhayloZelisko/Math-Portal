@@ -30,7 +30,7 @@ export class ArticlesService {
   public async createArticle(createArticleDto: CreateArticleDto) {
     if (
       !createArticleDto.title ||
-      !createArticleDto.text ||
+      !createArticleDto.content ||
       !createArticleDto.tagsIds
     ) {
       throw new BadRequestException({ message: 'Article is not created' });
@@ -45,7 +45,7 @@ export class ArticlesService {
     }
     const article = await this.articleRepository.create({
       title: createArticleDto.title,
-      text: createArticleDto.text,
+      content: createArticleDto.content,
     });
     if (!article) {
       throw new BadRequestException({ message: 'Article is not created' });
@@ -57,7 +57,7 @@ export class ArticlesService {
   public async updateArticle(id: number, updateArticleDto: UpdateArticleDto) {
     if (
       !updateArticleDto.title ||
-      !updateArticleDto.text ||
+      !updateArticleDto.content ||
       !updateArticleDto.tagsIds
     ) {
       throw new BadRequestException({ message: 'Article is not updated' });
@@ -76,7 +76,7 @@ export class ArticlesService {
         throw new BadRequestException({ message: 'Article is not updated' });
       }
       article.title = updateArticleDto.title;
-      article.text = updateArticleDto.text;
+      article.content = updateArticleDto.content;
       await article.save();
       await article.$set('tags', tags);
       return this.getArticleById(id);

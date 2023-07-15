@@ -6,7 +6,7 @@ export class UpdateArticleDto extends PartialType(CreateArticleDto) {
   public readonly title: string;
 
   @ApiProperty({ example: 'Text', description: 'Text' })
-  public readonly text: string;
+  public readonly content: string;
 
   @ApiProperty({ example: [1], description: 'Array of tags' })
   public readonly tagsIds: number[];

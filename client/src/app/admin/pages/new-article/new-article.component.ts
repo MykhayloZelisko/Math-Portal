@@ -1,14 +1,13 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArticleTagsComponent } from './components/article-tags/article-tags.component';
-import { MathjaxModule } from 'mathjax-angular';
-import { FormsModule } from '@angular/forms';
-import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ArticleTitleComponent } from './components/article-title/article-title.component';
 import { ArticleContentComponent } from './components/article-content/article-content.component';
+import { CreateArticleInterface } from '../../../shared/models/interfaces/create-article.interface';
+import { ArticlesService } from '../../../shared/services/articles.service';
+import { Subject, takeUntil } from 'rxjs';
+import { DialogService } from '../../../shared/services/dialog.service';
+import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
 
 @Component({
   selector: 'app-new-article',
@@ -23,6 +22,62 @@ import { ArticleContentComponent } from './components/article-content/article-co
   styleUrls: ['./new-article.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewArticleComponent {
+export class NewArticleComponent implements OnDestroy {
+  public newArticle: CreateArticleInterface = {
+    title: '',
+    content: '',
+    tagsIds: [],
+  }
 
+  public clearControl: boolean = false;
+
+  public isButtonDisable: boolean = true;
+
+  private destroy$: Subject<void> = new Subject<void>();
+
+  public constructor(private articlesService: ArticlesService, private dialogService: DialogService, private cdr: ChangeDetectorRef) {}
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  public saveTitle(title: string) {
+    this.newArticle.title = title;
+    this.isButtonDisable = !this.newArticle.title || !this.newArticle.content || !this.newArticle.tagsIds.length
+  }
+
+  public saveContent(content: string) {
+    this.newArticle.content = content;
+    this.isButtonDisable = !this.newArticle.title || !this.newArticle.content || !this.newArticle.tagsIds.length
+  }
+
+  public saveTagsIds(tagsIds: number[]) {
+    this.newArticle.tagsIds = tagsIds;
+    this.isButtonDisable = !this.newArticle.title || !this.newArticle.content || !this.newArticle.tagsIds.length
+  }
+
+  public saveArticle(): void {
+    this.articlesService.createArticle(this.newArticle).pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.newArticle = {
+          title: '',
+          content: '',
+          tagsIds: [],
+        };
+        this.clearControl = true;
+        this.cdr.detectChanges();
+        this.dialogService.openDialog(DialogTypeEnum.Alert, {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Статтю успішно збережено.',
+        })
+      },
+      error: () => {
+        this.dialogService.openDialog(DialogTypeEnum.Alert, {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Помилка збереження статті. Повторіть спробу пізніше.',
+        })
+      }
+    })
+  }
 }

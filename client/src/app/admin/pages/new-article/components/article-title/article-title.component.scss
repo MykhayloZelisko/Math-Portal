@@ -65,6 +65,10 @@
         fill: $yellow-1;
       }
     }
+
+    &:hover {
+      background-color: $brown-2;
+    }
   }
 
   &__title {
@@ -72,5 +76,6 @@
     font-size: 24px;
     line-height: 36px;
     padding-right: 40px;
+    min-height: 40px;
   }
 }

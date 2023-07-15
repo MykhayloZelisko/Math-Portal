@@ -14,7 +14,7 @@ import { CommentsTree } from '../../comments/models/comments-tree.model';
 
 interface ArticleCreationAttrsInterface {
   title: string;
-  text: string;
+  content: string;
 }
 
 @Table({
@@ -39,7 +39,7 @@ export class Article extends Model<Article, ArticleCreationAttrsInterface> {
 
   @ApiProperty({ example: 'Text', description: 'Text' })
   @Column({ type: DataType.TEXT, allowNull: false })
-  public text: string;
+  public content: string;
 
   @ApiProperty({ example: 0, description: 'Rating' })
   @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 0 })

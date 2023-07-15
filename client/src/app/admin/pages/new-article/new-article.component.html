@@ -1,5 +1,8 @@
 <div class="new-article">
-  <app-article-tags></app-article-tags>
-  <app-article-title></app-article-title>
-  <app-article-content></app-article-content>
+  <app-article-tags [clearControl]='clearControl' (saveTagsIds)='saveTagsIds($event)'></app-article-tags>
+  <app-article-title [clearControl]='clearControl' (saveTitle)='saveTitle($event)'></app-article-title>
+  <app-article-content [clearControl]='clearControl' (saveContent)='saveContent($event)'></app-article-content>
+  <div class='new-article__button-wrapper'>
+    <button class='new-article__button' [disabled]='isButtonDisable' (click)='saveArticle()'>Зберегти</button>
+  </div>
 </div>
