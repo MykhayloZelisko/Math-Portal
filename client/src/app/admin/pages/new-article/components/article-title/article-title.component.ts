@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter, Input, OnChanges,
+  EventEmitter,
+  Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
@@ -15,10 +17,15 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-article-title',
   standalone: true,
-  imports: [CommonModule, AngularSvgIconModule, MathjaxModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    AngularSvgIconModule,
+    MathjaxModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './article-title.component.html',
   styleUrls: ['./article-title.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleTitleComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public clearControl: boolean = false;
@@ -59,8 +66,8 @@ export class ArticleTitleComponent implements OnInit, OnDestroy, OnChanges {
       next: (value: string) => {
         this.title = value;
         this.saveTitle.emit(value);
-      }
-    })
+      },
+    });
   }
 
   public showTitle() {

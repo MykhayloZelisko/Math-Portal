@@ -1,7 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -29,7 +35,7 @@ import { MathjaxModule } from 'mathjax-angular';
     MatChipsModule,
     MatIconModule,
     MatAutocompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './article-tags.component.html',
   styleUrls: ['./article-tags.component.scss'],
@@ -40,7 +46,9 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() public clearControl: boolean = false;
 
-  @Output() public saveTagsIds: EventEmitter<number[]> = new EventEmitter<number[]>();
+  @Output() public saveTagsIds: EventEmitter<number[]> = new EventEmitter<
+    number[]
+  >();
 
   public tagCtrl: FormControl = new FormControl('');
 

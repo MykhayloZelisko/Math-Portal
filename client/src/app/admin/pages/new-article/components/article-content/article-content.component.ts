@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter, Input, OnChanges,
+  EventEmitter,
+  Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
@@ -15,15 +17,21 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-article-content',
   standalone: true,
-  imports: [CommonModule, AngularSvgIconModule, MathjaxModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    AngularSvgIconModule,
+    MathjaxModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './article-content.component.html',
   styleUrls: ['./article-content.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public clearControl: boolean = false;
 
-  @Output() public saveContent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() public saveContent: EventEmitter<string> =
+    new EventEmitter<string>();
 
   public content: string = '';
 
@@ -59,8 +67,8 @@ export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
       next: (value: string) => {
         this.content = value;
         this.saveContent.emit(value);
-      }
-    })
+      },
+    });
   }
 
   public showContent() {

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArticleTagsComponent } from './components/article-tags/article-tags.component';
 import { ArticleTitleComponent } from './components/article-title/article-title.component';
@@ -27,7 +32,7 @@ export class NewArticleComponent implements OnDestroy {
     title: '',
     content: '',
     tagsIds: [],
-  }
+  };
 
   public clearControl: boolean = false;
 
@@ -35,7 +40,11 @@ export class NewArticleComponent implements OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(private articlesService: ArticlesService, private dialogService: DialogService, private cdr: ChangeDetectorRef) {}
+  public constructor(
+    private articlesService: ArticlesService,
+    private dialogService: DialogService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   public ngOnDestroy(): void {
     this.destroy$.next();
@@ -44,40 +53,52 @@ export class NewArticleComponent implements OnDestroy {
 
   public saveTitle(title: string) {
     this.newArticle.title = title;
-    this.isButtonDisable = !this.newArticle.title || !this.newArticle.content || !this.newArticle.tagsIds.length
+    this.isButtonDisable =
+      !this.newArticle.title ||
+      !this.newArticle.content ||
+      !this.newArticle.tagsIds.length;
   }
 
   public saveContent(content: string) {
     this.newArticle.content = content;
-    this.isButtonDisable = !this.newArticle.title || !this.newArticle.content || !this.newArticle.tagsIds.length
+    this.isButtonDisable =
+      !this.newArticle.title ||
+      !this.newArticle.content ||
+      !this.newArticle.tagsIds.length;
   }
 
   public saveTagsIds(tagsIds: number[]) {
     this.newArticle.tagsIds = tagsIds;
-    this.isButtonDisable = !this.newArticle.title || !this.newArticle.content || !this.newArticle.tagsIds.length
+    this.isButtonDisable =
+      !this.newArticle.title ||
+      !this.newArticle.content ||
+      !this.newArticle.tagsIds.length;
   }
 
   public saveArticle(): void {
-    this.articlesService.createArticle(this.newArticle).pipe(takeUntil(this.destroy$)).subscribe({
-      next: () => {
-        this.newArticle = {
-          title: '',
-          content: '',
-          tagsIds: [],
-        };
-        this.clearControl = true;
-        this.cdr.detectChanges();
-        this.dialogService.openDialog(DialogTypeEnum.Alert, {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Статтю успішно збережено.',
-        })
-      },
-      error: () => {
-        this.dialogService.openDialog(DialogTypeEnum.Alert, {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Помилка збереження статті. Повторіть спробу пізніше.',
-        })
-      }
-    })
+    this.articlesService
+      .createArticle(this.newArticle)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.newArticle = {
+            title: '',
+            content: '',
+            tagsIds: [],
+          };
+          this.clearControl = true;
+          this.cdr.detectChanges();
+          this.dialogService.openDialog(DialogTypeEnum.Alert, {
+            title: 'ПОВІДОМЛЕННЯ',
+            text: 'Статтю успішно збережено.',
+          });
+        },
+        error: () => {
+          this.dialogService.openDialog(DialogTypeEnum.Alert, {
+            title: 'ПОВІДОМЛЕННЯ',
+            text: 'Помилка збереження статті. Повторіть спробу пізніше.',
+          });
+        },
+      });
   }
 }
