@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, EventEmitter,
+  Component,
+  EventEmitter,
   OnDestroy,
-  OnInit, Output,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,22 +13,27 @@ import { TagInterface } from '../../../../../../../shared/models/interfaces/tag.
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { TagsService } from '../../../../../../../shared/services/tags.service';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
-import {
-  ArticlesListParamsInterface
-} from '../../../../../../../shared/models/interfaces/articles-list-params.interface';
+import { ArticlesListParamsInterface } from '../../../../../../../shared/models/interfaces/articles-list-params.interface';
 
 const DEBOUNCE_TIME = 600;
 
 @Component({
   selector: 'app-articles-filter',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, AngularSvgIconModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AngularSvgIconModule,
+  ],
   templateUrl: './articles-filter.component.html',
   styleUrls: ['./articles-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticlesFilterComponent implements OnInit, OnDestroy {
-  @Output() public changeFilterParams: EventEmitter<ArticlesListParamsInterface> = new EventEmitter<ArticlesListParamsInterface>();
+  @Output()
+  public changeFilterParams: EventEmitter<ArticlesListParamsInterface> =
+    new EventEmitter<ArticlesListParamsInterface>();
 
   public tagsList: TagInterface[] = [];
 
@@ -37,11 +44,14 @@ export class ArticlesFilterComponent implements OnInit, OnDestroy {
     tagsIds: [],
     // page: 1,
     // size: 10,
-  }
+  };
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(private tagsService: TagsService, private cdr: ChangeDetectorRef) {}
+  public constructor(
+    private tagsService: TagsService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   public ngOnInit(): void {
     this.initTagsList();
@@ -60,7 +70,9 @@ export class ArticlesFilterComponent implements OnInit, OnDestroy {
         if (tag) {
           tagsSet.add(tag);
           this.tagsList = Array.from(tagsSet);
-          const tagsIds = this.tagsList.map((tagItem: TagInterface) => tagItem.id);
+          const tagsIds = this.tagsList.map(
+            (tagItem: TagInterface) => tagItem.id,
+          );
           this.filterParams = { ...this.filterParams, tagsIds };
           this.changeFilterParams.emit(this.filterParams);
         }
@@ -78,14 +90,16 @@ export class ArticlesFilterComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (value) => {
-          this.filterParams = { ...this.filterParams, filter: value }
+          this.filterParams = { ...this.filterParams, filter: value };
           this.changeFilterParams.emit(this.filterParams);
         },
       });
   }
 
   public deleteTag(tag: TagInterface): void {
-    this.tagsList = this.tagsList.filter((tagItem: TagInterface) => tagItem.id !==tag.id);
+    this.tagsList = this.tagsList.filter(
+      (tagItem: TagInterface) => tagItem.id !== tag.id,
+    );
     const tagsIds = this.tagsList.map((tagItem: TagInterface) => tagItem.id);
     this.filterParams = { ...this.filterParams, tagsIds };
     this.changeFilterParams.emit(this.filterParams);

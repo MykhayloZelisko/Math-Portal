@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { TagInterface } from '../../../../../shared/models/interfaces/tag.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { TagsService } from '../../../../../shared/services/tags.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tags-list',
@@ -17,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   imports: [CommonModule],
   templateUrl: './tags-list.component.html',
   styleUrls: ['./tags-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagsListComponent implements OnInit, OnDestroy {
   public tagsList: TagInterface[] = [];
@@ -59,7 +59,7 @@ export class TagsListComponent implements OnInit, OnDestroy {
   private checkRoute(): void {
     const urlLength = this.router.url.split('/').length;
     if (urlLength > 2) {
-      this.router.navigateByUrl('articles')
+      this.router.navigateByUrl('articles');
     }
   }
 }

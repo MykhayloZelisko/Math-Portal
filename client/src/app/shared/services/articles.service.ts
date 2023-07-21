@@ -5,7 +5,6 @@ import { CreateArticleInterface } from '../models/interfaces/create-article.inte
 import { Observable } from 'rxjs';
 import { ArticleInterface } from '../models/interfaces/article.interface';
 import { ArticlesListParamsInterface } from '../models/interfaces/articles-list-params.interface';
-import { ArticlesListInterface } from '../models/interfaces/articles-list.interface';
 
 @Injectable({
   providedIn: 'root',

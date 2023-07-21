@@ -5,14 +5,16 @@ export const ArticlesRoutes: Routes = [
   {
     path: ArticlesRouteNameEnum.ArticlesPanel,
     loadComponent: () =>
-      import('../user/pages/articles/articles.component').then((m) => m.ArticlesComponent),
+      import('../user/pages/articles/articles.component').then(
+        (m) => m.ArticlesComponent,
+      ),
     children: [
       {
         path: ArticlesRouteNameEnum.ArticlesList,
         loadComponent: () =>
-          import('../user/pages/articles/pages/articles-list/articles-list.component').then(
-            (m) => m.ArticlesListComponent,
-          ),
+          import(
+            '../user/pages/articles/pages/articles-list/articles-list.component'
+          ).then((m) => m.ArticlesListComponent),
       },
       {
         path: ArticlesRouteNameEnum.Article,

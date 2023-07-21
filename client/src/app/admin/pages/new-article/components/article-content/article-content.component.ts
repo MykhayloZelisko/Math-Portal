@@ -28,7 +28,7 @@ import { Subject, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() public clearControl: {clear: boolean} = { clear: false };
+  @Input() public clearControl: { clear: boolean } = { clear: false };
 
   @Output() public saveContent: EventEmitter<string> =
     new EventEmitter<string>();

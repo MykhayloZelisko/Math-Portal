@@ -44,7 +44,7 @@ import { MathjaxModule } from 'mathjax-angular';
 export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('tagInput') public tagInput!: ElementRef<HTMLInputElement>;
 
-  @Input() public clearControl: {clear: boolean} = { clear: false };
+  @Input() public clearControl: { clear: boolean } = { clear: false };
 
   @Output() public saveTagsIds: EventEmitter<number[]> = new EventEmitter<
     number[]

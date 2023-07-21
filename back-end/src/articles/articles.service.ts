@@ -108,7 +108,7 @@ export class ArticlesService {
     return articles;
   }
 
-  public async getAllArticlesWithParams (
+  public async getAllArticlesWithParams(
     // page: number,
     // size: number,
     filter: string,
@@ -142,13 +142,13 @@ export class ArticlesService {
           ],
         },
         group: ['Article.id', 'Article.title'],
-        having: sequelize.literal(`COUNT(DISTINCT tags.id) = ${tagsIds.length}`),
+        having: sequelize.literal(`COUNT(tags.id) = ${tagsIds.length}`),
         // offset: (page - 1) * size,
         // limit: size,
       };
     } else if (!!filter && !!filter.trim() && !tagsIds.length) {
       filterOptions = {
-        attributes: ['id', 'title', 'content'],
+        attributes: ['id', 'title'],
         where: {
           [Op.or]: [
             sequelize.where(
@@ -168,7 +168,7 @@ export class ArticlesService {
       };
     } else if ((!filter || !filter.trim()) && !!tagsIds.length) {
       filterOptions = {
-        attributes: ['id', 'title', 'content'],
+        attributes: ['id', 'title'],
         include: {
           attributes: [],
           association: 'tags',
@@ -177,18 +177,18 @@ export class ArticlesService {
           where: { id: tagsIds },
           required: true,
         },
-        group: ['Article.id', 'Article.title', 'Article.content'],
-        having: sequelize.literal(`COUNT(DISTINCT tags.id) = ${tagsIds.length}`),
+        group: ['Article.id', 'Article.title'],
+        having: sequelize.literal(`COUNT(tags.id) = ${tagsIds.length}`),
         // offset: (page - 1) * size,
         // limit: size,
       };
     } else {
       filterOptions = {
-        attributes: ['id', 'title', 'content'],
+        attributes: ['id', 'title'],
         // offset: (page - 1) * size,
         // limit: size,
       };
-    };
+    }
 
     const articles = await this.getAllArticles(filterOptions);
     return articles;

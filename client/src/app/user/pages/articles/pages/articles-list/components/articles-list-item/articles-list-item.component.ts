@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   imports: [CommonModule, MathjaxModule],
   templateUrl: './articles-list-item.component.html',
   styleUrls: ['./articles-list-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticlesListItemComponent {
   @Input() public article!: ArticleInterface;
@@ -18,6 +18,6 @@ export class ArticlesListItemComponent {
   public constructor(private router: Router) {}
 
   public openArticle(): void {
-    this.router.navigateByUrl(`articles/${this.article.id}`)
+    this.router.navigateByUrl(`articles/${this.article.id}`);
   }
 }

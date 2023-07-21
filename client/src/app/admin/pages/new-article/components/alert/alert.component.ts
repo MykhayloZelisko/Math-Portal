@@ -8,7 +8,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
   imports: [CommonModule, AngularSvgIconModule],
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AlertComponent {
   public isAlertVisible: boolean = true;

@@ -7,12 +7,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArticlesFilterComponent } from './components/articles-filter/articles-filter.component';
-import {
-  ArticlesListParamsInterface
-} from '../../../../../shared/models/interfaces/articles-list-params.interface';
-import {
-  ArticlesListItemComponent
-} from './components/articles-list-item/articles-list-item.component';
+import { ArticlesListParamsInterface } from '../../../../../shared/models/interfaces/articles-list-params.interface';
+import { ArticlesListItemComponent } from './components/articles-list-item/articles-list-item.component';
 import { ArticleInterface } from '../../../../../shared/models/interfaces/article.interface';
 import { ArticlesService } from '../../../../../shared/services/articles.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -23,7 +19,7 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [CommonModule, ArticlesFilterComponent, ArticlesListItemComponent],
   templateUrl: './articles-list.component.html',
   styleUrls: ['./articles-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticlesListComponent implements OnInit, OnDestroy {
   public articlesList: ArticleInterface[] = [];
@@ -49,7 +45,7 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
     tagsIds: [],
     // page: 1,
     // size: 10,
-  }
+  };
 
   public changePaginationParams(event: ArticlesListParamsInterface) {
     this.paginationParams = event;
@@ -57,12 +53,14 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
   }
 
   private initArticlesList(params: ArticlesListParamsInterface): void {
-    this.articlesService.getArticlesList(params).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (list: ArticleInterface[]) => {
-        this.articlesList = list;
-        console.log(list);
-        this.cdr.detectChanges();
-      }
-    })
+    this.articlesService
+      .getArticlesList(params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (list: ArticleInterface[]) => {
+          this.articlesList = list;
+          this.cdr.detectChanges();
+        },
+      });
   }
 }
