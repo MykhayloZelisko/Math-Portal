@@ -36,7 +36,7 @@ export class NewArticleComponent implements OnDestroy {
     tagsIds: [],
   };
 
-  public clearControl: boolean = false;
+  public clearControl: { clear: boolean } = { clear: false };
 
   public isButtonDisable: boolean = true;
 
@@ -88,7 +88,7 @@ export class NewArticleComponent implements OnDestroy {
             content: '',
             tagsIds: [],
           };
-          this.clearControl = true;
+          this.clearControl = { clear: true };
           this.cdr.detectChanges();
           this.dialogService.openDialog(DialogTypeEnum.Alert, {
             title: 'ПОВІДОМЛЕННЯ',

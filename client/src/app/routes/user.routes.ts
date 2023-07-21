@@ -25,10 +25,7 @@ export const UserRoutes: Routes = [
   },
   {
     path: UserRouteNameEnum.Articles,
-    loadComponent: () =>
-      import('../user/pages/articles/articles.component').then(
-        (m) => m.ArticlesComponent,
-      ),
+    loadChildren: () => import('./articles.routes').then((m) => m.ArticlesRoutes),
   },
   {
     path: UserRouteNameEnum.Applications,

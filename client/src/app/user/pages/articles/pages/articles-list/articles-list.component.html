@@ -1,0 +1,6 @@
+<div class='articles-list'>
+  <app-articles-filter (changeFilterParams)='changePaginationParams($event)'></app-articles-filter>
+  <div class='articles-list__list'>
+    <app-articles-list-item *ngFor='let article of articlesList' [article]='article'></app-articles-list-item>
+  </div>
+</div>

@@ -38,7 +38,7 @@ export class TagsController {
   @ApiResponse({ status: 200, type: [Tag] })
   @Get()
   public getAllTags() {
-    return this.tagsService.getAllTags();
+    return this.tagsService.getAllTags({order: [['value', 'ASC']]});
   }
 
   @ApiOperation({ summary: 'Delete tag' })

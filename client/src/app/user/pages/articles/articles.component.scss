@@ -1,0 +1,9 @@
+.articles {
+  min-height: calc(100vh - 106px);
+  display: flex;
+  align-items: stretch;
+
+  &__list {
+    width: 100%;
+  }
+}

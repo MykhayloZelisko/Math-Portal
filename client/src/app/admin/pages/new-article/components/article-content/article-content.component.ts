@@ -28,7 +28,7 @@ import { Subject, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() public clearControl: boolean = false;
+  @Input() public clearControl: {clear: boolean} = { clear: false };
 
   @Output() public saveContent: EventEmitter<string> =
     new EventEmitter<string>();
@@ -55,10 +55,10 @@ export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private clearContent(): void {
-    if (this.clearControl) {
+    if (this.clearControl.clear) {
       this.content = '';
       this.contentCtrl.setValue('');
-      this.clearControl = false;
+      this.clearControl = { clear: false };
     }
   }
 

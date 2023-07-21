@@ -1,0 +1,9 @@
+<div class="tags-list">
+  <p
+    class="tags-list__item"
+    *ngFor="let tag of tagsList"
+    (click)="addTag(tag)"
+  >
+    {{ tag.value }}
+  </p>
+</div>

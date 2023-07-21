@@ -9,17 +9,16 @@ import { Article } from './models/article.model';
 import { Tag } from '../tags/models/tag.model';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { TagsService } from '../tags/tags.service';
+import sequelize, { FindOptions, Op } from 'sequelize';
 
 @Injectable()
 export class ArticlesService {
-  private articleOptions = {
-    include: [
-      {
-        association: 'tags',
-        model: Tag,
-        through: { attributes: [] },
-      },
-    ],
+  private articleOptions: FindOptions<Article> = {
+    include: {
+      association: 'tags',
+      model: Tag,
+      through: { attributes: [] },
+    },
   };
 
   public constructor(
@@ -104,8 +103,94 @@ export class ArticlesService {
     throw new NotFoundException({ message: 'Article not found' });
   }
 
-  public async getAllArticles() {
-    const articles = await this.articleRepository.findAll(this.articleOptions);
+  public async getAllArticles(options?: FindOptions<Article>) {
+    const articles = await this.articleRepository.findAll(options);
+    return articles;
+  }
+
+  public async getAllArticlesWithParams (
+    // page: number,
+    // size: number,
+    filter: string,
+    tagsIds: number[],
+  ) {
+    let filterOptions: FindOptions<Article>;
+
+    if (!!filter && !!filter.trim() && !!tagsIds.length) {
+      filterOptions = {
+        attributes: ['id', 'title'],
+        include: {
+          attributes: [],
+          association: 'tags',
+          model: Tag,
+          through: { attributes: [] },
+          where: { id: tagsIds },
+          required: true,
+        },
+        where: {
+          [Op.or]: [
+            sequelize.where(
+              sequelize.fn('LOWER', sequelize.col('title')),
+              'LIKE',
+              '%' + filter.toLowerCase() + '%',
+            ),
+            sequelize.where(
+              sequelize.fn('LOWER', sequelize.col('content')),
+              'LIKE',
+              '%' + filter.toLowerCase() + '%',
+            ),
+          ],
+        },
+        group: ['Article.id', 'Article.title'],
+        having: sequelize.literal(`COUNT(DISTINCT tags.id) = ${tagsIds.length}`),
+        // offset: (page - 1) * size,
+        // limit: size,
+      };
+    } else if (!!filter && !!filter.trim() && !tagsIds.length) {
+      filterOptions = {
+        attributes: ['id', 'title', 'content'],
+        where: {
+          [Op.or]: [
+            sequelize.where(
+              sequelize.fn('LOWER', sequelize.col('title')),
+              'LIKE',
+              '%' + filter.toLowerCase() + '%',
+            ),
+            sequelize.where(
+              sequelize.fn('LOWER', sequelize.col('content')),
+              'LIKE',
+              '%' + filter.toLowerCase() + '%',
+            ),
+          ],
+        },
+        // offset: (page - 1) * size,
+        // limit: size,
+      };
+    } else if ((!filter || !filter.trim()) && !!tagsIds.length) {
+      filterOptions = {
+        attributes: ['id', 'title', 'content'],
+        include: {
+          attributes: [],
+          association: 'tags',
+          model: Tag,
+          through: { attributes: [] },
+          where: { id: tagsIds },
+          required: true,
+        },
+        group: ['Article.id', 'Article.title', 'Article.content'],
+        having: sequelize.literal(`COUNT(DISTINCT tags.id) = ${tagsIds.length}`),
+        // offset: (page - 1) * size,
+        // limit: size,
+      };
+    } else {
+      filterOptions = {
+        attributes: ['id', 'title', 'content'],
+        // offset: (page - 1) * size,
+        // limit: size,
+      };
+    };
+
+    const articles = await this.getAllArticles(filterOptions);
     return articles;
   }
 }
