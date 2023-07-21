@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AlertComponent } from './alert.component';
+import { TagsListComponent } from './tags-list.component';
 
-describe('AlertComponent', () => {
-  let component: AlertComponent;
-  let fixture: ComponentFixture<AlertComponent>;
+describe('TagsListComponent', () => {
+  let component: TagsListComponent;
+  let fixture: ComponentFixture<TagsListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AlertComponent],
+      imports: [TagsListComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AlertComponent);
+    fixture = TestBed.createComponent(TagsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

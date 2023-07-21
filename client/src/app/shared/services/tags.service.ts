@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TagInterface } from '../models/interfaces/tag.interface';
 
 @Injectable({
@@ -9,6 +9,9 @@ import { TagInterface } from '../models/interfaces/tag.interface';
 })
 export class TagsService {
   private baseUrl = `${environment.apiUrl}/tags`;
+
+  public tag$: BehaviorSubject<TagInterface | null> =
+    new BehaviorSubject<TagInterface | null>(null);
 
   public constructor(private httpClient: HttpClient) {}
 

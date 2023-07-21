@@ -44,7 +44,7 @@ import { MathjaxModule } from 'mathjax-angular';
 export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('tagInput') public tagInput!: ElementRef<HTMLInputElement>;
 
-  @Input() public clearControl: boolean = false;
+  @Input() public clearControl: { clear: boolean } = { clear: false };
 
   @Output() public saveTagsIds: EventEmitter<number[]> = new EventEmitter<
     number[]
@@ -77,11 +77,11 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private clearTags(): void {
-    if (this.clearControl) {
+    if (this.clearControl.clear) {
       this.selectedTags = [];
       this.tagInput.nativeElement.value = '';
       this.tagCtrl.setValue('');
-      this.clearControl = false;
+      this.clearControl = { clear: false };
     }
   }
 

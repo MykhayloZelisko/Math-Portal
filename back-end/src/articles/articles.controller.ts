@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -19,6 +20,7 @@ import { Article } from './models/article.model';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { ArticlesService } from './articles.service';
 import { UpdateArticleDto } from './dto/update-article.dto';
+// import { ArticlesListDto } from './dto/articles-list.dto';
 
 @ApiTags('Articles')
 @Controller('articles')
@@ -65,7 +67,18 @@ export class ArticlesController {
   @ApiOperation({ summary: 'Get list of articles' })
   @ApiResponse({ status: 200, type: [Article] })
   @Get()
-  public getAllArticles() {
-    return this.articlesService.getAllArticles();
+  public getAllArticles(
+    // @Query('page') page: number,
+    // @Query('size') size: number,
+    @Query('filter') filter: string,
+    @Query('tagsIds') tagsIdsQuery: string,
+  ) {
+    const tagsIds = tagsIdsQuery ? tagsIdsQuery.split(',').map(Number) : [];
+    return this.articlesService.getAllArticlesWithParams(
+      // page,
+      // size,
+      filter,
+      tagsIds,
+    );
   }
 }

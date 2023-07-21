@@ -71,12 +71,12 @@ export class UsersService {
             sequelize.where(
               sequelize.fn('LOWER', sequelize.col('full_name')),
               'LIKE',
-              '%' + filter.toLowerCase() + '%',
+              '%' + filter.trim().toLowerCase() + '%',
             ),
             sequelize.where(
               sequelize.fn('LOWER', sequelize.col('email')),
               'LIKE',
-              '%' + filter.toLowerCase() + '%',
+              '%' + filter.trim().toLowerCase() + '%',
             ),
           ],
         },

@@ -1,0 +1,26 @@
+<div class="articles-filter">
+  <label class="articles-filter__title">Пошук статті</label>
+  <div class="articles-filter__field-wrapper">
+    <input
+      class="articles-filter__input"
+      type="text"
+      [formControl]="searchArticleCtrl"
+      placeholder="Пошук"
+    />
+    <button class="articles-filter__clear-btn" (click)="clearFilters()">
+      Скинути фільтри
+    </button>
+  </div>
+  <div class="articles-filter__tags-list" *ngIf="tagsList.length">
+    <p>Теги:</p>
+    <p class="articles-filter__tag" *ngFor="let tag of tagsList">
+      {{ tag.value }}
+      <button class="articles-filter__tag-btn" (click)="deleteTag(tag)">
+        <svg-icon
+          class="articles-filter__tag-icon"
+          src="assets/images/content-clear.svg"
+        ></svg-icon>
+      </button>
+    </p>
+  </div>
+</div>

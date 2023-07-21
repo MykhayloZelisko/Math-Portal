@@ -1,0 +1,16 @@
+@import 'variables';
+
+.tags-list {
+  padding: 10px 0;
+  filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%)) drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
+  background-color: $white;
+  height: 100%;
+  font-family: $source;
+  line-height: 24px;
+  min-width: 260px;
+
+  &__item {
+    padding: 0 15px;
+    cursor: pointer;
+  }
+}
