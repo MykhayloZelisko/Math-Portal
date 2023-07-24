@@ -57,7 +57,7 @@ module.exports = {
     'prefer-const': 'warn',
     curly: 'warn',
     eqeqeq: ['warn', 'smart'],
-    'no-magic-numbers': ['warn', { 'ignore': [-1, 0, 1, 2, 3, 4, 5]}],
+    'no-magic-numbers': ['warn', { 'ignore': [-1, 0, 1, 2, 3, 4, 5, 100]}],
     '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/explicit-member-accessibility': ['warn']
   },

@@ -8,7 +8,7 @@
           formControlName="rating"
           class="rating__radio"
           type="radio"
-          value=5
+          value="5"
           (change)="changeRating()"
         />
         <label
@@ -25,10 +25,7 @@
           >
             <defs>
               <linearGradient id="half_grad0">
-                <stop
-                  [attr.offset]="svgGradient(5)"
-                  stop-color="#FFDA7B"
-                />
+                <stop [attr.offset]="svgGradient(5)" stop-color="#FFDA7B" />
                 <stop
                   [attr.offset]="svgGradient(5)"
                   stop-color="white"
@@ -51,7 +48,7 @@
           formControlName="rating"
           class="rating__radio"
           type="radio"
-          value=4
+          value="4"
           (change)="changeRating()"
         />
         <label
@@ -68,10 +65,7 @@
           >
             <defs>
               <linearGradient id="half_grad1">
-                <stop
-                  [attr.offset]="svgGradient(4)"
-                  stop-color="#FFDA7B"
-                />
+                <stop [attr.offset]="svgGradient(4)" stop-color="#FFDA7B" />
                 <stop
                   [attr.offset]="svgGradient(4)"
                   stop-color="white"
@@ -94,7 +88,7 @@
           formControlName="rating"
           class="rating__radio"
           type="radio"
-          value=3
+          value="3"
           (change)="changeRating()"
         />
         <label
@@ -111,10 +105,7 @@
           >
             <defs>
               <linearGradient id="half_grad2">
-                <stop
-                  [attr.offset]="svgGradient(3)"
-                  stop-color="#FFDA7B"
-                />
+                <stop [attr.offset]="svgGradient(3)" stop-color="#FFDA7B" />
                 <stop
                   [attr.offset]="svgGradient(3)"
                   stop-color="white"
@@ -137,7 +128,7 @@
           formControlName="rating"
           class="rating__radio"
           type="radio"
-          value=2
+          value="2"
           (change)="changeRating()"
         />
         <label
@@ -154,10 +145,7 @@
           >
             <defs>
               <linearGradient id="half_grad3">
-                <stop
-                  [attr.offset]="svgGradient(2)"
-                  stop-color="#FFDA7B"
-                />
+                <stop [attr.offset]="svgGradient(2)" stop-color="#FFDA7B" />
                 <stop
                   [attr.offset]="svgGradient(2)"
                   stop-color="white"
@@ -180,7 +168,7 @@
           formControlName="rating"
           class="rating__radio"
           type="radio"
-          value=1
+          value="1"
           (change)="changeRating()"
         />
         <label
@@ -197,10 +185,7 @@
           >
             <defs>
               <linearGradient id="half_grad4">
-                <stop
-                  [attr.offset]="svgGradient(1)"
-                  stop-color="#FFDA7B"
-                />
+                <stop [attr.offset]="svgGradient(1)" stop-color="#FFDA7B" />
                 <stop
                   [attr.offset]="svgGradient(1)"
                   stop-color="white"
@@ -219,5 +204,5 @@
       </div>
     </div>
   </form>
-  <p>{{rating}} / 5 (Кількість голосів: {{votes}})</p>
+  <p>{{ rating }} / 5 (Кількість голосів: {{ votes }})</p>
 </div>

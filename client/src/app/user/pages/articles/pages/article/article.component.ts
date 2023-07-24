@@ -17,9 +17,7 @@ import { TagsService } from '../../../../../shared/services/tags.service';
 import { RatingComponent } from './components/rating/rating.component';
 import { RatingService } from '../../../../../shared/services/rating.service';
 import { RatingType } from '../../../../../shared/models/types/rating.type';
-import {
-  CurrentArticleRatingInterface
-} from '../../../../../shared/models/interfaces/current-article-rating.interface';
+import { CurrentArticleRatingInterface } from '../../../../../shared/models/interfaces/current-article-rating.interface';
 import { UsersService } from '../../../../../shared/services/users.service';
 import { UserInterface } from '../../../../../shared/models/interfaces/user.interface';
 
@@ -67,8 +65,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
       next: (user: UserInterface | null) => {
         this.isAdmin = !!user && user.isAdmin;
         this.cdr.detectChanges();
-      }
-    })
+      },
+    });
   }
 
   private initArticle(): void {
@@ -81,7 +79,11 @@ export class ArticleComponent implements OnInit, OnDestroy {
           tap((article: ArticleInterface) => {
             this.article = article;
           }),
-          switchMap(() => this.ratingService.getCurrentArticleStatus(id).pipe(takeUntil(this.destroy$)))
+          switchMap(() =>
+            this.ratingService
+              .getCurrentArticleStatus(id)
+              .pipe(takeUntil(this.destroy$)),
+          ),
         )
         .subscribe({
           next: (status) => {
@@ -102,14 +104,16 @@ export class ArticleComponent implements OnInit, OnDestroy {
   }
 
   public updateRating(rating: RatingType) {
-    this.ratingService.updateArticleRating(this.article.id, rating).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (value: CurrentArticleRatingInterface) => {
-        console.log(value);
-        this.article.rating = value.rating;
-        this.article.votes = value.votes;
-        this.isRatingActive = false;
-        this.cdr.detectChanges();
-      }
-    })
+    this.ratingService
+      .updateArticleRating(this.article.id, rating)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (value: CurrentArticleRatingInterface) => {
+          this.article.rating = value.rating;
+          this.article.votes = value.votes;
+          this.isRatingActive = false;
+          this.cdr.detectChanges();
+        },
+      });
   }
 }

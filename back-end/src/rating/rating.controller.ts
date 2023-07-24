@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -29,7 +37,9 @@ export class RatingController {
     return this.ratingService.updateArticleRating(createRatingDto, { token });
   }
 
-  @ApiOperation({ summary: 'Check if the article can be rated by the current user' })
+  @ApiOperation({
+    summary: 'Check if the article can be rated by the current user',
+  })
   @ApiResponse({ status: 200, type: CurrentArticleStatusDto })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()

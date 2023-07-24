@@ -48,7 +48,9 @@ export class RatingService {
         articleId: createRatingDto.articleId,
       },
     });
-    const articleRating = Math.round(sumRatingCurrentArticle / countRatingCurrentArticle * 100) / 100;
+    const articleRating =
+      Math.round((sumRatingCurrentArticle / countRatingCurrentArticle) * 100) /
+      100;
     article.rating = articleRating;
     article.votes = countRatingCurrentArticle;
     await article.save();
@@ -63,7 +65,7 @@ export class RatingService {
     const user = await this.usersService.getUserById(userByToken.id);
     const article = await this.articlesService.getArticleById(articleId);
     if (!user || !article) {
-      return { canBeRated: false }
+      return { canBeRated: false };
     }
     const rating = await this.ratingRepository.findOne({
       where: {
@@ -73,9 +75,9 @@ export class RatingService {
           },
           {
             userId: user.id,
-          }
-        ]
-      }
+          },
+        ],
+      },
     });
     return { canBeRated: rating === null };
   }
