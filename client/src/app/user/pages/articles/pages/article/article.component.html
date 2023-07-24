@@ -1,6 +1,6 @@
 <div class="article" *ngIf="article">
-  <div class='article__buttons' *ngIf='isAdmin'>
-    <button class='article__btn'>Редагувати статтю</button>
+  <div class="article__buttons" *ngIf="isAdmin">
+    <button class="article__btn">Редагувати статтю</button>
     <button class="article__btn article__btn--delete">Видалити статтю</button>
   </div>
   <div class="article__tags-list">
@@ -16,9 +16,9 @@
   <div>
     <app-rating
       [rating]="article.rating"
-      [votes]='article.votes'
-      [isActive]='isRatingActive'
-      (activeRating)='updateRating($event)'
+      [votes]="article.votes"
+      [isActive]="isRatingActive"
+      (activeRating)="updateRating($event)"
     ></app-rating>
   </div>
   <h3 class="article__title" [mathjax]="article.title"></h3>
