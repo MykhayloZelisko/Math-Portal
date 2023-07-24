@@ -1,0 +1,66 @@
+@import "variables";
+
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  font-family: $source;
+
+  &__title {
+    font-weight: 600;
+    font-size: 24px;
+  }
+
+  &__content {
+    line-height: 1.2;
+  }
+
+  &__tag {
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: $white;
+    filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%)) drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
+    padding: 2px 5px;
+    cursor: pointer;
+  }
+
+  &__tags-list {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  &__btn {
+    background-color: $brown-1;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-family: $source;
+    font-size: 16px;
+    padding: 8px 24px;
+    color: $yellow-1;
+
+    &:hover {
+      background-color: $brown-2;
+    }
+
+    &--delete {
+      background-color: $red;
+      color: $white;
+
+      &:hover {
+        background-color: $red-2;
+      }
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 10px;
+  }
+}

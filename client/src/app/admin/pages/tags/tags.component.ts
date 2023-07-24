@@ -77,7 +77,6 @@ export class TagsComponent implements OnInit, OnDestroy {
   }
 
   public removeTag(tag: TagInterface) {
-    console.log(tag);
     this.dialogService
       .openDialog(DialogTypeEnum.ConfirmDeleteTag, {
         title: 'ПОВІДОМЛЕННЯ',

@@ -6,6 +6,7 @@ import { UsersService } from '../users/users.service';
 import { ArticlesService } from '../articles/articles.service';
 import { TokenDto } from '../auth/dto/token.dto';
 import { JwtService } from '@nestjs/jwt';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class RatingService {
@@ -47,11 +48,35 @@ export class RatingService {
         articleId: createRatingDto.articleId,
       },
     });
-    const articleRating = sumRatingCurrentArticle / countRatingCurrentArticle;
+    const articleRating = Math.round(sumRatingCurrentArticle / countRatingCurrentArticle * 100) / 100;
     article.rating = articleRating;
+    article.votes = countRatingCurrentArticle;
     await article.save();
     return {
       rating: articleRating,
+      votes: countRatingCurrentArticle,
     };
+  }
+
+  public async getCurrentArticleStatus(articleId: number, tokenDto: TokenDto) {
+    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    const user = await this.usersService.getUserById(userByToken.id);
+    const article = await this.articlesService.getArticleById(articleId);
+    if (!user || !article) {
+      return { canBeRated: false }
+    }
+    const rating = await this.ratingRepository.findOne({
+      where: {
+        [Op.and]: [
+          {
+            articleId: articleId,
+          },
+          {
+            userId: user.id,
+          }
+        ]
+      }
+    });
+    return { canBeRated: rating === null };
   }
 }
