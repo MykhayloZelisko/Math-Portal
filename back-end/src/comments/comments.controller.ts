@@ -50,7 +50,7 @@ export class CommentsController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public remove(@Param('id') id: string) {
-    return this.commentsService.removeComment(+id);
+  public remove(@Param('id') id: number) {
+    return this.commentsService.removeComment(id);
   }
 }

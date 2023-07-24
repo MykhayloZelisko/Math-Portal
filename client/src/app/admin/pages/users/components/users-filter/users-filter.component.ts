@@ -21,12 +21,12 @@ const DEBOUNCE_TIME = 600;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersFilterComponent implements OnInit, OnDestroy {
+  @Output()
+  public searchUser: EventEmitter<string> = new EventEmitter<string>();
+
   public searchUserCtrl = new FormControl();
 
   private destroy$: Subject<void> = new Subject<void>();
-
-  @Output()
-  public searchUser: EventEmitter<string> = new EventEmitter<string>();
 
   public ngOnInit(): void {
     this.initSearchValue();

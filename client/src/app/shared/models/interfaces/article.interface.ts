@@ -5,5 +5,6 @@ export interface ArticleInterface {
   title: string;
   content: string;
   rating: number;
+  votes: number;
   tags: TagInterface[];
 }

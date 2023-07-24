@@ -53,15 +53,15 @@ export class ArticlesController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeArticle(@Param('id') id: string) {
-    return this.articlesService.removeArticle(+id);
+  public removeArticle(@Param('id') id: number) {
+    return this.articlesService.removeArticle(id);
   }
 
   @ApiOperation({ summary: 'Get article' })
   @ApiResponse({ status: 200, type: Article })
   @Get(':id')
-  public getArticleById(@Param('id') id: string) {
-    return this.articlesService.getArticleById(+id);
+  public getArticleById(@Param('id') id: number) {
+    return this.articlesService.getArticleById(id);
   }
 
   @ApiOperation({ summary: 'Get list of articles' })

@@ -104,7 +104,7 @@ export class UsersController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeUser(@Param('id') id: string) {
+  public removeUser(@Param('id') id: number) {
     return this.usersService.removeUser(+id);
   }
 

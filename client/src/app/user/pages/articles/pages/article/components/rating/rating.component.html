@@ -1,0 +1,223 @@
+<div class="rating">
+  <p>Рейтинг</p>
+  <form [formGroup]="ratingForm">
+    <div class="rating__rating">
+      <div class="rating__input" [ngClass]="{ rating__active: isActive }">
+        <input
+          id="5"
+          formControlName="rating"
+          class="rating__radio"
+          type="radio"
+          value=5
+          (change)="changeRating()"
+        />
+        <label
+          for="5"
+          class="rating__label"
+          [ngClass]="{ rating__active: isActive }"
+        >
+          <svg
+            width="30"
+            height="29"
+            viewBox="0 0 30 29"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="half_grad0">
+                <stop
+                  [attr.offset]="svgGradient(5)"
+                  stop-color="#FFDA7B"
+                />
+                <stop
+                  [attr.offset]="svgGradient(5)"
+                  stop-color="white"
+                  stop-opacity="0"
+                />
+              </linearGradient>
+            </defs>
+            <path
+              d="M14.0489 2.16312C14.3483 1.24181 15.6517 1.24181 15.9511 2.16312L18.0902 8.74671C18.4918 9.98278 19.6437 10.8197 20.9434 10.8197H27.8658C28.8345 10.8197 29.2373 12.0593 28.4535 12.6287L22.8532 16.6976C21.8018 17.4615 21.3618 18.8156 21.7634 20.0517L23.9025 26.6353C24.2019 27.5566 23.1474 28.3227 22.3637 27.7533L16.7634 23.6844C15.7119 22.9205 14.2881 22.9205 13.2366 23.6844L7.6363 27.7533C6.85259 28.3227 5.79811 27.5566 6.09746 26.6353L8.2366 20.0517C8.63823 18.8156 8.19825 17.4615 7.14679 16.6976L1.54645 12.6287C0.762739 12.0593 1.16551 10.8197 2.13424 10.8197H9.05664C10.3563 10.8197 11.5082 9.98278 11.9098 8.74671L14.0489 2.16312Z"
+              fill="url(#half_grad0)"
+              stroke="#FFDA7B"
+              stroke-width="2"
+            />
+          </svg>
+        </label>
+      </div>
+      <div class="rating__input" [ngClass]="{ rating__active: isActive }">
+        <input
+          id="4"
+          formControlName="rating"
+          class="rating__radio"
+          type="radio"
+          value=4
+          (change)="changeRating()"
+        />
+        <label
+          for="4"
+          class="rating__label"
+          [ngClass]="{ rating__active: isActive }"
+        >
+          <svg
+            width="30"
+            height="29"
+            viewBox="0 0 30 29"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="half_grad1">
+                <stop
+                  [attr.offset]="svgGradient(4)"
+                  stop-color="#FFDA7B"
+                />
+                <stop
+                  [attr.offset]="svgGradient(4)"
+                  stop-color="white"
+                  stop-opacity="0"
+                />
+              </linearGradient>
+            </defs>
+            <path
+              d="M14.0489 2.16312C14.3483 1.24181 15.6517 1.24181 15.9511 2.16312L18.0902 8.74671C18.4918 9.98278 19.6437 10.8197 20.9434 10.8197H27.8658C28.8345 10.8197 29.2373 12.0593 28.4535 12.6287L22.8532 16.6976C21.8018 17.4615 21.3618 18.8156 21.7634 20.0517L23.9025 26.6353C24.2019 27.5566 23.1474 28.3227 22.3637 27.7533L16.7634 23.6844C15.7119 22.9205 14.2881 22.9205 13.2366 23.6844L7.6363 27.7533C6.85259 28.3227 5.79811 27.5566 6.09746 26.6353L8.2366 20.0517C8.63823 18.8156 8.19825 17.4615 7.14679 16.6976L1.54645 12.6287C0.762739 12.0593 1.16551 10.8197 2.13424 10.8197H9.05664C10.3563 10.8197 11.5082 9.98278 11.9098 8.74671L14.0489 2.16312Z"
+              fill="url(#half_grad1)"
+              stroke="#FFDA7B"
+              stroke-width="2"
+            />
+          </svg>
+        </label>
+      </div>
+      <div class="rating__input" [ngClass]="{ rating__active: isActive }">
+        <input
+          id="3"
+          formControlName="rating"
+          class="rating__radio"
+          type="radio"
+          value=3
+          (change)="changeRating()"
+        />
+        <label
+          for="3"
+          class="rating__label"
+          [ngClass]="{ rating__active: isActive }"
+        >
+          <svg
+            width="30"
+            height="29"
+            viewBox="0 0 30 29"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="half_grad2">
+                <stop
+                  [attr.offset]="svgGradient(3)"
+                  stop-color="#FFDA7B"
+                />
+                <stop
+                  [attr.offset]="svgGradient(3)"
+                  stop-color="white"
+                  stop-opacity="0"
+                />
+              </linearGradient>
+            </defs>
+            <path
+              d="M14.0489 2.16312C14.3483 1.24181 15.6517 1.24181 15.9511 2.16312L18.0902 8.74671C18.4918 9.98278 19.6437 10.8197 20.9434 10.8197H27.8658C28.8345 10.8197 29.2373 12.0593 28.4535 12.6287L22.8532 16.6976C21.8018 17.4615 21.3618 18.8156 21.7634 20.0517L23.9025 26.6353C24.2019 27.5566 23.1474 28.3227 22.3637 27.7533L16.7634 23.6844C15.7119 22.9205 14.2881 22.9205 13.2366 23.6844L7.6363 27.7533C6.85259 28.3227 5.79811 27.5566 6.09746 26.6353L8.2366 20.0517C8.63823 18.8156 8.19825 17.4615 7.14679 16.6976L1.54645 12.6287C0.762739 12.0593 1.16551 10.8197 2.13424 10.8197H9.05664C10.3563 10.8197 11.5082 9.98278 11.9098 8.74671L14.0489 2.16312Z"
+              fill="url(#half_grad2)"
+              stroke="#FFDA7B"
+              stroke-width="2"
+            />
+          </svg>
+        </label>
+      </div>
+      <div class="rating__input" [ngClass]="{ rating__active: isActive }">
+        <input
+          id="2"
+          formControlName="rating"
+          class="rating__radio"
+          type="radio"
+          value=2
+          (change)="changeRating()"
+        />
+        <label
+          for="2"
+          class="rating__label"
+          [ngClass]="{ rating__active: isActive }"
+        >
+          <svg
+            width="30"
+            height="29"
+            viewBox="0 0 30 29"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="half_grad3">
+                <stop
+                  [attr.offset]="svgGradient(2)"
+                  stop-color="#FFDA7B"
+                />
+                <stop
+                  [attr.offset]="svgGradient(2)"
+                  stop-color="white"
+                  stop-opacity="0"
+                />
+              </linearGradient>
+            </defs>
+            <path
+              d="M14.0489 2.16312C14.3483 1.24181 15.6517 1.24181 15.9511 2.16312L18.0902 8.74671C18.4918 9.98278 19.6437 10.8197 20.9434 10.8197H27.8658C28.8345 10.8197 29.2373 12.0593 28.4535 12.6287L22.8532 16.6976C21.8018 17.4615 21.3618 18.8156 21.7634 20.0517L23.9025 26.6353C24.2019 27.5566 23.1474 28.3227 22.3637 27.7533L16.7634 23.6844C15.7119 22.9205 14.2881 22.9205 13.2366 23.6844L7.6363 27.7533C6.85259 28.3227 5.79811 27.5566 6.09746 26.6353L8.2366 20.0517C8.63823 18.8156 8.19825 17.4615 7.14679 16.6976L1.54645 12.6287C0.762739 12.0593 1.16551 10.8197 2.13424 10.8197H9.05664C10.3563 10.8197 11.5082 9.98278 11.9098 8.74671L14.0489 2.16312Z"
+              fill="url(#half_grad3)"
+              stroke="#FFDA7B"
+              stroke-width="2"
+            />
+          </svg>
+        </label>
+      </div>
+      <div class="rating__input" [ngClass]="{ rating__active: isActive }">
+        <input
+          id="1"
+          formControlName="rating"
+          class="rating__radio"
+          type="radio"
+          value=1
+          (change)="changeRating()"
+        />
+        <label
+          for="1"
+          class="rating__label"
+          [ngClass]="{ rating__active: isActive }"
+        >
+          <svg
+            width="30"
+            height="29"
+            viewBox="0 0 30 29"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="half_grad4">
+                <stop
+                  [attr.offset]="svgGradient(1)"
+                  stop-color="#FFDA7B"
+                />
+                <stop
+                  [attr.offset]="svgGradient(1)"
+                  stop-color="white"
+                  stop-opacity="0"
+                />
+              </linearGradient>
+            </defs>
+            <path
+              d="M14.0489 2.16312C14.3483 1.24181 15.6517 1.24181 15.9511 2.16312L18.0902 8.74671C18.4918 9.98278 19.6437 10.8197 20.9434 10.8197H27.8658C28.8345 10.8197 29.2373 12.0593 28.4535 12.6287L22.8532 16.6976C21.8018 17.4615 21.3618 18.8156 21.7634 20.0517L23.9025 26.6353C24.2019 27.5566 23.1474 28.3227 22.3637 27.7533L16.7634 23.6844C15.7119 22.9205 14.2881 22.9205 13.2366 23.6844L7.6363 27.7533C6.85259 28.3227 5.79811 27.5566 6.09746 26.6353L8.2366 20.0517C8.63823 18.8156 8.19825 17.4615 7.14679 16.6976L1.54645 12.6287C0.762739 12.0593 1.16551 10.8197 2.13424 10.8197H9.05664C10.3563 10.8197 11.5082 9.98278 11.9098 8.74671L14.0489 2.16312Z"
+              fill="url(#half_grad4)"
+              stroke="#FFDA7B"
+              stroke-width="2"
+            />
+          </svg>
+        </label>
+      </div>
+    </div>
+  </form>
+  <p>{{rating}} / 5 (Кількість голосів: {{votes}})</p>
+</div>

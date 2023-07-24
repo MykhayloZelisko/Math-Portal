@@ -46,8 +46,8 @@ export class TagsController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeTag(@Param('id') id: string) {
-    return this.tagsService.removeTag(+id);
+  public removeTag(@Param('id') id: number) {
+    return this.tagsService.removeTag(id);
   }
 
   @ApiOperation({ summary: 'Update tag' })

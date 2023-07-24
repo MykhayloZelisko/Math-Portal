@@ -53,7 +53,6 @@ export class TagItemComponent {
   public saveTag(): void {
     this.isEditable = false;
     const newTagValue = this.tagItem.nativeElement.innerHTML;
-    console.log(newTagValue);
     this.updateTag.emit({ id: this.tag.id, value: newTagValue });
   }
 }

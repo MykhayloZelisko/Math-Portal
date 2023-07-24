@@ -61,6 +61,7 @@ export class ArticlesFilterComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.tagsService.tag$.next(null);
   }
 
   private initTagsList(): void {

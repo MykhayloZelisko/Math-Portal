@@ -45,6 +45,10 @@ export class Article extends Model<Article, ArticleCreationAttrsInterface> {
   @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 0 })
   public rating: number;
 
+  @ApiProperty({ example: 0, description: 'Number of votes' })
+  @Column({ type: DataType.FLOAT, allowNull: false, defaultValue: 0 })
+  public votes: number;
+
   @BelongsToMany(() => Tag, () => ArticleTags)
   public tags: Tag[];
 

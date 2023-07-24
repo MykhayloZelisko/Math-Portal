@@ -10,8 +10,6 @@ export class ArticlesListDto {
       {
         id: 1,
         title: 'Title',
-        content: 'Content',
-        rating: 4.5,
       },
     ],
     description: 'Array of articles',

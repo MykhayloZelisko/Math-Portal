@@ -1,0 +1,50 @@
+@import "variables";
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &__rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+  }
+
+  &__input {
+    height: 20px;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  &__radio {
+    opacity: 0;
+  }
+
+  &__label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__active:hover {
+    cursor: pointer;
+  }
+
+  &__active:hover,
+  &__active:hover ~ &__active {
+    path {
+      fill: $brown-3;
+      stroke: $brown-3;
+    }
+  }
+}

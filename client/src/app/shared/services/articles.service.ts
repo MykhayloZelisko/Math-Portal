@@ -33,4 +33,8 @@ export class ArticlesService {
       params,
     });
   }
+
+  public getArticle(id: number): Observable<ArticleInterface> {
+    return this.httpClient.get<ArticleInterface>(`${this.baseUrl}/${id}`);
+  }
 }
