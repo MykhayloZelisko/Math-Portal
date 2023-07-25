@@ -8,6 +8,12 @@
   width: 100%;
   font-family: $source;
 
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
   &__title {
     font-weight: 600;
     font-size: 24px;
@@ -49,6 +55,13 @@
       background-color: $brown-2;
     }
 
+    &:disabled,
+    &:disabled:hover {
+      background-color: $gray-2;
+      color: $gray-3;
+      cursor: default;
+    }
+
     &--delete {
       background-color: $red;
       color: $white;
@@ -61,6 +74,12 @@
 
   &__buttons {
     display: flex;
+    gap: 10px;
+  }
+
+  &__button-wrapper {
+    display: flex;
+    justify-content: center;
     gap: 10px;
   }
 }

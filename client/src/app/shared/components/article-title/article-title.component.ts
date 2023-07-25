@@ -30,9 +30,9 @@ import { Subject, takeUntil } from 'rxjs';
 export class ArticleTitleComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public clearControl: { clear: boolean } = { clear: false };
 
-  @Output() public saveTitle: EventEmitter<string> = new EventEmitter<string>();
+  @Input() public title: string = '';
 
-  public title: string = '';
+  @Output() public saveTitle: EventEmitter<string> = new EventEmitter<string>();
 
   public isTitleEditable: boolean = true;
 
@@ -62,6 +62,7 @@ export class ArticleTitleComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private changeTitle(): void {
+    this.titleCtrl.setValue(this.title);
     this.titleCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (value: string) => {
         this.title = value;
