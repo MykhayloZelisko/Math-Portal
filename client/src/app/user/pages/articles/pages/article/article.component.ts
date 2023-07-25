@@ -17,30 +17,28 @@ import { TagsService } from '../../../../../shared/services/tags.service';
 import { RatingComponent } from './components/rating/rating.component';
 import { RatingService } from '../../../../../shared/services/rating.service';
 import { RatingType } from '../../../../../shared/models/types/rating.type';
-import {
-  CurrentArticleRatingInterface,
-} from '../../../../../shared/models/interfaces/current-article-rating.interface';
+import { CurrentArticleRatingInterface } from '../../../../../shared/models/interfaces/current-article-rating.interface';
 import { UsersService } from '../../../../../shared/services/users.service';
 import { UserInterface } from '../../../../../shared/models/interfaces/user.interface';
 import { DialogService } from '../../../../../shared/services/dialog.service';
 import { DialogTypeEnum } from '../../../../../shared/models/enums/dialog-type.enum';
-import {
-  ArticleTagsComponent,
-} from '../../../../../shared/components/article-tags/article-tags.component';
-import {
-  ArticleTitleComponent,
-} from '../../../../../shared/components/article-title/article-title.component';
-import {
-  ArticleContentComponent,
-} from '../../../../../shared/components/article-content/article-content.component';
-import {
-  CreateArticleInterface
-} from '../../../../../shared/models/interfaces/create-article.interface';
+import { ArticleTagsComponent } from '../../../../../shared/components/article-tags/article-tags.component';
+import { ArticleTitleComponent } from '../../../../../shared/components/article-title/article-title.component';
+import { ArticleContentComponent } from '../../../../../shared/components/article-content/article-content.component';
+import { CreateArticleInterface } from '../../../../../shared/models/interfaces/create-article.interface';
 
 @Component({
   selector: 'app-article',
   standalone: true,
-  imports: [CommonModule, MathjaxModule, AngularSvgIconModule, RatingComponent, ArticleTagsComponent, ArticleTitleComponent, ArticleContentComponent],
+  imports: [
+    CommonModule,
+    MathjaxModule,
+    AngularSvgIconModule,
+    RatingComponent,
+    ArticleTagsComponent,
+    ArticleTitleComponent,
+    ArticleContentComponent,
+  ],
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -105,7 +103,9 @@ export class ArticleComponent implements OnInit, OnDestroy {
             this.article = article;
             this.newArticle.title = article.title;
             this.newArticle.content = article.content;
-            this.newArticle.tagsIds = this.article.tags.map((tag: TagInterface) => tag.id);
+            this.newArticle.tagsIds = this.article.tags.map(
+              (tag: TagInterface) => tag.id,
+            );
           }),
           switchMap(() =>
             this.ratingService
@@ -146,37 +146,43 @@ export class ArticleComponent implements OnInit, OnDestroy {
   }
 
   public deleteArticle() {
-    this.dialogService.openDialog(DialogTypeEnum.ConfirmDeleteArticle, {
-      title: 'ПОВІДОМЛЕННЯ',
-      text: '',
-      user: undefined,
-      tag: undefined,
-      article: this.article,
-    }).afterClosed().subscribe({
-      next: (id: number) => {
-        if (id) {
-          this.confirmDeleteArticle(id);
-        }
-      }
-    })
+    this.dialogService
+      .openDialog(DialogTypeEnum.ConfirmDeleteArticle, {
+        title: 'ПОВІДОМЛЕННЯ',
+        text: '',
+        user: undefined,
+        tag: undefined,
+        article: this.article,
+      })
+      .afterClosed()
+      .subscribe({
+        next: (id: number) => {
+          if (id) {
+            this.confirmDeleteArticle(id);
+          }
+        },
+      });
   }
 
   private confirmDeleteArticle(id: number) {
-    this.articlesService.deleteArticle(id).pipe(takeUntil(this.destroy$)).subscribe({
-      next: () => {
-        this.dialogService.openDialog(DialogTypeEnum.Alert, {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Стаття видалена успішно.',
-        });
-        this.router.navigateByUrl('articles');
-      },
-      error: () => {
-        this.dialogService.openDialog(DialogTypeEnum.Alert, {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Помилка видалення статті.',
-        })
-      }
-    })
+    this.articlesService
+      .deleteArticle(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.dialogService.openDialog(DialogTypeEnum.Alert, {
+            title: 'ПОВІДОМЛЕННЯ',
+            text: 'Стаття видалена успішно.',
+          });
+          this.router.navigateByUrl('articles');
+        },
+        error: () => {
+          this.dialogService.openDialog(DialogTypeEnum.Alert, {
+            title: 'ПОВІДОМЛЕННЯ',
+            text: 'Помилка видалення статті.',
+          });
+        },
+      });
   }
 
   public editArticle(): void {
@@ -184,23 +190,26 @@ export class ArticleComponent implements OnInit, OnDestroy {
   }
 
   public saveArticle(): void {
-    this.articlesService.updateArticle(this.article.id, this.newArticle).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (article: ArticleInterface) => {
-        this.article = article;
-        this.dialogService.openDialog(DialogTypeEnum.Alert, {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Стаття оновлена успішно',
-        });
-        this.isEditable = false;
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.dialogService.openDialog(DialogTypeEnum.Alert, {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Помилка оновлення статті.',
-        })
-      }
-    })
+    this.articlesService
+      .updateArticle(this.article.id, this.newArticle)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (article: ArticleInterface) => {
+          this.article = article;
+          this.dialogService.openDialog(DialogTypeEnum.Alert, {
+            title: 'ПОВІДОМЛЕННЯ',
+            text: 'Стаття оновлена успішно',
+          });
+          this.isEditable = false;
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.dialogService.openDialog(DialogTypeEnum.Alert, {
+            title: 'ПОВІДОМЛЕННЯ',
+            text: 'Помилка оновлення статті.',
+          });
+        },
+      });
   }
 
   public cancelEdit(): void {

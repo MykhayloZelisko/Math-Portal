@@ -99,7 +99,10 @@
       </ng-container>
       <ng-container *ngSwitchCase="DialogType.ConfirmDeleteArticle">
         <button class="dialog__button" (click)="close()">Ні</button>
-        <button class="dialog__button" [mat-dialog-close]="data.data.article?.id">
+        <button
+          class="dialog__button"
+          [mat-dialog-close]="data.data.article?.id"
+        >
           Так
         </button>
       </ng-container>
