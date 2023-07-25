@@ -23,6 +23,9 @@
         <ng-container *ngSwitchCase="DialogType.ConfirmDeleteTag">
           {{ data.data.title }}
         </ng-container>
+        <ng-container *ngSwitchCase="DialogType.ConfirmDeleteArticle">
+          {{ data.data.title }}
+        </ng-container>
       </ng-container>
     </h4>
     <button mat-icon-button (click)="close()">
@@ -52,6 +55,9 @@
       </ng-container>
       <ng-container *ngSwitchCase="DialogType.ConfirmDeleteTag">
         Ви дійсно хочете видалити "{{ data.data.tag?.value }}" зі списку тегів?
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmDeleteArticle">
+        Ви дійсно хочете видалити статтю "{{ data.data.article?.title }}"?
       </ng-container>
     </ng-container>
   </div>
@@ -88,6 +94,12 @@
       <ng-container *ngSwitchCase="DialogType.ConfirmDeleteTag">
         <button class="dialog__button" (click)="close()">Ні</button>
         <button class="dialog__button" [mat-dialog-close]="data.data.tag?.id">
+          Так
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmDeleteArticle">
+        <button class="dialog__button" (click)="close()">Ні</button>
+        <button class="dialog__button" [mat-dialog-close]="data.data.article?.id">
           Так
         </button>
       </ng-container>

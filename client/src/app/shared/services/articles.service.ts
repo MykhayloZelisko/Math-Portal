@@ -37,4 +37,8 @@ export class ArticlesService {
   public getArticle(id: number): Observable<ArticleInterface> {
     return this.httpClient.get<ArticleInterface>(`${this.baseUrl}/${id}`);
   }
+
+  public deleteArticle(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.baseUrl}/${id}`)
+  }
 }

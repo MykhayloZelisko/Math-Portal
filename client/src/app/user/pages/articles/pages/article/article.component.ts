@@ -17,9 +17,13 @@ import { TagsService } from '../../../../../shared/services/tags.service';
 import { RatingComponent } from './components/rating/rating.component';
 import { RatingService } from '../../../../../shared/services/rating.service';
 import { RatingType } from '../../../../../shared/models/types/rating.type';
-import { CurrentArticleRatingInterface } from '../../../../../shared/models/interfaces/current-article-rating.interface';
+import {
+  CurrentArticleRatingInterface,
+} from '../../../../../shared/models/interfaces/current-article-rating.interface';
 import { UsersService } from '../../../../../shared/services/users.service';
 import { UserInterface } from '../../../../../shared/models/interfaces/user.interface';
+import { DialogService } from '../../../../../shared/services/dialog.service';
+import { DialogTypeEnum } from '../../../../../shared/models/enums/dialog-type.enum';
 
 @Component({
   selector: 'app-article',
@@ -46,6 +50,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     private router: Router,
     private ratingService: RatingService,
     private usersService: UsersService,
+    private dialogService: DialogService,
   ) {}
 
   public ngOnInit(): void {
@@ -59,9 +64,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   }
 
   private initUserRole(): void {
-    // const user = this.usersService.user$.getValue();
-    // this.isAdmin = !!user && user.isAdmin;
-    this.usersService.user$.subscribe({
+    this.usersService.user$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (user: UserInterface | null) => {
         this.isAdmin = !!user && user.isAdmin;
         this.cdr.detectChanges();
@@ -115,5 +118,39 @@ export class ArticleComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         },
       });
+  }
+
+  public deleteArticle() {
+    this.dialogService.openDialog(DialogTypeEnum.ConfirmDeleteArticle, {
+      title: 'ПОВІДОМЛЕННЯ',
+      text: '',
+      user: undefined,
+      tag: undefined,
+      article: this.article,
+    }).afterClosed().subscribe({
+      next: (id: number) => {
+        if (id) {
+          this.confirmDeleteArticle(id);
+        }
+      }
+    })
+  }
+
+  private confirmDeleteArticle(id: number) {
+    this.articlesService.deleteArticle(id).pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.dialogService.openDialog(DialogTypeEnum.Alert, {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Стаття видалена успішно.',
+        });
+        this.router.navigateByUrl('articles');
+      },
+      error: () => {
+        this.dialogService.openDialog(DialogTypeEnum.Alert, {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Помилка видалення статті.',
+        })
+      }
+    })
   }
 }

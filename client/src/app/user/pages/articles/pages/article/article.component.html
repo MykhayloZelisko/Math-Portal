@@ -1,7 +1,7 @@
 <div class="article" *ngIf="article">
   <div class="article__buttons" *ngIf="isAdmin">
     <button class="article__btn">Редагувати статтю</button>
-    <button class="article__btn article__btn--delete">Видалити статтю</button>
+    <button class="article__btn article__btn--delete" (click)='deleteArticle()'>Видалити статтю</button>
   </div>
   <div class="article__tags-list">
     <p>Теги:</p>

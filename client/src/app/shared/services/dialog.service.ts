@@ -18,6 +18,7 @@ export class DialogService {
       text: '',
       user: undefined,
       tag: undefined,
+      article: undefined,
     },
   ) {
     const dialogData: DialogDataInterface = {
