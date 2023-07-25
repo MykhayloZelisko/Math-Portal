@@ -39,6 +39,10 @@ export class ArticlesService {
   }
 
   public deleteArticle(id: number): Observable<void> {
-    return this.httpClient.delete<void>(`${this.baseUrl}/${id}`)
+    return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  public updateArticle(articleId: number, article: CreateArticleInterface): Observable<ArticleInterface> {
+    return this.httpClient.put<ArticleInterface>(`${this.baseUrl}/${articleId}`, article);
   }
 }

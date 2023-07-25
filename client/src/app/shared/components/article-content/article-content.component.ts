@@ -30,10 +30,10 @@ import { Subject, takeUntil } from 'rxjs';
 export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public clearControl: { clear: boolean } = { clear: false };
 
+  @Input() public content: string = '';
+
   @Output() public saveContent: EventEmitter<string> =
     new EventEmitter<string>();
-
-  public content: string = '';
 
   public isContentEditable: boolean = true;
 
@@ -63,6 +63,7 @@ export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private changeContent(): void {
+    this.contentCtrl.setValue(this.content);
     this.contentCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (value: string) => {
         this.content = value;

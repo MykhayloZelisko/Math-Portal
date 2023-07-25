@@ -5,9 +5,9 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ArticleTagsComponent } from './components/article-tags/article-tags.component';
-import { ArticleTitleComponent } from './components/article-title/article-title.component';
-import { ArticleContentComponent } from './components/article-content/article-content.component';
+import { ArticleTagsComponent } from '../../../shared/components/article-tags/article-tags.component';
+import { ArticleTitleComponent } from '../../../shared/components/article-title/article-title.component';
+import { ArticleContentComponent } from '../../../shared/components/article-content/article-content.component';
 import { CreateArticleInterface } from '../../../shared/models/interfaces/create-article.interface';
 import { ArticlesService } from '../../../shared/services/articles.service';
 import { Subject, takeUntil } from 'rxjs';

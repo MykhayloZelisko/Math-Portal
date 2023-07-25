@@ -19,9 +19,9 @@ import {
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { TagInterface } from '../../../../../shared/models/interfaces/tag.interface';
+import { TagInterface } from '../../models/interfaces/tag.interface';
 import { startWith, Subject, takeUntil } from 'rxjs';
-import { TagsService } from '../../../../../shared/services/tags.service';
+import { TagsService } from '../../services/tags.service';
 import { MathjaxModule } from 'mathjax-angular';
 
 @Component({
@@ -44,6 +44,8 @@ import { MathjaxModule } from 'mathjax-angular';
 export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('tagInput') public tagInput!: ElementRef<HTMLInputElement>;
 
+  @Input() public selectedTags: TagInterface[] = [];
+
   @Input() public clearControl: { clear: boolean } = { clear: false };
 
   @Output() public saveTagsIds: EventEmitter<number[]> = new EventEmitter<
@@ -53,8 +55,6 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
   public tagCtrl: FormControl = new FormControl('');
 
   public filteredTags: TagInterface[] = [];
-
-  public selectedTags: TagInterface[] = [];
 
   public allTags: TagInterface[] = [];
 
