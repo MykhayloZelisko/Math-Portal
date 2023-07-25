@@ -67,10 +67,11 @@ export class ArticlesFilterComponent implements OnInit, OnDestroy {
   private initTagsList(): void {
     this.tagsService.tag$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (tag: TagInterface | null) => {
-        const tagsSet = new Set<TagInterface>(this.tagsList);
         if (tag) {
-          tagsSet.add(tag);
-          this.tagsList = Array.from(tagsSet);
+          const tagItem = this.tagsList.find((item: TagInterface) => item.id === tag.id);
+          if (!tagItem) {
+            this.tagsList.push(tag);
+          }
           const tagsIds = this.tagsList.map(
             (tagItem: TagInterface) => tagItem.id,
           );
