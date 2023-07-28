@@ -111,7 +111,7 @@ export class CommentsService {
         {
           model: User,
           association: 'user',
-          attributes: ['id', 'firstName', 'lastName'],
+          attributes: ['id', 'firstName', 'lastName', 'fullName', 'photo'],
         },
         {
           model: CommentsTree,

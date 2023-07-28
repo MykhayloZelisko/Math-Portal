@@ -26,6 +26,7 @@ import { ArticleTagsComponent } from '../../../../../shared/components/article-t
 import { ArticleTitleComponent } from '../../../../../shared/components/article-title/article-title.component';
 import { ArticleContentComponent } from '../../../../../shared/components/article-content/article-content.component';
 import { CreateArticleInterface } from '../../../../../shared/models/interfaces/create-article.interface';
+import { CommentsComponent } from './components/comments/comments.component';
 
 @Component({
   selector: 'app-article',
@@ -38,6 +39,7 @@ import { CreateArticleInterface } from '../../../../../shared/models/interfaces/
     ArticleTagsComponent,
     ArticleTitleComponent,
     ArticleContentComponent,
+    CommentsComponent,
   ],
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss'],

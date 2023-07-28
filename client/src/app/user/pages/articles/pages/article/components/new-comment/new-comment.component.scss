@@ -1,0 +1,93 @@
+@import 'variables';
+
+.new-comment {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 50px 1fr;
+  grid-template-rows: 50px max-content;
+
+  &__photo {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  &__comment-details {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__user-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+
+  &__user-icon {
+    & svg {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  &__textarea {
+    font-family: $source;
+    padding: 9px 12px;
+    border-radius: 3px;
+    border: 1px solid $brown-4;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 16px;
+    resize: none;
+
+    &:hover {
+      border-color: $brown-1;
+    }
+
+    &:focus {
+      border-color:  $brown-2;
+      outline: none;
+    }
+
+    &:active {
+      border-color: $brown-2;
+    }
+  }
+
+  &__button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__send-btn {
+    background-color: $brown-1;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-family: $source;
+    font-size: 16px;
+    padding: 8px 24px;
+    color: $yellow-1;
+
+    &:hover {
+      background-color: $brown-2;
+    }
+
+    &:disabled,
+    &:disabled:hover {
+      background-color: $gray-2;
+      color: $gray-3;
+      cursor: default;
+    }
+  }
+
+  &__link {
+    font-family: $source;
+    font-size: 16px;
+    font-weight: 600;
+    color: $blue;
+    text-decoration: underline 2px;
+  }
+}

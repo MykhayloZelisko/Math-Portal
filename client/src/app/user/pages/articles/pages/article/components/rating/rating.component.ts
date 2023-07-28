@@ -9,12 +9,11 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RatingType } from '../../../../../../../shared/models/types/rating.type';
-import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @Component({
   selector: 'app-rating',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AngularSvgIconModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

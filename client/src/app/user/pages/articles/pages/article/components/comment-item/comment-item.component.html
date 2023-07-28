@@ -1,0 +1,59 @@
+<div class="comment-item">
+  <div class="comment-item__photo">
+    <img
+      class="comment-item__user-photo"
+      *ngIf="comment.user.photo; else elseBlock"
+      [src]="comment.user.photo"
+      alt="photo"
+    />
+    <ng-template #elseBlock>
+      <svg-icon
+        class="comment-item__user-icon"
+        src="assets/images/user-icon.svg"
+      ></svg-icon>
+    </ng-template>
+  </div>
+  <div class="comment-item__user-details">
+    <div class="comment-item__name">{{ comment.user.fullName }}</div>
+    <div class="comment-item__time">
+      {{ comment.createdAt | date : 'dd.MM.YYYY HH:mm' }}
+    </div>
+  </div>
+  <div class="comment-item__comment-details">
+    <div class="comment-item__content">{{ comment.content }}</div>
+    <div class="comment-item__footer">
+      <div class="comment-item__like">
+        <button class="comment-item__btn-like">
+          <svg-icon
+            class="comment-item__icon-like"
+            src="assets/images/like.svg"
+          ></svg-icon>
+        </button>
+        <span class="comment-item__number-likes">0</span>
+      </div>
+      <div class="comment-item__like">
+        <button class="comment-item__btn-like">
+          <svg-icon
+            class="comment-item__icon-like"
+            src="assets/images/dislike.svg"
+          ></svg-icon>
+        </button>
+        <span class="comment-item__number-likes">0</span>
+      </div>
+      <button class="comment-item__btn-answer" (click)="toggleComment()">
+        Відповісти
+      </button>
+    </div>
+    <app-new-comment
+      class="comment-item__new-comment"
+      *ngIf="isVisibleNewComment"
+      [user]="user"
+    ></app-new-comment>
+    <app-comment-item
+      class="comment-item__child-comment"
+      *ngFor="let child of comment.children"
+      [comment]="child"
+      [user]="user"
+    ></app-comment-item>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+@import 'variables';
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__title {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__text {
+    font-family: $source;
+    font-size: 24px;
+    font-weight: 600;
+  }
+}
