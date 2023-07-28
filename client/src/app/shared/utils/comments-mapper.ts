@@ -17,7 +17,12 @@ export function commentsMapper(
         content: listItem.content,
         createdAt: listItem.createdAt,
         updatedAt: listItem.updatedAt,
-        user: {...listItem.user, photo: listItem.user.photo ? `${environment.apiUrl}/${listItem.user.photo}` : null},
+        user: {
+          ...listItem.user,
+          photo: listItem.user.photo
+            ? `${environment.apiUrl}/${listItem.user.photo}`
+            : null,
+        },
         nearestAncestorId: foundItem ? foundItem.nearestAncestorId : -1,
         level: foundItem ? foundItem.level : -1,
         children: [],

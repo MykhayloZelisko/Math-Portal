@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  CommentsTreeInterface
-} from '../../../../../../../shared/models/interfaces/comments-tree.interface';
+import { CommentsTreeInterface } from '../../../../../../../shared/models/interfaces/comments-tree.interface';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NewCommentComponent } from '../new-comment/new-comment.component';
 import { UserInterface } from '../../../../../../../shared/models/interfaces/user.interface';
@@ -13,7 +11,7 @@ import { UserInterface } from '../../../../../../../shared/models/interfaces/use
   imports: [CommonModule, AngularSvgIconModule, NewCommentComponent],
   templateUrl: './comment-item.component.html',
   styleUrls: ['./comment-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentItemComponent {
   @Input() public comment!: CommentsTreeInterface;

@@ -20,7 +20,12 @@ import { UserInterface } from '../../../../../../../shared/models/interfaces/use
 @Component({
   selector: 'app-comments',
   standalone: true,
-  imports: [CommonModule, CommentItemComponent, AngularSvgIconModule, NewCommentComponent],
+  imports: [
+    CommonModule,
+    CommentItemComponent,
+    AngularSvgIconModule,
+    NewCommentComponent,
+  ],
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,7 +42,7 @@ export class CommentsComponent implements OnInit {
   public constructor(
     private commentsService: CommentsService,
     private usersService: UsersService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
@@ -63,9 +68,9 @@ export class CommentsComponent implements OnInit {
   private getUser(): void {
     this.usersService.user$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (user: UserInterface | null) => {
-        this.user = user
+        this.user = user;
         this.cdr.detectChanges();
       },
-    })
+    });
   }
 }

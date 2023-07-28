@@ -8,10 +8,15 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-new-comment',
   standalone: true,
-  imports: [CommonModule, AngularSvgIconModule, CommentItemComponent, RouterLink],
+  imports: [
+    CommonModule,
+    AngularSvgIconModule,
+    CommentItemComponent,
+    RouterLink,
+  ],
   templateUrl: './new-comment.component.html',
   styleUrls: ['./new-comment.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewCommentComponent {
   @Input() public user: UserInterface | null = null;
