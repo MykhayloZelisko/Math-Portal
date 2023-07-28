@@ -14,7 +14,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 @Component({
   selector: 'app-rating',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AngularSvgIconModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

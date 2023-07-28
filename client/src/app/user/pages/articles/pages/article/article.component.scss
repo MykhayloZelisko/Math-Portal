@@ -82,4 +82,9 @@
     justify-content: center;
     gap: 10px;
   }
+
+  &__divider {
+    border: 0;
+    border-top: 2px solid $brown-1;
+  }
 }

@@ -1,0 +1,8 @@
+<div class='comments'>
+  <div class='comments__title'>
+    <svg-icon src='assets/images/communication-chat.svg'></svg-icon>
+    <h3 class='comments__text'>Коментарі</h3>
+  </div>
+  <app-new-comment [user]='user'></app-new-comment>
+  <app-comment-item *ngFor='let comment of commentsTree' [comment]='comment' [user]='user'></app-comment-item>
+</div>

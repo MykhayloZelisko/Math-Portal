@@ -1,0 +1,31 @@
+<div class='new-comment'>
+  <div class='comment-item__photo'>
+    <img
+      class="new-comment__user-photo"
+      *ngIf="user && user.photo; else elseBlock"
+      [src]="user.photo"
+      alt="photo"
+    />
+    <ng-template #elseBlock>
+      <svg-icon
+        class="new-comment__user-icon"
+        src="assets/images/user-icon.svg"
+      ></svg-icon>
+    </ng-template>
+  </div>
+  <div class='new-comment__comment-details'>
+    <textarea
+      class='new-comment__textarea'
+      rows='5'
+      placeholder="Введіть ваш коментар"
+    ></textarea>
+    <div class='new-comment__button-wrapper' *ngIf='user'>
+      <button class='new-comment__send-btn'>
+        Надіслати
+      </button>
+    </div>
+    <div class='new-comment__no-user' *ngIf='!user'>
+      <a class='new-comment__link' routerLink='../../login'>Увійдіть</a> або <a class='new-comment__link' routerLink='../../registration'>зареєструйтеся</a> щоб мати можливість коментувати
+    </div>
+  </div>
+</div>

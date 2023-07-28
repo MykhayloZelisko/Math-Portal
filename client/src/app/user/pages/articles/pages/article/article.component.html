@@ -30,6 +30,8 @@
     ></app-rating>
     <h3 class="article__title" [mathjax]="article.title"></h3>
     <div class="article__content" [mathjax]="article.content"></div>
+    <div class="article__divider"></div>
+    <app-comments [articleId]='article.id'></app-comments>
   </div>
   <div class="article__inner" *ngIf="isEditable">
     <app-article-tags

@@ -1,0 +1,112 @@
+@import "variables";
+
+.comment-item {
+  display: grid;
+  column-gap: 10px;
+  row-gap: 5px;
+  grid-template-columns: 50px 1fr;
+  grid-template-rows: 50px max-content;
+
+  &__photo {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+
+  &__user-details {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    font-weight: 600;
+    font-family: $source;
+    font-size: 16px;
+  }
+
+  &__comment-details {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__user-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+
+  &__user-icon {
+    & svg {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  &__content {
+    font-family: $source;
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  &__icon-like {
+    & svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__btn-like {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  &__like {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__number-likes {
+    font-family: $source;
+    font-size: 16px;
+  }
+
+  &__footer {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__btn-answer {
+    font-family: $source;
+    font-size: 16px;
+    font-weight: 600;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      color: $brown-1;
+    }
+  }
+
+  &__child-comment {
+    margin-top: 5px;
+  }
+
+  &__new-comment {
+    margin-top: 5px;
+  }
+}
