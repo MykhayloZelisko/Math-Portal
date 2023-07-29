@@ -18,9 +18,16 @@ export class CommentItemComponent {
 
   @Input() public user: UserInterface | null = null;
 
+  @Input() public articleId: number = 0;
+
   public isVisibleNewComment: boolean = false;
 
   public toggleComment(): void {
     this.isVisibleNewComment = !this.isVisibleNewComment;
+  }
+
+  public addComment(comment: CommentsTreeInterface) {
+    this.comment.children = [...this.comment.children, comment];
+    this.toggleComment();
   }
 }

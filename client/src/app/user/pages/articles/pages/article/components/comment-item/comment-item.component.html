@@ -48,12 +48,16 @@
       class="comment-item__new-comment"
       *ngIf="isVisibleNewComment"
       [user]="user"
+      [comment]="comment"
+      [articleId]="articleId"
+      (addComment)="addComment($event)"
     ></app-new-comment>
     <app-comment-item
       class="comment-item__child-comment"
       *ngFor="let child of comment.children"
       [comment]="child"
       [user]="user"
+      [articleId]="articleId"
     ></app-comment-item>
   </div>
 </div>

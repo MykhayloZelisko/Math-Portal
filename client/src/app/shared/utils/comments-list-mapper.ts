@@ -3,7 +3,7 @@ import { CommentsTreeInterface } from '../models/interfaces/comments-tree.interf
 import { DescendantInterface } from '../models/interfaces/descendant.interface';
 import { environment } from '../../../environments/environment';
 
-export function commentsMapper(
+export function commentsListMapper(
   list: CommentWithDescendantsInterface[],
 ): CommentsTreeInterface[] {
   let commentsTree: CommentsTreeInterface[] = list.map(

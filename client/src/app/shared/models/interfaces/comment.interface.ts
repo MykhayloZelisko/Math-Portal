@@ -1,4 +1,5 @@
 import { UserInterface } from './user.interface';
+import { DescendantInterface } from './descendant.interface';
 
 export interface CommentInterface {
   id: number;
@@ -6,6 +7,5 @@ export interface CommentInterface {
   createdAt: string;
   updatedAt: string;
   user: UserInterface;
-  nearestAncestorId: number;
-  level: number;
+  descendantsList: DescendantInterface[];
 }
