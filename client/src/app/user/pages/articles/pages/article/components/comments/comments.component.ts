@@ -10,7 +10,7 @@ import { CommentsService } from '../../../../../../../shared/services/comments.s
 import { map, Subject, takeUntil } from 'rxjs';
 import { CommentWithDescendantsInterface } from '../../../../../../../shared/models/interfaces/comment-with-descendants.interface';
 import { CommentsTreeInterface } from '../../../../../../../shared/models/interfaces/comments-tree.interface';
-import { commentsMapper } from '../../../../../../../shared/utils/comments-mapper';
+import { commentsListMapper } from '../../../../../../../shared/utils/comments-list-mapper';
 import { CommentItemComponent } from '../comment-item/comment-item.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NewCommentComponent } from '../new-comment/new-comment.component';
@@ -54,7 +54,9 @@ export class CommentsComponent implements OnInit {
     this.commentsService
       .getCommentsList(this.articleId)
       .pipe(
-        map((list: CommentWithDescendantsInterface[]) => commentsMapper(list)),
+        map((list: CommentWithDescendantsInterface[]) =>
+          commentsListMapper(list),
+        ),
         takeUntil(this.destroy$),
       )
       .subscribe({

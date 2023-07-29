@@ -22,7 +22,9 @@ export class CommentsService {
     );
   }
 
-  public createComment(content: CreateCommentDataInterface): Observable<CommentInterface> {
+  public createComment(
+    content: CreateCommentDataInterface,
+  ): Observable<CommentInterface> {
     return this.httpClient.post<CommentInterface>(`${this.baseUrl}`, content);
   }
 }
