@@ -97,7 +97,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   private initArticle(): void {
     const stringId = this.route.snapshot.paramMap.get('id');
     if (stringId) {
-      const id = parseInt(stringId);
+      const id = +stringId;
       this.articlesService
         .getArticle(id)
         .pipe(
@@ -123,6 +123,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
           error: () => {
             this.isRatingActive = false;
             this.cdr.detectChanges();
+            this.router.navigateByUrl('not-found');
           },
         });
     }
