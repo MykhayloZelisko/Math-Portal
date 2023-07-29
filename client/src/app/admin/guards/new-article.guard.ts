@@ -6,13 +6,17 @@ import { DialogTypeEnum } from '../../shared/models/enums/dialog-type.enum';
 import { DialogService } from '../../shared/services/dialog.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NewArticleGuard implements CanDeactivate<NewArticleComponent> {
   public constructor(private dialogService: DialogService) {}
 
   public canDeactivate(component: NewArticleComponent): Observable<boolean> {
-    if (component.newArticle.title || component.newArticle.content || component.newArticle.tagsIds.length) {
+    if (
+      component.newArticle.title ||
+      component.newArticle.content ||
+      component.newArticle.tagsIds.length
+    ) {
       return this.dialogService
         .openDialog(DialogTypeEnum.ConfirmRedirect, {
           title: 'ПОВІДОМЛЕННЯ',

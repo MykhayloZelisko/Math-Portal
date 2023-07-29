@@ -8,7 +8,7 @@ import { TagInterface } from '../../shared/models/interfaces/tag.interface';
 import { CreateArticleInterface } from '../../shared/models/interfaces/create-article.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EditArticleGuard implements CanDeactivate<ArticleComponent> {
   public constructor(private dialogService: DialogService) {}
@@ -20,20 +20,24 @@ export class EditArticleGuard implements CanDeactivate<ArticleComponent> {
     const newArticle: CreateArticleInterface = {
       title: component.article.title,
       content: component.article.content,
-      tagsIds: component.article.tags.map(
-        (tag: TagInterface) => tag.id,
-      ),
+      tagsIds: component.article.tags.map((tag: TagInterface) => tag.id),
     };
-    let isTagsIdsEqual = true;
+    let isTagsIdsEqual;
     if (component.newArticle.tagsIds.length !== newArticle.tagsIds.length) {
       isTagsIdsEqual = false;
     } else {
-      const newSetIds: Set<number> = new Set<number>(component.newArticle.tagsIds);
-      const difference: Set<number> = new Set<number>(newArticle.tagsIds.filter((x) => !newSetIds.has(x)));
+      const newSetIds: Set<number> = new Set<number>(
+        component.newArticle.tagsIds,
+      );
+      const difference: Set<number> = new Set<number>(
+        newArticle.tagsIds.filter((x) => !newSetIds.has(x)),
+      );
       isTagsIdsEqual = !difference.size;
-    };
+    }
     if (
-      newArticle.title !== component.newArticle.title || newArticle.content !== component.newArticle.content || !isTagsIdsEqual
+      newArticle.title !== component.newArticle.title ||
+      newArticle.content !== component.newArticle.content ||
+      !isTagsIdsEqual
     ) {
       return this.dialogService
         .openDialog(DialogTypeEnum.ConfirmRedirect, {
