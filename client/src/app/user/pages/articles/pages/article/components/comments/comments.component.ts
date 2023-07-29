@@ -73,4 +73,8 @@ export class CommentsComponent implements OnInit {
       },
     });
   }
+
+  public addComment(comment: CommentsTreeInterface) {
+    this.commentsTree = [...this.commentsTree, comment];
+  }
 }

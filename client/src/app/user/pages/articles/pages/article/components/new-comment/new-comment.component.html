@@ -18,9 +18,10 @@
       class="new-comment__textarea"
       rows="5"
       placeholder="Введіть ваш коментар"
+      [formControl]='commentCtrl'
     ></textarea>
     <div class="new-comment__button-wrapper" *ngIf="user">
-      <button class="new-comment__send-btn">Надіслати</button>
+      <button class="new-comment__send-btn" (click)='sendComment()'>Надіслати</button>
     </div>
     <div class="new-comment__no-user" *ngIf="!user">
       <a class="new-comment__link" routerLink="../../login">Увійдіть</a> або

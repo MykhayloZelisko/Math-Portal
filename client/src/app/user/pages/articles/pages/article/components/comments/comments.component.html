@@ -3,10 +3,11 @@
     <svg-icon src="assets/images/communication-chat.svg"></svg-icon>
     <h3 class="comments__text">Коментарі</h3>
   </div>
-  <app-new-comment [user]="user"></app-new-comment>
+  <app-new-comment [user]="user" [articleId]='articleId' (addComment)='addComment($event)'></app-new-comment>
   <app-comment-item
     *ngFor="let comment of commentsTree"
     [comment]="comment"
     [user]="user"
+    [articleId]='articleId'
   ></app-comment-item>
 </div>

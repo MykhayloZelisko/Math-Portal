@@ -75,8 +75,10 @@ export class CommentsService {
     }
 
     return this.getCommentById(comment.id, {
+      attributes: ['id', 'content', 'createdAt', 'updatedAt'],
       include: [
         {
+          attributes: ['id', 'firstName', 'lastName', 'fullName', 'photo'],
           association: 'user',
           model: User,
         },
