@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ArticlesRouteNameEnum } from '../shared/models/enums/articles-route-name.enum';
+import { EditArticleGuard } from '../user/guards/edit-article.guard';
 
 export const ArticlesRoutes: Routes = [
   {
@@ -22,6 +23,7 @@ export const ArticlesRoutes: Routes = [
           import('../user/pages/articles/pages/article/article.component').then(
             (m) => m.ArticleComponent,
           ),
+        canDeactivate: [EditArticleGuard],
       },
     ],
   },

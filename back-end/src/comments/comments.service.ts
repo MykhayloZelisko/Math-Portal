@@ -38,7 +38,7 @@ export class CommentsService {
         createCommentDto.parentCommentId === 0
       )
     ) {
-      throw new BadRequestException({ message: 'Comment is not created 1' });
+      throw new BadRequestException({ message: 'Comment is not created' });
     }
 
     const userByToken = await this.jwtService.verifyAsync(tokenDto.token);

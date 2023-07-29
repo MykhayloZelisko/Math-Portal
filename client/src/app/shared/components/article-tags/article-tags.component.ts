@@ -63,6 +63,7 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
   public constructor(private tagsService: TagsService) {}
 
   public ngOnInit(): void {
+    this.selectedTags = [...this.selectedTags];
     this.initTagList();
     this.initFilteredList();
   }
