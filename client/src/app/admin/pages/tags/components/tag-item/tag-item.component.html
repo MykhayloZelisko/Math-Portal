@@ -1,9 +1,14 @@
 <div
   class="tag-item"
-  [contentEditable]="isEditable"
   [ngClass]="{ 'tag-item--editable': isEditable }"
 >
-  <p class="tag-item__name" #tagItem [innerHTML]="tag.value | bypassHtml">
+  <p
+    #tagItem
+    class="tag-item__name"
+    [innerHTML]="tag.value | bypassHtml"
+    [contentEditable]="isEditable"
+    [ngClass]="{ 'tag-item__name--editable': isEditable }"
+  >
     {{ tag.value }}
   </p>
   <div *ngIf="!isEditable">

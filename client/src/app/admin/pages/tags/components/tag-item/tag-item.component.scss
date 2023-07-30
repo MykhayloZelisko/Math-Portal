@@ -17,6 +17,10 @@
 
   &__name {
     font-size: 16px;
+
+    &--editable {
+      outline: none;
+    }
   }
 
   &__btn {
