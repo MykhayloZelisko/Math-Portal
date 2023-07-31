@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommentsTreeInterface } from '../../../../../../../shared/models/interfaces/comments-tree.interface';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -27,7 +32,10 @@ export class CommentItemComponent {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(private commentsService: CommentsService, private cdr: ChangeDetectorRef) {}
+  public constructor(
+    private commentsService: CommentsService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   public toggleComment(): void {
     this.isVisibleNewComment = !this.isVisibleNewComment;
@@ -39,13 +47,16 @@ export class CommentItemComponent {
   }
 
   public likeComment(status: -1 | 1): void {
-    this.commentsService.updateCommentLikesDislikes(this.comment.id, status).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (comment: CommentInterface) => {
-        this.comment.likesUsersIds = comment.likesUsersIds;
-        this.comment.dislikesUsersIds = comment.dislikesUsersIds;
-        console.log(comment);
-        this.cdr.detectChanges();
-      }
-    });
+    this.commentsService
+      .updateCommentLikesDislikes(this.comment.id, status)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (comment: CommentInterface) => {
+          this.comment.likesUsersIds = comment.likesUsersIds;
+          this.comment.dislikesUsersIds = comment.dislikesUsersIds;
+          console.log(comment);
+          this.cdr.detectChanges();
+        },
+      });
   }
 }

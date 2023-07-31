@@ -23,22 +23,26 @@
     <div class="comment-item__content">{{ comment.content }}</div>
     <div class="comment-item__footer">
       <div class="comment-item__like">
-        <button class="comment-item__btn-like" (click)='likeComment(1)'>
+        <button class="comment-item__btn-like" (click)="likeComment(1)">
           <svg-icon
             class="comment-item__icon-like"
             src="assets/images/like.svg"
           ></svg-icon>
         </button>
-        <span class="comment-item__number-likes">{{comment.likesUsersIds.length}}</span>
+        <span class="comment-item__number-likes">{{
+          comment.likesUsersIds.length
+        }}</span>
       </div>
       <div class="comment-item__like">
-        <button class="comment-item__btn-like" (click)='likeComment(-1)'>
+        <button class="comment-item__btn-like" (click)="likeComment(-1)">
           <svg-icon
             class="comment-item__icon-like"
             src="assets/images/dislike.svg"
           ></svg-icon>
         </button>
-        <span class="comment-item__number-likes">{{comment.dislikesUsersIds.length}}</span>
+        <span class="comment-item__number-likes">{{
+          comment.dislikesUsersIds.length
+        }}</span>
       </div>
       <button class="comment-item__btn-answer" (click)="toggleComment()">
         Відповісти
