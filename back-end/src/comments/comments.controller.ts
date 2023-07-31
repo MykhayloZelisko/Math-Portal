@@ -6,7 +6,7 @@ import {
   Param,
   Delete,
   UseGuards,
-  Req,
+  Req, Put,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -19,6 +19,7 @@ import {
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard';
 import { Comment } from './models/comment.model';
 import { AdminGuard } from '../auth/guards/admin/admin.guard';
+import { UpdateLikeDislikeDto } from './dto/update-like-dislike.dto';
 
 @ApiTags('Comments')
 @Controller('comments')
@@ -52,5 +53,18 @@ export class CommentsController {
   @Delete(':id')
   public remove(@Param('id') id: number) {
     return this.commentsService.removeComment(id);
+  }
+
+  @ApiOperation({ summary: 'Update current comment (dis)likes' })
+  @ApiResponse({ status: 200, type: Comment })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Put('/likes')
+  public updateLikesStatus(
+    @Req() request: Request,
+    @Body() updateLikeDislikeDto: UpdateLikeDislikeDto,
+  ) {
+    const token = request.headers['authorization'].split(' ')[1];
+    return this.commentsService.addLikeDislike(updateLikeDislikeDto, { token });
   }
 }

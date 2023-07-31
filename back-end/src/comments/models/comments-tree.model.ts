@@ -8,6 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { Comment } from './comment.model';
 import { Article } from '../../articles/models/article.model';
+import { ApiProperty } from '@nestjs/swagger';
 
 interface TreeCreationAttrsInterface {
   ancestorId: number;
@@ -27,6 +28,15 @@ export class CommentsTree extends Model<
   CommentsTree,
   TreeCreationAttrsInterface
 > {
+  @ApiProperty({ example: 1, description: 'Unique identifier' })
+  @Column({
+    type: DataType.INTEGER,
+    unique: true,
+    autoIncrement: true,
+    primaryKey: true,
+  })
+  public id: number;
+
   @ForeignKey(() => Comment)
   @Column({ type: DataType.INTEGER, defaultValue: 0, allowNull: false })
   public ancestorId: number;

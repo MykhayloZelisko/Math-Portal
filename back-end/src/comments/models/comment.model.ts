@@ -31,6 +31,14 @@ export class Comment extends Model<Comment, CommentCreationAttrsInterface> {
   @Column({ type: DataType.STRING, allowNull: false })
   public content: string;
 
+  @ApiProperty({ example: [1,2,5], description: 'Array of user ids who liked the comment' })
+  @Column({ type: DataType.ARRAY(DataType.INTEGER), allowNull: false, defaultValue: [] })
+  public likesUsersIds: number[];
+
+  @ApiProperty({ example: [1,2,5], description: 'Array of user ids who disliked the comment' })
+  @Column({ type: DataType.ARRAY(DataType.INTEGER), allowNull: false, defaultValue: [] })
+  public dislikesUsersIds: number[];
+
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER, allowNull: false })
   public userId: number;
