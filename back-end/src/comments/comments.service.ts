@@ -14,6 +14,7 @@ import { FindOptions } from 'sequelize/types/model';
 import sequelize, { Op } from 'sequelize';
 import { TokenDto } from '../auth/dto/token.dto';
 import { JwtService } from '@nestjs/jwt';
+import { UpdateLikeDislikeDto } from './dto/update-like-dislike.dto';
 
 @Injectable()
 export class CommentsService {
@@ -75,7 +76,14 @@ export class CommentsService {
     }
 
     return this.getCommentById(comment.id, {
-      attributes: ['id', 'content', 'createdAt', 'updatedAt'],
+      attributes: [
+        'id',
+        'content',
+        'createdAt',
+        'updatedAt',
+        'likesUsersIds',
+        'dislikesUsersIds',
+      ],
       include: [
         {
           attributes: ['id', 'firstName', 'lastName', 'fullName', 'photo'],
@@ -108,7 +116,14 @@ export class CommentsService {
 
   public async getAllComments(articleId: number) {
     const comments = await this.commentRepository.findAll({
-      attributes: ['id', 'content', 'createdAt', 'updatedAt'],
+      attributes: [
+        'id',
+        'content',
+        'createdAt',
+        'updatedAt',
+        'likesUsersIds',
+        'dislikesUsersIds',
+      ],
       include: [
         {
           model: User,
@@ -137,5 +152,61 @@ export class CommentsService {
       order: [['id', 'ASC']],
     });
     return comments;
+  }
+
+  public async addLikeDislike(
+    updateLikeDislikeDto: UpdateLikeDislikeDto,
+    tokenDto: TokenDto,
+  ) {
+    if (!updateLikeDislikeDto.commentId || !updateLikeDislikeDto.status) {
+      throw new BadRequestException({ message: 'Comment is not (dis)liked' });
+    }
+    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    const user = await this.usersService.getUserById(userByToken.id);
+    const comment = await this.getCommentById(updateLikeDislikeDto.commentId);
+    if (!comment) {
+      throw new NotFoundException({ message: 'Comment not found' });
+    }
+    if (updateLikeDislikeDto.status === -1) {
+      const index = comment.dislikesUsersIds.findIndex(
+        (userId: number) => userId === user.id,
+      );
+      if (index >= 0) {
+        comment.dislikesUsersIds = comment.dislikesUsersIds.filter(
+          (id: number) => id !== user.id,
+        );
+      } else {
+        comment.dislikesUsersIds = [...comment.dislikesUsersIds, user.id];
+      }
+    } else {
+      const index = comment.likesUsersIds.findIndex(
+        (userId: number) => userId === user.id,
+      );
+      if (index >= 0) {
+        comment.likesUsersIds = comment.likesUsersIds.filter(
+          (id: number) => id !== user.id,
+        );
+      } else {
+        comment.likesUsersIds = [...comment.likesUsersIds, user.id];
+      }
+    }
+    await comment.save();
+    return this.getCommentById(comment.id, {
+      attributes: [
+        'id',
+        'content',
+        'createdAt',
+        'updatedAt',
+        'likesUsersIds',
+        'dislikesUsersIds',
+      ],
+      include: [
+        {
+          attributes: ['id', 'firstName', 'lastName', 'fullName', 'photo'],
+          association: 'user',
+          model: User,
+        },
+      ],
+    });
   }
 }

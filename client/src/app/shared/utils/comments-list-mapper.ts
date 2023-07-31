@@ -17,6 +17,8 @@ export function commentsListMapper(
         content: listItem.content,
         createdAt: listItem.createdAt,
         updatedAt: listItem.updatedAt,
+        likesUsersIds: listItem.likesUsersIds,
+        dislikesUsersIds: listItem.dislikesUsersIds,
         user: {
           ...listItem.user,
           photo: listItem.user.photo

@@ -72,6 +72,8 @@ export class NewCommentComponent {
             updatedAt: comment.updatedAt,
             level: commentData.level,
             nearestAncestorId: commentData.parentCommentId,
+            likesUsersIds: comment.likesUsersIds,
+            dislikesUsersIds: comment.dislikesUsersIds,
             user: {
               ...comment.user,
               photo: comment.user.photo

@@ -6,6 +6,8 @@ export interface CommentInterface {
   content: string;
   createdAt: string;
   updatedAt: string;
+  likesUsersIds: number[];
+  dislikesUsersIds: number[];
   user: UserInterface;
   descendantsList: DescendantInterface[];
 }

@@ -7,6 +7,8 @@ export interface CommentsTreeInterface {
   updatedAt: string;
   level: number;
   nearestAncestorId: number;
+  likesUsersIds: number[];
+  dislikesUsersIds: number[];
   user: UserInterface;
   children: CommentsTreeInterface[];
 }
