@@ -153,16 +153,16 @@ export class CommentsService {
     if (updateLikeDislikeDto.status === -1) {
       const index = comment.dislikesUsersIds.findIndex((userId: number) => userId === user.id);
       if (index >= 0) {
-        comment.dislikesUsersIds.splice(index, 1);
+        comment.dislikesUsersIds = comment.dislikesUsersIds.filter((id: number) => id !== user.id);
       } else {
-        comment.dislikesUsersIds.push(user.id)
+        comment.dislikesUsersIds = [...comment.dislikesUsersIds, user.id];
       }
     } else {
       const index = comment.likesUsersIds.findIndex((userId: number) => userId === user.id);
       if (index >= 0) {
-        comment.likesUsersIds.splice(index, 1);
+        comment.likesUsersIds = comment.likesUsersIds.filter((id: number) => id !== user.id);
       } else {
-        comment.likesUsersIds.push(user.id)
+        comment.likesUsersIds = [...comment.likesUsersIds, user.id];
       }
     }
     await comment.save();
