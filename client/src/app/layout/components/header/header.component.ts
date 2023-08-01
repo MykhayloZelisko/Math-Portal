@@ -14,6 +14,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { UserRouteNameEnum } from '../../../shared/models/enums/user-route-name.enum';
 import { LayoutRouteNameEnum } from '../../../shared/models/enums/layout-route-name.enum';
 import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
+import { ArticlesRouteNameEnum } from '../../../shared/models/enums/articles-route-name.enum';
 
 @Component({
   selector: 'app-header',
@@ -57,11 +58,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public logout(): void {
+    const id = +this.router.url.split('/')[2];
     sessionStorage.removeItem('token');
     this.usersService.updateUserData(null);
     if (
       this.router.url.includes(UserRouteNameEnum.Profile) ||
-      this.router.url.includes(LayoutRouteNameEnum.Admin)
+      this.router.url.includes(LayoutRouteNameEnum.Admin) ||
+      (this.router.url.includes(ArticlesRouteNameEnum.ArticlesList) && id)
     ) {
       this.router.navigateByUrl('');
     }
