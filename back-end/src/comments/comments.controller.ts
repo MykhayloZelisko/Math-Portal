@@ -61,7 +61,7 @@ export class CommentsController {
   @ApiResponse({ status: 200, type: Comment })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @Put('likes')
+  @Put('/likes')
   public updateLikesStatus(
     @Req() request: Request,
     @Body() updateLikeDislikeDto: UpdateLikeDislikeDto,
