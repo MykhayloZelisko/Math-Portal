@@ -61,24 +61,55 @@ export class RatingService {
   }
 
   public async getCurrentArticleStatus(articleId: number, tokenDto: TokenDto) {
-    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
-    const user = await this.usersService.getUserById(userByToken.id);
-    const article = await this.articlesService.getArticleById(articleId);
-    if (!user || !article) {
+    try {
+      const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+      const user = await this.usersService.getUserById(userByToken.id);
+      const article = await this.articlesService.getArticleById(articleId);
+      if (!user || !article) {
+        return { canBeRated: false };
+      }
+      ;
+      const rating = await this.ratingRepository.findOne({
+        where: {
+          [Op.and]: [
+            {
+              articleId: articleId,
+            },
+            {
+              userId: user.id,
+            },
+          ],
+        },
+      });
+      return { canBeRated: rating === null };
+    } catch (e) {
       return { canBeRated: false };
     }
-    const rating = await this.ratingRepository.findOne({
-      where: {
-        [Op.and]: [
-          {
-            articleId: articleId,
-          },
-          {
-            userId: user.id,
-          },
-        ],
-      },
-    });
-    return { canBeRated: rating === null };
+    // if (!tokenDto.token) {
+    //   return { canBeRated: false };
+    // }
+    // const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    // if (!userByToken) {
+    //   return { canBeRated: false };
+    // }
+    // const user = await this.usersService.getUserById(userByToken.id);
+    // const article = await this.articlesService.getArticleById(articleId);
+    // if (!user || !article) {
+    //   return { canBeRated: false };
+    // }
+    //   const rating = await this.ratingRepository.findOne({
+    //     where: {
+    //       [Op.and]: [
+    //         {
+    //           articleId: articleId,
+    //         },
+    //         {
+    //           userId: user.id,
+    //         },
+    //       ],
+    //     },
+    //   });
+    //   return { canBeRated: rating === null };
+    // }
   }
 }
