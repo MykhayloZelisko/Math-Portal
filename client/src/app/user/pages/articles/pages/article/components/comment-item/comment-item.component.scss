@@ -12,9 +12,15 @@
     grid-row: 1 / 2;
   }
 
-  &__user-details {
+  &__header {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__user-details {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -102,5 +108,107 @@
 
   &__new-comment {
     margin-top: 5px;
+  }
+
+  &__btn-menu {
+    width: 12px;
+    height: 28px;
+    background: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__drop-down {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 20px;
+    right: 0;
+    z-index: 1;
+    filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%)) drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
+    border-radius: 5px;
+    overflow: hidden;
+
+    &-item {
+      font-family: $source;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 8px 24px;
+      cursor: pointer;
+      border: none;
+      background-color: $white;
+
+      &:hover {
+        color: $brown-1;
+        background-color: $gray-2;
+      }
+
+      &:disabled,
+      &:disabled:hover {
+        background-color: $white;
+        color: $gray-3;
+        cursor: default;
+      }
+    }
+  }
+
+  &__wrapper-menu {
+    position: relative;
+  }
+
+  &__textarea {
+    font-family: $source;
+    padding: 9px 12px;
+    border-radius: 3px;
+    border: 1px solid $brown-4;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 16px;
+    resize: none;
+
+    &:hover {
+      border-color: $brown-1;
+    }
+
+    &:focus {
+      border-color:  $brown-2;
+      outline: none;
+    }
+
+    &:active {
+      border-color: $brown-2;
+    }
+  }
+
+  &__button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  &__btn {
+    background-color: $brown-1;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-family: $source;
+    font-size: 16px;
+    padding: 8px 24px;
+    color: $yellow-1;
+
+    &:hover {
+      background-color: $brown-2;
+    }
+
+    &:disabled,
+    &:disabled:hover {
+      background-color: $gray-2;
+      color: $gray-3;
+      cursor: default;
+    }
   }
 }

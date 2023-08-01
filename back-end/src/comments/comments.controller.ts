@@ -21,6 +21,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard';
 import { Comment } from './models/comment.model';
 import { AdminGuard } from '../auth/guards/admin/admin.guard';
 import { UpdateLikeDislikeDto } from './dto/update-like-dislike.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @ApiTags('Comments')
 @Controller('comments')
@@ -67,5 +68,19 @@ export class CommentsController {
   ) {
     const token = request.headers['authorization'].split(' ')[1];
     return this.commentsService.addLikeDislike(updateLikeDislikeDto, { token });
+  }
+
+  @ApiOperation({ summary: 'Update current comment' })
+  @ApiResponse({ status: 200, type: Comment })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Put(':id')
+  public updateComment(
+    @Req() request: Request,
+    @Param('id') id: number,
+    @Body() updateCommentDto: UpdateCommentDto,
+  ) {
+    const token = request.headers['authorization'].split(' ')[1];
+    return this.commentsService.updateComment(id, updateCommentDto, { token });
   }
 }
