@@ -18,9 +18,7 @@ import { RatingService } from './rating.service';
 import { ArticleRatingDto } from './dto/article-rating.dto';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { CurrentArticleStatusDto } from './dto/current-article-status.dto';
-import {
-  AuthWithoutExceptionsGuard
-} from '../auth/guards/auth-without-exceptions/auth-without-exceptions.guard';
+import { AuthWithoutExceptionsGuard } from '../auth/guards/auth-without-exceptions/auth-without-exceptions.guard';
 
 @ApiTags('Rating')
 @Controller('rating')
@@ -51,7 +49,11 @@ export class RatingController {
     @Req() request: Request,
     @Query('articleId') articleId: number,
   ) {
-    const token = request.headers['authorization'] ? request.headers['authorization'].split(' ')[1] : '';
-    return this.ratingService.getCurrentArticleStatus(articleId, { token: token });
+    const token = request.headers['authorization']
+      ? request.headers['authorization'].split(' ')[1]
+      : '';
+    return this.ratingService.getCurrentArticleStatus(articleId, {
+      token: token,
+    });
   }
 }

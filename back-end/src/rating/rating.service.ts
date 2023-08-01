@@ -67,8 +67,7 @@ export class RatingService {
       const article = await this.articlesService.getArticleById(articleId);
       if (!user || !article) {
         return { canBeRated: false };
-      }
-      ;
+      };
       const rating = await this.ratingRepository.findOne({
         where: {
           [Op.and]: [
@@ -85,31 +84,5 @@ export class RatingService {
     } catch (e) {
       return { canBeRated: false };
     }
-    // if (!tokenDto.token) {
-    //   return { canBeRated: false };
-    // }
-    // const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
-    // if (!userByToken) {
-    //   return { canBeRated: false };
-    // }
-    // const user = await this.usersService.getUserById(userByToken.id);
-    // const article = await this.articlesService.getArticleById(articleId);
-    // if (!user || !article) {
-    //   return { canBeRated: false };
-    // }
-    //   const rating = await this.ratingRepository.findOne({
-    //     where: {
-    //       [Op.and]: [
-    //         {
-    //           articleId: articleId,
-    //         },
-    //         {
-    //           userId: user.id,
-    //         },
-    //       ],
-    //     },
-    //   });
-    //   return { canBeRated: rating === null };
-    // }
   }
 }
