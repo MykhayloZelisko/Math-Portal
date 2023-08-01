@@ -13,14 +13,44 @@
       ></svg-icon>
     </ng-template>
   </div>
-  <div class="comment-item__user-details">
-    <div class="comment-item__name">{{ comment.user.fullName }}</div>
-    <div class="comment-item__time">
-      {{ comment.createdAt | date : 'dd.MM.YYYY HH:mm' }}
+  <div class='comment-item__header'>
+    <div class="comment-item__user-details">
+      <div class="comment-item__name">{{ comment.user.fullName }}</div>
+      <div class="comment-item__time">
+        {{ comment.createdAt | date : 'dd.MM.YYYY HH:mm' }}
+      </div>
+    </div>
+    <div class='comment-item__wrapper-menu' appClickOutside (clickOutside)="closeDropDown()">
+      <button class='comment-item__btn-menu' (click)='openDropDown()'>
+        <svg-icon src='assets/images/navigation-more_vert.svg'></svg-icon>
+      </button>
+      <div class="comment-item__drop-down" *ngIf='isActiveDropDown'>
+        <button class="comment-item__drop-down-item" (click)='editComment()' [disabled]='!user || user.id !== comment.user.id'>
+          Змінити
+        </button>
+        <button class="comment-item__drop-down-item" [disabled]='!user || (!user.isAdmin && user.id !== comment.user.id)'>
+          Видалити
+        </button>
+      </div>
     </div>
   </div>
   <div class="comment-item__comment-details">
-    <div class="comment-item__content">{{ comment.content }}</div>
+    <div class="comment-item__content" *ngIf='!isCommentEditable'>{{ comment.content }}</div>
+    <div class="comment-item__content" *ngIf='isCommentEditable'>
+      <textarea
+        class="comment-item__textarea"
+        rows="3"
+        [formControl]="commentCtrl"
+      ></textarea>
+      <div class="comment-item__button-wrapper">
+        <button class="comment-item__btn" (click)='cancelEditComment()'>
+          Відмінити
+        </button>
+        <button class="comment-item__btn" [disabled]='!commentCtrl.getRawValue()' (click)='saveComment()'>
+          Зберегти
+        </button>
+      </div>
+    </div>
     <div class="comment-item__footer">
       <div class="comment-item__like">
         <button class="comment-item__btn-like" (click)="likeComment(1)">

@@ -1,5 +1,5 @@
 import {
-  BadRequestException,
+  BadRequestException, ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -15,6 +15,7 @@ import sequelize, { Op } from 'sequelize';
 import { TokenDto } from '../auth/dto/token.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateLikeDislikeDto } from './dto/update-like-dislike.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @Injectable()
 export class CommentsService {
@@ -75,6 +76,42 @@ export class CommentsService {
       });
     }
 
+    return this.getCommentById(comment.id, {
+      attributes: [
+        'id',
+        'content',
+        'createdAt',
+        'updatedAt',
+        'likesUsersIds',
+        'dislikesUsersIds',
+      ],
+      include: [
+        {
+          attributes: ['id', 'firstName', 'lastName', 'fullName', 'photo'],
+          association: 'user',
+          model: User,
+        },
+      ],
+    });
+  }
+
+  public async updateComment(id: number, updateCommentDto: UpdateCommentDto, tokenDto: TokenDto) {
+    console.log(id, updateCommentDto);
+    if (!updateCommentDto.content) {
+      throw new BadRequestException({ message: 'Comment is not updated' });
+    }
+
+    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    const user = await this.usersService.getUserById(userByToken.id);
+    const comment = await this.getCommentById(id);
+    if (!comment) {
+      throw new NotFoundException({ message: 'Comment not found' });
+    }
+    if (comment.userId !== user.id) {
+      throw new ForbiddenException({ message: 'The user is not the author of the comment' });
+    }
+    comment.content = updateCommentDto.content;
+    await comment.save();
     return this.getCommentById(comment.id, {
       attributes: [
         'id',
