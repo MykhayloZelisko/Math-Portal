@@ -36,7 +36,12 @@ export class CommentsService {
     return this.httpClient.put<CommentInterface>(`${this.baseUrl}/likes`, body);
   }
 
-  public updateComment(id: number, content: string): Observable<CommentInterface> {
-    return this.httpClient.put<CommentInterface>(`${this.baseUrl}/${id}`, { content });
+  public updateComment(
+    id: number,
+    content: string,
+  ): Observable<CommentInterface> {
+    return this.httpClient.put<CommentInterface>(`${this.baseUrl}/${id}`, {
+      content,
+    });
   }
 }

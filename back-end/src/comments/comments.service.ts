@@ -1,5 +1,6 @@
 import {
-  BadRequestException, ForbiddenException,
+  BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -95,7 +96,11 @@ export class CommentsService {
     });
   }
 
-  public async updateComment(id: number, updateCommentDto: UpdateCommentDto, tokenDto: TokenDto) {
+  public async updateComment(
+    id: number,
+    updateCommentDto: UpdateCommentDto,
+    tokenDto: TokenDto,
+  ) {
     console.log(id, updateCommentDto);
     if (!updateCommentDto.content) {
       throw new BadRequestException({ message: 'Comment is not updated' });
@@ -108,7 +113,9 @@ export class CommentsService {
       throw new NotFoundException({ message: 'Comment not found' });
     }
     if (comment.userId !== user.id) {
-      throw new ForbiddenException({ message: 'The user is not the author of the comment' });
+      throw new ForbiddenException({
+        message: 'The user is not the author of the comment',
+      });
     }
     comment.content = updateCommentDto.content;
     await comment.save();

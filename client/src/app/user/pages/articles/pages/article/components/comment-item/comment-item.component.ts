@@ -13,15 +13,20 @@ import { CommentsService } from '../../../../../../../shared/services/comments.s
 import { Subject, takeUntil } from 'rxjs';
 import { CommentInterface } from '../../../../../../../shared/models/interfaces/comment.interface';
 import { RouterLink } from '@angular/router';
-import {
-  ClickOutsideDirective
-} from '../../../../../../../shared/directives/click-outside.directive';
+import { ClickOutsideDirective } from '../../../../../../../shared/directives/click-outside.directive';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-comment-item',
   standalone: true,
-  imports: [CommonModule, AngularSvgIconModule, NewCommentComponent, RouterLink, ClickOutsideDirective, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    AngularSvgIconModule,
+    NewCommentComponent,
+    RouterLink,
+    ClickOutsideDirective,
+    ReactiveFormsModule,
+  ],
   templateUrl: './comment-item.component.html',
   styleUrls: ['./comment-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -82,7 +87,7 @@ export class CommentItemComponent {
   public editComment(): void {
     this.closeDropDown();
     this.isCommentEditable = true;
-    this.commentCtrl.setValue(this.comment.content)
+    this.commentCtrl.setValue(this.comment.content);
   }
 
   public cancelEditComment(): void {
@@ -91,14 +96,17 @@ export class CommentItemComponent {
 
   public saveComment(): void {
     const content = this.commentCtrl.getRawValue();
-    this.commentsService.updateComment(this.comment.id, content).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (comment: CommentInterface) => {
-        this.comment.content = comment.content;
-        this.comment.updatedAt = comment.updatedAt;
-        this.isCommentEditable = false;
-        console.log(comment);
-        this.cdr.detectChanges();
-      }
-    })
+    this.commentsService
+      .updateComment(this.comment.id, content)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (comment: CommentInterface) => {
+          this.comment.content = comment.content;
+          this.comment.updatedAt = comment.updatedAt;
+          this.isCommentEditable = false;
+          console.log(comment);
+          this.cdr.detectChanges();
+        },
+      });
   }
 }
