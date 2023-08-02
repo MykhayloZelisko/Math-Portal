@@ -104,7 +104,6 @@ export class CommentsService {
     updateCommentDto: UpdateCommentDto,
     tokenDto: TokenDto,
   ) {
-    console.log(id, updateCommentDto);
     if (!updateCommentDto.content) {
       throw new BadRequestException({ message: 'Comment is not updated' });
     }
@@ -155,7 +154,8 @@ export class CommentsService {
   public async removeComment(id: number) {
     const comment = await this.getCommentById(id);
     if (comment) {
-      await this.commentRepository.destroy({ where: { id } });
+      const commentsIds = await this.getDescendantsIds(id);
+      await this.removeCommentsArray(commentsIds);
       return;
     }
     throw new NotFoundException({ message: 'Comment not found' });
@@ -263,5 +263,13 @@ export class CommentsService {
         },
       ],
     });
+  }
+
+  public async getDescendantsIds(ancestorId: number) {
+    const commentsTree = await this.treeRepository.findAll({
+      attributes: ['descendantId'],
+      where: { ancestorId },
+    });
+    return commentsTree.map((tree: CommentsTree) => tree.descendantId);
   }
 }

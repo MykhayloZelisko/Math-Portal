@@ -79,4 +79,18 @@ export class CommentsComponent implements OnInit {
   public addComment(comment: CommentsTreeInterface) {
     this.commentsTree = [...this.commentsTree, comment];
   }
+
+  public deleteComment(id: number) {
+    this.commentsService
+      .deleteComment(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.commentsTree = this.commentsTree.filter(
+            (comment: CommentsTreeInterface) => comment.id !== id,
+          );
+          this.cdr.detectChanges();
+        },
+      });
+  }
 }

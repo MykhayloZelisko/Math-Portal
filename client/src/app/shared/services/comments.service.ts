@@ -44,4 +44,8 @@ export class CommentsService {
       content,
     });
   }
+
+  public deleteComment(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
+  }
 }
