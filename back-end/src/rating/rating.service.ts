@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Rating } from './models/rating.model';
@@ -31,6 +35,13 @@ export class RatingService {
     );
     if (!user || !article) {
       throw new BadRequestException({ message: 'Rating is not updated' });
+    }
+    const articleStatus = await this.getCurrentArticleStatus(
+      createRatingDto.articleId,
+      tokenDto,
+    );
+    if (!articleStatus.canBeRated) {
+      throw new ConflictException({ message: 'Rating cannot be updated' });
     }
     const rating = await this.ratingRepository.create({
       ...createRatingDto,

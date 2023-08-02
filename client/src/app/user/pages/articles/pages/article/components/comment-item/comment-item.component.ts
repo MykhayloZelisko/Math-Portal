@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
+  Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommentsTreeInterface } from '../../../../../../../shared/models/interfaces/comments-tree.interface';
@@ -37,6 +39,9 @@ export class CommentItemComponent {
   @Input() public user: UserInterface | null = null;
 
   @Input() public articleId: number = 0;
+
+  @Output() public removeComment: EventEmitter<number> =
+    new EventEmitter<number>();
 
   public isVisibleNewComment: boolean = false;
 
@@ -104,7 +109,24 @@ export class CommentItemComponent {
           this.comment.content = comment.content;
           this.comment.updatedAt = comment.updatedAt;
           this.isCommentEditable = false;
-          console.log(comment);
+          this.cdr.detectChanges();
+        },
+      });
+  }
+
+  public deleteComment(): void {
+    this.removeComment.emit(this.comment.id);
+  }
+
+  public confirmRemove(id: number): void {
+    this.commentsService
+      .deleteComment(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.comment.children = this.comment.children.filter(
+            (comment: CommentsTreeInterface) => comment.id !== id,
+          );
           this.cdr.detectChanges();
         },
       });

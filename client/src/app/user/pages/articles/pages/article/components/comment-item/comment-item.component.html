@@ -41,6 +41,7 @@
         </button>
         <button
           class="comment-item__drop-down-item"
+          (click)="deleteComment()"
           [disabled]="!user || (!user.isAdmin && user.id !== comment.user.id)"
         >
           Видалити
@@ -112,6 +113,7 @@
       [comment]="child"
       [user]="user"
       [articleId]="articleId"
+      (removeComment)="confirmRemove($event)"
     ></app-comment-item>
   </div>
 </div>
