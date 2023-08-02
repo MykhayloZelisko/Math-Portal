@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CommentsController } from './comments.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
@@ -14,8 +14,9 @@ import { UsersModule } from '../users/users.module';
   imports: [
     SequelizeModule.forFeature([Comment, CommentsTree]),
     AuthModule,
-    ArticlesModule,
+    forwardRef(() => ArticlesModule),
     UsersModule,
   ],
+  exports: [CommentsService],
 })
 export class CommentsModule {}

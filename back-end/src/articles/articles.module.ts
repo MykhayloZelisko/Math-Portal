@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { ArticlesController } from './articles.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
@@ -7,6 +7,7 @@ import { AuthModule } from '../auth/auth.module';
 import { ArticleTags } from './models/article-tags.model';
 import { TagsModule } from '../tags/tags.module';
 import { UsersModule } from '../users/users.module';
+import { CommentsModule } from '../comments/comments.module';
 
 @Module({
   providers: [ArticlesService],
@@ -16,6 +17,7 @@ import { UsersModule } from '../users/users.module';
     AuthModule,
     TagsModule,
     UsersModule,
+    forwardRef(() => CommentsModule),
   ],
   exports: [ArticlesService],
 })

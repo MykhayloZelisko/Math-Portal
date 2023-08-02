@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -10,6 +12,8 @@ import { Tag } from '../tags/models/tag.model';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { TagsService } from '../tags/tags.service';
 import sequelize, { FindOptions, Op } from 'sequelize';
+import { CommentsService } from '../comments/comments.service';
+import { Comment } from '../comments/models/comment.model';
 
 @Injectable()
 export class ArticlesService {
@@ -23,6 +27,8 @@ export class ArticlesService {
 
   public constructor(
     private tagsService: TagsService,
+    @Inject(forwardRef(() => CommentsService))
+    private commentsService: CommentsService,
     @InjectModel(Article) private articleRepository: typeof Article,
   ) {}
 
@@ -85,8 +91,11 @@ export class ArticlesService {
 
   public async removeArticle(id: number) {
     const article = await this.getArticleById(id);
+    const comments = await this.commentsService.getAllComments(id);
+    const commentsIds = comments.map((comment: Comment) => comment.id);
     if (article) {
       await this.articleRepository.destroy({ where: { id } });
+      await this.commentsService.removeCommentsArray(commentsIds);
       return;
     }
     throw new NotFoundException({ message: 'Article not found' });

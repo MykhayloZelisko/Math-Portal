@@ -67,7 +67,7 @@ export class RatingService {
       const article = await this.articlesService.getArticleById(articleId);
       if (!user || !article) {
         return { canBeRated: false };
-      };
+      }
       const rating = await this.ratingRepository.findOne({
         where: {
           [Op.and]: [
