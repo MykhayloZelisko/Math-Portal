@@ -1,6 +1,8 @@
 import {
   BadRequestException,
   ForbiddenException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -24,6 +26,7 @@ export class CommentsService {
     @InjectModel(Comment) private commentRepository: typeof Comment,
     @InjectModel(CommentsTree) private treeRepository: typeof CommentsTree,
     private usersService: UsersService,
+    @Inject(forwardRef(() => ArticlesService))
     private articlesService: ArticlesService,
     private jwtService: JwtService,
   ) {}
@@ -156,6 +159,14 @@ export class CommentsService {
       return;
     }
     throw new NotFoundException({ message: 'Comment not found' });
+  }
+
+  public async removeCommentsArray(ids: number[]) {
+    await this.commentRepository.destroy({
+      where: {
+        id: ids,
+      },
+    });
   }
 
   public async getAllComments(articleId: number) {
