@@ -54,6 +54,9 @@ export class NewCommentComponent {
   ) {}
 
   public sendComment(): void {
+    if (!this.commentCtrl.getRawValue()) {
+      return;
+    }
     const commentData = {
       content: this.commentCtrl.getRawValue(),
       articleId: this.articleId,
