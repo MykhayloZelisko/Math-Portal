@@ -1,3 +1,5 @@
+@import "variables";
+
 .articles-list {
   display: flex;
   flex-direction: column;
@@ -9,5 +11,25 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+
+  &__button {
+    background-color: $brown-1;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-family: $source;
+    font-size: 16px;
+    padding: 8px 24px;
+    color: $yellow-1;
+
+    &:hover {
+      background-color: $brown-2;
+    }
+  }
+
+  &__load-more {
+    display: flex;
+    justify-content: center;
   }
 }

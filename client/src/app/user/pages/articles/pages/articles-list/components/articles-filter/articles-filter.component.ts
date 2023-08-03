@@ -42,8 +42,8 @@ export class ArticlesFilterComponent implements OnInit, OnDestroy {
   public filterParams: ArticlesListParamsInterface = {
     filter: '',
     tagsIds: [],
-    // page: 1,
-    // size: 10,
+    page: 1,
+    size: 10,
   };
 
   private destroy$: Subject<void> = new Subject<void>();
@@ -113,8 +113,8 @@ export class ArticlesFilterComponent implements OnInit, OnDestroy {
     this.filterParams = {
       filter: '',
       tagsIds: [],
-      // page: 1,
-      // size: 10,
+      page: 1,
+      size: 10,
     };
     this.changeFilterParams.emit(this.filterParams);
   }

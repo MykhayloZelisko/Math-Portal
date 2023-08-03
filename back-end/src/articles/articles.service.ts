@@ -2,7 +2,7 @@ import {
   BadRequestException,
   forwardRef,
   Inject,
-  Injectable,
+  Injectable, InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -11,9 +11,11 @@ import { Article } from './models/article.model';
 import { Tag } from '../tags/models/tag.model';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { TagsService } from '../tags/tags.service';
-import sequelize, { FindOptions, Op } from 'sequelize';
+import { FindOptions, QueryTypes } from 'sequelize';
 import { CommentsService } from '../comments/comments.service';
 import { Comment } from '../comments/models/comment.model';
+import { Sequelize } from 'sequelize-typescript';
+import * as process from 'process';
 
 @Injectable()
 export class ArticlesService {
@@ -118,88 +120,191 @@ export class ArticlesService {
   }
 
   public async getAllArticlesWithParams(
-    // page: number,
-    // size: number,
+    page: number,
+    size: number,
     filter: string,
     tagsIds: number[],
   ) {
-    let filterOptions: FindOptions<Article>;
+    try {
+      const sequelize = new Sequelize(
+        process.env.POSTGRES_DB,
+        process.env.POSTGRES_USER,
+        process.env.POSTGRES_PASSWORD,
+        { dialect: 'postgres' });
+      if (!!filter && !!filter.trim() && !!tagsIds.length) {
+        const rawQuery = `
+          SELECT a.id, a.title, a.content
+          FROM articles AS a
+          INNER JOIN article_tags AS at
+          ON a.id = at.article_id
+          WHERE at.tag_id IN (:tagsIds)
+          AND (a.title LIKE :filter OR a.content LIKE :filter)
+          GROUP BY a.id, a.title, a.content
+          HAVING COUNT(DISTINCT at.tag_id) = :tagsCount
+          LIMIT :size
+          OFFSET :offset
+        `;
+        const replacements = {
+          tagsIds,
+          filter: `%${filter}%`,
+          tagsCount: tagsIds.length,
+          size,
+          offset: (page - 1) * size,
+        };
+        const articles = await sequelize.query(rawQuery, {
+          type: QueryTypes.SELECT,
+          model: Article,
+          mapToModel: true,
+          replacements,
+        });
 
-    if (!!filter && !!filter.trim() && !!tagsIds.length) {
-      filterOptions = {
-        attributes: ['id', 'title'],
-        include: {
-          attributes: [],
-          association: 'tags',
-          model: Tag,
-          through: { attributes: [] },
-          where: { id: tagsIds },
-          required: true,
-        },
-        where: {
-          [Op.or]: [
-            sequelize.where(
-              sequelize.fn('LOWER', sequelize.col('title')),
-              'LIKE',
-              '%' + filter.toLowerCase() + '%',
-            ),
-            sequelize.where(
-              sequelize.fn('LOWER', sequelize.col('content')),
-              'LIKE',
-              '%' + filter.toLowerCase() + '%',
-            ),
-          ],
-        },
-        group: ['Article.id', 'Article.title'],
-        having: sequelize.literal(`COUNT(tags.id) = ${tagsIds.length}`),
-        // offset: (page - 1) * size,
-        // limit: size,
-      };
-    } else if (!!filter && !!filter.trim() && !tagsIds.length) {
-      filterOptions = {
-        attributes: ['id', 'title'],
-        where: {
-          [Op.or]: [
-            sequelize.where(
-              sequelize.fn('LOWER', sequelize.col('title')),
-              'LIKE',
-              '%' + filter.toLowerCase() + '%',
-            ),
-            sequelize.where(
-              sequelize.fn('LOWER', sequelize.col('content')),
-              'LIKE',
-              '%' + filter.toLowerCase() + '%',
-            ),
-          ],
-        },
-        // offset: (page - 1) * size,
-        // limit: size,
-      };
-    } else if ((!filter || !filter.trim()) && !!tagsIds.length) {
-      filterOptions = {
-        attributes: ['id', 'title'],
-        include: {
-          attributes: [],
-          association: 'tags',
-          model: Tag,
-          through: { attributes: [] },
-          where: { id: tagsIds },
-          required: true,
-        },
-        group: ['Article.id', 'Article.title'],
-        having: sequelize.literal(`COUNT(tags.id) = ${tagsIds.length}`),
-        // offset: (page - 1) * size,
-        // limit: size,
-      };
-    } else {
-      filterOptions = {
-        attributes: ['id', 'title'],
-        // offset: (page - 1) * size,
-        // limit: size,
-      };
+        const countQuery = `
+          SELECT COUNT(*) AS total
+          FROM (
+            SELECT a.id
+            FROM articles AS a
+            INNER JOIN article_tags AS at
+            ON a.id = at.article_id
+            WHERE at.tag_id IN (:tagsIds)
+            AND (a.title LIKE :filter OR a.content LIKE :filter)
+            GROUP BY a.id
+            HAVING COUNT(DISTINCT at.tag_id) = :tagsCount
+          ) AS count_query
+        `;
+        const countReplacements = {
+          tagsIds,
+          filter: `%${filter}%`,
+          tagsCount: tagsIds.length,
+        };
+        const countResult: {total: number}[] = await sequelize.query(countQuery, {
+          type: QueryTypes.SELECT,
+          replacements: countReplacements,
+        });
+        const total = Number(countResult[0]?.total) || 0;
+
+        return { total, articles };
+      } else if (!!filter && !!filter.trim() && !tagsIds.length) {
+        const rawQuery = `
+          SELECT a.id, a.title, a.content
+          FROM articles AS a
+          WHERE a.title LIKE :filter OR a.content LIKE :filter
+          GROUP BY a.id, a.title, a.content
+          LIMIT :size
+          OFFSET :offset
+        `;
+        const replacements = {
+          filter: `%${filter}%`,
+          size,
+          offset: (page - 1) * size,
+        };
+        const articles = await sequelize.query(rawQuery, {
+          type: QueryTypes.SELECT,
+          model: Article,
+          mapToModel: true,
+          replacements,
+        });
+
+        const countQuery = `
+          SELECT COUNT(*) AS total
+          FROM (
+            SELECT a.id
+            FROM articles AS a
+            WHERE a.title LIKE :filter OR a.content LIKE :filter
+            GROUP BY a.id
+          ) AS count_query
+        `;
+        const countReplacements = {
+          filter: `%${filter}%`,
+        };
+        const countResult: {total: number}[] = await sequelize.query(countQuery, {
+          type: QueryTypes.SELECT,
+          replacements: countReplacements,
+        });
+        const total = Number(countResult[0]?.total) || 0;
+
+        return { total, articles };
+      } else if ((!filter || !filter.trim()) && !!tagsIds.length) {
+        const rawQuery = `
+          SELECT a.id, a.title, a.content
+          FROM articles AS a
+          INNER JOIN article_tags AS at
+          ON a.id = at.article_id
+          WHERE at.tag_id IN (:tagsIds)
+          GROUP BY a.id, a.title, a.content
+          HAVING COUNT(DISTINCT at.tag_id) = :tagsCount
+          LIMIT :size
+          OFFSET :offset
+        `;
+        const replacements = {
+          tagsIds,
+          tagsCount: tagsIds.length,
+          size,
+          offset: (page - 1) * size,
+        };
+        const articles = await sequelize.query(rawQuery, {
+          type: QueryTypes.SELECT,
+          model: Article,
+          mapToModel: true,
+          replacements,
+        });
+
+        const countQuery = `
+          SELECT COUNT(*) AS total
+          FROM (
+            SELECT a.id
+            FROM articles AS a
+            INNER JOIN article_tags AS at
+            ON a.id = at.article_id
+            WHERE at.tag_id IN (:tagsIds)
+            GROUP BY a.id
+            HAVING COUNT(DISTINCT at.tag_id) = :tagsCount
+          ) AS count_query
+        `;
+        const countReplacements = {
+          tagsIds,
+          tagsCount: tagsIds.length,
+        };
+        const countResult: {total: number}[] = await sequelize.query(countQuery, {
+          type: QueryTypes.SELECT,
+          replacements: countReplacements,
+        });
+        const total = Number(countResult[0]?.total) || 0;
+
+        return { total, articles };
+      } else {
+        const rawQuery = `
+          SELECT a.id, a.title, a.content
+          FROM articles AS a
+          LIMIT :size
+          OFFSET :offset
+        `;
+        const replacements = {
+          size,
+          offset: (page - 1) * size,
+        };
+        const articles = await sequelize.query(rawQuery, {
+          type: QueryTypes.SELECT,
+          model: Article,
+          mapToModel: true,
+          replacements,
+        });
+
+        const countQuery = `
+          SELECT COUNT(*) AS total
+          FROM (
+            SELECT a.id, a.title, a.content
+            FROM articles AS a
+          ) AS count_query
+        `;
+        const countResult: {total: number}[] = await sequelize.query(countQuery, {
+          type: QueryTypes.SELECT,
+        });
+        const total = Number(countResult[0]?.total) || 0;
+
+        return { total, articles };
+      }
+    } catch (e) {
+      throw new InternalServerErrorException({ message: 'Internal server error' })
     }
-
-    const articles = await this.getAllArticles(filterOptions);
-    return articles;
   }
 }

@@ -8,4 +8,7 @@
       [article]="article"
     ></app-articles-list-item>
   </div>
+  <div class='articles-list__load-more'>
+    <button class='articles-list__button' (click)="loadMoreArticles()" *ngIf='articlesList.length!==total'>Завантажити ще</button>
+  </div>
 </div>

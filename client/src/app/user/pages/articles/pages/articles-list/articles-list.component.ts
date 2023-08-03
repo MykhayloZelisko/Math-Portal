@@ -12,6 +12,10 @@ import { ArticlesListItemComponent } from './components/articles-list-item/artic
 import { ArticleInterface } from '../../../../../shared/models/interfaces/article.interface';
 import { ArticlesService } from '../../../../../shared/services/articles.service';
 import { Subject, takeUntil } from 'rxjs';
+import {
+  ArticlesListInterface
+} from '../../../../../shared/models/interfaces/articles-list.interface';
+import { TagsService } from '../../../../../shared/services/tags.service';
 
 @Component({
   selector: 'app-articles-list',
@@ -24,15 +28,28 @@ import { Subject, takeUntil } from 'rxjs';
 export class ArticlesListComponent implements OnInit, OnDestroy {
   public articlesList: ArticleInterface[] = [];
 
+  public total: number = 0;
+
+  public paginationParams: ArticlesListParamsInterface = {
+    filter: '',
+    tagsIds: [],
+    page: 1,
+    size: 10,
+  };
+
   private destroy$: Subject<void> = new Subject<void>();
 
   public constructor(
     private articlesService: ArticlesService,
     private cdr: ChangeDetectorRef,
+    private tagsService: TagsService,
   ) {}
 
   public ngOnInit(): void {
-    this.initArticlesList(this.paginationParams);
+    const tag = this.tagsService.tag$.getValue();
+    if (!tag) {
+      this.initArticlesList(this.paginationParams);
+    }
   }
 
   public ngOnDestroy(): void {
@@ -40,15 +57,9 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public paginationParams: ArticlesListParamsInterface = {
-    filter: '',
-    tagsIds: [],
-    // page: 1,
-    // size: 10,
-  };
-
   public changePaginationParams(event: ArticlesListParamsInterface) {
     this.paginationParams = event;
+    this.articlesList = [];
     this.initArticlesList(this.paginationParams);
   }
 
@@ -57,10 +68,19 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
       .getArticlesList(params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (list: ArticleInterface[]) => {
-          this.articlesList = list;
+        next: (list: ArticlesListInterface) => {
+          this.articlesList = [...this.articlesList, ...list.articles];
+          this.total = list.total;
           this.cdr.detectChanges();
         },
       });
+  }
+
+  public loadMoreArticles() {
+    this.paginationParams = {
+      ...this.paginationParams,
+      page: this.paginationParams.page + 1,
+    };
+    this.initArticlesList(this.paginationParams);
   }
 }

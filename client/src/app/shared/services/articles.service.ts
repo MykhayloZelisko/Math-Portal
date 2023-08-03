@@ -5,6 +5,7 @@ import { CreateArticleInterface } from '../models/interfaces/create-article.inte
 import { Observable } from 'rxjs';
 import { ArticleInterface } from '../models/interfaces/article.interface';
 import { ArticlesListParamsInterface } from '../models/interfaces/articles-list-params.interface';
+import { ArticlesListInterface } from '../models/interfaces/articles-list.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -22,14 +23,14 @@ export class ArticlesService {
 
   public getArticlesList(
     listParams: ArticlesListParamsInterface,
-  ): Observable<ArticleInterface[]> {
+  ): Observable<ArticlesListInterface> {
     let params = new HttpParams();
-    // params = params.append('page', listParams.page);
-    // params = params.append('size', listParams.size);
+    params = params.append('page', listParams.page);
+    params = params.append('size', listParams.size);
     params = params.append('filter', listParams.filter);
     const tagsIds = listParams.tagsIds.join();
     params = params.append('tagsIds', tagsIds);
-    return this.httpClient.get<ArticleInterface[]>(`${this.baseUrl}`, {
+    return this.httpClient.get<ArticlesListInterface>(`${this.baseUrl}`, {
       params,
     });
   }
