@@ -28,7 +28,7 @@ import { TagsService } from '../../../../../shared/services/tags.service';
 export class ArticlesListComponent implements OnInit, OnDestroy {
   public articlesList: ArticleInterface[] = [];
 
-  public total: number = 0;
+  public isButtonVisible: boolean = false;
 
   public paginationParams: ArticlesListParamsInterface = {
     filter: '',
@@ -64,13 +64,14 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
   }
 
   private initArticlesList(params: ArticlesListParamsInterface): void {
+    this.isButtonVisible = false;
     this.articlesService
       .getArticlesList(params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (list: ArticlesListInterface) => {
           this.articlesList = [...this.articlesList, ...list.articles];
-          this.total = list.total;
+          this.isButtonVisible = list.total ? list.total !== this.articlesList.length : false;
           this.cdr.detectChanges();
         },
       });

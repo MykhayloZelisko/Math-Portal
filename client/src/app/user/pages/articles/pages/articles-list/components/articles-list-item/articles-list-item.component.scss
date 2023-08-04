@@ -7,4 +7,18 @@
   border-radius: 8px;
   padding: 10px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__content {
+    max-height: 100px;
+    overflow: hidden;
+    line-height: 1.2;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 600;
+  }
 }
