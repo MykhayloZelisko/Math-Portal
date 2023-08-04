@@ -2,7 +2,8 @@ import {
   BadRequestException,
   forwardRef,
   Inject,
-  Injectable, InternalServerErrorException,
+  Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -130,7 +131,8 @@ export class ArticlesService {
         process.env.POSTGRES_DB,
         process.env.POSTGRES_USER,
         process.env.POSTGRES_PASSWORD,
-        { dialect: 'postgres' });
+        { dialect: 'postgres' },
+      );
       if (!!filter && !!filter.trim() && !!tagsIds.length) {
         const rawQuery = `
           SELECT a.id, a.title, a.content
@@ -176,10 +178,13 @@ export class ArticlesService {
           filter: `%${filter.toLowerCase()}%`,
           tagsCount: tagsIds.length,
         };
-        const countResult: {total: number}[] = await sequelize.query(countQuery, {
-          type: QueryTypes.SELECT,
-          replacements: countReplacements,
-        });
+        const countResult: { total: number }[] = await sequelize.query(
+          countQuery,
+          {
+            type: QueryTypes.SELECT,
+            replacements: countReplacements,
+          },
+        );
         const total = Number(countResult[0]?.total) || 0;
         return { total, articles };
       } else if (!!filter && !!filter.trim() && !tagsIds.length) {
@@ -250,10 +255,13 @@ export class ArticlesService {
           tagsIds,
           tagsCount: tagsIds.length,
         };
-        const countResult: {total: number}[] = await sequelize.query(countQuery, {
-          type: QueryTypes.SELECT,
-          replacements: countReplacements,
-        });
+        const countResult: { total: number }[] = await sequelize.query(
+          countQuery,
+          {
+            type: QueryTypes.SELECT,
+            replacements: countReplacements,
+          },
+        );
         const total = Number(countResult[0]?.total) || 0;
         return { total, articles };
       } else {
@@ -266,7 +274,9 @@ export class ArticlesService {
         return { total, articles };
       }
     } catch (e) {
-      throw new InternalServerErrorException({ message: 'Internal server error' })
+      throw new InternalServerErrorException({
+        message: 'Internal server error',
+      });
     }
   }
 }

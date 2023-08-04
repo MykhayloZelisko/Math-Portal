@@ -12,9 +12,7 @@ import { ArticlesListItemComponent } from './components/articles-list-item/artic
 import { ArticleInterface } from '../../../../../shared/models/interfaces/article.interface';
 import { ArticlesService } from '../../../../../shared/services/articles.service';
 import { Subject, takeUntil } from 'rxjs';
-import {
-  ArticlesListInterface
-} from '../../../../../shared/models/interfaces/articles-list.interface';
+import { ArticlesListInterface } from '../../../../../shared/models/interfaces/articles-list.interface';
 import { TagsService } from '../../../../../shared/services/tags.service';
 
 @Component({
@@ -71,7 +69,9 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (list: ArticlesListInterface) => {
           this.articlesList = [...this.articlesList, ...list.articles];
-          this.isButtonVisible = list.total ? list.total !== this.articlesList.length : false;
+          this.isButtonVisible = list.total
+            ? list.total !== this.articlesList.length
+            : false;
           this.cdr.detectChanges();
         },
       });
