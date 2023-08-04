@@ -12,10 +12,9 @@ import { Article } from './models/article.model';
 import { Tag } from '../tags/models/tag.model';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { TagsService } from '../tags/tags.service';
-import { FindOptions, Op, QueryTypes } from 'sequelize';
+import sequelize, { FindOptions, Op, QueryTypes, Sequelize } from 'sequelize';
 import { CommentsService } from '../comments/comments.service';
 import { Comment } from '../comments/models/comment.model';
-import { Sequelize } from 'sequelize-typescript';
 import * as process from 'process';
 
 @Injectable()
@@ -127,7 +126,7 @@ export class ArticlesService {
     tagsIds: number[],
   ) {
     try {
-      const sequelize = new Sequelize(
+      const sequelizeInstance = new Sequelize(
         process.env.POSTGRES_DB,
         process.env.POSTGRES_USER,
         process.env.POSTGRES_PASSWORD,
@@ -153,7 +152,7 @@ export class ArticlesService {
           size,
           offset: (page - 1) * size,
         };
-        const articles = await sequelize.query(rawQuery, {
+        const articles = await sequelizeInstance.query(rawQuery, {
           type: QueryTypes.SELECT,
           model: Article,
           mapToModel: true,
@@ -178,7 +177,7 @@ export class ArticlesService {
           filter: `%${filter.toLowerCase()}%`,
           tagsCount: tagsIds.length,
         };
-        const countResult: { total: number }[] = await sequelize.query(
+        const countResult: { total: number }[] = await sequelizeInstance.query(
           countQuery,
           {
             type: QueryTypes.SELECT,
@@ -232,7 +231,7 @@ export class ArticlesService {
           size,
           offset: (page - 1) * size,
         };
-        const articles = await sequelize.query(rawQuery, {
+        const articles = await sequelizeInstance.query(rawQuery, {
           type: QueryTypes.SELECT,
           model: Article,
           mapToModel: true,
@@ -255,7 +254,7 @@ export class ArticlesService {
           tagsIds,
           tagsCount: tagsIds.length,
         };
-        const countResult: { total: number }[] = await sequelize.query(
+        const countResult: { total: number }[] = await sequelizeInstance.query(
           countQuery,
           {
             type: QueryTypes.SELECT,
