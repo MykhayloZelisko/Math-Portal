@@ -1,3 +1,7 @@
 <div class="articles-list-item" (click)="openArticle()">
   <h3 class="articles-list-item__title" [mathjax]="article.title"></h3>
+  <div
+    class="articles-list-item__content"
+    [innerHTML]="article.content | bypassHtml"
+  ></div>
 </div>

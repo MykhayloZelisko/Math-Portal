@@ -75,7 +75,6 @@ export class CommentItemComponent {
         next: (comment: CommentInterface) => {
           this.comment.likesUsersIds = comment.likesUsersIds;
           this.comment.dislikesUsersIds = comment.dislikesUsersIds;
-          console.log(comment);
           this.cdr.detectChanges();
         },
       });
