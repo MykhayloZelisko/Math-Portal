@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { ArticlesService } from '../../../../../shared/services/articles.service';
 import { ArticleInterface } from '../../../../../shared/models/interfaces/article.interface';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
 import { MathjaxModule } from 'mathjax-angular';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { TagInterface } from '../../../../../shared/models/interfaces/tag.interface';
@@ -27,6 +27,9 @@ import { ArticleTitleComponent } from '../../../../../shared/components/article-
 import { ArticleContentComponent } from '../../../../../shared/components/article-content/article-content.component';
 import { CreateArticleInterface } from '../../../../../shared/models/interfaces/create-article.interface';
 import { CommentsComponent } from './components/comments/comments.component';
+import { CurrentArticleStatusInterface } from '../../../../../shared/models/interfaces/current-article-status.interface';
+import { HttpErrorResponse } from '@angular/common/http';
+import { PageNotFoundComponent } from '../../../page-not-found/page-not-found.component';
 
 @Component({
   selector: 'app-article',
@@ -40,6 +43,7 @@ import { CommentsComponent } from './components/comments/comments.component';
     ArticleTitleComponent,
     ArticleContentComponent,
     CommentsComponent,
+    PageNotFoundComponent,
   ],
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss'],
@@ -57,6 +61,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
   public isEditable: boolean = false;
 
   public article!: ArticleInterface;
+
+  public isArticle: boolean = false;
 
   public isRatingActive: boolean = false;
 
@@ -101,13 +107,20 @@ export class ArticleComponent implements OnInit, OnDestroy {
       this.articlesService
         .getArticle(id)
         .pipe(
-          tap((article: ArticleInterface) => {
-            this.article = article;
-            this.newArticle.title = article.title;
-            this.newArticle.content = article.content;
-            this.newArticle.tagsIds = this.article.tags.map(
-              (tag: TagInterface) => tag.id,
-            );
+          tap({
+            next: (article: ArticleInterface) => {
+              this.isArticle = true;
+              this.article = article;
+              this.newArticle.title = article.title;
+              this.newArticle.content = article.content;
+              this.newArticle.tagsIds = this.article.tags.map(
+                (tag: TagInterface) => tag.id,
+              );
+            },
+            error: (error: HttpErrorResponse) => {
+              this.isArticle = false;
+              return throwError(() => error);
+            },
           }),
           switchMap(() =>
             this.ratingService
@@ -116,14 +129,14 @@ export class ArticleComponent implements OnInit, OnDestroy {
           ),
         )
         .subscribe({
-          next: (status) => {
+          next: (status: CurrentArticleStatusInterface) => {
             this.isRatingActive = status.canBeRated;
             this.cdr.detectChanges();
           },
           error: () => {
+            this.isArticle = false;
             this.isRatingActive = false;
             this.cdr.detectChanges();
-            this.router.navigateByUrl('not-found');
           },
         });
     }
