@@ -26,11 +26,58 @@
         <ng-container *ngSwitchCase="DialogType.ConfirmDeleteArticle">
           {{ data.data.title }}
         </ng-container>
+        <ng-container *ngSwitchCase="DialogType.JWTAlert">
+          {{ data.data.title }}
+        </ng-container>
       </ng-container>
     </h4>
-    <button mat-icon-button (click)="close()">
-      <mat-icon>close</mat-icon>
-    </button>
+    <ng-container [ngSwitch]="data.dialogType">
+      <ng-container *ngSwitchCase="DialogType.ConflictRegistration">
+        <button mat-icon-button (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.Alert">
+        <button mat-icon-button (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmRedirect">
+        <button mat-icon-button [mat-dialog-close]="false">
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmDeleteProfile">
+        <button mat-icon-button (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmDeleteOtherUser">
+        <button mat-icon-button (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmUpdateCurrentUserRole">
+        <button mat-icon-button (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmDeleteTag">
+        <button mat-icon-button (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.ConfirmDeleteArticle">
+        <button mat-icon-button (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.JWTAlert">
+        <button mat-icon-button [mat-dialog-close]="true">
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-container>
+    </ng-container>
   </div>
   <div mat-dialog-content class="dialog__content">
     <ng-container [ngSwitch]="data.dialogType">
@@ -58,6 +105,9 @@
       </ng-container>
       <ng-container *ngSwitchCase="DialogType.ConfirmDeleteArticle">
         Ви дійсно хочете видалити статтю "{{ data.data.article?.title }}"?
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.JWTAlert">
+        {{ data.data.text }}
       </ng-container>
     </ng-container>
   </div>
@@ -105,6 +155,9 @@
         >
           Так
         </button>
+      </ng-container>
+      <ng-container *ngSwitchCase="DialogType.JWTAlert">
+        <button class="dialog__button" [mat-dialog-close]="true">Ок</button>
       </ng-container>
     </ng-container>
   </div>

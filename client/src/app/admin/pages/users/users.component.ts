@@ -114,6 +114,10 @@ export class UsersComponent implements OnInit, OnDestroy {
               'token',
               JSON.stringify(`Bearer ${user.token.token}`),
             );
+            sessionStorage.setItem(
+              'exp',
+              JSON.stringify(`Bearer ${user.token.exp}`),
+            );
             this.router.navigateByUrl('');
           } else {
             const users = this.usersTable.users.map((item: UserInterface) =>
@@ -174,6 +178,7 @@ export class UsersComponent implements OnInit, OnDestroy {
             });
             this.router.navigateByUrl('');
             sessionStorage.removeItem('token');
+            sessionStorage.removeItem('exp');
             this.usersService.updateUserData(null);
           } else {
             this.initUsersTable(this.filterParams);

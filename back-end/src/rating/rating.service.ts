@@ -8,7 +8,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Rating } from './models/rating.model';
 import { UsersService } from '../users/users.service';
 import { ArticlesService } from '../articles/articles.service';
-import { TokenDto } from '../auth/dto/token.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Op } from 'sequelize';
 
@@ -23,12 +22,12 @@ export class RatingService {
 
   public async updateArticleRating(
     createRatingDto: CreateRatingDto,
-    tokenDto: TokenDto,
+    token: string,
   ) {
     if (!createRatingDto.rate || !createRatingDto.articleId) {
       throw new BadRequestException({ message: 'Rating is not updated' });
     }
-    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const article = await this.articlesService.getArticleById(
       createRatingDto.articleId,
@@ -38,7 +37,7 @@ export class RatingService {
     }
     const articleStatus = await this.getCurrentArticleStatus(
       createRatingDto.articleId,
-      tokenDto,
+      token,
     );
     if (!articleStatus.canBeRated) {
       throw new ConflictException({ message: 'Rating cannot be updated' });
@@ -71,9 +70,9 @@ export class RatingService {
     };
   }
 
-  public async getCurrentArticleStatus(articleId: number, tokenDto: TokenDto) {
+  public async getCurrentArticleStatus(articleId: number, token: string) {
     try {
-      const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+      const userByToken = await this.jwtService.verifyAsync(token);
       const user = await this.usersService.getUserById(userByToken.id);
       const article = await this.articlesService.getArticleById(articleId);
       if (!user || !article) {

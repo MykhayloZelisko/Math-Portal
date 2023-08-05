@@ -7,4 +7,5 @@ export enum DialogTypeEnum {
   ConfirmUpdateCurrentUserRole,
   ConfirmDeleteTag,
   ConfirmDeleteArticle,
+  JWTAlert,
 }

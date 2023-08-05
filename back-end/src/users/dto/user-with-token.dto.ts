@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../models/user.model';
-import { TokenDto } from '../../auth/dto/token.dto';
+import { TokenWithExpDto } from '../../auth/dto/token-with-exp.dto';
 
 export class UserWithTokenDto {
   @ApiProperty({
@@ -19,5 +19,5 @@ export class UserWithTokenDto {
     example: { token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' },
     description: 'Token',
   })
-  public readonly token: TokenDto;
+  public readonly token: TokenWithExpDto;
 }

@@ -126,6 +126,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
             'token',
             JSON.stringify(`Bearer ${userWithToken.token.token}`),
           );
+          sessionStorage.setItem(
+            'exp',
+            JSON.stringify(userWithToken.token.exp),
+          );
           this.usersService.updateUserData(userWithToken.user);
           this.clearPasswordFields();
           this.initProfileForm(userWithToken.user);
@@ -158,6 +162,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           });
           this.router.navigateByUrl('');
           sessionStorage.removeItem('token');
+          sessionStorage.removeItem('exp');
           this.usersService.updateUserData(null);
         },
         error: () => {
@@ -235,6 +240,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
             'token',
             JSON.stringify(`Bearer ${userWithToken.token.token}`),
           );
+          sessionStorage.setItem(
+            'exp',
+            JSON.stringify(userWithToken.token.exp),
+          );
           this.usersService.updateUserData(userWithToken.user);
           this.cdr.detectChanges();
           this.dialogService.openDialog(DialogTypeEnum.Alert, {
@@ -263,6 +272,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
             sessionStorage.setItem(
               'token',
               JSON.stringify(`Bearer ${userWithToken.token.token}`),
+            );
+            sessionStorage.setItem(
+              'exp',
+              JSON.stringify(userWithToken.token.exp),
             );
             this.usersService.updateUserData(userWithToken.user);
             this.cdr.detectChanges();

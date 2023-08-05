@@ -60,9 +60,9 @@ export class AuthService {
       isAdmin: user.isAdmin,
       photo: user.photo,
     };
-    return {
-      token: this.jwtService.sign(payload),
-    };
+    const token = this.jwtService.sign(payload);
+    const decodedToken = this.jwtService.verify(token);
+    return { token: token, exp: decodedToken.exp };
   }
 
   private async validateUser(loginDto: LoginDto) {

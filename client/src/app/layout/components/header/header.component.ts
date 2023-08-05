@@ -60,6 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public logout(): void {
     const id = +this.router.url.split('/')[2];
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('exp');
     this.usersService.updateUserData(null);
     if (
       this.router.url.includes(UserRouteNameEnum.Profile) ||

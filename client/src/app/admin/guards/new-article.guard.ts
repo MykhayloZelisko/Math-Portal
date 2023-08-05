@@ -13,9 +13,11 @@ export class NewArticleGuard implements CanDeactivate<NewArticleComponent> {
 
   public canDeactivate(component: NewArticleComponent): Observable<boolean> {
     if (
-      component.newArticle.title ||
-      component.newArticle.content ||
-      component.newArticle.tagsIds.length
+      (component.newArticle.title ||
+        component.newArticle.content ||
+        component.newArticle.tagsIds.length) &&
+      sessionStorage.getItem('exp') &&
+      +JSON.parse(sessionStorage.getItem('exp') as string) * 1000 > Date.now()
     ) {
       return this.dialogService
         .openDialog(DialogTypeEnum.ConfirmRedirect, {
