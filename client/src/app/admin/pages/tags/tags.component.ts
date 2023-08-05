@@ -27,6 +27,8 @@ import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
 export class TagsComponent implements OnInit, OnDestroy {
   public tagList: TagInterface[] = [];
 
+  public clearControl: { clear: boolean } = { clear: false };
+
   private destroy$: Subject<void> = new Subject<void>();
 
   public constructor(
@@ -63,6 +65,7 @@ export class TagsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (tag) => {
           this.tagList = [...this.tagList, tag];
+          this.clearControl = { clear: true };
           this.cdr.detectChanges();
         },
         error: (err) => {

@@ -2,26 +2,59 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-new-tag',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './new-tag.component.html',
   styleUrls: ['./new-tag.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewTagComponent {
-  public tag: string = '';
+export class NewTagComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() public clearControl: { clear: boolean } = { clear: false };
 
   @Output()
   public addTag: EventEmitter<string> = new EventEmitter<string>();
 
+  public tagCtrl: FormControl = new FormControl('');
+
+  public tag: string = '';
+
+  private destroy$: Subject<void> = new Subject<void>();
+
+  public ngOnInit(): void {
+    this.tagCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (value: string) => {
+        this.tag = value;
+      },
+    });
+  }
+
+  public ngOnChanges() {
+    if (this.clearControl.clear) {
+      this.tag = '';
+      this.tagCtrl.setValue('');
+      this.clearControl = { clear: false };
+    }
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   public onAddTag() {
+    this.tag = this.tagCtrl.getRawValue();
     this.addTag.emit(this.tag.trim());
   }
 }
