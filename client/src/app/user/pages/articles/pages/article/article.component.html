@@ -1,4 +1,4 @@
-<div class="article" *ngIf="isArticle; else elseBlock">
+<div class="article" *ngIf="article && finalRequest">
   <div class="article__buttons" *ngIf="isAdmin">
     <button
       class="article__btn"
@@ -58,6 +58,4 @@
     </div>
   </div>
 </div>
-<ng-template #elseBlock>
-  <app-page-not-found></app-page-not-found>
-</ng-template>
+<app-page-not-found *ngIf='!article  && finalRequest'></app-page-not-found>

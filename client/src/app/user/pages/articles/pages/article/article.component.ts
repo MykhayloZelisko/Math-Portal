@@ -62,7 +62,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   public article!: ArticleInterface;
 
-  public isArticle: boolean = false;
+  public finalRequest: boolean = false;
 
   public isRatingActive: boolean = false;
 
@@ -101,6 +101,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   }
 
   private initArticle(): void {
+    this.finalRequest = false;
     const stringId = this.route.snapshot.paramMap.get('id');
     if (stringId) {
       const id = +stringId;
@@ -109,7 +110,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
         .pipe(
           tap({
             next: (article: ArticleInterface) => {
-              this.isArticle = true;
               this.article = article;
               this.newArticle.title = article.title;
               this.newArticle.content = article.content;
@@ -118,7 +118,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
               );
             },
             error: (error: HttpErrorResponse) => {
-              this.isArticle = false;
               return throwError(() => error);
             },
           }),
@@ -131,11 +130,12 @@ export class ArticleComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (status: CurrentArticleStatusInterface) => {
             this.isRatingActive = status.canBeRated;
+            this.finalRequest = true;
             this.cdr.detectChanges();
           },
           error: () => {
-            this.isArticle = false;
             this.isRatingActive = false;
+            this.finalRequest = true;
             this.cdr.detectChanges();
           },
         });
