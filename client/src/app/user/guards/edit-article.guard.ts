@@ -35,9 +35,11 @@ export class EditArticleGuard implements CanDeactivate<ArticleComponent> {
       isTagsIdsEqual = !difference.size;
     }
     if (
-      newArticle.title !== component.newArticle.title ||
-      newArticle.content !== component.newArticle.content ||
-      !isTagsIdsEqual
+      (newArticle.title !== component.newArticle.title ||
+        newArticle.content !== component.newArticle.content ||
+        !isTagsIdsEqual) &&
+      sessionStorage.getItem('exp') &&
+      +JSON.parse(sessionStorage.getItem('exp') as string) * 1000 > Date.now()
     ) {
       return this.dialogService
         .openDialog(DialogTypeEnum.ConfirmRedirect, {

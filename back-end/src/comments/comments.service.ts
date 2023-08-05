@@ -15,7 +15,6 @@ import { ArticlesService } from '../articles/articles.service';
 import { User } from '../users/models/user.model';
 import { FindOptions } from 'sequelize/types/model';
 import sequelize, { Op } from 'sequelize';
-import { TokenDto } from '../auth/dto/token.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateLikeDislikeDto } from './dto/update-like-dislike.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
@@ -33,7 +32,7 @@ export class CommentsService {
 
   public async createComment(
     createCommentDto: CreateCommentDto,
-    tokenDto: TokenDto,
+    token: string,
   ) {
     if (
       !createCommentDto.content ||
@@ -47,7 +46,7 @@ export class CommentsService {
       throw new BadRequestException({ message: 'Comment is not created' });
     }
 
-    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const article = await this.articlesService.getArticleById(
       createCommentDto.articleId,
@@ -102,13 +101,13 @@ export class CommentsService {
   public async updateComment(
     id: number,
     updateCommentDto: UpdateCommentDto,
-    tokenDto: TokenDto,
+    token: string,
   ) {
     if (!updateCommentDto.content) {
       throw new BadRequestException({ message: 'Comment is not updated' });
     }
 
-    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const comment = await this.getCommentById(id);
     if (!comment) {
@@ -211,12 +210,12 @@ export class CommentsService {
 
   public async addLikeDislike(
     updateLikeDislikeDto: UpdateLikeDislikeDto,
-    tokenDto: TokenDto,
+    token: string,
   ) {
     if (!updateLikeDislikeDto.commentId || !updateLikeDislikeDto.status) {
       throw new BadRequestException({ message: 'Comment is not (dis)liked' });
     }
-    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const comment = await this.getCommentById(updateLikeDislikeDto.commentId);
     if (!comment) {

@@ -10,13 +10,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './models/user.model';
 import { UpdateUserRoleDto } from './dto/update-user-role.dto';
-import { TokenDto } from '../auth/dto/token.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from '../auth/auth.service';
 import * as bcrypt from 'bcryptjs';
 import sequelize, { FindOptions, Op } from 'sequelize';
 import { FilesService } from '../files/files.service';
+import { TokenWithExpDto } from '../auth/dto/token-with-exp.dto';
 
 @Injectable()
 export class UsersService {
@@ -103,8 +103,8 @@ export class UsersService {
     throw new NotFoundException({ message: 'User not found' });
   }
 
-  public async removeCurrentUser(tokenDto: TokenDto) {
-    const currentUser = await this.jwtService.verifyAsync(tokenDto.token);
+  public async removeCurrentUser(token: string) {
+    const currentUser = await this.jwtService.verifyAsync(token);
     const user = await this.getUserById(currentUser.id);
     if (user) {
       if (user.photo) {
@@ -131,9 +131,9 @@ export class UsersService {
 
   public async updateUserRole(
     updateUserRoleDto: UpdateUserRoleDto,
-    tokenDto: TokenDto,
+    token: string,
   ) {
-    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    const userByToken = await this.jwtService.verifyAsync(token);
     const currentUser = await this.userRepository.findByPk(userByToken.id);
     const user = await this.getUserById(updateUserRoleDto.userId);
     if (user && currentUser) {
@@ -145,17 +145,17 @@ export class UsersService {
       }
       user.isAdmin = updateUserRoleDto.isAdmin;
       const newUser = await user.save();
-      let token: TokenDto | null = null;
+      let tokenWithExp: TokenWithExpDto | null = null;
       if (user.id === currentUser.id) {
-        token = await this.authService.generateToken(newUser);
+        tokenWithExp = await this.authService.generateToken(newUser);
       }
-      return { user: newUser, token: token };
+      return { user: newUser, token: tokenWithExp };
     }
     throw new NotFoundException({ message: 'User not found' });
   }
 
-  public async getCurrentUser(tokenDto: TokenDto) {
-    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+  public async getCurrentUser(token: string) {
+    const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.userRepository.findByPk(userByToken.id);
     if (user) {
       return user;
@@ -163,10 +163,7 @@ export class UsersService {
     throw new NotFoundException({ message: 'User not found' });
   }
 
-  public async updateCurrentUser(
-    tokenDto: TokenDto,
-    updateUserDto: UpdateUserDto,
-  ) {
+  public async updateCurrentUser(updateUserDto: UpdateUserDto, token: string) {
     if (
       !updateUserDto.email ||
       !updateUserDto.password ||
@@ -175,7 +172,7 @@ export class UsersService {
     ) {
       throw new BadRequestException({ message: 'User is not updated' });
     }
-    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.userRepository.findByPk(userByToken.id);
     if (user) {
       const passwordEquals = await bcrypt.compare(
@@ -193,30 +190,30 @@ export class UsersService {
       user.firstName = updateUserDto.firstName;
       user.password = hashPassword;
       const newUser = await user.save();
-      const token = await this.authService.generateToken(newUser);
-      return { user: newUser, token: token };
+      const tokenWithExp = await this.authService.generateToken(newUser);
+      return { user: newUser, token: tokenWithExp };
     }
     throw new NotFoundException({ message: 'User not found' });
   }
 
-  public async removeCurrentUserPhoto(tokenDto: TokenDto) {
-    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+  public async removeCurrentUserPhoto(token: string) {
+    const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.userRepository.findByPk(userByToken.id);
     if (user && user.photo) {
       await this.filesService.removeImageFile(user.photo);
       user.photo = null;
       const newUser = await user.save();
-      const token = await this.authService.generateToken(newUser);
-      return { user: newUser, token: token };
+      const tokenWithExp = await this.authService.generateToken(newUser);
+      return { user: newUser, token: tokenWithExp };
     }
     throw new NotFoundException({ message: 'User not found' });
   }
 
   public async updateCurrentUserPhoto(
     image: Express.Multer.File,
-    tokenDto: TokenDto,
+    token: string,
   ) {
-    const userByToken = await this.jwtService.verifyAsync(tokenDto.token);
+    const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.userRepository.findByPk(userByToken.id);
     if (user) {
       try {
@@ -225,8 +222,8 @@ export class UsersService {
         }
         user.photo = await this.filesService.createImageFile(image);
         const newUser = await user.save();
-        const token = await this.authService.generateToken(newUser);
-        return { user: newUser, token: token };
+        const tokenWithExp = await this.authService.generateToken(newUser);
+        return { user: newUser, token: tokenWithExp };
       } catch (err) {
         throw new InternalServerErrorException({
           message: 'User photo is not updated',

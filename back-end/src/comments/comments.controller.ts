@@ -38,7 +38,7 @@ export class CommentsController {
     @Body() createCommentDto: CreateCommentDto,
   ) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
-    return this.commentsService.createComment(createCommentDto, { token });
+    return this.commentsService.createComment(createCommentDto, token);
   }
 
   @ApiOperation({ summary: 'Get list of comments for current article' })
@@ -67,7 +67,7 @@ export class CommentsController {
     @Body() updateLikeDislikeDto: UpdateLikeDislikeDto,
   ) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
-    return this.commentsService.addLikeDislike(updateLikeDislikeDto, { token });
+    return this.commentsService.addLikeDislike(updateLikeDislikeDto, token);
   }
 
   @ApiOperation({ summary: 'Update current comment' })
@@ -81,6 +81,6 @@ export class CommentsController {
     @Body() updateCommentDto: UpdateCommentDto,
   ) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
-    return this.commentsService.updateComment(id, updateCommentDto, { token });
+    return this.commentsService.updateComment(id, updateCommentDto, token);
   }
 }

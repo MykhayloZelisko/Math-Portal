@@ -12,7 +12,11 @@ export class ProfileGuard implements CanDeactivate<ProfileComponent> {
   public constructor(private dialogService: DialogService) {}
 
   public canDeactivate(component: ProfileComponent): Observable<boolean> {
-    if (component.profileForm.valid) {
+    if (
+      component.profileForm.valid &&
+      sessionStorage.getItem('exp') &&
+      +JSON.parse(sessionStorage.getItem('exp') as string) * 1000 > Date.now()
+    ) {
       return this.dialogService
         .openDialog(DialogTypeEnum.ConfirmRedirect, {
           title: 'ПОВІДОМЛЕННЯ',

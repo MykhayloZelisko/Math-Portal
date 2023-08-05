@@ -35,7 +35,7 @@ export class RatingController {
     @Body() createRatingDto: CreateRatingDto,
   ) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
-    return this.ratingService.updateArticleRating(createRatingDto, { token });
+    return this.ratingService.updateArticleRating(createRatingDto, token);
   }
 
   @ApiOperation({
@@ -52,8 +52,6 @@ export class RatingController {
     const token = request.headers['authorization'] // eslint-disable-line
       ? request.headers['authorization'].split(' ')[1] // eslint-disable-line
       : '';
-    return this.ratingService.getCurrentArticleStatus(articleId, {
-      token: token,
-    });
+    return this.ratingService.getCurrentArticleStatus(articleId, token);
   }
 }

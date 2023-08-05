@@ -45,7 +45,7 @@ export class UsersController {
     @Body() updateUserRoleDto: UpdateUserRoleDto,
   ) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
-    return this.usersService.updateUserRole(updateUserRoleDto, { token });
+    return this.usersService.updateUserRole(updateUserRoleDto, token);
   }
 
   @ApiOperation({ summary: 'Get all users' })
@@ -76,7 +76,7 @@ export class UsersController {
   @Get('/current')
   public getCurrentUser(@Req() request: Request) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
-    return this.usersService.getCurrentUser({ token });
+    return this.usersService.getCurrentUser(token);
   }
 
   @ApiOperation({ summary: 'Delete current user photo' })
@@ -86,7 +86,7 @@ export class UsersController {
   @Delete('/current/photo')
   public removeCurrentUserPhoto(@Req() request: Request) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
-    return this.usersService.removeCurrentUserPhoto({ token });
+    return this.usersService.removeCurrentUserPhoto(token);
   }
 
   @ApiOperation({ summary: 'Delete current user' })
@@ -96,7 +96,7 @@ export class UsersController {
   @Delete('/current')
   public removeCurrentUser(@Req() request: Request) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
-    return this.usersService.removeCurrentUser({ token });
+    return this.usersService.removeCurrentUser(token);
   }
 
   @ApiOperation({ summary: 'Delete user' })
@@ -131,7 +131,7 @@ export class UsersController {
     @UploadedFile() image: Express.Multer.File,
   ) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
-    return this.usersService.updateCurrentUserPhoto(image, { token });
+    return this.usersService.updateCurrentUserPhoto(image, token);
   }
 
   @ApiOperation({ summary: 'Update current user' })
@@ -144,6 +144,6 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
-    return this.usersService.updateCurrentUser({ token }, updateUserDto);
+    return this.usersService.updateCurrentUser(updateUserDto, token);
   }
 }

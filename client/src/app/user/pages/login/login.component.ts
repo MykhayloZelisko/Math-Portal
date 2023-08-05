@@ -54,6 +54,7 @@ export class LoginComponent implements OnDestroy {
             'token',
             JSON.stringify(`Bearer ${token.token}`),
           );
+          sessionStorage.setItem('exp', JSON.stringify(token.exp));
         }),
         switchMap(() => {
           return this.usersService
