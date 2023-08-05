@@ -1,5 +1,8 @@
 <div class="tags">
-  <app-new-tag (addTag)="addTag($event)"></app-new-tag>
+  <app-new-tag
+    (addTag)="addTag($event)"
+    [clearControl]="clearControl"
+  ></app-new-tag>
   <div class="tags__list">
     <app-tag-item
       *ngFor="let tag of tagList"
