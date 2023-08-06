@@ -17,6 +17,7 @@ import * as bcrypt from 'bcryptjs';
 import sequelize, { FindOptions, Op } from 'sequelize';
 import { FilesService } from '../files/files.service';
 import { TokenWithExpDto } from '../auth/dto/token-with-exp.dto';
+import { RatingService } from '../rating/rating.service';
 
 @Injectable()
 export class UsersService {
@@ -25,6 +26,7 @@ export class UsersService {
     @Inject(forwardRef(() => AuthService)) private authService: AuthService,
     private jwtService: JwtService,
     private filesService: FilesService,
+    private ratingService: RatingService,
   ) {}
 
   public async createUser(createUserDto: CreateUserDto) {
@@ -101,6 +103,7 @@ export class UsersService {
   public async removeUser(id: number) {
     const user = await this.getUserById(id);
     if (user) {
+      await this.ratingService.recalculateArticlesRating(id);
       await this.userRepository.destroy({ where: { id } });
       return;
     }

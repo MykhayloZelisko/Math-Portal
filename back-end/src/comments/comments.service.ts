@@ -24,7 +24,7 @@ export class CommentsService {
   public constructor(
     @InjectModel(Comment) private commentRepository: typeof Comment,
     @InjectModel(CommentsTree) private treeRepository: typeof CommentsTree,
-    private usersService: UsersService,
+    @Inject(forwardRef(() => UsersService)) private usersService: UsersService,
     @Inject(forwardRef(() => ArticlesService))
     private articlesService: ArticlesService,
     private jwtService: JwtService,
