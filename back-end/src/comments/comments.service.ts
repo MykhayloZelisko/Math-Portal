@@ -275,7 +275,7 @@ export class CommentsService {
   public async getAllCommentsByUserId(userId: number) {
     const comments = await this.commentRepository.findAll({
       attributes: ['id'],
-      where: { userId }
+      where: { userId },
     });
     return comments;
   }

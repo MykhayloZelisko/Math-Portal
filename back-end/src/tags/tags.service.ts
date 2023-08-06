@@ -62,7 +62,9 @@ export class TagsService {
         },
       });
 
-      const excludedArticleIds = subQuery.map((row: ArticleTags) => row.articleId);
+      const excludedArticleIds = subQuery.map(
+        (row: ArticleTags) => row.articleId,
+      );
 
       const count = await this.articleTagRepository.count({
         distinct: true,
@@ -75,7 +77,8 @@ export class TagsService {
       });
       if (count) {
         throw new ForbiddenException({
-          message: 'A tag cannot be removed while it is in use and is the only tag in the article',
+          message:
+            'A tag cannot be removed while it is in use and is the only tag in the article',
         });
       } else {
         await this.tagRepository.destroy({ where: { id } });

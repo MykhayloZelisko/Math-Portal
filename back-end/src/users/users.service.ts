@@ -37,7 +37,7 @@ export class UsersService {
     const userWithFullName = {
       ...createUserDto,
       fullName: `${createUserDto.firstName} ${createUserDto.lastName}`,
-    }
+    };
     const user = await this.userRepository.create(userWithFullName);
     return user;
   }
@@ -251,9 +251,16 @@ export class UsersService {
     const userCommentsIds = userComments.map((comment: Comment) => comment.id);
     let setOfDescendantsIds = new Set<number>();
     for (let i = 0; i < userCommentsIds.length; i++) {
-      const descendantsIds = await this.commentsService.getDescendantsIds(userCommentsIds[i]);
-      setOfDescendantsIds = new Set([...setOfDescendantsIds, ...descendantsIds]);
-    };
-    await this.commentsService.removeCommentsArray(Array.from(setOfDescendantsIds));
+      const descendantsIds = await this.commentsService.getDescendantsIds(
+        userCommentsIds[i],
+      );
+      setOfDescendantsIds = new Set([
+        ...setOfDescendantsIds,
+        ...descendantsIds,
+      ]);
+    }
+    await this.commentsService.removeCommentsArray(
+      Array.from(setOfDescendantsIds),
+    );
   }
 }

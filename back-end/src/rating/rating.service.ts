@@ -1,6 +1,8 @@
 import {
   BadRequestException,
-  ConflictException, forwardRef, Inject,
+  ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
 } from '@nestjs/common';
 import { CreateRatingDto } from './dto/create-rating.dto';
@@ -123,8 +125,9 @@ export class RatingService {
         },
       });
       const articleRating =
-        Math.round((sumRatingCurrentArticle / countRatingCurrentArticle) * 100) /
-        100;
+        Math.round(
+          (sumRatingCurrentArticle / countRatingCurrentArticle) * 100,
+        ) / 100;
       article.rating = articleRating;
       article.votes = countRatingCurrentArticle;
       await article.save();
