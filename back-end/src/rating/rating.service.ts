@@ -95,4 +95,14 @@ export class RatingService {
       return { canBeRated: false };
     }
   }
+
+  public async recalculateArticlesRating(userId: number) {
+    const articlesIds = await this.ratingRepository.findAll({
+      attributes: ['article_id'],
+      where: {
+        userId: userId
+      }
+    });
+    console.log(articlesIds);
+  }
 }

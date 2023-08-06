@@ -28,7 +28,11 @@ export class UsersService {
   ) {}
 
   public async createUser(createUserDto: CreateUserDto) {
-    const user = await this.userRepository.create(createUserDto);
+    const userWithFullName = {
+      ...createUserDto,
+      fullName: `${createUserDto.firstName} ${createUserDto.lastName}`,
+    }
+    const user = await this.userRepository.create(userWithFullName);
     return user;
   }
 
