@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { RatingService } from './rating.service';
 import { RatingController } from './rating.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
@@ -13,8 +13,9 @@ import { ArticlesModule } from '../articles/articles.module';
   imports: [
     SequelizeModule.forFeature([Rating]),
     AuthModule,
-    UsersModule,
+    forwardRef(() => UsersModule),
     ArticlesModule,
   ],
+  exports: [RatingService],
 })
 export class RatingModule {}

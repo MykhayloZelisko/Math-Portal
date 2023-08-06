@@ -12,9 +12,10 @@ import { TagInterface } from '../../../shared/models/interfaces/tag.interface';
 import { TagsService } from '../../../shared/services/tags.service';
 import { Subject, takeUntil } from 'rxjs';
 import { TagItemComponent } from './components/tag-item/tag-item.component';
-import { HttpStatusCode } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { DialogService } from '../../../shared/services/dialog.service';
 import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
+import { UsersService } from '../../../shared/services/users.service';
 
 @Component({
   selector: 'app-tags',
@@ -35,6 +36,7 @@ export class TagsComponent implements OnInit, OnDestroy {
     private tagsService: TagsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
+    private usersService: UsersService,
   ) {}
 
   public ngOnInit(): void {
@@ -63,12 +65,12 @@ export class TagsComponent implements OnInit, OnDestroy {
       .createTag(value)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (tag) => {
+        next: (tag: TagInterface) => {
           this.tagList = [...this.tagList, tag];
           this.clearControl = { clear: true };
           this.cdr.detectChanges();
         },
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
           if (err.status === HttpStatusCode.Conflict) {
             this.dialogService.openDialog(DialogTypeEnum.Alert, {
               title: 'ПОВІДОМЛЕННЯ',
@@ -89,7 +91,7 @@ export class TagsComponent implements OnInit, OnDestroy {
       })
       .afterClosed()
       .subscribe({
-        next: (id) => {
+        next: (id: number) => {
           if (id) {
             this.confirmRemoveTag(id);
           }
@@ -110,11 +112,19 @@ export class TagsComponent implements OnInit, OnDestroy {
           });
           this.cdr.detectChanges();
         },
-        error: () => {
-          this.dialogService.openDialog(DialogTypeEnum.Alert, {
-            title: 'ПОВІДОМЛЕННЯ',
-            text: 'Помилка видалення тега. Повторіть спробу пізніше.',
-          });
+        error: (err: HttpErrorResponse) => {
+          const user = this.usersService.user$.getValue();
+          if (err.status === HttpStatusCode.Forbidden && user && user.isAdmin) {
+            this.dialogService.openDialog(DialogTypeEnum.Alert, {
+              title: 'ПОВІДОМЛЕННЯ',
+              text: 'Тег не можна видалити поки він використовується і є єдиним тегом в статті.',
+            });
+          } else {
+            this.dialogService.openDialog(DialogTypeEnum.Alert, {
+              title: 'ПОВІДОМЛЕННЯ',
+              text: 'Помилка видалення тега. Повторіть спробу пізніше.',
+            });
+          }
         },
       });
   }

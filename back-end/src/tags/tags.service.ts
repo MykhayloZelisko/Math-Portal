@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -8,11 +9,15 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Tag } from './models/tag.model';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import sequelize, { FindOptions } from 'sequelize';
+import sequelize, { FindOptions, Op } from 'sequelize';
+import { ArticleTags } from '../articles/models/article-tags.model';
 
 @Injectable()
 export class TagsService {
-  public constructor(@InjectModel(Tag) private tagRepository: typeof Tag) {}
+  public constructor(
+    @InjectModel(Tag) private tagRepository: typeof Tag,
+    @InjectModel(ArticleTags) private articleTagRepository: typeof ArticleTags,
+  ) {}
 
   public async getAllTags(options?: FindOptions<Tag>) {
     const tags = await this.tagRepository.findAll(options);
@@ -48,8 +53,37 @@ export class TagsService {
   public async removeTag(id: number) {
     const tag = await this.tagRepository.findByPk(id);
     if (tag) {
-      await this.tagRepository.destroy({ where: { id } });
-      return;
+      const subQuery = await this.articleTagRepository.findAll({
+        attributes: ['articleId'],
+        where: {
+          tagId: {
+            [Op.ne]: id,
+          },
+        },
+      });
+
+      const excludedArticleIds = subQuery.map(
+        (row: ArticleTags) => row.articleId,
+      );
+
+      const count = await this.articleTagRepository.count({
+        distinct: true,
+        col: 'article_id',
+        where: {
+          articleId: {
+            [Op.notIn]: excludedArticleIds,
+          },
+        },
+      });
+      if (count) {
+        throw new ForbiddenException({
+          message:
+            'A tag cannot be removed while it is in use and is the only tag in the article',
+        });
+      } else {
+        await this.tagRepository.destroy({ where: { id } });
+        return;
+      }
     }
     throw new NotFoundException({ message: 'Tag not found' });
   }

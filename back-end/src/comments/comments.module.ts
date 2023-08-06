@@ -15,7 +15,7 @@ import { UsersModule } from '../users/users.module';
     SequelizeModule.forFeature([Comment, CommentsTree]),
     AuthModule,
     forwardRef(() => ArticlesModule),
-    UsersModule,
+    forwardRef(() => UsersModule),
   ],
   exports: [CommentsService],
 })

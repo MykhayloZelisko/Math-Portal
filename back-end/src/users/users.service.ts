@@ -17,6 +17,9 @@ import * as bcrypt from 'bcryptjs';
 import sequelize, { FindOptions, Op } from 'sequelize';
 import { FilesService } from '../files/files.service';
 import { TokenWithExpDto } from '../auth/dto/token-with-exp.dto';
+import { RatingService } from '../rating/rating.service';
+import { CommentsService } from '../comments/comments.service';
+import { Comment } from '../comments/models/comment.model';
 
 @Injectable()
 export class UsersService {
@@ -25,10 +28,17 @@ export class UsersService {
     @Inject(forwardRef(() => AuthService)) private authService: AuthService,
     private jwtService: JwtService,
     private filesService: FilesService,
+    private ratingService: RatingService,
+    @Inject(forwardRef(() => CommentsService))
+    private commentsService: CommentsService,
   ) {}
 
   public async createUser(createUserDto: CreateUserDto) {
-    const user = await this.userRepository.create(createUserDto);
+    const userWithFullName = {
+      ...createUserDto,
+      fullName: `${createUserDto.firstName} ${createUserDto.lastName}`,
+    };
+    const user = await this.userRepository.create(userWithFullName);
     return user;
   }
 
@@ -97,6 +107,8 @@ export class UsersService {
   public async removeUser(id: number) {
     const user = await this.getUserById(id);
     if (user) {
+      await this.removeUserCommentsDescendants(user.id);
+      await this.ratingService.recalculateArticlesRating(id);
       await this.userRepository.destroy({ where: { id } });
       return;
     }
@@ -110,6 +122,7 @@ export class UsersService {
       if (user.photo) {
         await this.filesService.removeImageFile(user.photo);
       }
+      await this.removeUserCommentsDescendants(user.id);
       await this.userRepository.destroy({ where: { id: user.id } });
       return;
     }
@@ -231,5 +244,23 @@ export class UsersService {
       }
     }
     throw new NotFoundException({ message: 'User not found' });
+  }
+
+  private async removeUserCommentsDescendants(id: number) {
+    const userComments = await this.commentsService.getAllCommentsByUserId(id);
+    const userCommentsIds = userComments.map((comment: Comment) => comment.id);
+    let setOfDescendantsIds = new Set<number>();
+    for (let i = 0; i < userCommentsIds.length; i++) {
+      const descendantsIds = await this.commentsService.getDescendantsIds(
+        userCommentsIds[i],
+      );
+      setOfDescendantsIds = new Set([
+        ...setOfDescendantsIds,
+        ...descendantsIds,
+      ]);
+    }
+    await this.commentsService.removeCommentsArray(
+      Array.from(setOfDescendantsIds),
+    );
   }
 }

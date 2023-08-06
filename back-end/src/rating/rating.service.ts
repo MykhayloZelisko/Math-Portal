@@ -1,6 +1,8 @@
 import {
   BadRequestException,
   ConflictException,
+  forwardRef,
+  Inject,
   Injectable,
 } from '@nestjs/common';
 import { CreateRatingDto } from './dto/create-rating.dto';
@@ -14,6 +16,7 @@ import { Op } from 'sequelize';
 @Injectable()
 export class RatingService {
   public constructor(
+    @Inject(forwardRef(() => UsersService))
     private usersService: UsersService,
     private articlesService: ArticlesService,
     private jwtService: JwtService,
@@ -93,6 +96,41 @@ export class RatingService {
       return { canBeRated: rating === null };
     } catch (e) {
       return { canBeRated: false };
+    }
+  }
+
+  public async recalculateArticlesRating(userId: number) {
+    const articlesIds = await this.ratingRepository.findAll({
+      attributes: ['articleId'],
+      where: { userId },
+    });
+    const ids = articlesIds.map((row: Rating) => row.articleId);
+
+    for (let i = 0; i < ids.length; i++) {
+      const article = await this.articlesService.getArticleById(ids[i]);
+      const sumRatingCurrentArticle = await this.ratingRepository.sum('rate', {
+        where: {
+          articleId: ids[i],
+          userId: {
+            [Op.not]: userId,
+          },
+        },
+      });
+      const countRatingCurrentArticle = await this.ratingRepository.count({
+        where: {
+          articleId: ids[i],
+          userId: {
+            [Op.not]: userId,
+          },
+        },
+      });
+      const articleRating =
+        Math.round(
+          (sumRatingCurrentArticle / countRatingCurrentArticle) * 100,
+        ) / 100;
+      article.rating = articleRating;
+      article.votes = countRatingCurrentArticle;
+      await article.save();
     }
   }
 }
