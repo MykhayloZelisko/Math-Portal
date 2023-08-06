@@ -6,6 +6,7 @@ import { User } from './models/user.model';
 import { AuthModule } from '../auth/auth.module';
 import { FilesModule } from '../files/files.module';
 import { RatingModule } from '../rating/rating.module';
+import { CommentsModule } from '../comments/comments.module';
 
 @Module({
   controllers: [UsersController],
@@ -15,6 +16,7 @@ import { RatingModule } from '../rating/rating.module';
     forwardRef(() => AuthModule),
     FilesModule,
     RatingModule,
+    CommentsModule,
   ],
   exports: [UsersService],
 })

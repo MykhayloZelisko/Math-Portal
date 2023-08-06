@@ -99,11 +99,10 @@ export class RatingService {
 
   public async recalculateArticlesRating(userId: number) {
     const articlesIds = await this.ratingRepository.findAll({
-      attributes: ['article_id'],
+      attributes: ['articleId'],
       where: { userId },
-      raw: true,
     });
-    const ids = articlesIds.map((row: any) => row.article_id);
+    const ids = articlesIds.map((row: Rating) => row.articleId);
 
     for (let i = 0; i < ids.length; i++) {
       const article = await this.articlesService.getArticleById(ids[i]);

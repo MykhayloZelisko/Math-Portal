@@ -54,16 +54,15 @@ export class TagsService {
     const tag = await this.tagRepository.findByPk(id);
     if (tag) {
       const subQuery = await this.articleTagRepository.findAll({
-        attributes: ['article_id'],
+        attributes: ['articleId'],
         where: {
           tagId: {
             [Op.ne]: id,
           },
         },
-        raw: true,
       });
 
-      const excludedArticleIds = subQuery.map((row: any) => row.article_id);
+      const excludedArticleIds = subQuery.map((row: ArticleTags) => row.articleId);
 
       const count = await this.articleTagRepository.count({
         distinct: true,

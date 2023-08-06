@@ -168,7 +168,7 @@ export class CommentsService {
     });
   }
 
-  public async getAllComments(articleId: number) {
+  public async getAllCommentsByArticleId(articleId: number) {
     const comments = await this.commentRepository.findAll({
       attributes: [
         'id',
@@ -270,5 +270,13 @@ export class CommentsService {
       where: { ancestorId },
     });
     return commentsTree.map((tree: CommentsTree) => tree.descendantId);
+  }
+
+  public async getAllCommentsByUserId(userId: number) {
+    const comments = await this.commentRepository.findAll({
+      attributes: ['id'],
+      where: { userId }
+    });
+    return comments;
   }
 }

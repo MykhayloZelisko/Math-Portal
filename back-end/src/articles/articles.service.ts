@@ -93,7 +93,7 @@ export class ArticlesService {
 
   public async removeArticle(id: number) {
     const article = await this.getArticleById(id);
-    const comments = await this.commentsService.getAllComments(id);
+    const comments = await this.commentsService.getAllCommentsByArticleId(id);
     const commentsIds = comments.map((comment: Comment) => comment.id);
     if (article) {
       await this.articleRepository.destroy({ where: { id } });

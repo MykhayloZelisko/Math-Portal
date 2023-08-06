@@ -45,7 +45,7 @@ export class CommentsController {
   @ApiResponse({ status: 200, type: [Comment] })
   @Get(':articleId')
   public getAllComments(@Param('articleId') articleId: number) {
-    return this.commentsService.getAllComments(articleId);
+    return this.commentsService.getAllCommentsByArticleId(articleId);
   }
 
   @ApiOperation({ summary: 'Delete comment' })
