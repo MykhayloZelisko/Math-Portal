@@ -164,7 +164,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   }
 
-  private deleteUser(id: number) {
+  private deleteUser(id: string) {
     const currentUser = this.usersService.user$.getValue();
     this.usersService
       .deleteUser(id)

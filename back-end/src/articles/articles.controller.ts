@@ -42,7 +42,7 @@ export class ArticlesController {
   @ApiBearerAuth()
   @Put(':id')
   public updateArticle(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateArticleDto: UpdateArticleDto,
   ) {
     return this.articlesService.updateArticle(id, updateArticleDto);
@@ -53,14 +53,14 @@ export class ArticlesController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeArticle(@Param('id') id: number) {
+  public removeArticle(@Param('id') id: string) {
     return this.articlesService.removeArticle(id);
   }
 
   @ApiOperation({ summary: 'Get article' })
   @ApiResponse({ status: 200, type: Article })
   @Get(':id')
-  public getArticleById(@Param('id') id: number) {
+  public getArticleById(@Param('id') id: string) {
     return this.articlesService.getArticleById(id);
   }
 
@@ -73,7 +73,7 @@ export class ArticlesController {
     @Query('filter') filter: string,
     @Query('tagsIds') tagsIdsQuery: string,
   ) {
-    const tagsIds = tagsIdsQuery ? tagsIdsQuery.split(',').map(Number) : [];
+    const tagsIds = tagsIdsQuery ? tagsIdsQuery.split(',').map(String) : [];
     return this.articlesService.getAllArticlesWithParams(
       page,
       size,

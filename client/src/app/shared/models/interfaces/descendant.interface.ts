@@ -1,5 +1,5 @@
 export interface DescendantInterface {
-  descendantId: number;
-  nearestAncestorId: number;
+  descendantId: string;
+  nearestAncestorId: string;
   level: number;
 }

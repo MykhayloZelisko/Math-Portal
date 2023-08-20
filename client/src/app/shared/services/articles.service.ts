@@ -35,16 +35,16 @@ export class ArticlesService {
     });
   }
 
-  public getArticle(id: number): Observable<ArticleInterface> {
+  public getArticle(id: string): Observable<ArticleInterface> {
     return this.httpClient.get<ArticleInterface>(`${this.baseUrl}/${id}`);
   }
 
-  public deleteArticle(id: number): Observable<void> {
+  public deleteArticle(id: string): Observable<void> {
     return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
   }
 
   public updateArticle(
-    articleId: number,
+    articleId: string,
     article: CreateArticleInterface,
   ): Observable<ArticleInterface> {
     return this.httpClient.put<ArticleInterface>(

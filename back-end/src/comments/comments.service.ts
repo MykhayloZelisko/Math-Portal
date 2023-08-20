@@ -40,7 +40,7 @@ export class CommentsService {
       !createCommentDto.level ||
       !(
         createCommentDto.parentCommentId ||
-        createCommentDto.parentCommentId === 0
+        createCommentDto.parentCommentId === null
       )
     ) {
       throw new BadRequestException({ message: 'Comment is not created' });
@@ -99,7 +99,7 @@ export class CommentsService {
   }
 
   public async updateComment(
-    id: number,
+    id: string,
     updateCommentDto: UpdateCommentDto,
     token: string,
   ) {
@@ -140,7 +140,7 @@ export class CommentsService {
   }
 
   public async getCommentById(
-    id: number,
+    id: string,
     options?: Omit<FindOptions<Comment>, 'where'>,
   ) {
     const comment = await this.commentRepository.findByPk(id, options);
@@ -150,7 +150,7 @@ export class CommentsService {
     throw new NotFoundException({ message: 'Comment not found' });
   }
 
-  public async removeComment(id: number) {
+  public async removeComment(id: string) {
     const comment = await this.getCommentById(id);
     if (comment) {
       const commentsIds = await this.getDescendantsIds(id);
@@ -160,7 +160,7 @@ export class CommentsService {
     throw new NotFoundException({ message: 'Comment not found' });
   }
 
-  public async removeCommentsArray(ids: number[]) {
+  public async removeCommentsArray(ids: string[]) {
     await this.commentRepository.destroy({
       where: {
         id: ids,
@@ -168,7 +168,7 @@ export class CommentsService {
     });
   }
 
-  public async getAllCommentsByArticleId(articleId: number) {
+  public async getAllCommentsByArticleId(articleId: string) {
     const comments = await this.commentRepository.findAll({
       attributes: [
         'id',
@@ -223,22 +223,22 @@ export class CommentsService {
     }
     if (updateLikeDislikeDto.status === -1) {
       const index = comment.dislikesUsersIds.findIndex(
-        (userId: number) => userId === user.id,
+        (userId: string) => userId === user.id,
       );
       if (index >= 0) {
         comment.dislikesUsersIds = comment.dislikesUsersIds.filter(
-          (id: number) => id !== user.id,
+          (id: string) => id !== user.id,
         );
       } else {
         comment.dislikesUsersIds = [...comment.dislikesUsersIds, user.id];
       }
     } else {
       const index = comment.likesUsersIds.findIndex(
-        (userId: number) => userId === user.id,
+        (userId: string) => userId === user.id,
       );
       if (index >= 0) {
         comment.likesUsersIds = comment.likesUsersIds.filter(
-          (id: number) => id !== user.id,
+          (id: string) => id !== user.id,
         );
       } else {
         comment.likesUsersIds = [...comment.likesUsersIds, user.id];
@@ -264,7 +264,7 @@ export class CommentsService {
     });
   }
 
-  public async getDescendantsIds(ancestorId: number) {
+  public async getDescendantsIds(ancestorId: string) {
     const commentsTree = await this.treeRepository.findAll({
       attributes: ['descendantId'],
       where: { ancestorId },
@@ -272,7 +272,7 @@ export class CommentsService {
     return commentsTree.map((tree: CommentsTree) => tree.descendantId);
   }
 
-  public async getAllCommentsByUserId(userId: number) {
+  public async getAllCommentsByUserId(userId: string) {
     const comments = await this.commentRepository.findAll({
       attributes: ['id'],
       where: { userId },

@@ -1,6 +1,6 @@
 export interface ArticlesListParamsInterface {
   filter: string;
-  tagsIds: number[];
+  tagsIds: string[];
   page: number;
   size: number;
 }

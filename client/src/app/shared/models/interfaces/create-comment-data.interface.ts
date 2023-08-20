@@ -1,6 +1,6 @@
 export interface CreateCommentDataInterface {
   content: string;
-  articleId: number;
-  parentCommentId: number;
+  articleId: string;
+  parentCommentId: string | null;
   level: number;
 }

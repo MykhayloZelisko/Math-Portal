@@ -61,7 +61,7 @@ export class ArticlesService {
     return this.getArticleById(article.id);
   }
 
-  public async updateArticle(id: number, updateArticleDto: UpdateArticleDto) {
+  public async updateArticle(id: string, updateArticleDto: UpdateArticleDto) {
     if (
       !updateArticleDto.title ||
       !updateArticleDto.content ||
@@ -91,7 +91,7 @@ export class ArticlesService {
     throw new BadRequestException({ message: 'Article is not updated' });
   }
 
-  public async removeArticle(id: number) {
+  public async removeArticle(id: string) {
     const article = await this.getArticleById(id);
     const comments = await this.commentsService.getAllCommentsByArticleId(id);
     const commentsIds = comments.map((comment: Comment) => comment.id);
@@ -103,7 +103,7 @@ export class ArticlesService {
     throw new NotFoundException({ message: 'Article not found' });
   }
 
-  public async getArticleById(id: number) {
+  public async getArticleById(id: string) {
     const article = await this.articleRepository.findByPk(
       id,
       this.articleOptions,
@@ -123,7 +123,7 @@ export class ArticlesService {
     page: number,
     size: number,
     filter: string,
-    tagsIds: number[],
+    tagsIds: string[],
   ) {
     try {
       const sequelizeInstance = new Sequelize(

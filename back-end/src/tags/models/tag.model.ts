@@ -20,14 +20,14 @@ interface TagCreationAttrsInterface {
   underscored: true,
 })
 export class Tag extends Model<Tag, TagCreationAttrsInterface> {
-  @ApiProperty({ example: 1, description: 'Unique identifier' })
+  @ApiProperty({ example: '68f48b22-8104-4b47-b846-3db152d8b0ee', description: 'Unique identifier' })
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.UUID,
     unique: true,
-    autoIncrement: true,
     primaryKey: true,
+    defaultValue: DataType.UUIDV4,
   })
-  public id: number;
+  public id: string;
 
   @ApiProperty({ example: 'algebra', description: "tag's name" })
   @Column({ type: DataType.STRING, allowNull: false, unique: true })

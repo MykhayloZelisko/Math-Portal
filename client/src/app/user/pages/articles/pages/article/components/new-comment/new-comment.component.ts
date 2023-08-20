@@ -37,7 +37,7 @@ export class NewCommentComponent {
 
   @Input() public comment!: CommentsTreeInterface;
 
-  @Input() public articleId: number = 0;
+  @Input() public articleId: string = '';
 
   @Output() public addComment: EventEmitter<CommentsTreeInterface> =
     new EventEmitter<CommentsTreeInterface>();
@@ -60,7 +60,7 @@ export class NewCommentComponent {
     const commentData = {
       content: this.commentCtrl.getRawValue(),
       articleId: this.articleId,
-      parentCommentId: this.comment ? this.comment.id : 0,
+      parentCommentId: this.comment ? this.comment.id : null,
       level: this.comment ? this.comment.level + 1 : 1,
     };
     this.commentsService

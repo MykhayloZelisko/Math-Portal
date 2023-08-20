@@ -25,7 +25,7 @@ export function commentsListMapper(
             ? `${environment.apiUrl}/${listItem.user.photo}`
             : null,
         },
-        nearestAncestorId: foundItem ? foundItem.nearestAncestorId : -1,
+        nearestAncestorId: foundItem ? foundItem.nearestAncestorId : null,
         level: foundItem ? foundItem.level : -1,
         children: [],
       };

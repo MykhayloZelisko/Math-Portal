@@ -91,7 +91,7 @@ export class TagsComponent implements OnInit, OnDestroy {
       })
       .afterClosed()
       .subscribe({
-        next: (id: number) => {
+        next: (id: string) => {
           if (id) {
             this.confirmRemoveTag(id);
           }
@@ -99,13 +99,13 @@ export class TagsComponent implements OnInit, OnDestroy {
       });
   }
 
-  private confirmRemoveTag(id: number) {
+  private confirmRemoveTag(id: string) {
     this.tagsService
       .removeTag(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.tagList = this.tagList.filter((tag) => tag.id !== id);
+          this.tagList = this.tagList.filter((tag: TagInterface) => tag.id !== id);
           this.dialogService.openDialog(DialogTypeEnum.Alert, {
             title: 'ПОВІДОМЛЕННЯ',
             text: 'Тег успішно видалено.',

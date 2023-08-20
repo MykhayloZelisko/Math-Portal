@@ -1,4 +1,4 @@
 export interface UpdateUserRoleInterface {
-  userId: number;
+  userId: string;
   isAdmin: boolean;
 }

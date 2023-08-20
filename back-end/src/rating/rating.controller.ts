@@ -47,7 +47,7 @@ export class RatingController {
   @Get()
   public getCurrentArticleStatus(
     @Req() request: Request,
-    @Query('articleId') articleId: number,
+    @Query('articleId') articleId: string,
   ) {
     const token = request.headers['authorization'] // eslint-disable-line
       ? request.headers['authorization'].split(' ')[1] // eslint-disable-line

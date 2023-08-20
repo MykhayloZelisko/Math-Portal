@@ -102,9 +102,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   private initArticle(): void {
     this.finalRequest = false;
-    const stringId = this.route.snapshot.paramMap.get('id');
-    if (stringId) {
-      const id = +stringId;
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
       this.articlesService
         .getArticle(id)
         .pipe(
@@ -149,7 +148,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   public updateRating(rating: RatingType) {
     this.ratingService
-      .updateArticleRating(this.article.id, rating)
+      .updateArticleRating({ articleId: this.article.id, rate: rating})
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (value: CurrentArticleRatingInterface) => {
@@ -172,7 +171,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       })
       .afterClosed()
       .subscribe({
-        next: (id: number) => {
+        next: (id: string) => {
           if (id) {
             this.confirmDeleteArticle(id);
           }
@@ -180,7 +179,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       });
   }
 
-  private confirmDeleteArticle(id: number) {
+  private confirmDeleteArticle(id: string) {
     this.articlesService
       .deleteArticle(id)
       .pipe(takeUntil(this.destroy$))
@@ -232,7 +231,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     this.isEditable = false;
   }
 
-  public saveTagsIds(tagsIds: number[]) {
+  public saveTagsIds(tagsIds: string[]) {
     this.newArticle.tagsIds = tagsIds;
     this.isSaveButtonDisable =
       !this.newArticle.title ||

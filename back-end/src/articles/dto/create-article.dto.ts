@@ -8,5 +8,5 @@ export class CreateArticleDto {
   public readonly content: string;
 
   @ApiProperty({ example: [1], description: 'Array of tags' })
-  public readonly tagsIds: number[];
+  public readonly tagsIds: string[];
 }
