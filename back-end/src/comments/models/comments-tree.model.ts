@@ -11,11 +11,11 @@ import { Article } from '../../articles/models/article.model';
 import { ApiProperty } from '@nestjs/swagger';
 
 interface TreeCreationAttrsInterface {
-  ancestorId: number;
-  nearestAncestorId: number;
-  descendantId: number;
+  ancestorId: string;
+  nearestAncestorId: string | null;
+  descendantId: string;
   level: number;
-  articleId: number;
+  articleId: string;
 }
 
 @Table({
@@ -28,32 +28,32 @@ export class CommentsTree extends Model<
   CommentsTree,
   TreeCreationAttrsInterface
 > {
-  @ApiProperty({ example: 1, description: 'Unique identifier' })
+  @ApiProperty({ example: '68f48b22-8104-4b47-b846-3db152d8b0ee', description: 'Unique identifier' })
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.UUID,
     unique: true,
-    autoIncrement: true,
     primaryKey: true,
+    defaultValue: DataType.UUIDV4,
   })
-  public id: number;
+  public id: string;
 
   @ForeignKey(() => Comment)
-  @Column({ type: DataType.INTEGER, defaultValue: 0, allowNull: false })
-  public ancestorId: number;
+  @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4, allowNull: false })
+  public ancestorId: string;
 
-  @Column({ type: DataType.INTEGER, defaultValue: 0, allowNull: false })
-  public nearestAncestorId: number;
+  @Column({ type: DataType.UUID, defaultValue: null })
+  public nearestAncestorId: string | null;
 
   @ForeignKey(() => Comment)
-  @Column({ type: DataType.INTEGER, defaultValue: 0, allowNull: false })
-  public descendantId: number;
+  @Column({ type: DataType.UUID, defaultValue: DataType.UUIDV4, allowNull: false })
+  public descendantId: string;
 
   @Column({ type: DataType.SMALLINT, defaultValue: 1, allowNull: false })
   public level: number;
 
   @ForeignKey(() => Article)
-  @Column({ type: DataType.INTEGER, allowNull: false })
-  public articleId: number;
+  @Column({ type: DataType.UUID, allowNull: false })
+  public articleId: string;
 
   @BelongsTo(() => Comment, {
     foreignKey: 'ancestorId',

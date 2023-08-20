@@ -48,8 +48,8 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() public clearControl: { clear: boolean } = { clear: false };
 
-  @Output() public saveTagsIds: EventEmitter<number[]> = new EventEmitter<
-    number[]
+  @Output() public saveTagsIds: EventEmitter<string[]> = new EventEmitter<
+    string[]
   >();
 
   public tagCtrl: FormControl = new FormControl('');

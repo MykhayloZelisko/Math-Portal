@@ -88,7 +88,7 @@ export class UsersService {
     );
   }
 
-  public deleteUser(id: number): Observable<void> {
+  public deleteUser(id: string): Observable<void> {
     return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

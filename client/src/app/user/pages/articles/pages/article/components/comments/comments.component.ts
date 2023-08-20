@@ -31,7 +31,7 @@ import { UserInterface } from '../../../../../../../shared/models/interfaces/use
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentsComponent implements OnInit {
-  @Input() public articleId: number = 0;
+  @Input() public articleId: string = '';
 
   public user: UserInterface | null = null;
 
@@ -80,7 +80,7 @@ export class CommentsComponent implements OnInit {
     this.commentsTree = [...this.commentsTree, comment];
   }
 
-  public deleteComment(id: number) {
+  public deleteComment(id: string) {
     this.commentsService
       .deleteComment(id)
       .pipe(takeUntil(this.destroy$))

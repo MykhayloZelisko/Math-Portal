@@ -13,49 +13,49 @@ import { CommentsTree } from './comments-tree.model';
 
 interface CommentCreationAttrsInterface {
   content: string;
-  userId: number;
+  userId: string;
 }
 
 @Table({ tableName: 'comments', underscored: true })
 export class Comment extends Model<Comment, CommentCreationAttrsInterface> {
-  @ApiProperty({ example: 1, description: 'Unique identifier' })
+  @ApiProperty({ example: '68f48b22-8104-4b47-b846-3db152d8b0ee', description: 'Unique identifier' })
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.UUID,
     unique: true,
-    autoIncrement: true,
     primaryKey: true,
+    defaultValue: DataType.UUIDV4,
   })
-  public id: number;
+  public id: string;
 
   @ApiProperty({ example: 'Comment', description: 'Content' })
   @Column({ type: DataType.STRING, allowNull: false })
   public content: string;
 
   @ApiProperty({
-    example: [1, 2, 5],
+    example: ['68f48b22-8104-4b47-b846-3db152d8b0ee'],
     description: 'Array of user ids who liked the comment',
   })
   @Column({
-    type: DataType.ARRAY(DataType.INTEGER),
+    type: DataType.ARRAY(DataType.UUID),
     allowNull: false,
     defaultValue: [],
   })
-  public likesUsersIds: number[];
+  public likesUsersIds: string[];
 
   @ApiProperty({
-    example: [1, 2, 5],
+    example: ['68f48b22-8104-4b47-b846-3db152d8b0ee'],
     description: 'Array of user ids who disliked the comment',
   })
   @Column({
-    type: DataType.ARRAY(DataType.INTEGER),
+    type: DataType.ARRAY(DataType.UUID),
     allowNull: false,
     defaultValue: [],
   })
-  public dislikesUsersIds: number[];
+  public dislikesUsersIds: string[];
 
   @ForeignKey(() => User)
-  @Column({ type: DataType.INTEGER, allowNull: false })
-  public userId: number;
+  @Column({ type: DataType.UUID, allowNull: false })
+  public userId: string;
 
   @BelongsTo(() => User)
   public user: User;

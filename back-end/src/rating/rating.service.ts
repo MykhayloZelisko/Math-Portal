@@ -73,7 +73,7 @@ export class RatingService {
     };
   }
 
-  public async getCurrentArticleStatus(articleId: number, token: string) {
+  public async getCurrentArticleStatus(articleId: string, token: string) {
     try {
       const userByToken = await this.jwtService.verifyAsync(token);
       const user = await this.usersService.getUserById(userByToken.id);
@@ -99,7 +99,7 @@ export class RatingService {
     }
   }
 
-  public async recalculateArticlesRating(userId: number) {
+  public async recalculateArticlesRating(userId: string) {
     const articlesIds = await this.ratingRepository.findAll({
       attributes: ['articleId'],
       where: { userId },

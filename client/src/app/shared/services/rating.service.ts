@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CurrentArticleStatusInterface } from '../models/interfaces/current-article-status.interface';
 import { RatingType } from '../models/types/rating.type';
 import { CurrentArticleRatingInterface } from '../models/interfaces/current-article-rating.interface';
+import { UpdateArticleRatingInterface } from '../models/interfaces/update-article-rating.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class RatingService {
   public constructor(private httpClient: HttpClient) {}
 
   public getCurrentArticleStatus(
-    articleId: number,
+    articleId: string,
   ): Observable<CurrentArticleStatusInterface> {
     let params = new HttpParams();
     params = params.append('articleId', articleId);
@@ -27,11 +28,7 @@ export class RatingService {
     );
   }
 
-  public updateArticleRating(
-    articleId: number,
-    rate: RatingType,
-  ): Observable<CurrentArticleRatingInterface> {
-    const body = { articleId, rate };
+  public updateArticleRating(body: UpdateArticleRatingInterface): Observable<CurrentArticleRatingInterface> {
     return this.httpClient.post<CurrentArticleRatingInterface>(
       `${this.baseUrl}`,
       body,

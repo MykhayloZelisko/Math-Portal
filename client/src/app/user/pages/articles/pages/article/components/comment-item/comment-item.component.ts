@@ -38,10 +38,10 @@ export class CommentItemComponent {
 
   @Input() public user: UserInterface | null = null;
 
-  @Input() public articleId: number = 0;
+  @Input() public articleId: string = '';
 
-  @Output() public removeComment: EventEmitter<number> =
-    new EventEmitter<number>();
+  @Output() public removeComment: EventEmitter<string> =
+    new EventEmitter<string>();
 
   public isVisibleNewComment: boolean = false;
 
@@ -117,7 +117,7 @@ export class CommentItemComponent {
     this.removeComment.emit(this.comment.id);
   }
 
-  public confirmRemove(id: number): void {
+  public confirmRemove(id: string): void {
     this.commentsService
       .deleteComment(id)
       .pipe(takeUntil(this.destroy$))

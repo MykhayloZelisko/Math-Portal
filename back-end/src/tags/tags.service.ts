@@ -50,7 +50,7 @@ export class TagsService {
     throw new BadRequestException({ message: 'Tag is not created' });
   }
 
-  public async removeTag(id: number) {
+  public async removeTag(id: string) {
     const tag = await this.tagRepository.findByPk(id);
     if (tag) {
       const subQuery = await this.articleTagRepository.findAll({
@@ -88,7 +88,7 @@ export class TagsService {
     throw new NotFoundException({ message: 'Tag not found' });
   }
 
-  public async updateTag(tagId: number, updateTagDto: UpdateTagDto) {
+  public async updateTag(tagId: string, updateTagDto: UpdateTagDto) {
     if (!updateTagDto.value) {
       throw new BadRequestException({ message: 'Tag is not updated' });
     }

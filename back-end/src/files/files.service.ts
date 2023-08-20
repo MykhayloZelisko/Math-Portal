@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as uuid from 'uuid';
+import { v4 as uuidV4 } from 'uuid';
 
 @Injectable()
 export class FilesService {
@@ -16,7 +16,7 @@ export class FilesService {
       });
     }
     try {
-      const fileName = uuid.v4() + path.extname(file.originalname);
+      const fileName = uuidV4() + path.extname(file.originalname);
       const filePath = path.resolve(__dirname, '..', '..', 'static');
       if (!fs.existsSync(filePath)) {
         await fs.promises.mkdir(filePath, { recursive: true });

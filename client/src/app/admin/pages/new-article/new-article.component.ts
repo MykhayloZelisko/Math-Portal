@@ -69,7 +69,7 @@ export class NewArticleComponent implements OnDestroy {
       !this.newArticle.tagsIds.length;
   }
 
-  public saveTagsIds(tagsIds: number[]) {
+  public saveTagsIds(tagsIds: string[]) {
     this.newArticle.tagsIds = tagsIds;
     this.isButtonDisable =
       !this.newArticle.title ||

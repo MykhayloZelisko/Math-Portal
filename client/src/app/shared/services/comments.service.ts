@@ -15,7 +15,7 @@ export class CommentsService {
   public constructor(private httpClient: HttpClient) {}
 
   public getCommentsList(
-    articleId: number,
+    articleId: string,
   ): Observable<CommentWithDescendantsInterface[]> {
     return this.httpClient.get<CommentWithDescendantsInterface[]>(
       `${this.baseUrl}/${articleId}`,
@@ -29,7 +29,7 @@ export class CommentsService {
   }
 
   public updateCommentLikesDislikes(
-    commentId: number,
+    commentId: string,
     status: -1 | 1,
   ): Observable<CommentInterface> {
     const body = { commentId, status };
@@ -37,7 +37,7 @@ export class CommentsService {
   }
 
   public updateComment(
-    id: number,
+    id: string,
     content: string,
   ): Observable<CommentInterface> {
     return this.httpClient.put<CommentInterface>(`${this.baseUrl}/${id}`, {
@@ -45,7 +45,7 @@ export class CommentsService {
     });
   }
 
-  public deleteComment(id: number): Observable<void> {
+  public deleteComment(id: string): Observable<void> {
     return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

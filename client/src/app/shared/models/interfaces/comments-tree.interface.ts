@@ -1,14 +1,14 @@
 import { UserInterface } from './user.interface';
 
 export interface CommentsTreeInterface {
-  id: number;
+  id: string;
   content: string;
   createdAt: string;
   updatedAt: string;
   level: number;
-  nearestAncestorId: number;
-  likesUsersIds: number[];
-  dislikesUsersIds: number[];
+  nearestAncestorId: string | null;
+  likesUsersIds: string[];
+  dislikesUsersIds: string[];
   user: UserInterface;
   children: CommentsTreeInterface[];
 }

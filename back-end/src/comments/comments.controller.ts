@@ -44,7 +44,7 @@ export class CommentsController {
   @ApiOperation({ summary: 'Get list of comments for current article' })
   @ApiResponse({ status: 200, type: [Comment] })
   @Get(':articleId')
-  public getAllComments(@Param('articleId') articleId: number) {
+  public getAllComments(@Param('articleId') articleId: string) {
     return this.commentsService.getAllCommentsByArticleId(articleId);
   }
 
@@ -53,7 +53,7 @@ export class CommentsController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public remove(@Param('id') id: number) {
+  public remove(@Param('id') id: string) {
     return this.commentsService.removeComment(id);
   }
 
@@ -77,7 +77,7 @@ export class CommentsController {
   @Put(':id')
   public updateComment(
     @Req() request: Request,
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateCommentDto: UpdateCommentDto,
   ) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line

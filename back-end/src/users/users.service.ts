@@ -104,7 +104,7 @@ export class UsersService {
     return { total, users };
   }
 
-  public async removeUser(id: number) {
+  public async removeUser(id: string) {
     const user = await this.getUserById(id);
     if (user) {
       await this.removeUserCommentsDescendants(user.id);
@@ -134,7 +134,7 @@ export class UsersService {
     return user;
   }
 
-  public async getUserById(id: number) {
+  public async getUserById(id: string) {
     const user = await this.userRepository.findByPk(id);
     if (!user) {
       throw new NotFoundException({ message: 'User not found' });
@@ -246,10 +246,10 @@ export class UsersService {
     throw new NotFoundException({ message: 'User not found' });
   }
 
-  private async removeUserCommentsDescendants(id: number) {
+  private async removeUserCommentsDescendants(id: string) {
     const userComments = await this.commentsService.getAllCommentsByUserId(id);
     const userCommentsIds = userComments.map((comment: Comment) => comment.id);
-    let setOfDescendantsIds = new Set<number>();
+    let setOfDescendantsIds = new Set<string>();
     for (let i = 0; i < userCommentsIds.length; i++) {
       const descendantsIds = await this.commentsService.getDescendantsIds(
         userCommentsIds[i],

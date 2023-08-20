@@ -24,11 +24,11 @@ export class TagsService {
     return this.httpClient.post<TagInterface>(`${this.baseUrl}`, body);
   }
 
-  public removeTag(id: number): Observable<void> {
+  public removeTag(id: string): Observable<void> {
     return this.httpClient.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  public updateTag(id: number, value: string): Observable<TagInterface> {
+  public updateTag(id: string, value: string): Observable<TagInterface> {
     const body = { value };
     return this.httpClient.put<TagInterface>(`${this.baseUrl}/${id}`, body);
   }

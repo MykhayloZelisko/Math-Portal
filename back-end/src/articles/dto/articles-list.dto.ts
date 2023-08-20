@@ -8,7 +8,7 @@ export class ArticlesListDto {
   @ApiProperty({
     example: [
       {
-        id: 1,
+        id: '68f48b22-8104-4b47-b846-3db152d8b0ee',
         title: 'Title',
       },
     ],

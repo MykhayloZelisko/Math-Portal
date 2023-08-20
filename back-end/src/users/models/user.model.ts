@@ -17,14 +17,14 @@ interface UserCreationAttrsInterface {
   underscored: true,
 })
 export class User extends Model<User, UserCreationAttrsInterface> {
-  @ApiProperty({ example: 1, description: 'Unique identifier' })
+  @ApiProperty({ example: '68f48b22-8104-4b47-b846-3db152d8b0ee', description: 'Unique identifier' })
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.UUID,
     unique: true,
-    autoIncrement: true,
     primaryKey: true,
+    defaultValue: DataType.UUIDV4,
   })
-  public id: number;
+  public id: string;
 
   @ApiProperty({ example: 'John', description: 'First name' })
   @Column({ type: DataType.STRING, allowNull: false })
@@ -52,7 +52,7 @@ export class User extends Model<User, UserCreationAttrsInterface> {
     example: '0beb787a-e8c2-4c55-b225-aa117352c766',
     description: 'unique photo name',
   })
-  @Column({ type: DataType.STRING, defaultValue: null })
+  @Column({ type: DataType.UUID, defaultValue: null })
   public photo: string | null;
 
   @ApiProperty({ example: false, description: 'User is an admin or not' })

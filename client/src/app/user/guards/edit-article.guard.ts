@@ -26,10 +26,10 @@ export class EditArticleGuard implements CanDeactivate<ArticleComponent> {
     if (component.newArticle.tagsIds.length !== newArticle.tagsIds.length) {
       isTagsIdsEqual = false;
     } else {
-      const newSetIds: Set<number> = new Set<number>(
+      const newSetIds: Set<string> = new Set<string>(
         component.newArticle.tagsIds,
       );
-      const difference: Set<number> = new Set<number>(
+      const difference: Set<string> = new Set<string>(
         newArticle.tagsIds.filter((x) => !newSetIds.has(x)),
       );
       isTagsIdsEqual = !difference.size;
