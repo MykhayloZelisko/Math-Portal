@@ -33,7 +33,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiProperty({ example: 'q1we5?!ER234', description: 'New password' })
   @IsOptional()
   @IsString({ message: 'Must be a string'})
-  @MinLength(3, { message: 'Must be more than 3 characters'})
-  @Matches(/^([A-Z]{1}[a-z-]+|[А-Я]{1}[а-я-]+)$/, { message: 'Last name is incorrect'})
+  @Length(8, 32, { message: 'Must be between 8 and 32 characters'})
+  @Matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}\[\]:;<>,.?\/~_+\-=|\\]).{8,32}$/, { message: 'Password is incorrect'})
+  @IsNotEmpty({ message: 'Must be a not empty string'})
   public readonly newPassword: string | null;
 }

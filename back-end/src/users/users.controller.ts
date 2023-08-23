@@ -9,7 +9,10 @@ import {
   Req,
   UploadedFile,
   UseInterceptors,
-  Query, UsePipes, ParseIntPipe, HttpStatus, HttpCode,
+  Query,
+  UsePipes,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
@@ -30,6 +33,10 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersListDto } from './dto/users-list.dto';
 import { UserWithNullTokenDto } from './dto/user-with-null-token.dto';
 import { ValidationPipe } from '../pipes/validation/validation.pipe';
+import { ParseIntegerPipe } from '../pipes/parse-integer/parse-integer.pipe';
+import { SortingPipe } from '../pipes/sorting/sorting.pipe';
+import { ParseUUIDv4Pipe } from '../pipes/parse-uuidv4/parse-UUIDv4.pipe';
+import { ParseImageFilePipe } from '../pipes/parse-image-file/parse-image-file.pipe';
 
 @ApiTags('Users')
 @Controller('users')
@@ -56,10 +63,10 @@ export class UsersController {
   @ApiBearerAuth()
   @Get()
   public getAllUsers(
-    @Query('page', ParseIntPipe) page: number,
-    @Query('size', ParseIntPipe) size: number,
-    @Query('sortByName') sortByName: string,
-    @Query('sortByRole') sortByRole: string,
+    @Query('page', ParseIntegerPipe) page: number,
+    @Query('size', ParseIntegerPipe) size: number,
+    @Query('sortByName', SortingPipe) sortByName: string,
+    @Query('sortByRole', SortingPipe) sortByRole: string,
     @Query('filter') filter: string,
   ) {
     return this.usersService.getAllUsersWithParams(
@@ -106,7 +113,7 @@ export class UsersController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeUser(@Param('id') id: string) {
+  public removeUser(@Param('id', ParseUUIDv4Pipe) id: string) {
     return this.usersService.removeUser(id);
   }
 
@@ -130,7 +137,7 @@ export class UsersController {
   @Put('/current/photo')
   public updateCurrentUserPhoto(
     @Req() request: Request,
-    @UploadedFile() image: Express.Multer.File,
+    @UploadedFile(ParseImageFilePipe) image: Express.Multer.File,
   ) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.usersService.updateCurrentUserPhoto(image, token);

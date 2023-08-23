@@ -20,6 +20,7 @@ import { CreateTagDto } from './dto/create-tag.dto';
 import { AdminGuard } from '../auth/guards/admin/admin.guard';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { ValidationPipe } from '../pipes/validation/validation.pipe';
+import { ParseUUIDv4Pipe } from '../pipes/parse-uuidv4/parse-UUIDv4.pipe';
 
 @ApiTags('Tags')
 @Controller('tags')
@@ -48,19 +49,18 @@ export class TagsController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeTag(@Param('id') id: string) {
+  public removeTag(@Param('id', ParseUUIDv4Pipe) id: string) {
     return this.tagsService.removeTag(id);
   }
 
   @ApiOperation({ summary: 'Update tag' })
   @ApiResponse({ status: HttpStatus.OK, type: Tag })
   @UseGuards(AdminGuard)
-  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put(':id')
   public updateTag(
-    @Param('id') id: string,
-    @Body() updateTagDto: UpdateTagDto,
+    @Param('id', ParseUUIDv4Pipe) id: string,
+    @Body(ValidationPipe) updateTagDto: UpdateTagDto,
   ) {
     return this.tagsService.updateTag(id, updateTagDto);
   }

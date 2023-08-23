@@ -117,6 +117,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public updateProfile() {
     const data = this.profileForm.getRawValue();
+    data.newPassword = data.newPassword === '' ? null : data.newPassword;
     this.usersService
       .updateCurrentUser(data)
       .pipe(takeUntil(this.destroy$))

@@ -24,6 +24,7 @@ import { AdminGuard } from '../auth/guards/admin/admin.guard';
 import { UpdateLikeDislikeDto } from './dto/update-like-dislike.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { ValidationPipe } from '../pipes/validation/validation.pipe';
+import { ParseUUIDv4Pipe } from '../pipes/parse-uuidv4/parse-UUIDv4.pipe';
 
 @ApiTags('Comments')
 @Controller('comments')
@@ -47,7 +48,7 @@ export class CommentsController {
   @ApiOperation({ summary: 'Get list of comments for current article' })
   @ApiResponse({ status: HttpStatus.OK, type: [Comment] })
   @Get(':articleId')
-  public getAllComments(@Param('articleId') articleId: string) {
+  public getAllComments(@Param('articleId', ParseUUIDv4Pipe) articleId: string) {
     return this.commentsService.getAllCommentsByArticleId(articleId);
   }
 
@@ -56,7 +57,7 @@ export class CommentsController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public remove(@Param('id') id: string) {
+  public remove(@Param('id', ParseUUIDv4Pipe) id: string) {
     return this.commentsService.removeComment(id);
   }
 
@@ -77,13 +78,12 @@ export class CommentsController {
   @ApiOperation({ summary: 'Update current comment' })
   @ApiResponse({ status: HttpStatus.OK, type: Comment })
   @UseGuards(JwtAuthGuard)
-  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put(':id')
   public updateComment(
     @Req() request: Request,
-    @Param('id') id: string,
-    @Body() updateCommentDto: UpdateCommentDto,
+    @Param('id', ParseUUIDv4Pipe) id: string,
+    @Body(ValidationPipe) updateCommentDto: UpdateCommentDto,
   ) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.commentsService.updateComment(id, updateCommentDto, token);

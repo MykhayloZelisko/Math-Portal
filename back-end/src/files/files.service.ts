@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -10,11 +9,6 @@ import { v4 as uuidV4 } from 'uuid';
 @Injectable()
 export class FilesService {
   public async createImageFile(file: Express.Multer.File) {
-    if (!file.mimetype.includes('image')) {
-      throw new BadRequestException({
-        message: 'File must be a picture in jpg/jpeg/svg/png format',
-      });
-    }
     try {
       const fileName = uuidV4() + path.extname(file.originalname);
       const filePath = path.resolve(__dirname, '..', '..', 'static');

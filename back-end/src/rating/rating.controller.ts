@@ -20,6 +20,7 @@ import { CreateRatingDto } from './dto/create-rating.dto';
 import { CurrentArticleStatusDto } from './dto/current-article-status.dto';
 import { AuthWithoutExceptionsGuard } from '../auth/guards/auth-without-exceptions/auth-without-exceptions.guard';
 import { ValidationPipe } from '../pipes/validation/validation.pipe';
+import { ParseUUIDv4Pipe } from '../pipes/parse-uuidv4/parse-UUIDv4.pipe';
 
 @ApiTags('Rating')
 @Controller('rating')
@@ -49,7 +50,7 @@ export class RatingController {
   @Get()
   public getCurrentArticleStatus(
     @Req() request: Request,
-    @Query('articleId') articleId: string,
+    @Query('articleId', ParseUUIDv4Pipe) articleId: string,
   ) {
     const token = request.headers['authorization'] // eslint-disable-line
       ? request.headers['authorization'].split(' ')[1] // eslint-disable-line

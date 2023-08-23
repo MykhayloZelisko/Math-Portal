@@ -24,6 +24,9 @@ import { ArticlesService } from './articles.service';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ArticlesListDto } from './dto/articles-list.dto';
 import { ValidationPipe } from '../pipes/validation/validation.pipe';
+import { ParseUUIDv4Pipe } from '../pipes/parse-uuidv4/parse-UUIDv4.pipe';
+import { ParseIntegerPipe } from '../pipes/parse-integer/parse-integer.pipe';
+import { ParseIdsArrayPipe } from '../pipes/parse-ids-array/parse-ids-array.pipe';
 
 @ApiTags('Articles')
 @Controller('articles')
@@ -43,12 +46,11 @@ export class ArticlesController {
   @ApiOperation({ summary: 'Update article' })
   @ApiResponse({ status: HttpStatus.OK, type: Article })
   @UseGuards(AdminGuard)
-  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put(':id')
   public updateArticle(
-    @Param('id') id: string,
-    @Body() updateArticleDto: UpdateArticleDto,
+    @Param('id', ParseUUIDv4Pipe) id: string,
+    @Body(ValidationPipe) updateArticleDto: UpdateArticleDto,
   ) {
     return this.articlesService.updateArticle(id, updateArticleDto);
   }
@@ -58,14 +60,14 @@ export class ArticlesController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeArticle(@Param('id') id: string) {
+  public removeArticle(@Param('id', ParseUUIDv4Pipe) id: string) {
     return this.articlesService.removeArticle(id);
   }
 
   @ApiOperation({ summary: 'Get article' })
   @ApiResponse({ status: HttpStatus.OK, type: Article })
   @Get(':id')
-  public getArticleById(@Param('id') id: string) {
+  public getArticleById(@Param('id', ParseUUIDv4Pipe) id: string) {
     return this.articlesService.getArticleById(id);
   }
 
@@ -73,10 +75,10 @@ export class ArticlesController {
   @ApiResponse({ status: HttpStatus.OK, type: ArticlesListDto })
   @Get()
   public getAllArticles(
-    @Query('page') page: number,
-    @Query('size') size: number,
+    @Query('page', ParseIntegerPipe) page: number,
+    @Query('size', ParseIntegerPipe) size: number,
     @Query('filter') filter: string,
-    @Query('tagsIds') tagsIdsQuery: string,
+    @Query('tagsIds', ParseIdsArrayPipe) tagsIdsQuery: string,
   ) {
     const tagsIds = tagsIdsQuery ? tagsIdsQuery.split(',').map(String) : [];
     return this.articlesService.getAllArticlesWithParams(
