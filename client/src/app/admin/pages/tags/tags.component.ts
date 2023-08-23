@@ -105,7 +105,9 @@ export class TagsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.tagList = this.tagList.filter((tag: TagInterface) => tag.id !== id);
+          this.tagList = this.tagList.filter(
+            (tag: TagInterface) => tag.id !== id,
+          );
           this.dialogService.openDialog(DialogTypeEnum.Alert, {
             title: 'ПОВІДОМЛЕННЯ',
             text: 'Тег успішно видалено.',

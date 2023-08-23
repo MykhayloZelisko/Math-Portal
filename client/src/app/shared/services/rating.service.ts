@@ -3,7 +3,6 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CurrentArticleStatusInterface } from '../models/interfaces/current-article-status.interface';
-import { RatingType } from '../models/types/rating.type';
 import { CurrentArticleRatingInterface } from '../models/interfaces/current-article-rating.interface';
 import { UpdateArticleRatingInterface } from '../models/interfaces/update-article-rating.interface';
 
@@ -28,7 +27,9 @@ export class RatingService {
     );
   }
 
-  public updateArticleRating(body: UpdateArticleRatingInterface): Observable<CurrentArticleRatingInterface> {
+  public updateArticleRating(
+    body: UpdateArticleRatingInterface,
+  ): Observable<CurrentArticleRatingInterface> {
     return this.httpClient.post<CurrentArticleRatingInterface>(
       `${this.baseUrl}`,
       body,

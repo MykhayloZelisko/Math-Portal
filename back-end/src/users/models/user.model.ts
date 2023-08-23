@@ -17,7 +17,10 @@ interface UserCreationAttrsInterface {
   underscored: true,
 })
 export class User extends Model<User, UserCreationAttrsInterface> {
-  @ApiProperty({ example: '68f48b22-8104-4b47-b846-3db152d8b0ee', description: 'Unique identifier' })
+  @ApiProperty({
+    example: '68f48b22-8104-4b47-b846-3db152d8b0ee',
+    description: 'Unique identifier',
+  })
   @Column({
     type: DataType.UUID,
     unique: true,

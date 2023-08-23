@@ -10,6 +10,9 @@ import {
   UploadedFile,
   UseInterceptors,
   Query,
+  UsePipes,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
@@ -29,6 +32,11 @@ import { UserWithTokenDto } from './dto/user-with-token.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersListDto } from './dto/users-list.dto';
 import { UserWithNullTokenDto } from './dto/user-with-null-token.dto';
+import { ValidationPipe } from '../pipes/validation/validation.pipe';
+import { ParseIntegerPipe } from '../pipes/parse-integer/parse-integer.pipe';
+import { SortingPipe } from '../pipes/sorting/sorting.pipe';
+import { ParseUUIDv4Pipe } from '../pipes/parse-uuidv4/parse-UUIDv4.pipe';
+import { ParseImageFilePipe } from '../pipes/parse-image-file/parse-image-file.pipe';
 
 @ApiTags('Users')
 @Controller('users')
@@ -36,8 +44,9 @@ export class UsersController {
   public constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ summary: 'Update user role' })
-  @ApiResponse({ status: 200, type: UserWithNullTokenDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UserWithNullTokenDto })
   @UseGuards(AdminGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put('/role')
   public updateUserRole(
@@ -49,15 +58,15 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Get all users' })
-  @ApiResponse({ status: 200, type: UsersListDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UsersListDto })
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Get()
   public getAllUsers(
-    @Query('page') page: number,
-    @Query('size') size: number,
-    @Query('sortByName') sortByName: string,
-    @Query('sortByRole') sortByRole: string,
+    @Query('page', ParseIntegerPipe) page: number,
+    @Query('size', ParseIntegerPipe) size: number,
+    @Query('sortByName', SortingPipe) sortByName: string,
+    @Query('sortByRole', SortingPipe) sortByRole: string,
     @Query('filter') filter: string,
   ) {
     return this.usersService.getAllUsersWithParams(
@@ -70,7 +79,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Get current user' })
-  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: HttpStatus.OK, type: User })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Get('/current')
@@ -80,7 +89,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Delete current user photo' })
-  @ApiResponse({ status: 200, type: UserWithTokenDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UserWithTokenDto })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Delete('/current/photo')
@@ -90,7 +99,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Delete current user' })
-  @ApiResponse({ status: 200 })
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Delete('/current')
@@ -100,16 +109,16 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Delete user' })
-  @ApiResponse({ status: 200 })
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeUser(@Param('id') id: string) {
+  public removeUser(@Param('id', ParseUUIDv4Pipe) id: string) {
     return this.usersService.removeUser(id);
   }
 
   @ApiOperation({ summary: 'Update current user photo' })
-  @ApiResponse({ status: 200, type: UserWithTokenDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UserWithTokenDto })
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
@@ -128,15 +137,16 @@ export class UsersController {
   @Put('/current/photo')
   public updateCurrentUserPhoto(
     @Req() request: Request,
-    @UploadedFile() image: Express.Multer.File,
+    @UploadedFile(ParseImageFilePipe) image: Express.Multer.File,
   ) {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.usersService.updateCurrentUserPhoto(image, token);
   }
 
   @ApiOperation({ summary: 'Update current user' })
-  @ApiResponse({ status: 200, type: UserWithTokenDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UserWithTokenDto })
   @UseGuards(JwtAuthGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put('/current')
   public updateCurrentUser(

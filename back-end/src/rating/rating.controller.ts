@@ -2,10 +2,12 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
   Post,
   Query,
   Req,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -19,6 +21,8 @@ import { ArticleRatingDto } from './dto/article-rating.dto';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { CurrentArticleStatusDto } from './dto/current-article-status.dto';
 import { AuthWithoutExceptionsGuard } from '../auth/guards/auth-without-exceptions/auth-without-exceptions.guard';
+import { ValidationPipe } from '../pipes/validation/validation.pipe';
+import { ParseUUIDv4Pipe } from '../pipes/parse-uuidv4/parse-UUIDv4.pipe';
 
 @ApiTags('Rating')
 @Controller('rating')
@@ -26,8 +30,9 @@ export class RatingController {
   public constructor(private readonly ratingService: RatingService) {}
 
   @ApiOperation({ summary: 'Update rating for current article' })
-  @ApiResponse({ status: 201, type: ArticleRatingDto })
+  @ApiResponse({ status: HttpStatus.CREATED, type: ArticleRatingDto })
   @UseGuards(JwtAuthGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Post()
   public updateArticleRating(
@@ -41,13 +46,13 @@ export class RatingController {
   @ApiOperation({
     summary: 'Check if the article can be rated by the current user',
   })
-  @ApiResponse({ status: 200, type: CurrentArticleStatusDto })
+  @ApiResponse({ status: HttpStatus.OK, type: CurrentArticleStatusDto })
   @UseGuards(AuthWithoutExceptionsGuard)
   @ApiBearerAuth()
   @Get()
   public getCurrentArticleStatus(
     @Req() request: Request,
-    @Query('articleId') articleId: string,
+    @Query('articleId', ParseUUIDv4Pipe) articleId: string,
   ) {
     const token = request.headers['authorization'] // eslint-disable-line
       ? request.headers['authorization'].split(' ')[1] // eslint-disable-line

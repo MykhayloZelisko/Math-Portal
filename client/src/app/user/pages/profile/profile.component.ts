@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}\[\]:;<>,.?\/~_+\-=|\\]).{8,32}$/;
 
   public regEmail: RegExp =
-    /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   public regName: RegExp = /^([A-Z]{1}[a-z-]+|[А-Я]{1}[а-я-]+)$/;
 
@@ -117,6 +117,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public updateProfile() {
     const data = this.profileForm.getRawValue();
+    data.newPassword = data.newPassword === '' ? null : data.newPassword;
     this.usersService
       .updateCurrentUser(data)
       .pipe(takeUntil(this.destroy$))

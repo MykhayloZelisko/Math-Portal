@@ -148,7 +148,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   public updateRating(rating: RatingType) {
     this.ratingService
-      .updateArticleRating({ articleId: this.article.id, rate: rating})
+      .updateArticleRating({ articleId: this.article.id, rate: rating })
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (value: CurrentArticleRatingInterface) => {
