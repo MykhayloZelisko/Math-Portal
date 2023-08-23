@@ -2,7 +2,8 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
+  Get, HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -30,7 +31,7 @@ export class ArticlesController {
   public constructor(private readonly articlesService: ArticlesService) {}
 
   @ApiOperation({ summary: 'Create article' })
-  @ApiResponse({ status: 201, type: Article })
+  @ApiResponse({ status: HttpStatus.CREATED, type: Article })
   @UseGuards(AdminGuard)
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
@@ -40,7 +41,7 @@ export class ArticlesController {
   }
 
   @ApiOperation({ summary: 'Update article' })
-  @ApiResponse({ status: 200, type: Article })
+  @ApiResponse({ status: HttpStatus.OK, type: Article })
   @UseGuards(AdminGuard)
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
@@ -53,7 +54,7 @@ export class ArticlesController {
   }
 
   @ApiOperation({ summary: 'Delete article' })
-  @ApiResponse({ status: 200 })
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
@@ -62,14 +63,14 @@ export class ArticlesController {
   }
 
   @ApiOperation({ summary: 'Get article' })
-  @ApiResponse({ status: 200, type: Article })
+  @ApiResponse({ status: HttpStatus.OK, type: Article })
   @Get(':id')
   public getArticleById(@Param('id') id: string) {
     return this.articlesService.getArticleById(id);
   }
 
   @ApiOperation({ summary: 'Get list of articles' })
-  @ApiResponse({ status: 200, type: ArticlesListDto })
+  @ApiResponse({ status: HttpStatus.OK, type: ArticlesListDto })
   @Get()
   public getAllArticles(
     @Query('page') page: number,

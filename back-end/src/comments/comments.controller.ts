@@ -8,7 +8,7 @@ import {
   UseGuards,
   Req,
   Put,
-  UsePipes,
+  UsePipes, HttpStatus, HttpCode,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -31,7 +31,7 @@ export class CommentsController {
   public constructor(private readonly commentsService: CommentsService) {}
 
   @ApiOperation({ summary: 'Create comment for current article' })
-  @ApiResponse({ status: 201, type: Comment })
+  @ApiResponse({ status: HttpStatus.CREATED, type: Comment })
   @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
@@ -45,14 +45,14 @@ export class CommentsController {
   }
 
   @ApiOperation({ summary: 'Get list of comments for current article' })
-  @ApiResponse({ status: 200, type: [Comment] })
+  @ApiResponse({ status: HttpStatus.OK, type: [Comment] })
   @Get(':articleId')
   public getAllComments(@Param('articleId') articleId: string) {
     return this.commentsService.getAllCommentsByArticleId(articleId);
   }
 
   @ApiOperation({ summary: 'Delete comment' })
-  @ApiResponse({ status: 200 })
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
@@ -61,7 +61,7 @@ export class CommentsController {
   }
 
   @ApiOperation({ summary: 'Update current comment (dis)likes' })
-  @ApiResponse({ status: 200, type: Comment })
+  @ApiResponse({ status: HttpStatus.OK, type: Comment })
   @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
@@ -75,7 +75,7 @@ export class CommentsController {
   }
 
   @ApiOperation({ summary: 'Update current comment' })
-  @ApiResponse({ status: 200, type: Comment })
+  @ApiResponse({ status: HttpStatus.OK, type: Comment })
   @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()

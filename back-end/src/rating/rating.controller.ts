@@ -1,7 +1,7 @@
 import {
   Body,
   Controller,
-  Get,
+  Get, HttpStatus,
   Post,
   Query,
   Req,
@@ -27,7 +27,7 @@ export class RatingController {
   public constructor(private readonly ratingService: RatingService) {}
 
   @ApiOperation({ summary: 'Update rating for current article' })
-  @ApiResponse({ status: 201, type: ArticleRatingDto })
+  @ApiResponse({ status: HttpStatus.CREATED, type: ArticleRatingDto })
   @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
@@ -43,7 +43,7 @@ export class RatingController {
   @ApiOperation({
     summary: 'Check if the article can be rated by the current user',
   })
-  @ApiResponse({ status: 200, type: CurrentArticleStatusDto })
+  @ApiResponse({ status: HttpStatus.OK, type: CurrentArticleStatusDto })
   @UseGuards(AuthWithoutExceptionsGuard)
   @ApiBearerAuth()
   @Get()

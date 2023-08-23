@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Post, UsePipes } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
@@ -12,7 +12,7 @@ export class AuthController {
   public constructor(private authService: AuthService) {}
 
   @ApiOperation({ summary: 'Login' })
-  @ApiResponse({ status: 201, type: TokenWithExpDto })
+  @ApiResponse({ status: HttpStatus.CREATED, type: TokenWithExpDto })
   @UsePipes(ValidationPipe)
   @Post('/login')
   public login(@Body() loginDto: LoginDto) {
@@ -20,7 +20,7 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Registration' })
-  @ApiResponse({ status: 201 })
+  @ApiResponse({ status: HttpStatus.CREATED })
   @UsePipes(ValidationPipe)
   @Post('/registration')
   public registration(@Body() createUserDto: CreateUserDto) {

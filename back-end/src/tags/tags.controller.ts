@@ -2,7 +2,7 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
+  Get, HttpCode, HttpStatus,
   Param,
   Post,
   Put,
@@ -27,7 +27,7 @@ export class TagsController {
   public constructor(private readonly tagsService: TagsService) {}
 
   @ApiOperation({ summary: 'Create tag' })
-  @ApiResponse({ status: 201, type: Tag })
+  @ApiResponse({ status: HttpStatus.CREATED, type: Tag })
   @UseGuards(AdminGuard)
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
@@ -37,14 +37,14 @@ export class TagsController {
   }
 
   @ApiOperation({ summary: 'Get all tags' })
-  @ApiResponse({ status: 200, type: [Tag] })
+  @ApiResponse({ status: HttpStatus.OK, type: [Tag] })
   @Get()
   public getAllTags() {
     return this.tagsService.getAllTags({ order: [['value', 'ASC']] });
   }
 
   @ApiOperation({ summary: 'Delete tag' })
-  @ApiResponse({ status: 200 })
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
@@ -53,7 +53,7 @@ export class TagsController {
   }
 
   @ApiOperation({ summary: 'Update tag' })
-  @ApiResponse({ status: 200, type: Tag })
+  @ApiResponse({ status: HttpStatus.OK, type: Tag })
   @UseGuards(AdminGuard)
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()

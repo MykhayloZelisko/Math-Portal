@@ -9,7 +9,7 @@ import {
   Req,
   UploadedFile,
   UseInterceptors,
-  Query, UsePipes,
+  Query, UsePipes, ParseIntPipe, HttpStatus, HttpCode,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
@@ -37,7 +37,7 @@ export class UsersController {
   public constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ summary: 'Update user role' })
-  @ApiResponse({ status: 200, type: UserWithNullTokenDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UserWithNullTokenDto })
   @UseGuards(AdminGuard)
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
@@ -51,13 +51,13 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Get all users' })
-  @ApiResponse({ status: 200, type: UsersListDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UsersListDto })
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Get()
   public getAllUsers(
-    @Query('page') page: number,
-    @Query('size') size: number,
+    @Query('page', ParseIntPipe) page: number,
+    @Query('size', ParseIntPipe) size: number,
     @Query('sortByName') sortByName: string,
     @Query('sortByRole') sortByRole: string,
     @Query('filter') filter: string,
@@ -72,7 +72,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Get current user' })
-  @ApiResponse({ status: 200, type: User })
+  @ApiResponse({ status: HttpStatus.OK, type: User })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Get('/current')
@@ -82,7 +82,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Delete current user photo' })
-  @ApiResponse({ status: 200, type: UserWithTokenDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UserWithTokenDto })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Delete('/current/photo')
@@ -92,7 +92,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Delete current user' })
-  @ApiResponse({ status: 200 })
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Delete('/current')
@@ -102,7 +102,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Delete user' })
-  @ApiResponse({ status: 200 })
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
@@ -111,7 +111,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Update current user photo' })
-  @ApiResponse({ status: 200, type: UserWithTokenDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UserWithTokenDto })
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
@@ -137,7 +137,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Update current user' })
-  @ApiResponse({ status: 200, type: UserWithTokenDto })
+  @ApiResponse({ status: HttpStatus.OK, type: UserWithTokenDto })
   @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
