@@ -8,7 +8,9 @@ import {
   UseGuards,
   Req,
   Put,
-  UsePipes, HttpStatus, HttpCode,
+  UsePipes,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -48,7 +50,9 @@ export class CommentsController {
   @ApiOperation({ summary: 'Get list of comments for current article' })
   @ApiResponse({ status: HttpStatus.OK, type: [Comment] })
   @Get(':articleId')
-  public getAllComments(@Param('articleId', ParseUUIDv4Pipe) articleId: string) {
+  public getAllComments(
+    @Param('articleId', ParseUUIDv4Pipe) articleId: string,
+  ) {
     return this.commentsService.getAllCommentsByArticleId(articleId);
   }
 

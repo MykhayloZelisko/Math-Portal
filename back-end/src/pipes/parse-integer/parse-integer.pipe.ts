@@ -1,4 +1,9 @@
-import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
+import {
+  ArgumentMetadata,
+  BadRequestException,
+  Injectable,
+  PipeTransform,
+} from '@nestjs/common';
 
 @Injectable()
 export class ParseIntegerPipe implements PipeTransform {
@@ -7,7 +12,9 @@ export class ParseIntegerPipe implements PipeTransform {
     const isInteger = Number(value) === Math.trunc(value);
     const isPositive = value > 0;
     if (!isNumber || !isInteger || !isPositive) {
-      throw new BadRequestException(`${metadata.data} - Must be a positive integer number`);
+      throw new BadRequestException(
+        `${metadata.data} - Must be a positive integer number`,
+      );
     }
     return value;
   }
