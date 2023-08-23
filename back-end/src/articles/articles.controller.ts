@@ -8,6 +8,7 @@ import {
   Put,
   Query,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -21,6 +22,7 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import { ArticlesService } from './articles.service';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ArticlesListDto } from './dto/articles-list.dto';
+import { ValidationPipe } from '../pipes/validation/validation.pipe';
 
 @ApiTags('Articles')
 @Controller('articles')
@@ -30,6 +32,7 @@ export class ArticlesController {
   @ApiOperation({ summary: 'Create article' })
   @ApiResponse({ status: 201, type: Article })
   @UseGuards(AdminGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Post()
   public createArticle(@Body() createArticleDto: CreateArticleDto) {
@@ -39,6 +42,7 @@ export class ArticlesController {
   @ApiOperation({ summary: 'Update article' })
   @ApiResponse({ status: 200, type: Article })
   @UseGuards(AdminGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put(':id')
   public updateArticle(

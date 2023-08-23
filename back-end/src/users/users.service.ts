@@ -150,12 +150,6 @@ export class UsersService {
     const currentUser = await this.userRepository.findByPk(userByToken.id);
     const user = await this.getUserById(updateUserRoleDto.userId);
     if (user && currentUser) {
-      if (
-        updateUserRoleDto.isAdmin !== false &&
-        updateUserRoleDto.isAdmin !== true
-      ) {
-        throw new BadRequestException({ message: 'User is not updated' });
-      }
       user.isAdmin = updateUserRoleDto.isAdmin;
       const newUser = await user.save();
       let tokenWithExp: TokenWithExpDto | null = null;
@@ -177,14 +171,6 @@ export class UsersService {
   }
 
   public async updateCurrentUser(updateUserDto: UpdateUserDto, token: string) {
-    if (
-      !updateUserDto.email ||
-      !updateUserDto.password ||
-      !updateUserDto.firstName ||
-      !updateUserDto.lastName
-    ) {
-      throw new BadRequestException({ message: 'User is not updated' });
-    }
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.userRepository.findByPk(userByToken.id);
     if (user) {

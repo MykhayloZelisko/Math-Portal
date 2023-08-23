@@ -8,6 +8,7 @@ import {
   UseGuards,
   Req,
   Put,
+  UsePipes,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -22,6 +23,7 @@ import { Comment } from './models/comment.model';
 import { AdminGuard } from '../auth/guards/admin/admin.guard';
 import { UpdateLikeDislikeDto } from './dto/update-like-dislike.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { ValidationPipe } from '../pipes/validation/validation.pipe';
 
 @ApiTags('Comments')
 @Controller('comments')
@@ -31,6 +33,7 @@ export class CommentsController {
   @ApiOperation({ summary: 'Create comment for current article' })
   @ApiResponse({ status: 201, type: Comment })
   @UseGuards(JwtAuthGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Post()
   public createComment(
@@ -60,6 +63,7 @@ export class CommentsController {
   @ApiOperation({ summary: 'Update current comment (dis)likes' })
   @ApiResponse({ status: 200, type: Comment })
   @UseGuards(JwtAuthGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put('/likes')
   public updateLikesStatus(
@@ -73,6 +77,7 @@ export class CommentsController {
   @ApiOperation({ summary: 'Update current comment' })
   @ApiResponse({ status: 200, type: Comment })
   @UseGuards(JwtAuthGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put(':id')
   public updateComment(

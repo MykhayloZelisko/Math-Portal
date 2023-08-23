@@ -6,7 +6,7 @@ import {
   Param,
   Post,
   Put,
-  UseGuards,
+  UseGuards, UsePipes,
 } from '@nestjs/common';
 import { TagsService } from './tags.service';
 import {
@@ -19,6 +19,7 @@ import { Tag } from './models/tag.model';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { AdminGuard } from '../auth/guards/admin/admin.guard';
 import { UpdateTagDto } from './dto/update-tag.dto';
+import { ValidationPipe } from '../pipes/validation/validation.pipe';
 
 @ApiTags('Tags')
 @Controller('tags')
@@ -28,6 +29,7 @@ export class TagsController {
   @ApiOperation({ summary: 'Create tag' })
   @ApiResponse({ status: 201, type: Tag })
   @UseGuards(AdminGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Post()
   public createTag(@Body() createTagDto: CreateTagDto) {
@@ -53,6 +55,7 @@ export class TagsController {
   @ApiOperation({ summary: 'Update tag' })
   @ApiResponse({ status: 200, type: Tag })
   @UseGuards(AdminGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put(':id')
   public updateTag(

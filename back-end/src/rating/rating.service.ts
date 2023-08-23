@@ -27,9 +27,6 @@ export class RatingService {
     createRatingDto: CreateRatingDto,
     token: string,
   ) {
-    if (!createRatingDto.rate || !createRatingDto.articleId) {
-      throw new BadRequestException({ message: 'Rating is not updated' });
-    }
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const article = await this.articlesService.getArticleById(

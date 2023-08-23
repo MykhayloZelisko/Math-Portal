@@ -9,7 +9,7 @@ import {
   Req,
   UploadedFile,
   UseInterceptors,
-  Query,
+  Query, UsePipes,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
@@ -29,6 +29,7 @@ import { UserWithTokenDto } from './dto/user-with-token.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersListDto } from './dto/users-list.dto';
 import { UserWithNullTokenDto } from './dto/user-with-null-token.dto';
+import { ValidationPipe } from '../pipes/validation/validation.pipe';
 
 @ApiTags('Users')
 @Controller('users')
@@ -38,6 +39,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Update user role' })
   @ApiResponse({ status: 200, type: UserWithNullTokenDto })
   @UseGuards(AdminGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put('/role')
   public updateUserRole(
@@ -137,6 +139,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Update current user' })
   @ApiResponse({ status: 200, type: UserWithTokenDto })
   @UseGuards(JwtAuthGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put('/current')
   public updateCurrentUser(

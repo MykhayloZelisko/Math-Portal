@@ -35,13 +35,6 @@ export class ArticlesService {
   ) {}
 
   public async createArticle(createArticleDto: CreateArticleDto) {
-    if (
-      !createArticleDto.title ||
-      !createArticleDto.content ||
-      !createArticleDto.tagsIds
-    ) {
-      throw new BadRequestException({ message: 'Article is not created' });
-    }
     const tags = await this.tagsService.getAllTags({
       where: {
         id: createArticleDto.tagsIds,
@@ -62,13 +55,6 @@ export class ArticlesService {
   }
 
   public async updateArticle(id: string, updateArticleDto: UpdateArticleDto) {
-    if (
-      !updateArticleDto.title ||
-      !updateArticleDto.content ||
-      !updateArticleDto.tagsIds
-    ) {
-      throw new BadRequestException({ message: 'Article is not updated' });
-    }
     const article = await this.getArticleById(id);
     if (!article) {
       throw new NotFoundException({ message: 'Article not found' });

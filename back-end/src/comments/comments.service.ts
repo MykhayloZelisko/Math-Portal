@@ -34,18 +34,6 @@ export class CommentsService {
     createCommentDto: CreateCommentDto,
     token: string,
   ) {
-    if (
-      !createCommentDto.content ||
-      !createCommentDto.articleId ||
-      !createCommentDto.level ||
-      !(
-        createCommentDto.parentCommentId ||
-        createCommentDto.parentCommentId === null
-      )
-    ) {
-      throw new BadRequestException({ message: 'Comment is not created' });
-    }
-
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const article = await this.articlesService.getArticleById(
@@ -103,10 +91,6 @@ export class CommentsService {
     updateCommentDto: UpdateCommentDto,
     token: string,
   ) {
-    if (!updateCommentDto.content) {
-      throw new BadRequestException({ message: 'Comment is not updated' });
-    }
-
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const comment = await this.getCommentById(id);
@@ -212,9 +196,6 @@ export class CommentsService {
     updateLikeDislikeDto: UpdateLikeDislikeDto,
     token: string,
   ) {
-    if (!updateLikeDislikeDto.commentId || !updateLikeDislikeDto.status) {
-      throw new BadRequestException({ message: 'Comment is not (dis)liked' });
-    }
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const comment = await this.getCommentById(updateLikeDislikeDto.commentId);

@@ -5,7 +5,7 @@ import {
   Post,
   Query,
   Req,
-  UseGuards,
+  UseGuards, UsePipes,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -19,6 +19,7 @@ import { ArticleRatingDto } from './dto/article-rating.dto';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { CurrentArticleStatusDto } from './dto/current-article-status.dto';
 import { AuthWithoutExceptionsGuard } from '../auth/guards/auth-without-exceptions/auth-without-exceptions.guard';
+import { ValidationPipe } from '../pipes/validation/validation.pipe';
 
 @ApiTags('Rating')
 @Controller('rating')
@@ -28,6 +29,7 @@ export class RatingController {
   @ApiOperation({ summary: 'Update rating for current article' })
   @ApiResponse({ status: 201, type: ArticleRatingDto })
   @UseGuards(JwtAuthGuard)
+  @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Post()
   public updateArticleRating(
