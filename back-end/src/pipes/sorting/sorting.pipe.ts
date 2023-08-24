@@ -7,7 +7,7 @@ import {
 
 @Injectable()
 export class SortingPipe implements PipeTransform {
-  public transform(value: any, metadata: ArgumentMetadata) {
+  public transform(value: string, metadata: ArgumentMetadata) {
     if (
       value.toLowerCase() !== 'asc' &&
       value.toLowerCase() !== 'desc' &&
