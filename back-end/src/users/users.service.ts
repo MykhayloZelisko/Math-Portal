@@ -112,7 +112,7 @@ export class UsersService {
       await this.userRepository.destroy({ where: { id } });
       return;
     }
-    throw new NotFoundException({ message: 'User not found' });
+    throw new NotFoundException('User not found');
   }
 
   public async removeCurrentUser(token: string) {
@@ -126,7 +126,7 @@ export class UsersService {
       await this.userRepository.destroy({ where: { id: user.id } });
       return;
     }
-    throw new NotFoundException({ message: 'User not found' });
+    throw new NotFoundException('User not found');
   }
 
   public async getUserByEmail(email: string) {
@@ -137,7 +137,7 @@ export class UsersService {
   public async getUserById(id: string) {
     const user = await this.userRepository.findByPk(id);
     if (!user) {
-      throw new NotFoundException({ message: 'User not found' });
+      throw new NotFoundException('User not found');
     }
     return user;
   }
@@ -158,7 +158,7 @@ export class UsersService {
       }
       return { user: newUser, token: tokenWithExp };
     }
-    throw new NotFoundException({ message: 'User not found' });
+    throw new NotFoundException('User not found');
   }
 
   public async getCurrentUser(token: string) {
@@ -167,7 +167,7 @@ export class UsersService {
     if (user) {
       return user;
     }
-    throw new NotFoundException({ message: 'User not found' });
+    throw new NotFoundException('User not found');
   }
 
   public async updateCurrentUser(updateUserDto: UpdateUserDto, token: string) {
@@ -179,7 +179,10 @@ export class UsersService {
         user.password,
       );
       if (!passwordEquals) {
-        throw new BadRequestException({ message: 'Password is incorrect' });
+        throw new BadRequestException(
+          'Password is incorrect',
+          'Password Error',
+        );
       }
       const hashPassword = updateUserDto.newPassword
         ? await bcrypt.hash(updateUserDto.newPassword, 5)
@@ -192,7 +195,7 @@ export class UsersService {
       const tokenWithExp = await this.authService.generateToken(newUser);
       return { user: newUser, token: tokenWithExp };
     }
-    throw new NotFoundException({ message: 'User not found' });
+    throw new NotFoundException('User not found');
   }
 
   public async removeCurrentUserPhoto(token: string) {
@@ -224,12 +227,10 @@ export class UsersService {
         const tokenWithExp = await this.authService.generateToken(newUser);
         return { user: newUser, token: tokenWithExp };
       } catch (err) {
-        throw new InternalServerErrorException({
-          message: 'User photo is not updated',
-        });
+        throw new InternalServerErrorException('User photo is not updated');
       }
     }
-    throw new NotFoundException({ message: 'User not found' });
+    throw new NotFoundException('User not found');
   }
 
   private async removeUserCommentsDescendants(id: string) {

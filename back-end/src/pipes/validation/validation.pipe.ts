@@ -18,7 +18,7 @@ export class ValidationPipe implements PipeTransform {
           ', ',
         )}`;
       });
-      throw new BadRequestException(messages);
+      throw new BadRequestException(messages, 'Validation Error');
     }
     return value;
   }

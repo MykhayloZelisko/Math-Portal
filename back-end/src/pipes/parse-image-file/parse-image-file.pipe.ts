@@ -6,6 +6,7 @@ export class ParseImageFilePipe implements PipeTransform {
     if (!value.mimetype.includes('image')) {
       throw new BadRequestException(
         'File must be an image in jpg/jpeg/svg/png format',
+        'Validation Error',
       );
     }
     return value;

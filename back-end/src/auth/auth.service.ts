@@ -29,9 +29,7 @@ export class AuthService {
       createUserDto.email,
     );
     if (candidate) {
-      throw new ConflictException({
-        message: 'A user with this email already exists',
-      });
+      throw new ConflictException('A user with this email already exists');
     }
     const hashPassword = await bcrypt.hash(createUserDto.password, 5);
     await this.userService.createUser({
@@ -65,8 +63,6 @@ export class AuthService {
         return user;
       }
     }
-    throw new UnauthorizedException({
-      message: 'Email or password is incorrect',
-    });
+    throw new UnauthorizedException('Email or password is incorrect');
   }
 }

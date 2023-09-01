@@ -21,6 +21,7 @@ export class ParseIdsArrayPipe implements PipeTransform {
     } else {
       throw new BadRequestException(
         `${metadata.data} - Must be the array of strings in UUIDv4 format`,
+        'Validation Error',
       );
     }
   }
