@@ -51,7 +51,7 @@
         appClickOutside
         (clickOutside)="closeDropDown()"
       >
-        <button class="header__profile" (click)="openDropDown()">
+        <div class="header__profile" (click)="openDropDown()">
           <img
             class="header__photo"
             *ngIf="user && user.photo; else elseBlock"
@@ -64,7 +64,7 @@
               src="assets/images/user-icon.svg"
             ></svg-icon>
           </ng-template>
-        </button>
+        </div>
         <div *ngIf="isActiveDropDown" class="header__drop-down">
           <a
             class="header__drop-down-item"
