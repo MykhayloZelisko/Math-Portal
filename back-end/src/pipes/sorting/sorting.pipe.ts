@@ -15,6 +15,7 @@ export class SortingPipe implements PipeTransform {
     ) {
       throw new BadRequestException(
         `${metadata.data} - A value must be from the array ['asc', 'desc', 'default']`,
+        'Validation Error',
       );
     }
     return value;

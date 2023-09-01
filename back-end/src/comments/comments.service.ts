@@ -40,7 +40,7 @@ export class CommentsService {
       createCommentDto.articleId,
     );
     if (!user || !article) {
-      throw new BadRequestException({ message: 'Comment is not created' });
+      throw new BadRequestException('Comment is not created');
     }
     const comment = await this.commentRepository.create({
       content: createCommentDto.content,
@@ -95,12 +95,10 @@ export class CommentsService {
     const user = await this.usersService.getUserById(userByToken.id);
     const comment = await this.getCommentById(id);
     if (!comment) {
-      throw new NotFoundException({ message: 'Comment not found' });
+      throw new NotFoundException('Comment not found');
     }
     if (comment.userId !== user.id) {
-      throw new ForbiddenException({
-        message: 'The user is not the author of the comment',
-      });
+      throw new ForbiddenException('The user is not the author of the comment');
     }
     comment.content = updateCommentDto.content;
     await comment.save();
@@ -131,7 +129,7 @@ export class CommentsService {
     if (comment) {
       return comment;
     }
-    throw new NotFoundException({ message: 'Comment not found' });
+    throw new NotFoundException('Comment not found');
   }
 
   public async removeComment(id: string) {
@@ -141,7 +139,7 @@ export class CommentsService {
       await this.removeCommentsArray(commentsIds);
       return;
     }
-    throw new NotFoundException({ message: 'Comment not found' });
+    throw new NotFoundException('Comment not found');
   }
 
   public async removeCommentsArray(ids: string[]) {
@@ -200,7 +198,7 @@ export class CommentsService {
     const user = await this.usersService.getUserById(userByToken.id);
     const comment = await this.getCommentById(updateLikeDislikeDto.commentId);
     if (!comment) {
-      throw new NotFoundException({ message: 'Comment not found' });
+      throw new NotFoundException('Comment not found');
     }
     if (updateLikeDislikeDto.status === -1) {
       const index = comment.dislikesUsersIds.findIndex(

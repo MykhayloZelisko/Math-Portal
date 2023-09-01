@@ -140,7 +140,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
           });
         },
         error: (err: HttpErrorResponse) => {
-          if (err.status === HttpStatusCode.BadRequest) {
+          if (
+            err.status === HttpStatusCode.BadRequest &&
+            err.error.error === 'Password Error'
+          ) {
             this.clearPasswordFields();
             this.dialogService.openDialog(DialogTypeEnum.Alert, {
               title: 'ПОВІДОМЛЕННЯ',

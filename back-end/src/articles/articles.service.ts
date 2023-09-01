@@ -41,14 +41,14 @@ export class ArticlesService {
       },
     });
     if (!tags.length) {
-      throw new BadRequestException({ message: 'Article is not created' });
+      throw new BadRequestException('Article is not created');
     }
     const article = await this.articleRepository.create({
       title: createArticleDto.title,
       content: createArticleDto.content,
     });
     if (!article) {
-      throw new BadRequestException({ message: 'Article is not created' });
+      throw new BadRequestException('Article is not created');
     }
     await article.$set('tags', tags);
     return this.getArticleById(article.id);
@@ -57,7 +57,7 @@ export class ArticlesService {
   public async updateArticle(id: string, updateArticleDto: UpdateArticleDto) {
     const article = await this.getArticleById(id);
     if (!article) {
-      throw new NotFoundException({ message: 'Article not found' });
+      throw new NotFoundException('Article not found');
     }
     if (updateArticleDto.tagsIds.length) {
       const tags = await this.tagsService.getAllTags({
@@ -66,7 +66,7 @@ export class ArticlesService {
         },
       });
       if (!tags.length) {
-        throw new BadRequestException({ message: 'Article is not updated' });
+        throw new BadRequestException('Article is not updated');
       }
       article.title = updateArticleDto.title;
       article.content = updateArticleDto.content;
@@ -74,7 +74,7 @@ export class ArticlesService {
       await article.$set('tags', tags);
       return this.getArticleById(id);
     }
-    throw new BadRequestException({ message: 'Article is not updated' });
+    throw new BadRequestException('Article is not updated');
   }
 
   public async removeArticle(id: string) {
@@ -86,7 +86,7 @@ export class ArticlesService {
       await this.commentsService.removeCommentsArray(commentsIds);
       return;
     }
-    throw new NotFoundException({ message: 'Article not found' });
+    throw new NotFoundException('Article not found');
   }
 
   public async getArticleById(id: string) {
@@ -97,7 +97,7 @@ export class ArticlesService {
     if (article) {
       return article;
     }
-    throw new NotFoundException({ message: 'Article not found' });
+    throw new NotFoundException('Article not found');
   }
 
   public async getAllArticles(options?: FindOptions<Article>) {
@@ -259,9 +259,7 @@ export class ArticlesService {
         return { total, articles };
       }
     } catch (e) {
-      throw new InternalServerErrorException({
-        message: 'Internal server error',
-      });
+      throw new InternalServerErrorException('Internal server error');
     }
   }
 }

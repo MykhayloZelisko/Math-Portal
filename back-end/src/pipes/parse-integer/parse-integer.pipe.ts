@@ -14,6 +14,7 @@ export class ParseIntegerPipe implements PipeTransform {
     if (!isNumber || !isInteger || !isPositive) {
       throw new BadRequestException(
         `${metadata.data} - Must be a positive integer number`,
+        'Validation Error',
       );
     }
     return value;

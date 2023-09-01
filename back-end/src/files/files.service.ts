@@ -15,9 +15,7 @@ export class FilesService {
       await fs.promises.writeFile(path.join(filePath, fileName), file.buffer);
       return fileName;
     } catch (e) {
-      throw new InternalServerErrorException({
-        message: 'Something went wrong',
-      });
+      throw new InternalServerErrorException('Something went wrong');
     }
   }
 
@@ -25,9 +23,7 @@ export class FilesService {
     const filePath = path.resolve(__dirname, '..', '..', 'static', fileName);
     fs.unlink(filePath, (err) => {
       if (err) {
-        throw new InternalServerErrorException({
-          message: 'File is not removed',
-        });
+        throw new InternalServerErrorException('File is not removed');
       } else {
         return;
       }

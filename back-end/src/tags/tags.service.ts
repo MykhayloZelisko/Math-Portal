@@ -36,18 +36,15 @@ export class TagsService {
   }
 
   public async createTag(createTagDto: CreateTagDto) {
-    if (!createTagDto.value) {
-      throw new BadRequestException({ message: 'Tag is not created' });
-    }
     const tag = await this.getTagByValue(createTagDto.value);
     if (tag) {
-      throw new ConflictException({ message: 'Tag already exists' });
+      throw new ConflictException('Tag already exists');
     }
     const newTag = await this.tagRepository.create(createTagDto);
     if (newTag) {
       return newTag;
     }
-    throw new BadRequestException({ message: 'Tag is not created' });
+    throw new BadRequestException('Tag is not created');
   }
 
   public async removeTag(id: string) {
@@ -76,31 +73,30 @@ export class TagsService {
         },
       });
       if (count) {
-        throw new ForbiddenException({
-          message:
-            'A tag cannot be removed while it is in use and is the only tag in the article',
-        });
+        throw new ForbiddenException(
+          'A tag cannot be removed while it is in use and is the only tag in the article',
+        );
       } else {
         await this.tagRepository.destroy({ where: { id } });
         return;
       }
     }
-    throw new NotFoundException({ message: 'Tag not found' });
+    throw new NotFoundException('Tag not found');
   }
 
   public async updateTag(tagId: string, updateTagDto: UpdateTagDto) {
     if (!updateTagDto.value) {
-      throw new BadRequestException({ message: 'Tag is not updated' });
+      throw new BadRequestException('Tag is not updated');
     }
     const tag = await this.tagRepository.findByPk(tagId);
     if (tag) {
       tag.value = updateTagDto.value;
       const newTag = await tag.save();
       if (!newTag) {
-        throw new BadRequestException({ message: 'Tag is not updated' });
+        throw new BadRequestException('Tag is not updated');
       }
       return tag;
     }
-    throw new NotFoundException({ message: 'Tag not found' });
+    throw new NotFoundException('Tag not found');
   }
 }

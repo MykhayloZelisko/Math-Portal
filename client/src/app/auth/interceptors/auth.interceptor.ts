@@ -40,7 +40,7 @@ export class AuthInterceptor implements HttpInterceptor {
             })
             .afterClosed()
             .subscribe(() => {
-              const id = +this.router.url.split('/')[2];
+              const id = this.router.url.split('/')[2];
               sessionStorage.removeItem('token');
               sessionStorage.removeItem('exp');
               this.usersService.updateUserData(null);

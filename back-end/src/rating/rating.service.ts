@@ -33,14 +33,14 @@ export class RatingService {
       createRatingDto.articleId,
     );
     if (!user || !article) {
-      throw new BadRequestException({ message: 'Rating is not updated' });
+      throw new BadRequestException('Rating is not updated');
     }
     const articleStatus = await this.getCurrentArticleStatus(
       createRatingDto.articleId,
       token,
     );
     if (!articleStatus.canBeRated) {
-      throw new ConflictException({ message: 'Rating cannot be updated' });
+      throw new ConflictException('Rating cannot be updated');
     }
     const rating = await this.ratingRepository.create({
       ...createRatingDto,
