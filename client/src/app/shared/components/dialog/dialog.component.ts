@@ -24,7 +24,9 @@ export class DialogComponent {
   public constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogDataInterface,
     private dialogRef: MatDialogRef<DialogComponent>,
-  ) {}
+  ) {
+    dialogRef.disableClose = true;
+  }
 
   public close(): void {
     this.dialogRef.close();
