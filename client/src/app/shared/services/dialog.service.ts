@@ -30,7 +30,7 @@ export class DialogService {
       position: { top: '50px' },
       data: dialogData,
       autoFocus: false,
-      // disableClose: true,
+      disableClose: true,
     });
   }
 }
