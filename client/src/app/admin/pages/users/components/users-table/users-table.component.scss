@@ -1,11 +1,9 @@
 @import 'variables';
 
 .users-table {
-  border-radius: 4px;
   border: solid 1px $brown-2;
   border-collapse: separate;
   width: 100%;
-  overflow: hidden;
 
   &__header {
     background-color: $brown-3;
@@ -217,111 +215,69 @@
     }
   }
 
-  .mat-mdc-form-field-bottom-align {
-    display: none;
+  .p-inputtext {
+    padding: 5px 12px;
+    font-family: $source;
+    font-size: 14px;
+    line-height: 14px;
   }
 
-  .mat-mdc-form-field {
+  .p-dropdown {
+    border-radius: 3px;
+    border-color: $brown-4;
     width: 70px;
     background-image: url('../../../../../../assets/images/arrow_down.svg');
     background-position: right 10px top 10px;
     background-repeat: no-repeat;
-  }
-
-  /* stylelint-disable */
-  .mdc-text-field--focused .mdc-notched-outline__leading,
-  .mdc-text-field--focused .mdc-notched-outline__trailing {
-    border-color: $brown-4 !important;
-    border-width: 1px !important;
-  }
-
-  .mdc-text-field:not(.mdc-text-field--focused) .mdc-notched-outline__leading,
-  .mdc-text-field:not(.mdc-text-field--focused) .mdc-notched-outline__trailing {
-    border-color: $brown-4;
-  }
-
-  .mdc-text-field:not(.mdc-text-field--focused):hover .mdc-notched-outline__leading,
-  .mdc-text-field:not(.mdc-text-field--focused):hover .mdc-notched-outline__trailing {
-    border-color: $brown-4 !important;
-  }
-
-  .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
-    padding: 6px 0 !important;
-    min-height: 0;
-    line-height: 12px;
-  }
-
-  .mdc-text-field--outlined {
-    padding: 0 12px !important;
-  }
-
-  .mat-mdc-select-value-text {
-    font-family: $source;
-    font-size: 14px;
-    line-height: 14px;
-  }
-
-  :host .mat-mdc-select-value, .mat-mdc-select {
-    line-height: 12px;
-  }
-
-  .mat-mdc-select-arrow-wrapper {
-    display: none !important;
-  }
-
-  .mdc-menu-surface.mat-mdc-select-panel {
-    padding: 0 !important;
-  }
-
-  .mat-mdc-option {
-    font-family: $source;
-    font-size: 14px;
-    line-height: 14px;
-    padding: 0 12px !important;
-    min-height: 24px !important;
 
     &:hover {
-      background-color: $brown-3 !important;
+      border-color: $brown-4 !important;
     }
   }
 
-  .mat-mdc-option.mat-mdc-option-active {
-    background-color: $brown-3 !important;
+  .p-focus {
+    border-color: $brown-4 !important;
   }
 
-  .mat-pseudo-checkbox {
-    display: none !important;
-  }
-
-  .mdc-list-item__primary-text {
-    color: $brown-2 !important;
-  }
-  /* stylelint-enable */
-
-  .mat-ripple-element {
-    display: none !important;
-  }
-
-  .cdk-overlay-pane {
-    filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%)) drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
-  }
-
-  .mdc-menu-surface {
+  .p-dropdown:not(.p-disabled).p-focus {
     box-shadow: none;
   }
 
-  .mat-mdc-select-panel::-webkit-scrollbar {
-    appearance: none;
+  .p-dropdown-trigger {
+    display: none !important;
   }
 
-  .mat-mdc-select-panel::-webkit-scrollbar:vertical {
-    width: 7px;
-    background-color: $white;
-  }
+  .p-dropdown-panel {
+    filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%)) drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
+    border-radius: 4px;
+    width: 70px;
 
-  .mat-mdc-select-panel::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    border: 2px solid $white !important;
-    background-color: $brown-1;
+    & .p-dropdown-items {
+      padding: 0;
+
+      & .p-dropdown-item {
+        padding: 5px 12px;
+        font-family: $source;
+        font-size: 14px;
+        line-height: 14px;
+      }
+
+      & .p-element:first-child {
+        & .p-dropdown-item {
+          border-radius: 4px 4px 0 0;
+        }
+      }
+
+      & .p-element:last-child {
+        & .p-dropdown-item {
+          border-radius: 0 0 4px 4px;
+        }
+      }
+
+      & .p-dropdown-item.p-highlight {
+        color: $black;
+        background-color: $brown-3;
+      }
+    }
   }
 }
