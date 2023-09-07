@@ -19,11 +19,11 @@ import { HeaderContentPositionType } from '../../../../../shared/models/types/he
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginatorConfigInterface } from '../../../../../shared/models/interfaces/paginator-config.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
 import { UsersTableColumnNameEnum } from '../../../../../shared/models/enums/users-table-column-name.enum';
 import { SortColumnInterface } from '../../../../../shared/models/interfaces/sort-column.interface';
 import { UserInterface } from '../../../../../shared/models/interfaces/user.interface';
 import { UpdateUserRoleInterface } from '../../../../../shared/models/interfaces/update-user-role.interface';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-users-table',
@@ -33,7 +33,7 @@ import { UpdateUserRoleInterface } from '../../../../../shared/models/interfaces
     AngularSvgIconModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    MatSelectModule,
+    DropdownModule,
   ],
   templateUrl: './users-table.component.html',
   styleUrls: ['./users-table.component.scss'],
@@ -73,7 +73,7 @@ export class UsersTableComponent implements OnInit, OnChanges {
 
   public rowsPerPage: number[] = [10, 20, 50, 100];
 
-  public pageArray = new Array(1);
+  public pageArray: number[] = [1];
 
   public usersTableHeader: TableHeaderInterface[] = USERS_TABLE_HEADER;
 
@@ -163,11 +163,13 @@ export class UsersTableComponent implements OnInit, OnChanges {
       currentPage: 1,
       totalItems: this.tableContent.total,
     };
-    this.pageArray = new Array(
-      Math.ceil(
-        this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage,
-      ),
+    const arrayLength = Math.ceil(
+      this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage,
     );
+    this.pageArray = [];
+    for (let i = 1; i <= arrayLength; i++) {
+      this.pageArray.push(i);
+    }
     this.isPaginatorInit = true;
     this.cdr.detectChanges();
   }
@@ -180,11 +182,13 @@ export class UsersTableComponent implements OnInit, OnChanges {
       itemsPerPage,
     };
     this.paginationForm.controls['currentPage'].setValue(1);
-    this.pageArray = new Array(
-      Math.ceil(
-        this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage,
-      ),
+    const arrayLength = Math.ceil(
+      this.paginatorConfig.totalItems / this.paginatorConfig.itemsPerPage,
     );
+    this.pageArray = [];
+    for (let i = 1; i <= arrayLength; i++) {
+      this.pageArray.push(i);
+    }
     this.changePaginatorConfig.emit(this.paginatorConfig);
   }
 

@@ -86,33 +86,23 @@
                 <span class="users-table__footer-label"
                   >Рядків на сторінку</span
                 >
-                <mat-form-field appearance="outline">
-                  <mat-select
-                    formControlName="pageSize"
-                    (selectionChange)="updatePageSize()"
-                  >
-                    <mat-option
-                      *ngFor="let item of rowsPerPage"
-                      [value]="item"
-                      >{{ item }}</mat-option
-                    >
-                  </mat-select>
-                </mat-form-field>
+                <p-dropdown
+                  class="users-table__dropdown"
+                  formControlName="pageSize"
+                  appendTo="body"
+                  [options]="rowsPerPage"
+                  (onChange)="updatePageSize()"
+                ></p-dropdown>
               </div>
               <div>
                 <span class="users-table__footer-label">До сторінки</span>
-                <mat-form-field appearance="outline">
-                  <mat-select
-                    formControlName="currentPage"
-                    (selectionChange)="updateCurrentPage()"
-                  >
-                    <mat-option
-                      *ngFor="let row of pageArray; let i = index"
-                      [value]="i + 1"
-                      >{{ i + 1 }}</mat-option
-                    >
-                  </mat-select>
-                </mat-form-field>
+                <p-dropdown
+                  class="users-table__dropdown"
+                  formControlName="currentPage"
+                  appendTo="body"
+                  [options]="pageArray"
+                  (onChange)="updateCurrentPage()"
+                ></p-dropdown>
               </div>
             </form>
             <pagination-controls

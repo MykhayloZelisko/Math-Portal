@@ -25,6 +25,7 @@
     "angular-svg-icon": "^15.0.0",
     "mathjax-angular": "^2.1.1",
     "ngx-pagination": "^6.0.3",
+    "primeng": "^15.4.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
