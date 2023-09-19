@@ -1,7 +1,6 @@
 @import "variables";
 
-.applications {
-  padding: 20px;
+.solving-triangle {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -16,37 +15,31 @@
     font-weight: 600;
   }
 
-  &__app-title {
+  &__result {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  &__result-item {
+    display: flex;
+    gap: 5px;
+    font-size: 16px;
     font-family: $source;
-    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  &__result-title {
+    font-size: 16px;
+    font-family: $source;
+    line-height: 1.2;
     font-weight: 600;
     text-align: center;
   }
 }
 
 ::ng-deep {
-  .applications {
-    & .p-dropdown {
-      border-radius: 3px;
-      border-color: $brown-4;
-      width: 100%;
-      background-image: url('../../../../assets/images/arrow_down.svg');
-      background-position: right 10px top 15px;
-      background-repeat: no-repeat;
-
-      &:hover {
-        border-color: $brown-2 !important;
-      }
-    }
-
-    & .p-inputtext {
-      padding: 11px 12px;
-      font-family: $source;
-      font-size: 14px;
-      line-height: 14px;
-      color: $black;
-    }
-
+  .solving-triangle {
     & .p-dropdown-panel {
       filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%)) drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
       border-radius: 4px;
@@ -67,15 +60,15 @@
           }
         }
 
-        & .p-element:last-child {
-          & .p-dropdown-item {
-            border-radius: 0 0 4px 4px;
-          }
-        }
-
         & .p-element:first-child {
           & .p-dropdown-item {
             border-radius: 4px 4px 0 0;
+          }
+        }
+
+        & .p-element:last-child {
+          & .p-dropdown-item {
+            border-radius: 0 0 4px 4px;
           }
         }
 
@@ -83,6 +76,27 @@
           color: $black;
           background-color: $brown-3;
         }
+      }
+    }
+
+    & .p-inputtext {
+      padding: 11px 12px;
+      font-family: $source;
+      font-size: 14px;
+      line-height: 14px;
+      color: $black;
+    }
+
+    & .p-dropdown {
+      border-radius: 3px;
+      border-color: $brown-4;
+      width: 100%;
+      background-image: url('../../../../../../assets/images/arrow_down.svg');
+      background-position: right 10px top 15px;
+      background-repeat: no-repeat;
+
+      &:hover {
+        border-color: $brown-2 !important;
       }
     }
   }

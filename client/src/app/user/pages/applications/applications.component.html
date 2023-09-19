@@ -1,1 +1,28 @@
-<p>applications works!</p>
+<div class="applications" #app>
+  <div>
+    <label class="applications__label"
+      >Виберіть онлайн-калькулятор зі списку</label
+    >
+    <div class="applications__select">
+      <p-dropdown
+        [formControl]="appCtrl"
+        placeholder="Виберіть онлайн-калькулятор зі списку"
+        [options]="appNames"
+        optionLabel="title"
+        [appendTo]="app"
+        [autoDisplayFirst]="false"
+      ></p-dropdown>
+    </div>
+  </div>
+  <div *ngIf="appTitle">
+    <h3 class="applications__app-title">{{ appTitle }}</h3>
+    <ng-container [ngSwitch]="appName">
+      <ng-container *ngSwitchCase="appNameEnum.SolvingTriangle">
+        <app-solving-triangle></app-solving-triangle>
+      </ng-container>
+      <ng-container *ngSwitchCase="appNameEnum.SystemLinearEquations">
+        <app-system-linear-equations></app-system-linear-equations>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

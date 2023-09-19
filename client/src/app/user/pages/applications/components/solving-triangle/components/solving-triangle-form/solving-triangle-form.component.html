@@ -1,0 +1,57 @@
+<div class="solving-triangle-form">
+  <form
+    class="solving-triangle-form__form"
+    [formGroup]="triangleForm"
+    *ngIf="taskConfig"
+  >
+    <div class="solving-triangle-form__field">
+      <label
+        class="solving-triangle-form__label"
+        for="control_1"
+        [mathjax]="taskConfig.labels[0]"
+      ></label>
+      <input
+        id="control_1"
+        class="solving-triangle-form__input"
+        formControlName="control_1"
+        type="number"
+        (blur)="notNegative($event)"
+      />
+    </div>
+    <div class="solving-triangle-form__field">
+      <label
+        class="solving-triangle-form__label"
+        for="control_2"
+        [mathjax]="taskConfig.labels[1]"
+      ></label>
+      <input
+        id="control_2"
+        class="solving-triangle-form__input"
+        formControlName="control_2"
+        type="number"
+        (blur)="notNegative($event)"
+      />
+    </div>
+    <div class="solving-triangle-form__field">
+      <label
+        class="solving-triangle-form__label"
+        for="control_3"
+        [mathjax]="taskConfig.labels[2]"
+      ></label>
+      <input
+        id="control_3"
+        class="solving-triangle-form__input"
+        formControlName="control_3"
+        type="number"
+        (blur)="notNegative($event)"
+      />
+    </div>
+    <button
+      class="solving-triangle-form__button"
+      [disabled]="!triangles.length"
+      (click)="calculate()"
+    >
+      Обчислити
+    </button>
+  </form>
+</div>

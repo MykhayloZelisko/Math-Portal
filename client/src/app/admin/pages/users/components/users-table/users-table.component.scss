@@ -1,9 +1,11 @@
 @import 'variables';
 
 .users-table {
+  border-radius: 4px;
   border: solid 1px $brown-2;
   border-collapse: separate;
   width: 100%;
+  overflow: hidden;
 
   &__header {
     background-color: $brown-3;
@@ -215,14 +217,15 @@
     }
   }
 
-  .p-inputtext {
+  .users-table .p-inputtext {
     padding: 5px 12px;
     font-family: $source;
     font-size: 14px;
     line-height: 14px;
+    color: $black;
   }
 
-  .p-dropdown {
+  .users-table .p-dropdown {
     border-radius: 3px;
     border-color: $brown-4;
     width: 70px;
@@ -231,12 +234,12 @@
     background-repeat: no-repeat;
 
     &:hover {
-      border-color: $brown-4 !important;
+      border-color: $brown-2 !important;
     }
   }
 
   .p-focus {
-    border-color: $brown-4 !important;
+    border-color: $brown-2 !important;
   }
 
   .p-dropdown:not(.p-disabled).p-focus {
@@ -250,7 +253,6 @@
   .p-dropdown-panel {
     filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%)) drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
     border-radius: 4px;
-    width: 70px;
 
     & .p-dropdown-items {
       padding: 0;
@@ -260,6 +262,12 @@
         font-family: $source;
         font-size: 14px;
         line-height: 14px;
+        color: $black;
+
+        &:hover {
+          background-color: $brown-3 !important;
+          color: $black !important;
+        }
       }
 
       & .p-element:first-child {
@@ -279,5 +287,20 @@
         background-color: $brown-3;
       }
     }
+  }
+
+  .p-dropdown-items-wrapper::-webkit-scrollbar {
+    appearance: none;
+  }
+
+  .p-dropdown-items-wrapper::-webkit-scrollbar:vertical {
+    width: 7px;
+    background-color: $white;
+  }
+
+  .p-dropdown-items-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    border: 2px solid $white !important;
+    background-color: $brown-1;
   }
 }
