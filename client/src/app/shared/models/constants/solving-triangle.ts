@@ -52,9 +52,4 @@ export const SOLVING_TRIANGLE: SolvingTriangleInterface[] = [
     value: SolvingTriangleEnum.SideBisectorSide,
     labels: ['Сторона $a$', 'Сторона $b$', 'Бісектриса $l_c$'],
   },
-  {
-    title: 'Дві сторони і бісектриса кута, протилежного одній із них',
-    value: SolvingTriangleEnum.SideSideBisector,
-    labels: ['Сторона $a$', 'Сторона $b$', 'Бісектриса $l_a$'],
-  },
 ];
