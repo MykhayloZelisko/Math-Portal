@@ -109,10 +109,10 @@ export function altitudesSSS(
     ? altitudeSSS(triangle.side_a, triangle.side_b, triangle.side_c)
     : triangle.altitude_a;
   triangle.altitude_b = calcAB
-    ? altitudeSSS(triangle.side_a, triangle.side_b, triangle.side_c)
+    ? altitudeSSS(triangle.side_b, triangle.side_c, triangle.side_a)
     : triangle.altitude_b;
   triangle.altitude_c = calcAC
-    ? altitudeSSS(triangle.side_a, triangle.side_b, triangle.side_c)
+    ? altitudeSSS(triangle.side_c, triangle.side_a, triangle.side_b)
     : triangle.altitude_c;
 }
 
