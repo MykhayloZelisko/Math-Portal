@@ -1,0 +1,112 @@
+<div class="solving-triangle" #s_triangle>
+  <div>
+    <label class="solving-triangle__label"
+      >Виберіть відомі елементи трикутника</label
+    >
+    <div class="solving-triangle__select">
+      <p-dropdown
+        [formControl]="triangleCtrl"
+        placeholder="Виберіть відомі елементи трикутника"
+        [options]="solvingTriangleOptions"
+        optionLabel="title"
+        [appendTo]="s_triangle"
+        [autoDisplayFirst]="false"
+      ></p-dropdown>
+    </div>
+  </div>
+  <app-solving-triangle-form
+    [taskConfig]="config"
+    (triangleEvent)="saveResult($event)"
+  ></app-solving-triangle-form>
+  <div class="solving-triangle__result" *ngFor="let triangle of triangles">
+    <div>
+      <h6 class="solving-triangle__result-title">Сторони</h6>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$a=$'"></span><span>{{ triangle.side_a }}</span>
+      </p>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$b=$'"></span><span>{{ triangle.side_b }}</span>
+      </p>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$c=$'"></span><span>{{ triangle.side_c }}</span>
+      </p>
+    </div>
+    <div>
+      <h6 class="solving-triangle__result-title">Кути</h6>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$\\alpha=$'"></span
+        ><span>{{ triangle.angle_a }}</span>
+      </p>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$\\beta=$'"></span><span>{{ triangle.angle_b }}</span>
+      </p>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$\\gamma=$'"></span
+        ><span>{{ triangle.angle_c }}</span>
+      </p>
+    </div>
+    <div>
+      <h6 class="solving-triangle__result-title">Висоти</h6>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$h_a=$'"></span><span>{{ triangle.altitude_a }}</span>
+      </p>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$h_b=$'"></span><span>{{ triangle.altitude_b }}</span>
+      </p>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$h_c=$'"></span><span>{{ triangle.altitude_c }}</span>
+      </p>
+    </div>
+    <div>
+      <h6 class="solving-triangle__result-title">Бісектриси</h6>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$l_a=$'"></span><span>{{ triangle.bisector_a }}</span>
+      </p>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$l_b=$'"></span><span>{{ triangle.bisector_b }}</span>
+      </p>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$l_c=$'"></span><span>{{ triangle.bisector_c }}</span>
+      </p>
+    </div>
+    <div>
+      <h6 class="solving-triangle__result-title">Медіани</h6>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$m_a=$'"></span><span>{{ triangle.median_a }}</span>
+      </p>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$m_b=$'"></span><span>{{ triangle.median_b }}</span>
+      </p>
+      <p class="solving-triangle__result-item">
+        <span [mathjax]="'$m_c=$'"></span><span>{{ triangle.median_c }}</span>
+      </p>
+    </div>
+    <div>
+      <h6 class="solving-triangle__result-title">Радіуси</h6>
+      <div class="solving-triangle__result">
+        <div>
+          <p class="solving-triangle__result-item">
+            <span [mathjax]="'$R=$'"></span><span>{{ triangle.radius_R }}</span>
+          </p>
+          <p class="solving-triangle__result-item">
+            <span [mathjax]="'$r=$'"></span><span>{{ triangle.radius_r }}</span>
+          </p>
+        </div>
+        <div>
+          <p class="solving-triangle__result-item">
+            <span [mathjax]="'$r_a=$'"></span
+            ><span>{{ triangle.radius_ra }}</span>
+          </p>
+          <p class="solving-triangle__result-item">
+            <span [mathjax]="'$r_b=$'"></span
+            ><span>{{ triangle.radius_rb }}</span>
+          </p>
+          <p class="solving-triangle__result-item">
+            <span [mathjax]="'$r_c=$'"></span
+            ><span>{{ triangle.radius_rc }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

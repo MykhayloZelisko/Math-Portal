@@ -1,0 +1,72 @@
+@import "variables";
+
+.solving-triangle-form {
+  &__form {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+  }
+
+  &__label {
+    font-family: $source;
+    font-weight: 600;
+  }
+
+  &__input {
+    font-family: $source;
+    padding: 9px 12px;
+    margin-top: 8px;
+    border-radius: 3px;
+    border: 1px solid $brown-4;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 14px;
+
+    &:hover {
+      border-color: $brown-1;
+    }
+
+    &:focus {
+      border-color:  $brown-2;
+      outline: none;
+    }
+
+    &:active {
+      border-color: $brown-2;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    &[type="number"] {
+      appearance: textfield;
+    }
+  }
+
+  &__button {
+    background-color: $brown-1;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-family: $source;
+    font-size: 16px;
+    padding: 9px 24px;
+    color: $yellow-1;
+
+    &:hover {
+      background-color: $brown-2;
+    }
+
+    &:disabled,
+    &:disabled:hover {
+      background-color: $gray-2;
+      color: $gray-3;
+      cursor: default;
+    }
+  }
+}
