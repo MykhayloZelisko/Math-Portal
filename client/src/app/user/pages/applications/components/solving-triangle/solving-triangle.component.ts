@@ -14,6 +14,7 @@ import { SOLVING_TRIANGLE } from '../../../../../shared/models/constants/solving
 import { TriangleInterface } from '../../../../../shared/models/interfaces/triangle.interface';
 import { TriangleTaskConfigInterface } from '../../../../../shared/models/interfaces/triangle-task-config.interface';
 import { Subject, takeUntil } from 'rxjs';
+import { TriangleStringInterface } from '../../../../../shared/models/interfaces/triangle-string.interface';
 
 @Component({
   selector: 'app-solving-triangle',
@@ -35,6 +36,8 @@ export class SolvingTriangleComponent implements OnInit, OnDestroy {
   public triangleCtrl: FormControl = new FormControl();
 
   public triangles: TriangleInterface[] = [];
+
+  public trianglesToString: TriangleStringInterface[] = [];
 
   public config!: TriangleTaskConfigInterface;
 
@@ -59,5 +62,33 @@ export class SolvingTriangleComponent implements OnInit, OnDestroy {
 
   public saveResult(triangles: TriangleInterface[]): void {
     this.triangles = triangles;
+    this.printResult();
+  }
+
+  public printResult(): void {
+    this.trianglesToString = this.triangles.map(
+      (triangle: TriangleInterface) => ({
+        side_a: `$a=${triangle.side_a}$`,
+        side_b: `$b=${triangle.side_b}$`,
+        side_c: `$c=${triangle.side_c}$`,
+        angle_a: `$\\alpha=${triangle.angle_a}$`,
+        angle_b: `$\\beta=${triangle.angle_b}$`,
+        angle_c: `$\\gamma=${triangle.angle_c}$`,
+        bisector_a: `$l_a=${triangle.bisector_a}$`,
+        bisector_b: `$l_b=${triangle.bisector_b}$`,
+        bisector_c: `$l_c=${triangle.bisector_c}$`,
+        altitude_a: `$h_a=${triangle.altitude_a}$`,
+        altitude_b: `$h_b=${triangle.altitude_b}$`,
+        altitude_c: `$h_c=${triangle.altitude_c}$`,
+        median_a: `$m_a=${triangle.median_a}$`,
+        median_b: `$m_b=${triangle.median_b}$`,
+        median_c: `$m_c=${triangle.median_c}$`,
+        radius_R: `$R=${triangle.radius_R}$`,
+        radius_r: `$r=${triangle.radius_r}$`,
+        radius_ra: `$r_a=${triangle.radius_ra}$`,
+        radius_rb: `$r_b=${triangle.radius_rb}$`,
+        radius_rc: `$r_c=${triangle.radius_rc}$`,
+      }),
+    );
   }
 }

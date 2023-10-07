@@ -21,3 +21,7 @@ export function sin(x: number): number {
 export function cos(x: number): number {
   return Math.cos(x);
 }
+
+export function abs(x: number): number {
+  return Math.abs(x);
+}
