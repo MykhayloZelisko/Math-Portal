@@ -1,1 +1,127 @@
-<p>system-linear-equations works!</p>
+<div class="system-linear-equations" #linearSystem>
+  <div class="system-linear-equations__params-form-wrapper">
+    <form class="system-linear-equations__params-form" [formGroup]="paramsForm">
+      <div class="system-linear-equations__params-field">
+        <p class="system-linear-equations__params-label">Кількість змінних</p>
+        <div class="system-linear-equations__number-input">
+          <button
+            class="system-linear-equations__params-btn system-linear-equations__params-btn--minus"
+            [disabled]="varsNumber === startNumber"
+            (click)="removeVariable()"
+          >
+            <svg-icon
+              class="system-linear-equations__btn-icon"
+              src="assets/images/content-minus.svg"
+            ></svg-icon>
+          </button>
+          <input
+            formControlName="varsNumber"
+            class="system-linear-equations__input"
+            type="number"
+            (keydown)="forbidInput($event)"
+          />
+          <button
+            class="system-linear-equations__params-btn system-linear-equations__params-btn--plus"
+            [disabled]="varsNumber === endNumber"
+            (click)="addVariable()"
+          >
+            <svg-icon
+              class="system-linear-equations__btn-icon"
+              src="assets/images/action-add.svg"
+            ></svg-icon>
+          </button>
+        </div>
+      </div>
+      <div class="system-linear-equations__params-field">
+        <p class="system-linear-equations__params-label">Кількість рівнянь</p>
+        <div class="system-linear-equations__number-input">
+          <button
+            class="system-linear-equations__params-btn system-linear-equations__params-btn--minus"
+            [disabled]="eqsNumber === startNumber"
+            (click)="removeEquation()"
+          >
+            <svg-icon
+              class="system-linear-equations__btn-icon"
+              src="assets/images/content-minus.svg"
+            ></svg-icon>
+          </button>
+          <input
+            formControlName="eqsNumber"
+            class="system-linear-equations__input"
+            type="number"
+            (keydown)="forbidInput($event)"
+          />
+          <button
+            class="system-linear-equations__params-btn system-linear-equations__params-btn--plus"
+            [disabled]="eqsNumber === endNumber"
+            (click)="addEquation()"
+          >
+            <svg-icon
+              class="system-linear-equations__btn-icon"
+              src="assets/images/action-add.svg"
+            ></svg-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="system-linear-equations__params-field">
+      <p class="system-linear-equations__params-label">Метод розв'язування</p>
+      <p-dropdown
+        [formControl]="methodCtrl"
+        [options]="solvingLinearSystemOptions"
+        optionLabel="title"
+        optionValue="method"
+        [appendTo]="linearSystem"
+        [autoDisplayFirst]="false"
+        optionDisabled="disable"
+      ></p-dropdown>
+    </div>
+    <button
+      class="system-linear-equations__button"
+      [disabled]="!method"
+      (click)="solveSystem()"
+    >
+      Розв'язати
+    </button>
+  </div>
+  <h4 class="system-linear-equations__matrix-title">
+    Матриця коефіцієнтів СЛАР
+  </h4>
+  <form [formGroup]="matrixForm">
+    <div formArrayName="rows" class="system-linear-equations__matrix-form">
+      <div
+        *ngFor="let _ of getRows().controls; let rowIndex = index"
+        [formGroupName]="rowIndex"
+        class="system-linear-equations__row"
+      >
+        <div formArrayName="cells" class="system-linear-equations__cells">
+          <div
+            *ngFor="let _ of getCells(rowIndex).controls; let cellIndex = index"
+            [formGroupName]="cellIndex"
+          >
+            <input
+              class="system-linear-equations__input system-linear-equations__input--matrix-input"
+              type="number"
+              formControlName="coef"
+              (blur)="notNull($event)"
+            />
+          </div>
+        </div>
+        <div>
+          <input
+            class="system-linear-equations__input system-linear-equations__input--matrix-input"
+            type="number"
+            formControlName="free"
+            (blur)="notNull($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="system-linear-equations__result" *ngIf="resultToString.length">
+    <span
+      *ngFor="let resultItem of resultToString"
+      [mathjax]="resultItem"
+    ></span>
+  </div>
+</div>

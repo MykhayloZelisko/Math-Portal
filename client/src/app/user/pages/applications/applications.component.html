@@ -14,7 +14,7 @@
       ></p-dropdown>
     </div>
   </div>
-  <div *ngIf="appTitle">
+  <div *ngIf="appTitle" class="applications__container">
     <h3 class="applications__app-title">{{ appTitle }}</h3>
     <ng-container [ngSwitch]="appName">
       <ng-container *ngSwitchCase="appNameEnum.SolvingTriangle">

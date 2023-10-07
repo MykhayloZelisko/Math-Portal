@@ -414,7 +414,7 @@ export class SolvingTriangleFormComponent
     this.triangles = this.triangles.map((triangle: TriangleInterface) => {
       (Object.keys(triangle) as Array<keyof TriangleInterface>).forEach(
         (key: keyof TriangleInterface) => {
-          triangle[key] = roundN(triangle[key], 13);
+          triangle[key] = roundN(triangle[key], 10);
         },
       );
       return { ...triangle };

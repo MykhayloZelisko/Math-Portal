@@ -22,6 +22,12 @@
     font-weight: 600;
     text-align: center;
   }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
 ::ng-deep {
