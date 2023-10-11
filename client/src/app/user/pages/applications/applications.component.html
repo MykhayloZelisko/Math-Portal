@@ -14,15 +14,7 @@
       ></p-dropdown>
     </div>
   </div>
-  <div *ngIf="appTitle" class="applications__container">
-    <h3 class="applications__app-title">{{ appTitle }}</h3>
-    <ng-container [ngSwitch]="appName">
-      <ng-container *ngSwitchCase="appNameEnum.SolvingTriangle">
-        <app-solving-triangle></app-solving-triangle>
-      </ng-container>
-      <ng-container *ngSwitchCase="appNameEnum.SystemLinearEquations">
-        <app-system-linear-equations></app-system-linear-equations>
-      </ng-container>
-    </ng-container>
+  <div class="applications__container">
+    <router-outlet></router-outlet>
   </div>
 </div>

@@ -30,10 +30,8 @@ export const UserRoutes: Routes = [
   },
   {
     path: UserRouteNameEnum.Applications,
-    loadComponent: () =>
-      import('../user/pages/applications/applications.component').then(
-        (m) => m.ApplicationsComponent,
-      ),
+    loadChildren: () =>
+      import('./applications.routes').then((m) => m.ApplicationsRoutes),
   },
   {
     path: UserRouteNameEnum.Contacts,
