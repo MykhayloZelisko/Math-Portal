@@ -91,52 +91,52 @@ export class SolvingTriangleFormComponent
 
   public countTriangle(a: number, b: number, c: number): number {
     switch (this.taskConfig.type) {
-    case SolvingTriangleEnum.SideSideSide:
-      return a + b > c && a + c > b && b + c > a ? 1 : 0;
-    case SolvingTriangleEnum.SideSideAngle:
-      const d = (b / a) * sin(c);
-      if (d > 1 || (d < 1 && a <= b && c >= 0.5 * Math.PI) || !(a * b * c)) {
+      case SolvingTriangleEnum.SideSideSide:
+        return a + b > c && a + c > b && b + c > a ? 1 : 0;
+      case SolvingTriangleEnum.SideSideAngle:
+        const d = (b / a) * sin(c);
+        if (d > 1 || (d < 1 && a <= b && c >= 0.5 * Math.PI) || !(a * b * c)) {
+          return 0;
+        } else if (
+          d === 1 ||
+          (d < 1 && a === b && c < 0.5 * Math.PI) ||
+          (d < 1 && a > b)
+        ) {
+          return 1;
+        } else {
+          return 2;
+        }
+      case SolvingTriangleEnum.SideAngleSide:
+        return !!(a * b * c) ? 1 : 0;
+      case SolvingTriangleEnum.SideAngleAngle:
+      case SolvingTriangleEnum.AngleSideAngle:
+        return !!(a * b * c) && b + c < Math.PI ? 1 : 0;
+      case SolvingTriangleEnum.SideAltitudeSide:
+        if (!(a * b * c) || c > a || c > b || (a === c && b === c)) {
+          return 0;
+        } else if (a === b || a === c || b === c) {
+          return 1;
+        } else {
+          return 2;
+        }
+      case SolvingTriangleEnum.SideSideAltitude:
+        if (!(a * b * c) || c > b) {
+          return 0;
+        } else if (b === c) {
+          return 1;
+        } else {
+          return 2;
+        }
+      case SolvingTriangleEnum.SideMedianSide:
+        return a + b > 2 * c && a + 2 * c > b && b + 2 * c > a ? 1 : 0;
+      case SolvingTriangleEnum.SideSideMedian:
+        return a + 2 * b > 2 * c && a + 2 * c > 2 * b && 2 * b + 2 * c > a
+          ? 1
+          : 0;
+      case SolvingTriangleEnum.SideBisectorSide:
+        return c * (a + b) < 2 * a * b ? 1 : 0;
+      default:
         return 0;
-      } else if (
-        d === 1 ||
-        (d < 1 && a === b && c < 0.5 * Math.PI) ||
-        (d < 1 && a > b)
-      ) {
-        return 1;
-      } else {
-        return 2;
-      }
-    case SolvingTriangleEnum.SideAngleSide:
-      return !!(a * b * c) ? 1 : 0;
-    case SolvingTriangleEnum.SideAngleAngle:
-    case SolvingTriangleEnum.AngleSideAngle:
-      return !!(a * b * c) && b + c < Math.PI ? 1 : 0;
-    case SolvingTriangleEnum.SideAltitudeSide:
-      if (!(a * b * c) || c > a || c > b || (a === c && b === c)) {
-        return 0;
-      } else if (a === b || a === c || b === c) {
-        return 1;
-      } else {
-        return 2;
-      }
-    case SolvingTriangleEnum.SideSideAltitude:
-      if (!(a * b * c) || c > b) {
-        return 0;
-      } else if (b === c) {
-        return 1;
-      } else {
-        return 2;
-      }
-    case SolvingTriangleEnum.SideMedianSide:
-      return a + b > 2 * c && a + 2 * c > b && b + 2 * c > a ? 1 : 0;
-    case SolvingTriangleEnum.SideSideMedian:
-      return a + 2 * b > 2 * c && a + 2 * c > 2 * b && 2 * b + 2 * c > a
-        ? 1
-        : 0;
-    case SolvingTriangleEnum.SideBisectorSide:
-      return c * (a + b) < 2 * a * b ? 1 : 0;
-    default:
-      return 0;
     }
   }
 
@@ -151,74 +151,74 @@ export class SolvingTriangleFormComponent
         this.triangles = [];
         if (triangleNumber) {
           switch (this.taskConfig.type) {
-          case SolvingTriangleEnum.SideSideSide:
-            this.triangles = [{ ...ZERO_TRIANGLE }];
-            this.triangles[0].side_a = value.control_1 ?? 0;
-            this.triangles[0].side_b = value.control_2 ?? 0;
-            this.triangles[0].side_c = value.control_3 ?? 0;
-            break;
-          case SolvingTriangleEnum.SideSideAngle:
-            for (let i = 0; i < triangleNumber; i++) {
-              this.triangles.push({ ...ZERO_TRIANGLE });
-              this.triangles[i].side_a = value.control_1 ?? 0;
-              this.triangles[i].side_b = value.control_2 ?? 0;
-              this.triangles[i].angle_a = value.control_3 ?? 0;
-            }
-            break;
-          case SolvingTriangleEnum.SideAngleSide:
-            this.triangles = [{ ...ZERO_TRIANGLE }];
-            this.triangles[0].side_a = value.control_1 ?? 0;
-            this.triangles[0].side_b = value.control_2 ?? 0;
-            this.triangles[0].angle_c = value.control_3 ?? 0;
-            break;
-          case SolvingTriangleEnum.SideAngleAngle:
-            this.triangles = [{ ...ZERO_TRIANGLE }];
-            this.triangles[0].side_a = value.control_1 ?? 0;
-            this.triangles[0].angle_a = value.control_2 ?? 0;
-            this.triangles[0].angle_b = value.control_3 ?? 0;
-            break;
-          case SolvingTriangleEnum.AngleSideAngle:
-            this.triangles = [{ ...ZERO_TRIANGLE }];
-            this.triangles[0].side_a = value.control_1 ?? 0;
-            this.triangles[0].angle_b = value.control_2 ?? 0;
-            this.triangles[0].angle_c = value.control_3 ?? 0;
-            break;
-          case SolvingTriangleEnum.SideAltitudeSide:
-            for (let i = 0; i < triangleNumber; i++) {
-              this.triangles.push({ ...ZERO_TRIANGLE });
-              this.triangles[i].side_a = value.control_1 ?? 0;
-              this.triangles[i].side_b = value.control_2 ?? 0;
-              this.triangles[i].altitude_c = value.control_3 ?? 0;
-            }
-            break;
-          case SolvingTriangleEnum.SideSideAltitude:
-            for (let i = 0; i < triangleNumber; i++) {
-              this.triangles.push({ ...ZERO_TRIANGLE });
-              this.triangles[i].side_a = value.control_1 ?? 0;
-              this.triangles[i].side_b = value.control_2 ?? 0;
-              this.triangles[i].altitude_a = value.control_3 ?? 0;
-            }
-            break;
-          case SolvingTriangleEnum.SideMedianSide:
-            this.triangles = [{ ...ZERO_TRIANGLE }];
-            this.triangles[0].side_a = value.control_1 ?? 0;
-            this.triangles[0].side_b = value.control_2 ?? 0;
-            this.triangles[0].median_c = value.control_3 ?? 0;
-            break;
-          case SolvingTriangleEnum.SideSideMedian:
-            this.triangles = [{ ...ZERO_TRIANGLE }];
-            this.triangles[0].side_a = value.control_1 ?? 0;
-            this.triangles[0].side_b = value.control_2 ?? 0;
-            this.triangles[0].median_a = value.control_3 ?? 0;
-            break;
-          case SolvingTriangleEnum.SideBisectorSide:
-            this.triangles = [{ ...ZERO_TRIANGLE }];
-            this.triangles[0].side_a = value.control_1 ?? 0;
-            this.triangles[0].side_b = value.control_2 ?? 0;
-            this.triangles[0].bisector_c = value.control_3 ?? 0;
-            break;
-          default:
-            this.triangles = [];
+            case SolvingTriangleEnum.SideSideSide:
+              this.triangles = [{ ...ZERO_TRIANGLE }];
+              this.triangles[0].side_a = value.control_1 ?? 0;
+              this.triangles[0].side_b = value.control_2 ?? 0;
+              this.triangles[0].side_c = value.control_3 ?? 0;
+              break;
+            case SolvingTriangleEnum.SideSideAngle:
+              for (let i = 0; i < triangleNumber; i++) {
+                this.triangles.push({ ...ZERO_TRIANGLE });
+                this.triangles[i].side_a = value.control_1 ?? 0;
+                this.triangles[i].side_b = value.control_2 ?? 0;
+                this.triangles[i].angle_a = value.control_3 ?? 0;
+              }
+              break;
+            case SolvingTriangleEnum.SideAngleSide:
+              this.triangles = [{ ...ZERO_TRIANGLE }];
+              this.triangles[0].side_a = value.control_1 ?? 0;
+              this.triangles[0].side_b = value.control_2 ?? 0;
+              this.triangles[0].angle_c = value.control_3 ?? 0;
+              break;
+            case SolvingTriangleEnum.SideAngleAngle:
+              this.triangles = [{ ...ZERO_TRIANGLE }];
+              this.triangles[0].side_a = value.control_1 ?? 0;
+              this.triangles[0].angle_a = value.control_2 ?? 0;
+              this.triangles[0].angle_b = value.control_3 ?? 0;
+              break;
+            case SolvingTriangleEnum.AngleSideAngle:
+              this.triangles = [{ ...ZERO_TRIANGLE }];
+              this.triangles[0].side_a = value.control_1 ?? 0;
+              this.triangles[0].angle_b = value.control_2 ?? 0;
+              this.triangles[0].angle_c = value.control_3 ?? 0;
+              break;
+            case SolvingTriangleEnum.SideAltitudeSide:
+              for (let i = 0; i < triangleNumber; i++) {
+                this.triangles.push({ ...ZERO_TRIANGLE });
+                this.triangles[i].side_a = value.control_1 ?? 0;
+                this.triangles[i].side_b = value.control_2 ?? 0;
+                this.triangles[i].altitude_c = value.control_3 ?? 0;
+              }
+              break;
+            case SolvingTriangleEnum.SideSideAltitude:
+              for (let i = 0; i < triangleNumber; i++) {
+                this.triangles.push({ ...ZERO_TRIANGLE });
+                this.triangles[i].side_a = value.control_1 ?? 0;
+                this.triangles[i].side_b = value.control_2 ?? 0;
+                this.triangles[i].altitude_a = value.control_3 ?? 0;
+              }
+              break;
+            case SolvingTriangleEnum.SideMedianSide:
+              this.triangles = [{ ...ZERO_TRIANGLE }];
+              this.triangles[0].side_a = value.control_1 ?? 0;
+              this.triangles[0].side_b = value.control_2 ?? 0;
+              this.triangles[0].median_c = value.control_3 ?? 0;
+              break;
+            case SolvingTriangleEnum.SideSideMedian:
+              this.triangles = [{ ...ZERO_TRIANGLE }];
+              this.triangles[0].side_a = value.control_1 ?? 0;
+              this.triangles[0].side_b = value.control_2 ?? 0;
+              this.triangles[0].median_a = value.control_3 ?? 0;
+              break;
+            case SolvingTriangleEnum.SideBisectorSide:
+              this.triangles = [{ ...ZERO_TRIANGLE }];
+              this.triangles[0].side_a = value.control_1 ?? 0;
+              this.triangles[0].side_b = value.control_2 ?? 0;
+              this.triangles[0].bisector_c = value.control_3 ?? 0;
+              break;
+            default:
+              this.triangles = [];
           }
         } else {
           this.triangles = [];
@@ -234,38 +234,38 @@ export class SolvingTriangleFormComponent
 
   public calculate(): void {
     switch (this.taskConfig.type) {
-    case SolvingTriangleEnum.SideSideSide:
-      this.calculateSSS();
-      break;
-    case SolvingTriangleEnum.SideSideAngle:
-      this.calculateSSA();
-      break;
-    case SolvingTriangleEnum.SideAngleSide:
-      this.calculateSAS();
-      break;
-    case SolvingTriangleEnum.SideAngleAngle:
-      this.calculateSAA();
-      break;
-    case SolvingTriangleEnum.AngleSideAngle:
-      this.calculateASA();
-      break;
-    case SolvingTriangleEnum.SideAltitudeSide:
-      this.calculateSHS();
-      break;
-    case SolvingTriangleEnum.SideSideAltitude:
-      this.calculateSSH();
-      break;
-    case SolvingTriangleEnum.SideMedianSide:
-      this.calculateSMS();
-      break;
-    case SolvingTriangleEnum.SideSideMedian:
-      this.calculateSSM();
-      break;
-    case SolvingTriangleEnum.SideBisectorSide:
-      this.calculateSBS();
-      break;
-    default:
-      break;
+      case SolvingTriangleEnum.SideSideSide:
+        this.calculateSSS();
+        break;
+      case SolvingTriangleEnum.SideSideAngle:
+        this.calculateSSA();
+        break;
+      case SolvingTriangleEnum.SideAngleSide:
+        this.calculateSAS();
+        break;
+      case SolvingTriangleEnum.SideAngleAngle:
+        this.calculateSAA();
+        break;
+      case SolvingTriangleEnum.AngleSideAngle:
+        this.calculateASA();
+        break;
+      case SolvingTriangleEnum.SideAltitudeSide:
+        this.calculateSHS();
+        break;
+      case SolvingTriangleEnum.SideSideAltitude:
+        this.calculateSSH();
+        break;
+      case SolvingTriangleEnum.SideMedianSide:
+        this.calculateSMS();
+        break;
+      case SolvingTriangleEnum.SideSideMedian:
+        this.calculateSSM();
+        break;
+      case SolvingTriangleEnum.SideBisectorSide:
+        this.calculateSBS();
+        break;
+      default:
+        break;
     }
     this.showResult();
   }

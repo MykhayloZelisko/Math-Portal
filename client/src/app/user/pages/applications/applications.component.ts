@@ -16,12 +16,7 @@ import { AppNameEnum } from '../../../shared/models/enums/app-name.enum';
 @Component({
   selector: 'app-applications',
   standalone: true,
-  imports: [
-    CommonModule,
-    DropdownModule,
-    ReactiveFormsModule,
-    RouterOutlet,
-  ],
+  imports: [CommonModule, DropdownModule, ReactiveFormsModule, RouterOutlet],
   templateUrl: './applications.component.html',
   styleUrls: ['./applications.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,14 +44,14 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
     this.appCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (app) => {
         switch (app.value) {
-        case AppNameEnum.SolvingTriangle:
-          this.router.navigateByUrl('/applications/triangle');
-          break;
-        case AppNameEnum.SystemLinearEquations:
-          this.router.navigateByUrl('/applications/linear-system');
-          break;
-        default:
-          this.router.navigateByUrl('/applications');
+          case AppNameEnum.SolvingTriangle:
+            this.router.navigateByUrl('/applications/triangle');
+            break;
+          case AppNameEnum.SystemLinearEquations:
+            this.router.navigateByUrl('/applications/linear-system');
+            break;
+          default:
+            this.router.navigateByUrl('/applications');
         }
       },
     });
@@ -64,14 +59,14 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
 
   private initRoute(): void {
     switch (this.router.url) {
-    case '/applications/triangle':
-      this.appCtrl.setValue(this.appNames[0]);
-      break;
-    case '/applications/linear-system':
-      this.appCtrl.setValue(this.appNames[1]);
-      break;
-    default:
-      break;
+      case '/applications/triangle':
+        this.appCtrl.setValue(this.appNames[0]);
+        break;
+      case '/applications/linear-system':
+        this.appCtrl.setValue(this.appNames[1]);
+        break;
+      default:
+        break;
     }
   }
 }

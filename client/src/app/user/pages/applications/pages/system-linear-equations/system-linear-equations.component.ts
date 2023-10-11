@@ -226,17 +226,17 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
   public solveSystem(): void {
     this.resultToString = [];
     switch (this.method) {
-    case SolvingLinearSystemEnum.Cramer:
-      this.solveSystemCramer();
-      break;
-    case SolvingLinearSystemEnum.Gauss:
-      this.solveSystemGauss();
-      break;
-    case SolvingLinearSystemEnum.Inverse:
-      this.solveSystemInverse();
-      break;
-    default:
-      break;
+      case SolvingLinearSystemEnum.Cramer:
+        this.solveSystemCramer();
+        break;
+      case SolvingLinearSystemEnum.Gauss:
+        this.solveSystemGauss();
+        break;
+      case SolvingLinearSystemEnum.Inverse:
+        this.solveSystemInverse();
+        break;
+      default:
+        break;
     }
   }
 
