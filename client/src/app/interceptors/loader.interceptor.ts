@@ -8,8 +8,6 @@ import {
 import { finalize, Observable } from 'rxjs';
 import { LoaderService } from '../shared/services/loader.service';
 
-const EXCEPTION_ROUTES: string[] = ['/users'];
-
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
   public constructor(private loaderService: LoaderService) {}
@@ -18,13 +16,9 @@ export class LoaderInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
-    if (EXCEPTION_ROUTES.some((i) => request.url.includes(i))) {
-      return next.handle(request);
-    } else {
-      this.loaderService.show();
-      return next
-        .handle(request)
-        .pipe(finalize(() => this.loaderService.hide()));
-    }
+    this.loaderService.show();
+    return next
+      .handle(request)
+      .pipe(finalize(() => this.loaderService.hide()));
   }
 }
