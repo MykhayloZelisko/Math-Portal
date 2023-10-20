@@ -1,0 +1,51 @@
+@use "sass:math";
+@import "variables";
+
+@keyframes spinner {
+  0% { opacity: 1 }
+  100% { opacity: 0 }
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: transparent;
+
+  &__spinner {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    transform: translateZ(0) scale(1);
+    backface-visibility: hidden;
+    transform-origin: 0 0;
+  }
+
+  &__spinner-item {
+    left: 94px;
+    top: 48px;
+    position: absolute;
+    animation: spinner linear 1s infinite;
+    background-color: $brown-1;
+    width: 12px;
+    height: 24px;
+    border-radius: 6px / 12px;
+    transform-origin: 6px 52px;
+    box-sizing: content-box;
+
+    @for $i from 1 through 12 {
+      &:nth-child(#{$i}) {
+        transform: rotate(#{30 * ($i - 1)}deg);
+        animation-delay: #{-1 + math.div($i, 12)}s;
+      }
+    }
+  }
+}
+
+

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from './shared/services/users.service';
 import { Subject, takeUntil } from 'rxjs';
 import { UserInterface } from './shared/models/interfaces/user.interface';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @Component({
   standalone: true,
@@ -11,7 +12,7 @@ import { UserInterface } from './shared/models/interfaces/user.interface';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, LoaderComponent],
 })
 export class AppComponent implements OnInit {
   private destroy$: Subject<void> = new Subject<void>();

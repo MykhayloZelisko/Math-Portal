@@ -4,12 +4,13 @@ import { environment } from './environments/environment';
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './app/routes/app.routes';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthModule } from './app/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { MathjaxModule } from 'mathjax-angular';
+import { LoaderInterceptor } from './app/interceptors/loader.interceptor';
 
 if (environment.production) {
   enableProdMode();
@@ -17,6 +18,11 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true,
+    },
     importProvidersFrom(
       RouterModule.forRoot(appRoutes, {
         scrollPositionRestoration: 'enabled',
