@@ -19,12 +19,9 @@ export class LoaderInterceptor implements HttpInterceptor {
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
     if (EXCEPTION_ROUTES.some((i) => request.url.includes(i))) {
-      console.log(request.url, 1);
       return next.handle(request);
     } else {
-      console.log(request.url, 2);
       this.loaderService.show();
-
       return next
         .handle(request)
         .pipe(finalize(() => this.loaderService.hide()));
