@@ -17,14 +17,14 @@ import { LoaderService } from '../../shared/services/loader.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoaderComponent implements OnInit, OnDestroy {
-  public isLoading!: Subject<boolean>;
+  public isLoading$!: Subject<boolean>;
 
   private destroy$: Subject<void> = new Subject<void>();
 
   public constructor(private loaderService: LoaderService) {}
 
   public ngOnInit(): void {
-    this.isLoading = this.loaderService.isLoading;
+    this.isLoading$ = this.loaderService.isLoading$;
   }
 
   public ngOnDestroy(): void {
