@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  forwardRef,
   Input,
   Output,
 } from '@angular/core';
@@ -24,7 +25,7 @@ import { environment } from '../../../../../../../../environments/environment';
   imports: [
     CommonModule,
     AngularSvgIconModule,
-    CommentItemComponent,
+    forwardRef(() => CommentItemComponent),
     RouterLink,
     ReactiveFormsModule,
   ],

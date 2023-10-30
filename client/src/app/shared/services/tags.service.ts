@@ -8,7 +8,7 @@ import { TagInterface } from '../models/interfaces/tag.interface';
   providedIn: 'root',
 })
 export class TagsService {
-  private baseUrl = `${environment.apiUrl}/tags`;
+  public readonly baseUrl = `${environment.apiUrl}/tags`;
 
   public tag$: BehaviorSubject<TagInterface | null> =
     new BehaviorSubject<TagInterface | null>(null);

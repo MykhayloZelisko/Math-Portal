@@ -10,7 +10,7 @@ import { UpdateArticleRatingInterface } from '../models/interfaces/update-articl
   providedIn: 'root',
 })
 export class RatingService {
-  private baseUrl = `${environment.apiUrl}/rating`;
+  public readonly baseUrl = `${environment.apiUrl}/rating`;
 
   public constructor(private httpClient: HttpClient) {}
 

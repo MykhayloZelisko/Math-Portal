@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UsersService } from './shared/services/users.service';
@@ -14,13 +19,18 @@ import { LoaderComponent } from './components/loader/loader.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, CommonModule, LoaderComponent],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
   public constructor(private usersService: UsersService) {}
 
   public ngOnInit(): void {
     this.getCurrentUser();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public getCurrentUser(): void {

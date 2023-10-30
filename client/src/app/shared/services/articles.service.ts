@@ -11,7 +11,7 @@ import { ArticlesListInterface } from '../models/interfaces/articles-list.interf
   providedIn: 'root',
 })
 export class ArticlesService {
-  private baseUrl = `${environment.apiUrl}/articles`;
+  public readonly baseUrl = `${environment.apiUrl}/articles`;
 
   public constructor(private httpClient: HttpClient) {}
 

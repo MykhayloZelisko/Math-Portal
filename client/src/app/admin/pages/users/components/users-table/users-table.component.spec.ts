@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UsersTableComponent } from './users-table.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 describe('UsersTableComponent', () => {
   let component: UsersTableComponent;
@@ -8,7 +9,7 @@ describe('UsersTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UsersTableComponent],
+      imports: [UsersTableComponent, DropdownModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UsersTableComponent);
