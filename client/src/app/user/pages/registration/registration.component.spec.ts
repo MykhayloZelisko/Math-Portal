@@ -14,7 +14,7 @@ describe('RegistrationComponent', () => {
   let fixture: ComponentFixture<RegistrationComponent>;
   let mockAuthService: jasmine.SpyObj<AuthService>;
   let mockDialogService: jasmine.SpyObj<DialogService>;
-  let mockRouter: jasmine.SpyObj<Router>
+  let mockRouter: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
     mockAuthService = jasmine.createSpyObj('AuthService', ['registration']);
@@ -48,13 +48,18 @@ describe('RegistrationComponent', () => {
     });
 
     it('should open dialog', () => {
-      mockAuthService.registration.and.returnValue(throwError(() => ({status: HttpStatusCode.Conflict})));
+      mockAuthService.registration.and.returnValue(
+        throwError(() => ({ status: HttpStatusCode.Conflict })),
+      );
       component.registration();
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.ConflictRegistration, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: `${component.registrationForm.controls['email'].value}`,
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.ConflictRegistration,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: `${component.registrationForm.controls['email'].value}`,
+        },
+      );
     });
   });
 
@@ -63,14 +68,18 @@ describe('RegistrationComponent', () => {
       component.registrationForm.controls['firstName'].setValue('John');
       component.showMessage('firstName');
 
-      expect(component.showMessage('firstName')).toEqual(null as unknown as string);
+      expect(component.showMessage('firstName')).toEqual(
+        null as unknown as string,
+      );
     });
 
     it('should return string', () => {
       component.registrationForm.controls['firstName'].setValue('John1');
       component.showMessage('firstName');
 
-      expect(component.showMessage('firstName')).toBe(`Не валідне ім'я/прізвище`);
+      expect(component.showMessage('firstName')).toBe(
+        `Не валідне ім'я/прізвище`,
+      );
     });
   });
 
@@ -79,7 +88,7 @@ describe('RegistrationComponent', () => {
       component.registrationForm.controls['password'].setValue('');
       component.matchPasswords();
 
-      expect(component.matchPasswords()).toBe(false)
+      expect(component.matchPasswords()).toBe(false);
     });
 
     it('should return false when confirmPassword field is empty', () => {
@@ -92,7 +101,9 @@ describe('RegistrationComponent', () => {
 
     it('should return false when confirmPassword and password fields are different', () => {
       component.registrationForm.controls['password'].setValue('Pa$$word094');
-      component.registrationForm.controls['confirmPassword'].setValue('Pa$$word091');
+      component.registrationForm.controls['confirmPassword'].setValue(
+        'Pa$$word091',
+      );
       component.matchPasswords();
 
       expect(component.matchPasswords()).toBe(false);
@@ -100,7 +111,9 @@ describe('RegistrationComponent', () => {
 
     it('should return true when confirmPassword and password fields are the same', () => {
       component.registrationForm.controls['password'].setValue('Pa$$word094');
-      component.registrationForm.controls['confirmPassword'].setValue('Pa$$word094');
+      component.registrationForm.controls['confirmPassword'].setValue(
+        'Pa$$word094',
+      );
       component.matchPasswords();
 
       expect(component.matchPasswords()).toBe(true);

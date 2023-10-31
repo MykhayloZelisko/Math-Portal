@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CommentsService } from './comments.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import {
-  CommentWithDescendantsInterface
-} from '../models/interfaces/comment-with-descendants.interface';
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import { CommentWithDescendantsInterface } from '../models/interfaces/comment-with-descendants.interface';
 import { CreateCommentDataInterface } from '../models/interfaces/create-comment-data.interface';
 import { CommentInterface } from '../models/interfaces/comment.interface';
 
@@ -27,7 +28,7 @@ describe('CommentsService', () => {
       fullName: 'John Doe',
       isAdmin: true,
       photo: null,
-    }
+    },
   };
   const mockComment: CommentWithDescendantsInterface = {
     ...newComment,
@@ -100,7 +101,7 @@ describe('CommentsService', () => {
   describe('updateComment', () => {
     it('should send request', () => {
       const id = 'f81361ca-d151-4111-9233-49d8cd5d116c';
-      const content = 'updated comment'
+      const content = 'updated comment';
       const expectedResult: CommentInterface = newComment;
       service.updateComment(id, content).subscribe((result) => {
         expect(result).toBe(expectedResult);

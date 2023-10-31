@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ArticlesService } from './articles.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TagInterface } from '../models/interfaces/tag.interface';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { CreateArticleInterface } from '../models/interfaces/create-article.interface';
 import { ArticleInterface } from '../models/interfaces/article.interface';
 import { ArticlesListParamsInterface } from '../models/interfaces/articles-list-params.interface';
@@ -23,11 +25,11 @@ describe('ArticlesService', () => {
       {
         id: '6785101c-cc10-445e-a7d2-ae38e6c39dac',
         value: 'Tag 2',
-      }
+      },
     ],
     rating: 0,
     votes: 0,
-  }
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,9 +54,9 @@ describe('ArticlesService', () => {
         content: 'Content',
         tagsIds: [
           'f81361ca-d151-4111-9233-49d8cd5d116c',
-          '6785101c-cc10-445e-a7d2-ae38e6c39dac'
-        ]
-      }
+          '6785101c-cc10-445e-a7d2-ae38e6c39dac',
+        ],
+      };
       const expectedResult: ArticleInterface = mockArticle;
       service.createArticle(newArticle).subscribe((result) => {
         expect(result).toBe(expectedResult);
@@ -73,7 +75,7 @@ describe('ArticlesService', () => {
         size: 10,
         tagsIds: [
           'f81361ca-d151-4111-9233-49d8cd5d116c',
-          '6785101c-cc10-445e-a7d2-ae38e6c39dac'
+          '6785101c-cc10-445e-a7d2-ae38e6c39dac',
         ],
         filter: '',
       };
@@ -85,7 +87,11 @@ describe('ArticlesService', () => {
         expect(result).toBe(expectedResult);
       });
 
-      const req = httpController.expectOne(`${service.baseUrl}?page=${params.page}&size=${params.size}&filter=${params.filter}&tagsIds=${params.tagsIds.join(',')}`);
+      const req = httpController.expectOne(
+        `${service.baseUrl}?page=${params.page}&size=${params.size}&filter=${
+          params.filter
+        }&tagsIds=${params.tagsIds.join(',')}`,
+      );
       expect(req.request.method).toBe('GET');
       req.flush(expectedResult);
     });
@@ -123,9 +129,9 @@ describe('ArticlesService', () => {
         content: 'Content',
         tagsIds: [
           'f81361ca-d151-4111-9233-49d8cd5d116c',
-          '6785101c-cc10-445e-a7d2-ae38e6c39dac'
-        ]
-      }
+          '6785101c-cc10-445e-a7d2-ae38e6c39dac',
+        ],
+      };
       const expectedResult: ArticleInterface = mockArticle;
       service.updateArticle(id, article).subscribe((result) => {
         expect(result).toBe(expectedResult);
