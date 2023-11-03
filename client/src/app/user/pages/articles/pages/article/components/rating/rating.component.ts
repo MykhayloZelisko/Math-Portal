@@ -48,7 +48,7 @@ export class RatingComponent implements OnInit {
   }
 
   public changeRating(): void {
-    const rating = this.ratingForm.get('rating')?.value;
+    const rating = +this.ratingForm.getRawValue().rating as RatingType;
     this.activeRating.emit(rating);
   }
 

@@ -4,10 +4,12 @@ import { ArticlesListItemComponent } from './articles-list-item.component';
 import { MathjaxModule } from 'mathjax-angular';
 import { TagInterface } from '../../../../../../../shared/models/interfaces/tag.interface';
 import { ArticleInterface } from '../../../../../../../shared/models/interfaces/article.interface';
+import { Router } from '@angular/router';
 
 describe('ArticlesListItemComponent', () => {
   let component: ArticlesListItemComponent;
   let fixture: ComponentFixture<ArticlesListItemComponent>;
+  let mockRouter: jasmine.SpyObj<Router>;
   const mockTagsList: TagInterface[] = [
     {
       id: '0102e249-26cd-4a9c-b23c-a9ad96ad3dd1',
@@ -28,8 +30,11 @@ describe('ArticlesListItemComponent', () => {
   };
 
   beforeEach(async () => {
+    mockRouter = jasmine.createSpyObj('Router', ['navigateByUrl']);
+
     await TestBed.configureTestingModule({
       imports: [ArticlesListItemComponent, MathjaxModule.forRoot()],
+      providers: [{ provide: Router, useValue: mockRouter }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ArticlesListItemComponent);
@@ -40,5 +45,15 @@ describe('ArticlesListItemComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('openArticle', () => {
+    it('should redirect to article page', () => {
+      component.openArticle();
+
+      expect(mockRouter.navigateByUrl).toHaveBeenCalledWith(
+        `articles/${mockArticle.id}`,
+      );
+    });
   });
 });

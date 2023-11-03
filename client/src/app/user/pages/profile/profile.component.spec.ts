@@ -308,7 +308,7 @@ describe('ProfileComponent', () => {
     const mockEvent = {
       target: {
         files: new File([], 'file'),
-      }
+      },
     };
 
     it('should update session storage and open success dialog', () => {

@@ -64,7 +64,7 @@ export class ArticlesFilterComponent implements OnInit, OnDestroy {
     this.tagsService.tag$.next(null);
   }
 
-  private initTagsList(): void {
+  public initTagsList(): void {
     this.tagsService.tag$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (tag: TagInterface | null) => {
         if (tag) {
@@ -83,7 +83,7 @@ export class ArticlesFilterComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initSearchValue(): void {
+  public initSearchValue(): void {
     this.searchArticleCtrl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
