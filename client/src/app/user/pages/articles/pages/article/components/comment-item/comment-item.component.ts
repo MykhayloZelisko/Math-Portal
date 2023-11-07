@@ -3,7 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Input,
+  Input, OnDestroy,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -33,7 +33,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./comment-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommentItemComponent {
+export class CommentItemComponent implements OnDestroy {
   @Input() public comment!: CommentsTreeInterface;
 
   @Input() public user: UserInterface | null = null;
@@ -57,6 +57,11 @@ export class CommentItemComponent {
     private commentsService: CommentsService,
     private cdr: ChangeDetectorRef,
   ) {}
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   public toggleComment(): void {
     this.isVisibleNewComment = !this.isVisibleNewComment;

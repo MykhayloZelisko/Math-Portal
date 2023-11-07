@@ -91,7 +91,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private initUserRole(): void {
+  public initUserRole(): void {
     this.usersService.user$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (user: UserInterface | null) => {
         this.isAdmin = !!user && user.isAdmin;
@@ -100,7 +100,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initArticle(): void {
+  public initArticle(): void {
     this.finalRequest = false;
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -179,7 +179,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       });
   }
 
-  private confirmDeleteArticle(id: string) {
+  public confirmDeleteArticle(id: string) {
     this.articlesService
       .deleteArticle(id)
       .pipe(takeUntil(this.destroy$))
@@ -231,7 +231,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
     this.isEditable = false;
   }
 
-  public saveTagsIds(tagsIds: string[]) {
+  public saveTagsIds(tagsIds: string[]): void {
     this.newArticle.tagsIds = tagsIds;
     this.isSaveButtonDisable =
       !this.newArticle.title ||
@@ -239,7 +239,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       !this.newArticle.tagsIds.length;
   }
 
-  public saveTitle(title: string) {
+  public saveTitle(title: string): void {
     this.newArticle.title = title;
     this.isSaveButtonDisable =
       !this.newArticle.title ||
@@ -247,7 +247,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       !this.newArticle.tagsIds.length;
   }
 
-  public saveContent(content: string) {
+  public saveContent(content: string): void {
     this.newArticle.content = content;
     this.isSaveButtonDisable =
       !this.newArticle.title ||

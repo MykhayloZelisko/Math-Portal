@@ -80,7 +80,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private initMethod(): void {
+  public initMethod(): void {
     this.methodCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (value) => {
         this.method = value;
@@ -89,7 +89,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initMatrixForm(): void {
+  public initMatrixForm(): void {
     this.matrixForm = this.fb.group({
       rows: this.fb.array([]),
     });
@@ -98,11 +98,15 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private initParamsForm(): void {
+  public initParamsForm(): void {
     this.paramsForm = this.fb.group({
       eqsNumber: MIN_NUMBER,
       varsNumber: MIN_NUMBER,
     });
+    this.initSystem();
+  }
+
+  public initSystem(): void {
     this.paramsForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (value) => {
         if (
@@ -147,7 +151,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  public addEquation() {
+  public addEquation(): void {
     this.resultToString = [];
     this.paramsForm.controls['eqsNumber'].setValue(
       this.paramsForm.controls['eqsNumber'].value + 1,
@@ -155,7 +159,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     this.addRow();
   }
 
-  public removeEquation() {
+  public removeEquation(): void {
     this.resultToString = [];
     this.paramsForm.controls['eqsNumber'].setValue(
       this.paramsForm.controls['eqsNumber'].value - 1,
@@ -163,7 +167,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     this.removeRow(this.eqsNumber);
   }
 
-  public addVariable() {
+  public addVariable(): void {
     this.resultToString = [];
     this.paramsForm.controls['varsNumber'].setValue(
       this.paramsForm.controls['varsNumber'].value + 1,
@@ -173,7 +177,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public removeVariable() {
+  public removeVariable(): void {
     this.resultToString = [];
     this.paramsForm.controls['varsNumber'].setValue(
       this.paramsForm.controls['varsNumber'].value - 1,
@@ -240,7 +244,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private solveSystemCramer(): void {
+  public solveSystemCramer(): void {
     const mainMatrix = this.getMainMatrix();
     const freeColumn = this.getFreeColumn();
     const arrayOfDets = [];
@@ -266,7 +270,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private solveSystemInverse(): void {
+  public solveSystemInverse(): void {
     const mainMatrix = this.getMainMatrix();
     const freeColumn = this.getFreeColumn();
     const mainDet = mainMatrix.det();
@@ -282,7 +286,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private solveSystemGauss(): void {
+  public solveSystemGauss(): void {
     const mainMatrix = this.getMainMatrix();
     let expandMatrix = this.getExpandMatrix();
     const rang = expandMatrix.rang();
@@ -357,7 +361,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getMainMatrix(): Matrix {
+  public getMainMatrix(): Matrix {
     const mainMatrix = new Matrix(this.eqsNumber, this.varsNumber);
     for (let i = 0; i < this.eqsNumber; i++) {
       for (let j = 0; j < this.varsNumber; j++) {
@@ -367,7 +371,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     return mainMatrix;
   }
 
-  private getFreeColumn(): Matrix {
+  public getFreeColumn(): Matrix {
     const freeColumn = new Matrix(this.eqsNumber, 1);
     for (let i = 0; i < this.eqsNumber; i++) {
       freeColumn[i][0] = this.matrixForm.getRawValue().rows[i].free;
@@ -375,7 +379,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
     return freeColumn;
   }
 
-  private getExpandMatrix(): Matrix {
+  public getExpandMatrix(): Matrix {
     const expandMatrix = new Matrix(this.eqsNumber, this.varsNumber + 1);
     for (let i = 0; i < this.eqsNumber; i++) {
       for (let j = 0; j < this.varsNumber; j++) {
