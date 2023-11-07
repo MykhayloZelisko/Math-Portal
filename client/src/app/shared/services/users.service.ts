@@ -13,7 +13,7 @@ import { UserWithNullTokenInterface } from '../models/interfaces/user-with-null-
   providedIn: 'root',
 })
 export class UsersService {
-  private baseUrl = `${environment.apiUrl}/users`;
+  public readonly baseUrl = `${environment.apiUrl}/users`;
 
   public user$: BehaviorSubject<UserInterface | null> =
     new BehaviorSubject<UserInterface | null>(null);

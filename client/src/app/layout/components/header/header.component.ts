@@ -44,6 +44,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
+    this.initUser();
+  }
+
+  public initUser(): void {
     this.usersService.user$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (user: UserInterface | null) => {
         this.user = user;

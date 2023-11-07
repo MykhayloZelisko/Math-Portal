@@ -154,7 +154,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  private deleteProfile(): void {
+  public deleteProfile(): void {
     this.usersService
       .deleteCurrentUser()
       .pipe(takeUntil(this.destroy$))
@@ -194,7 +194,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  private initUser(): void {
+  public initUser(): void {
     this.usersService.user$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (value) => {
         this.user = value;
@@ -203,7 +203,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initProfileForm(user: UserInterface | null): void {
+  public initProfileForm(user: UserInterface | null): void {
     if (user) {
       this.profileForm.controls['email'].setValue(user.email);
       this.profileForm.controls['firstName'].setValue(user.firstName);
@@ -211,7 +211,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  private clearPasswordFields(): void {
+  public clearPasswordFields(): void {
     this.profileForm.controls['password'].setValue('');
     this.profileForm.controls['newPassword'].setValue('');
     this.profileForm.controls['confirmPassword'].setValue('');
@@ -234,7 +234,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  private deletePhoto() {
+  public deletePhoto() {
     this.usersService
       .deleteCurrentUserPhoto()
       .pipe(takeUntil(this.destroy$))

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SolvingTriangleComponent } from './solving-triangle.component';
+import { MathjaxModule } from 'mathjax-angular';
 
 describe('SolvingTriangleComponent', () => {
   let component: SolvingTriangleComponent;
@@ -8,7 +9,7 @@ describe('SolvingTriangleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SolvingTriangleComponent],
+      imports: [SolvingTriangleComponent, MathjaxModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SolvingTriangleComponent);

@@ -61,7 +61,7 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
     this.initArticlesList(this.paginationParams);
   }
 
-  private initArticlesList(params: ArticlesListParamsInterface): void {
+  public initArticlesList(params: ArticlesListParamsInterface): void {
     this.isButtonVisible = false;
     this.articlesService
       .getArticlesList(params)

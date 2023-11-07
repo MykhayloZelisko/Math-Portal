@@ -10,7 +10,7 @@ import { CreateCommentDataInterface } from '../models/interfaces/create-comment-
   providedIn: 'root',
 })
 export class CommentsService {
-  private baseUrl = `${environment.apiUrl}/comments`;
+  public readonly baseUrl = `${environment.apiUrl}/comments`;
 
   public constructor(private httpClient: HttpClient) {}
 

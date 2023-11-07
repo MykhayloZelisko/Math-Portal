@@ -10,7 +10,7 @@ import { LoginInterface } from '../../shared/models/interfaces/login.interface';
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = `${environment.apiUrl}/auth`;
+  public readonly baseUrl = `${environment.apiUrl}/auth`;
 
   public constructor(private httpClient: HttpClient) {}
 

@@ -39,7 +39,7 @@ export class TagsListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private initTagsList(): void {
+  public initTagsList(): void {
     this.tagsService
       .getAllTags()
       .pipe(takeUntil(this.destroy$))
@@ -56,7 +56,7 @@ export class TagsListComponent implements OnInit, OnDestroy {
     this.checkRoute();
   }
 
-  private checkRoute(): void {
+  public checkRoute(): void {
     const urlLength = this.router.url.split('/').length;
     if (urlLength > 2) {
       this.router.navigateByUrl('articles');

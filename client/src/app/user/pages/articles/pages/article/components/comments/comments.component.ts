@@ -50,7 +50,7 @@ export class CommentsComponent implements OnInit {
     this.getUser();
   }
 
-  private initComments(): void {
+  public initComments(): void {
     this.commentsService
       .getCommentsList(this.articleId)
       .pipe(
@@ -67,7 +67,7 @@ export class CommentsComponent implements OnInit {
       });
   }
 
-  private getUser(): void {
+  public getUser(): void {
     this.usersService.user$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (user: UserInterface | null) => {
         this.user = user;

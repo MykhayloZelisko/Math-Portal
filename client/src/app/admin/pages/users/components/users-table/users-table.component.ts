@@ -77,13 +77,15 @@ export class UsersTableComponent implements OnInit, OnChanges {
 
   public usersTableHeader: TableHeaderInterface[] = USERS_TABLE_HEADER;
 
-  public paginationForm!: FormGroup;
+  public paginationForm: FormGroup = this.fb.group({
+    pageSize: [this.rowsPerPage[0]],
+    currentPage: [1],
+  });
 
   public constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
     this.initSortParams();
-    this.initPaginationForm();
   }
 
   public ngOnChanges(): void {
@@ -148,13 +150,6 @@ export class UsersTableComponent implements OnInit, OnChanges {
     };
     this.paginationForm.controls['currentPage'].setValue(pageNumber);
     this.changePaginatorConfig.emit(this.paginatorConfig);
-  }
-
-  private initPaginationForm(): void {
-    this.paginationForm = this.fb.group({
-      pageSize: [this.rowsPerPage[0]],
-      currentPage: [1],
-    });
   }
 
   private initPaginator(): void {
