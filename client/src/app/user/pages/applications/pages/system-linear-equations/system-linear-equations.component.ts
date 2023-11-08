@@ -335,8 +335,8 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
         const index = notFreeVarsIndexes[i];
         this.resultToString[index] = `$x_{${index + 1}}=`;
         let rest = '';
-        if (expandMatrix[index][rang]) {
-          rest += `${expandMatrix[index][rang]}`;
+        if (expandMatrix[i][rang]) {
+          rest += `${expandMatrix[i][rang]}`;
         }
         for (let j = rang + 1; j < expandMatrix.size[1]; j++) {
           if (expandMatrix[i][j] === 1) {

@@ -29,9 +29,7 @@ describe('TagsListComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [TagsListComponent],
-      providers: [
-        { provide: TagsService, useValue: mockTagsService },
-      ],
+      providers: [{ provide: TagsService, useValue: mockTagsService }],
     }).compileComponents();
 
     mockTagsService.getAllTags.and.returnValue(of(mockTagsList));
@@ -75,6 +73,7 @@ describe('TagsListComponent', () => {
 
   describe('checkRoute', () => {
     it('should not call navigateByUrl method', () => {
+      // eslint-disable-next-line
       // @ts-ignore: force this private property value for testing.
       router.currentUrlTree = router.parseUrl('/path');
       spyOn(router, 'navigateByUrl');
@@ -84,6 +83,7 @@ describe('TagsListComponent', () => {
     });
 
     it('should call navigateByUrl method', () => {
+      // eslint-disable-next-line
       // @ts-ignore: force this private property value for testing.
       router.currentUrlTree = router.parseUrl('/path1/path2');
       spyOn(router, 'navigateByUrl');

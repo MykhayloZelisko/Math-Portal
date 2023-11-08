@@ -13,14 +13,10 @@ import { UserInterface } from '../../../../../shared/models/interfaces/user.inte
 import { DialogService } from '../../../../../shared/services/dialog.service';
 import { ArticleInterface } from '../../../../../shared/models/interfaces/article.interface';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  CreateArticleInterface
-} from '../../../../../shared/models/interfaces/create-article.interface';
+import { CreateArticleInterface } from '../../../../../shared/models/interfaces/create-article.interface';
 import { CommentsService } from '../../../../../shared/services/comments.service';
 import { SvgIconRegistryService } from 'angular-svg-icon';
-import {
-  CurrentArticleRatingInterface
-} from '../../../../../shared/models/interfaces/current-article-rating.interface';
+import { CurrentArticleRatingInterface } from '../../../../../shared/models/interfaces/current-article-rating.interface';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from '../../../../../shared/components/dialog/dialog.component';
 import { DialogTypeEnum } from '../../../../../shared/models/enums/dialog-type.enum';
@@ -45,7 +41,7 @@ describe('ArticleComponent', () => {
   const mockTag2: TagInterface = {
     id: '34bacf2d-5c59-4897-a2f7-7a546fff5d1a',
     value: 'Tag 2',
-  }
+  };
   const mockUser: UserInterface = {
     id: '35c90c0b-ba58-46f3-a091-bcdf66f514a8',
     email: 'mail@mail.mail',
@@ -86,7 +82,9 @@ describe('ArticleComponent', () => {
       'SvgIconRegistryService.iconReg',
       ['loadSvg'],
     );
-    mockCommentsService = jasmine.createSpyObj('CommentsService', ['getCommentsList']);
+    mockCommentsService = jasmine.createSpyObj('CommentsService', [
+      'getCommentsList',
+    ]);
     mockDialogRef = jasmine.createSpyObj('DialogRef', ['afterClosed']);
 
     await TestBed.configureTestingModule({
@@ -155,13 +153,15 @@ describe('ArticleComponent', () => {
     it('should init article and newArticle but with error in status', () => {
       spyOn(route.snapshot.paramMap, 'get').and.returnValue('id');
       mockArticlesService.getArticle.and.returnValue(of(mockArticle));
-      mockRatingService.getCurrentArticleStatus.and.returnValue(throwError(() => {}));
+      mockRatingService.getCurrentArticleStatus.and.returnValue(
+        throwError(() => {}),
+      );
       mockCommentsService.getCommentsList.and.returnValue(of([]));
       const mockNewArticle: CreateArticleInterface = {
         title: mockArticle.title,
         content: mockArticle.content,
         tagsIds: [mockTag.id],
-      }
+      };
       component.initArticle();
 
       expect(component.article).toEqual(mockArticle);
@@ -172,13 +172,15 @@ describe('ArticleComponent', () => {
     it('should init article and newArticle without error in status', () => {
       spyOn(route.snapshot.paramMap, 'get').and.returnValue('id');
       mockArticlesService.getArticle.and.returnValue(of(mockArticle));
-      mockRatingService.getCurrentArticleStatus.and.returnValue(of({ canBeRated: true }));
+      mockRatingService.getCurrentArticleStatus.and.returnValue(
+        of({ canBeRated: true }),
+      );
       mockCommentsService.getCommentsList.and.returnValue(of([]));
       const mockNewArticle: CreateArticleInterface = {
         title: mockArticle.title,
         content: mockArticle.content,
         tagsIds: [mockTag.id],
-      }
+      };
       component.initArticle();
 
       expect(component.article).toEqual(mockArticle);
@@ -242,10 +244,13 @@ describe('ArticleComponent', () => {
       mockArticlesService.deleteArticle.and.returnValue(of(void 0));
       component.confirmDeleteArticle(id);
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.Alert, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: 'Стаття видалена успішно.',
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.Alert,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Стаття видалена успішно.',
+        },
+      );
       expect(router.navigateByUrl).toHaveBeenCalledWith('articles');
     });
 
@@ -254,10 +259,13 @@ describe('ArticleComponent', () => {
       mockArticlesService.deleteArticle.and.returnValue(throwError(() => {}));
       component.confirmDeleteArticle(id);
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.Alert, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: 'Помилка видалення статті.',
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.Alert,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Помилка видалення статті.',
+        },
+      );
     });
   });
 
@@ -298,10 +306,13 @@ describe('ArticleComponent', () => {
       component.saveArticle();
 
       expect(component.article).toEqual(mockUpdatedArticle);
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.Alert, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: 'Стаття оновлена успішно',
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.Alert,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Стаття оновлена успішно',
+        },
+      );
       expect(component.isEditable).toBe(false);
     });
 
@@ -310,10 +321,13 @@ describe('ArticleComponent', () => {
       mockArticlesService.updateArticle.and.returnValue(throwError(() => {}));
       component.saveArticle();
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.Alert, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: 'Помилка оновлення статті.',
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.Alert,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Помилка оновлення статті.',
+        },
+      );
     });
   });
 

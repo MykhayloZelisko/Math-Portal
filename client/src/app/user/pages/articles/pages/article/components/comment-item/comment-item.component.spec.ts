@@ -14,15 +14,15 @@ describe('CommentItemComponent', () => {
   let mockCommentsService: jasmine.SpyObj<CommentsService>;
   let mockSvgIconRegistryService: jasmine.SpyObj<SvgIconRegistryService>;
   const mockUser: UserInterface = {
-      id: '35c90c0b-ba58-46f3-a091-bcdf66f514a8',
-      email: 'mail@mail.mail',
-      password: 'Pa$$word094',
-      firstName: 'John',
-      lastName: 'Doe',
-      fullName: 'John Doe',
-      isAdmin: true,
-      photo: null,
-    };
+    id: '35c90c0b-ba58-46f3-a091-bcdf66f514a8',
+    email: 'mail@mail.mail',
+    password: 'Pa$$word094',
+    firstName: 'John',
+    lastName: 'Doe',
+    fullName: 'John Doe',
+    isAdmin: true,
+    photo: null,
+  };
   const mockComment: CommentsTreeInterface = {
     id: 'a79e37a0-0fcb-4cf6-97bd-79e73df68f05',
     content: 'comment',
@@ -37,7 +37,7 @@ describe('CommentItemComponent', () => {
   };
   const mockChildComment: CommentsTreeInterface = {
     ...mockComment,
-    user: {...mockComment.user},
+    user: { ...mockComment.user },
     level: 2,
     children: [],
     id: '04d46f3f-d859-4451-88cb-e53f1cb5c44b',
@@ -85,7 +85,7 @@ describe('CommentItemComponent', () => {
   });
 
   describe('addComment', () => {
-    it('should add comment to list of children comments', function() {
+    it('should add comment to list of children comments', function () {
       spyOn(component, 'toggleComment');
       component.addComment(mockChildComment);
 
@@ -105,14 +105,16 @@ describe('CommentItemComponent', () => {
         dislikesUsersIds: [],
         user: mockUser,
       };
-      mockCommentsService.updateCommentLikesDislikes.and.returnValue(of(mockCommentWithLikes));
+      mockCommentsService.updateCommentLikesDislikes.and.returnValue(
+        of(mockCommentWithLikes),
+      );
       component.likeComment(1);
 
       expect(component.comment).toEqual({
         ...mockComment,
         likesUsersIds: ['35c90c0b-ba58-46f3-a091-bcdf66f514a8'],
         dislikesUsersIds: [],
-      })
+      });
     });
   });
 

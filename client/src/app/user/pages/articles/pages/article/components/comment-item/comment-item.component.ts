@@ -3,7 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Input, OnDestroy,
+  Input,
+  OnDestroy,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';

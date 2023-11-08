@@ -3,12 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SystemLinearEquationsComponent } from './system-linear-equations.component';
 import { MathjaxModule } from 'mathjax-angular';
 import { SvgIconRegistryService } from 'angular-svg-icon';
-import {
-  SolvingLinearSystemEnum
-} from '../../../../../shared/models/enums/solving-linear-system.enum';
-import {
-  SolvingLinearSystemInterface
-} from '../../../../../shared/models/interfaces/solving-linear-system.interface';
+import { SolvingLinearSystemEnum } from '../../../../../shared/models/enums/solving-linear-system.enum';
+import { SolvingLinearSystemInterface } from '../../../../../shared/models/interfaces/solving-linear-system.interface';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Matrix } from '../../../../../shared/models/classes/matrix';
 
@@ -238,7 +234,10 @@ describe('SystemLinearEquationsComponent', () => {
 
   describe('forbidInput', () => {
     it('should return false', () => {
-      const mockEvent: jasmine.SpyObj<KeyboardEvent> = jasmine.createSpyObj('KeyboardEvent', ['preventDefault']);
+      const mockEvent: jasmine.SpyObj<KeyboardEvent> = jasmine.createSpyObj(
+        'KeyboardEvent',
+        ['preventDefault'],
+      );
       component.forbidInput(mockEvent);
 
       expect(component.forbidInput(mockEvent)).toBe(false);
@@ -299,9 +298,9 @@ describe('SystemLinearEquationsComponent', () => {
   describe('getRows', () => {
     it('should return FormArray', () => {
       component.matrixForm = mockMatrixForm;
-      const rows = component.getRows();
+      const mockRows = component.getRows();
 
-      expect(rows).toEqual(mockMatrixForm.get('rows') as FormArray);
+      expect(mockRows).toEqual(mockMatrixForm.get('rows') as FormArray);
     });
   });
 
@@ -321,25 +320,29 @@ describe('SystemLinearEquationsComponent', () => {
       spyOn(component, 'addCell');
       component.addRow();
 
-      expect(component.addCell).toHaveBeenCalledTimes(5)
+      expect(component.addCell).toHaveBeenCalledTimes(5);
     });
   });
 
   describe('removeRow', () => {
     it('should call getRows', () => {
-      spyOn(component, 'getRows').and.returnValue(mockMatrixForm.get('rows') as FormArray);
+      spyOn(component, 'getRows').and.returnValue(
+        mockMatrixForm.get('rows') as FormArray,
+      );
       component.removeRow(0);
 
-      expect(component.getRows).toHaveBeenCalled()
+      expect(component.getRows).toHaveBeenCalled();
     });
   });
 
   describe('getCells', () => {
     it('should call getRows', () => {
-      spyOn(component, 'getRows').and.returnValue(mockMatrixForm.get('rows') as FormArray);
+      spyOn(component, 'getRows').and.returnValue(
+        mockMatrixForm.get('rows') as FormArray,
+      );
       component.getCells(0);
 
-      expect(component.getRows).toHaveBeenCalled()
+      expect(component.getRows).toHaveBeenCalled();
     });
   });
 
@@ -356,7 +359,7 @@ describe('SystemLinearEquationsComponent', () => {
       spyOn(component, 'getCells').and.returnValue(new FormArray(cells));
       component.addCell(0);
 
-      expect(component.getCells).toHaveBeenCalled()
+      expect(component.getCells).toHaveBeenCalled();
     });
   });
 
@@ -365,7 +368,7 @@ describe('SystemLinearEquationsComponent', () => {
       spyOn(component, 'getCells').and.returnValue(new FormArray(cells));
       component.removeCell(0, 0);
 
-      expect(component.getCells).toHaveBeenCalled()
+      expect(component.getCells).toHaveBeenCalled();
     });
   });
 
@@ -463,11 +466,13 @@ describe('SystemLinearEquationsComponent', () => {
       expect(component.resultToString).toEqual(['Система несумісна']);
     });
 
-    it("resultToString should contain string `Система має безліч розв'язків і не може бути розв'язана методом Крамера`", () => {
+    it(`resultToString should contain string "Система має безліч розв'язків і не може бути розв'язана методом Крамера"`, () => {
       component.matrixForm.setValue(mockMatrixFormValue2);
       component.solveSystemCramer();
 
-      expect(component.resultToString).toEqual([`Система має безліч розв'язків і не може бути розв'язана методом Крамера`]);
+      expect(component.resultToString).toEqual([
+        `Система має безліч розв'язків і не може бути розв'язана методом Крамера`,
+      ]);
     });
 
     it('resultToString should contain solutions of the system', () => {
@@ -479,11 +484,13 @@ describe('SystemLinearEquationsComponent', () => {
   });
 
   describe('solveSystemInverse', () => {
-    it("resultToString should contain string `Система не може бути розв'язана за допомогою оберненої матриці`", () => {
+    it(`resultToString should contain string "Система не може бути розв'язана за допомогою оберненої матриці"`, () => {
       component.matrixForm.setValue(mockMatrixFormValue3);
       component.solveSystemInverse();
 
-      expect(component.resultToString).toEqual([`Система не може бути розв'язана за допомогою оберненої матриці`]);
+      expect(component.resultToString).toEqual([
+        `Система не може бути розв'язана за допомогою оберненої матриці`,
+      ]);
     });
 
     it('resultToString should contain solutions of the system', () => {
@@ -495,35 +502,46 @@ describe('SystemLinearEquationsComponent', () => {
   });
 
   describe('solveSystemGauss', () => {
-    it('resultToString should contain solutions of the system when system has many solutions 1', () => {
-      component.matrixForm.setValue(mockMatrixFormValue2);
+    it('resultToString should contain solutions of the system when system has many solutions', () => {
+      component.eqsNumber = 6;
+      component.varsNumber = 8;
+      const mainMatrix = new Matrix(6, 8);
+      mainMatrix[0] = [1, 0, 1, 0, 0, 0, 0, 0];
+      mainMatrix[1] = [0, 1, 0, 0, 0, 0, 0, 0];
+      mainMatrix[2] = [0, 0, 0, 1, 0, 0, 0, -1];
+      mainMatrix[3] = [0, 0, 0, 0, 1, 0, 0, -1];
+      mainMatrix[4] = [0, 0, 0, 0, 0, 1, 0, -2];
+      mainMatrix[5] = [0, 0, 0, 0, 0, 0, 1, 2];
+      spyOn(component, 'getMainMatrix').and.returnValue(mainMatrix);
+      const freeColumn = new Matrix(6, 1);
+      freeColumn[0] = [0];
+      freeColumn[1] = [0];
+      freeColumn[2] = [0];
+      freeColumn[3] = [2];
+      freeColumn[4] = [1];
+      freeColumn[5] = [0];
+      spyOn(component, 'getFreeColumn').and.returnValue(freeColumn);
+      const expandMatrix = new Matrix(6, 9);
+      expandMatrix[0] = [1, 0, 1, 0, 0, 0, 0, 0, 0];
+      expandMatrix[1] = [0, 1, 0, 0, 0, 0, 0, 0, 0];
+      expandMatrix[2] = [0, 0, 0, 1, 0, 0, 0, -1, 0];
+      expandMatrix[3] = [0, 0, 0, 0, 1, 0, 0, -1, 2];
+      expandMatrix[4] = [0, 0, 0, 0, 0, 1, 0, -2, 1];
+      expandMatrix[5] = [0, 0, 0, 0, 0, 0, 1, 2, 0];
+      spyOn(component, 'getExpandMatrix').and.returnValue(expandMatrix);
       component.solveSystemGauss();
 
-      expect(component.resultToString).toEqual(['$x_{1}=3-2x_{2}$', '$x_{2}=x_{2}$']);
+      expect(component.resultToString).toEqual([
+        '$x_{1}=-x_{3}$',
+        '$x_{2}=0$',
+        '$x_{3}=x_{3}$',
+        '$x_{4}=x_{8}$',
+        '$x_{5}=2+x_{8}$',
+        '$x_{6}=1+2x_{8}$',
+        '$x_{7}=-2x_{8}$',
+        '$x_{8}=x_{8}$',
+      ]);
     });
-
-    // it('resultToString should contain solutions of the system when system has many solutions 2', () => {
-    //   component.eqsNumber = 3;
-    //   component.varsNumber = 5;
-    //   let mainMatrix = new Matrix(3, 5);
-    //   mainMatrix[0] = [1, 0, 1, 0, 0];
-    //   mainMatrix[1] = [0, 1, 0, 0, 0];
-    //   mainMatrix[2] = [0, 0, 0, 1, -1];
-    //   spyOn(component, 'getMainMatrix').and.returnValue(mainMatrix);
-    //   let freeColumn = new Matrix(3, 1);
-    //   freeColumn[0] = [0];
-    //   freeColumn[1] = [0];
-    //   freeColumn[2] = [0];
-    //   spyOn(component, 'getFreeColumn').and.returnValue(freeColumn);
-    //   let expandMatrix = new Matrix(3, 6);
-    //   expandMatrix[0] = [1, 0, 1, 0, 0, 0];
-    //   expandMatrix[1] = [0, 1, 0, 0, 0, 0];
-    //   expandMatrix[2] = [0, 0, 0, 1, -1, 0];
-    //   spyOn(component, 'getExpandMatrix').and.returnValue(expandMatrix);
-    //   component.solveSystemGauss();
-    //
-    //   expect(component.resultToString).toEqual(['$x_{1}=-x_{3}-x_{4}+x_{5}$', '$x_{2}=0$', '$x_{3}=x_{3}$', '$x_{4}=x_{4}$', '$x_{5}=x_{5}$']);
-    // });
 
     it('resultToString should contain solution of the system when system has one solution', () => {
       component.matrixForm.setValue(mockMatrixFormValue);
