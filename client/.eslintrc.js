@@ -77,7 +77,7 @@ module.exports = {
         quotes: ['warn', 'single', { 'allowTemplateLiterals': true }],
         curly: 'warn',
         eqeqeq: ['warn', 'smart'],
-        'no-magic-numbers': ['warn', { 'ignore': [-1, 0, 1, 2, 3, 8, 32, 10, 20, 50, 100, 1000, 1e-10, 4, 0.5, 5]}],
+        'no-magic-numbers': ['warn', { 'ignore': [-1, 0, 1, 2, 3, 8, 32, 10, 20, 50, 100, 1000, 1e-10, 4, 0.5, 5, 9, 6, -2]}],
         '@typescript-eslint/no-inferrable-types': 'off',
         '@typescript-eslint/explicit-member-accessibility': ['warn']
       }
