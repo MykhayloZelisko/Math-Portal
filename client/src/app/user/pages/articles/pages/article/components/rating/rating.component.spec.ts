@@ -43,23 +43,21 @@ describe('RatingComponent', () => {
 
   describe('svgGradient', () => {
     it('should return "100%"', () => {
-      component.svgGradient(2);
+      const gradient = component.svgGradient(2);
 
-      expect(component.svgGradient(2)).toBe('100%');
+      expect(gradient).toBe('100%');
     });
 
     it('should return "0%"', () => {
-      component.svgGradient(5);
+      const gradient = component.svgGradient(5);
 
-      expect(component.svgGradient(5)).toBe('0%');
+      expect(gradient).toBe('0%');
     });
 
     it('should return "70%"', () => {
-      component.svgGradient(4);
+      const gradient = component.svgGradient(4);
 
-      expect(component.svgGradient(4)).toBe(
-        `${100 - (4 - component.rating) * 100}%`,
-      );
+      expect(gradient).toBe(`${100 - (4 - component.rating) * 100}%`);
     });
   });
 });

@@ -12,7 +12,7 @@ export class AdminGuard implements CanActivate {
     private router: Router,
   ) {}
 
-  public canActivate(): Observable<boolean> | Observable<UrlTree> {
+  public canActivate(): Observable<boolean | UrlTree> {
     const user = this.usersService.user$.getValue();
     if (user && user.isAdmin) {
       return of(true);

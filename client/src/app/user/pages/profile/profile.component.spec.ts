@@ -77,20 +77,16 @@ describe('ProfileComponent', () => {
   describe('showMessage', () => {
     it('should return null', () => {
       component.profileForm.controls['firstName'].setValue('John');
-      component.showMessage('firstName');
+      const message = component.showMessage('firstName');
 
-      expect(component.showMessage('firstName')).toEqual(
-        null as unknown as string,
-      );
+      expect(message).toEqual(null as unknown as string);
     });
 
     it('should return string', () => {
       component.profileForm.controls['firstName'].setValue('John1');
-      component.showMessage('firstName');
+      const message = component.showMessage('firstName');
 
-      expect(component.showMessage('firstName')).toBe(
-        `Не валідне ім'я/прізвище`,
-      );
+      expect(message).toBe(`Не валідне ім'я/прізвище`);
     });
   });
 
@@ -98,17 +94,17 @@ describe('ProfileComponent', () => {
     it('should return false when confirmPassword and password fields are different', () => {
       component.profileForm.controls['newPassword'].setValue('Pa$$word094');
       component.profileForm.controls['confirmPassword'].setValue('Pa$$word091');
-      component.matchPasswords();
+      const matchPass = component.matchPasswords();
 
-      expect(component.matchPasswords()).toBe(false);
+      expect(matchPass).toBe(false);
     });
 
     it('should return true when confirmPassword and password fields are the same', () => {
       component.profileForm.controls['newPassword'].setValue('Pa$$word094');
       component.profileForm.controls['confirmPassword'].setValue('Pa$$word094');
-      component.matchPasswords();
+      const matchPass = component.matchPasswords();
 
-      expect(component.matchPasswords()).toBe(true);
+      expect(matchPass).toBe(true);
     });
   });
 

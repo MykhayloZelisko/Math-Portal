@@ -40,7 +40,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private initApp(): void {
+  public initApp(): void {
     this.appCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (app) => {
         switch (app.value) {
@@ -57,7 +57,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initRoute(): void {
+  public initRoute(): void {
     switch (this.router.url) {
       case '/applications/triangle':
         this.appCtrl.setValue(this.appNames[0]);

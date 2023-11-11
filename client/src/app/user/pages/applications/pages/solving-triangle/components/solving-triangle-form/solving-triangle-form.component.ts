@@ -92,7 +92,7 @@ export class SolvingTriangleFormComponent
   public countTriangle(a: number, b: number, c: number): number {
     switch (this.taskConfig.type) {
       case SolvingTriangleEnum.SideSideSide:
-        return a + b > c && a + c > b && b + c > a ? 1 : 0;
+        return Number(a + b > c && a + c > b && b + c > a);
       case SolvingTriangleEnum.SideSideAngle:
         const d = (b / a) * sin(c);
         if (d > 1 || (d < 1 && a <= b && c >= 0.5 * Math.PI) || !(a * b * c)) {
@@ -107,10 +107,10 @@ export class SolvingTriangleFormComponent
           return 2;
         }
       case SolvingTriangleEnum.SideAngleSide:
-        return !!(a * b * c) ? 1 : 0;
+        return Number(!!(a * b * c));
       case SolvingTriangleEnum.SideAngleAngle:
       case SolvingTriangleEnum.AngleSideAngle:
-        return !!(a * b * c) && b + c < Math.PI ? 1 : 0;
+        return Number(!!(a * b * c) && b + c < Math.PI);
       case SolvingTriangleEnum.SideAltitudeSide:
         if (!(a * b * c) || c > a || c > b || (a === c && b === c)) {
           return 0;
@@ -128,19 +128,19 @@ export class SolvingTriangleFormComponent
           return 2;
         }
       case SolvingTriangleEnum.SideMedianSide:
-        return a + b > 2 * c && a + 2 * c > b && b + 2 * c > a ? 1 : 0;
+        return Number(a + b > 2 * c && a + 2 * c > b && b + 2 * c > a);
       case SolvingTriangleEnum.SideSideMedian:
-        return a + 2 * b > 2 * c && a + 2 * c > 2 * b && 2 * b + 2 * c > a
-          ? 1
-          : 0;
+        return Number(
+          a + 2 * b > 2 * c && a + 2 * c > 2 * b && 2 * b + 2 * c > a,
+        );
       case SolvingTriangleEnum.SideBisectorSide:
-        return c * (a + b) < 2 * a * b ? 1 : 0;
+        return Number(c * (a + b) < 2 * a * b);
       default:
         return 0;
     }
   }
 
-  private initTriangle(): void {
+  public initTriangle(): void {
     this.triangleForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (value) => {
         const triangleNumber = this.countTriangle(

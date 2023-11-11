@@ -32,4 +32,13 @@ describe('AlertComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('toggleAlert', () => {
+    it('should set true isAlertVisible value', () => {
+      component.isAlertVisible = false;
+      component.toggleAlert();
+
+      expect(component.isAlertVisible).toBe(true);
+    });
+  });
 });

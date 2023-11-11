@@ -1,6 +1,6 @@
 import { SolvingTriangleEnum } from '../enums/solving-triangle.enum';
 
 export interface TriangleTaskConfigInterface {
-  type: SolvingTriangleEnum;
+  type: SolvingTriangleEnum | null;
   labels: string[];
 }

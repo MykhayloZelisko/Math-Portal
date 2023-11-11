@@ -48,7 +48,7 @@ export class TagsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private initTagList(): void {
+  public initTagList(): void {
     this.tagsService
       .getAllTags()
       .pipe(takeUntil(this.destroy$))
@@ -99,7 +99,7 @@ export class TagsComponent implements OnInit, OnDestroy {
       });
   }
 
-  private confirmRemoveTag(id: string) {
+  public confirmRemoveTag(id: string) {
     this.tagsService
       .removeTag(id)
       .pipe(takeUntil(this.destroy$))

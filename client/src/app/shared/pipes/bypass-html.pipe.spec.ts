@@ -21,13 +21,18 @@ describe('BypassHtmlPipe', () => {
     pipe = TestBed.inject(BypassHtmlPipe);
   });
 
-  it('create an instance', () => {
+  it('should create an instance', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('transform html', () => {
+  it('should transform html', () => {
     const htmlElm = `<div>Hello, world!</div>`;
     const str = pipe.transform(htmlElm);
     expect(str).toEqual(htmlElm);
+  });
+
+  it('should return undefined', () => {
+    const str = pipe.transform('');
+    expect(str).toBe(undefined);
   });
 });
