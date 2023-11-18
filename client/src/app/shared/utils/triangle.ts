@@ -150,9 +150,9 @@ export function calcAngle(
       switch (angle.calculate) {
         case 'cos':
           triangle.angle_a = angleLawCosines(
-            triangle.side_a,
-            triangle.side_b,
             triangle.side_c,
+            triangle.side_b,
+            triangle.side_a,
           );
           break;
         case 'sinAB':
@@ -193,9 +193,9 @@ export function calcAngle(
       switch (angle.calculate) {
         case 'cos':
           triangle.angle_b = angleLawCosines(
-            triangle.side_b,
-            triangle.side_c,
             triangle.side_a,
+            triangle.side_c,
+            triangle.side_b,
           );
           break;
         case 'sinAB':
@@ -236,9 +236,9 @@ export function calcAngle(
       switch (angle.calculate) {
         case 'cos':
           triangle.angle_c = angleLawCosines(
-            triangle.side_c,
-            triangle.side_a,
             triangle.side_b,
+            triangle.side_a,
+            triangle.side_c,
           );
           break;
         case 'sinAC':

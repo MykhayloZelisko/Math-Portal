@@ -37,7 +37,7 @@ export class UsersFilterComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private initSearchValue(): void {
+  public initSearchValue(): void {
     this.searchUserCtrl.valueChanges
       .pipe(
         takeUntil(this.destroy$),

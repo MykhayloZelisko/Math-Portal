@@ -69,7 +69,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
 
   public constructor(private fb: FormBuilder) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.initParamsForm();
     this.initMatrixForm();
     this.initMethod();

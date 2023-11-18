@@ -39,7 +39,7 @@ export class LoginComponent implements OnDestroy {
     private dialogService: DialogService,
   ) {}
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }

@@ -43,8 +43,6 @@ export class UsersTableComponent implements OnInit, OnChanges {
   @Input()
   public tableContent!: UsersTableInterface;
 
-  public sortParams: { [key: string]: SortingType } = {};
-
   @Input()
   public paginatorConfig!: PaginatorConfigInterface;
 
@@ -68,6 +66,8 @@ export class UsersTableComponent implements OnInit, OnChanges {
 
   @Output()
   public clearPageControl: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  public sortParams: { [key: string]: SortingType } = {};
 
   public isPaginatorInit = false;
 
@@ -120,7 +120,7 @@ export class UsersTableComponent implements OnInit, OnChanges {
     this.paginationForm.controls['currentPage'].setValue(1);
   }
 
-  private initSortParams(): void {
+  public initSortParams(): void {
     this.usersTableHeader.forEach((headerItem: TableHeaderInterface) => {
       this.sortParams[headerItem.columnName] = headerItem.sorting;
     });
@@ -142,17 +142,16 @@ export class UsersTableComponent implements OnInit, OnChanges {
     };
   }
 
-  public onPageChange(pageNumber: number) {
-    const currentPage = pageNumber;
+  public onPageChange(pageNumber: number): void {
     this.paginatorConfig = {
       ...this.paginatorConfig,
-      currentPage,
+      currentPage: pageNumber,
     };
     this.paginationForm.controls['currentPage'].setValue(pageNumber);
     this.changePaginatorConfig.emit(this.paginatorConfig);
   }
 
-  private initPaginator(): void {
+  public initPaginator(): void {
     this.paginatorConfig = {
       itemsPerPage: 10,
       currentPage: 1,
@@ -169,7 +168,7 @@ export class UsersTableComponent implements OnInit, OnChanges {
     this.cdr.detectChanges();
   }
 
-  public updatePageSize() {
+  public updatePageSize(): void {
     const itemsPerPage = this.paginationForm.controls['pageSize'].value;
     this.paginatorConfig = {
       ...this.paginatorConfig,
@@ -196,13 +195,13 @@ export class UsersTableComponent implements OnInit, OnChanges {
     this.changePaginatorConfig.emit(this.paginatorConfig);
   }
 
-  public updateUserRole(user: UserInterface) {
+  public updateUserRole(user: UserInterface): void {
     if (user.id) {
       this.updateRole.emit({ userId: user.id, isAdmin: !user.isAdmin });
     }
   }
 
-  public deleteUser(user: UserInterface) {
+  public deleteUser(user: UserInterface): void {
     this.removeUser.emit(user);
   }
 }

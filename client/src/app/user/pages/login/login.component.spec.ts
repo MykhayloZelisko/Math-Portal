@@ -72,18 +72,16 @@ describe('LoginComponent', () => {
   describe('showMessage', () => {
     it('should return null', () => {
       component.loginForm.controls['email'].setValue('login@mail.mail');
-      component.showMessage('email');
+      const message = component.showMessage('email');
 
-      expect(component.showMessage('email')).toEqual(null as unknown as string);
+      expect(message).toEqual(null as unknown as string);
     });
 
     it('should return string', () => {
       component.loginForm.controls['email'].setValue('');
-      component.showMessage('email');
+      const message = component.showMessage('email');
 
-      expect(component.showMessage('email')).toBe(
-        `Поле обов'язкове для заповнення`,
-      );
+      expect(message).toBe(`Поле обов'язкове для заповнення`);
     });
   });
 

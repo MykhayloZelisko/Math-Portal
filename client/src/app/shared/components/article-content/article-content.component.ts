@@ -45,7 +45,7 @@ export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
     this.changeContent();
   }
 
-  public ngOnChanges() {
+  public ngOnChanges(): void {
     this.clearContent();
   }
 
@@ -54,7 +54,7 @@ export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
     this.destroy$.complete();
   }
 
-  private clearContent(): void {
+  public clearContent(): void {
     if (this.clearControl.clear) {
       this.content = '';
       this.contentCtrl.setValue('');
@@ -62,7 +62,7 @@ export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private changeContent(): void {
+  public changeContent(): void {
     this.contentCtrl.setValue(this.content);
     this.contentCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (value: string) => {
@@ -72,11 +72,11 @@ export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  public showContent() {
+  public showContent(): void {
     this.isContentEditable = false;
   }
 
-  public editContent() {
+  public editContent(): void {
     this.isContentEditable = true;
   }
 }

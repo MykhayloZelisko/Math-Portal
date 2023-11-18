@@ -141,12 +141,12 @@ export class ArticleComponent implements OnInit, OnDestroy {
     }
   }
 
-  public searchArticle(tag: TagInterface) {
+  public searchArticle(tag: TagInterface): void {
     this.tagsService.tag$.next(tag);
     this.router.navigateByUrl('articles');
   }
 
-  public updateRating(rating: RatingType) {
+  public updateRating(rating: RatingType): void {
     this.ratingService
       .updateArticleRating({ articleId: this.article.id, rate: rating })
       .pipe(takeUntil(this.destroy$))
@@ -160,7 +160,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       });
   }
 
-  public deleteArticle() {
+  public deleteArticle(): void {
     this.dialogService
       .openDialog(DialogTypeEnum.ConfirmDeleteArticle, {
         title: 'ПОВІДОМЛЕННЯ',
@@ -179,7 +179,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       });
   }
 
-  public confirmDeleteArticle(id: string) {
+  public confirmDeleteArticle(id: string): void {
     this.articlesService
       .deleteArticle(id)
       .pipe(takeUntil(this.destroy$))

@@ -238,9 +238,9 @@ describe('SystemLinearEquationsComponent', () => {
         'KeyboardEvent',
         ['preventDefault'],
       );
-      component.forbidInput(mockEvent);
+      const result = component.forbidInput(mockEvent);
 
-      expect(component.forbidInput(mockEvent)).toBe(false);
+      expect(result).toBe(false);
       expect(mockEvent.preventDefault).toHaveBeenCalled();
     });
   });
@@ -428,9 +428,9 @@ describe('SystemLinearEquationsComponent', () => {
       const mockMatrix = new Matrix(2, 2);
       mockMatrix[0] = [1, 2];
       mockMatrix[1] = [4, 5];
-      component.getMainMatrix();
+      const matrix = component.getMainMatrix();
 
-      expect(component.getMainMatrix()).toEqual(mockMatrix);
+      expect(matrix).toEqual(mockMatrix);
     });
   });
 
@@ -440,9 +440,9 @@ describe('SystemLinearEquationsComponent', () => {
       const freeColumn = new Matrix(2, 1);
       freeColumn[0] = [3];
       freeColumn[1] = [9];
-      component.getFreeColumn();
+      const matrix = component.getFreeColumn();
 
-      expect(component.getFreeColumn()).toEqual(freeColumn);
+      expect(matrix).toEqual(freeColumn);
     });
   });
 
@@ -452,9 +452,9 @@ describe('SystemLinearEquationsComponent', () => {
       const expandMatrix = new Matrix(2, 3);
       expandMatrix[0] = [1, 2, 3];
       expandMatrix[1] = [4, 5, 9];
-      component.getExpandMatrix();
+      const matrix = component.getExpandMatrix();
 
-      expect(component.getExpandMatrix()).toEqual(expandMatrix);
+      expect(matrix).toEqual(expandMatrix);
     });
   });
 

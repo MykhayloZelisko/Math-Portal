@@ -51,7 +51,7 @@ export class TabsComponent implements OnInit, OnDestroy {
       });
   }
 
-  private setActiveRoute() {
+  public setActiveRoute(): void {
     this.activeRoute = this.activatedRoute.children[0]?.snapshot.data['path'];
     this.changeDetector.detectChanges();
   }

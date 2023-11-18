@@ -12,8 +12,9 @@ export class UserGuard implements CanActivate {
     private router: Router,
   ) {}
 
-  public canActivate(): Observable<boolean> | Observable<UrlTree> {
-    if (this.usersService.user$.getValue()) {
+  public canActivate(): Observable<boolean | UrlTree> {
+    const user = this.usersService.user$.getValue();
+    if (user) {
       return of(true);
     } else {
       return of(this.router.parseUrl('/'));

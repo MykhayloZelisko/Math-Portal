@@ -44,7 +44,7 @@ export class ArticleTitleComponent implements OnInit, OnDestroy, OnChanges {
     this.changeTitle();
   }
 
-  public ngOnChanges() {
+  public ngOnChanges(): void {
     this.clearTitle();
   }
 
@@ -53,7 +53,7 @@ export class ArticleTitleComponent implements OnInit, OnDestroy, OnChanges {
     this.destroy$.complete();
   }
 
-  private clearTitle(): void {
+  public clearTitle(): void {
     if (this.clearControl.clear) {
       this.title = '';
       this.titleCtrl.setValue('');
@@ -61,7 +61,7 @@ export class ArticleTitleComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private changeTitle(): void {
+  public changeTitle(): void {
     this.titleCtrl.setValue(this.title);
     this.titleCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (value: string) => {
@@ -71,11 +71,11 @@ export class ArticleTitleComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  public showTitle() {
+  public showTitle(): void {
     this.isTitleEditable = false;
   }
 
-  public editTitle() {
+  public editTitle(): void {
     this.isTitleEditable = true;
   }
 }

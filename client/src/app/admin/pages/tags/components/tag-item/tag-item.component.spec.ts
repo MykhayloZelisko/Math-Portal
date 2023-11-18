@@ -38,4 +38,44 @@ describe('TagItemComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('deleteTag', () => {
+    it('should emit tag value', () => {
+      spyOn(component.removeTag, 'emit');
+      component.deleteTag();
+
+      expect(component.removeTag.emit).toHaveBeenCalledWith(mockTag);
+    });
+  });
+
+  describe('editTag', () => {
+    it('isEditable value should be true', () => {
+      component.editTag();
+
+      expect(component.isEditable).toBe(true);
+    });
+  });
+
+  describe('cancelEditTag', () => {
+    it('isEditable value should be false', () => {
+      component.cancelEditTag();
+
+      expect(component.isEditable).toBe(false);
+      expect(component.tagItem.nativeElement.innerHTML).toBe(mockTag.value);
+    });
+  });
+
+  describe('saveTag', () => {
+    it('should update tag value', () => {
+      component.tagItem.nativeElement.innerHTML = 'new value';
+      spyOn(component.updateTag, 'emit');
+      component.saveTag();
+
+      expect(component.isEditable).toBe(false);
+      expect(component.updateTag.emit).toHaveBeenCalledWith({
+        id: mockTag.id,
+        value: 'new value',
+      })
+    });
+  });
 });

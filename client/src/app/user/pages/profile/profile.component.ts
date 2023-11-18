@@ -99,7 +99,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.initUser();
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -115,7 +115,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     return password === confirmPassword;
   }
 
-  public updateProfile() {
+  public updateProfile(): void {
     const data = this.profileForm.getRawValue();
     data.newPassword = data.newPassword === '' ? null : data.newPassword;
     this.usersService
@@ -234,7 +234,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  public deletePhoto() {
+  public deletePhoto(): void {
     this.usersService
       .deleteCurrentUserPhoto()
       .pipe(takeUntil(this.destroy$))
@@ -264,7 +264,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  public updatePhoto(event: Event) {
+  public updatePhoto(event: Event): void {
     const target = event.target as HTMLInputElement;
     if (target.files) {
       const file = target.files[0];

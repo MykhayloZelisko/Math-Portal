@@ -52,7 +52,7 @@ export class SolvingTriangleComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private initTask(): void {
+  public initTask(): void {
     this.triangleCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: (value) => {
         this.config = { type: value.value, labels: value.labels };
