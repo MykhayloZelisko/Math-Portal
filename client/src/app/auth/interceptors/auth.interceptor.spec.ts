@@ -5,6 +5,7 @@ import { DialogService } from '../../shared/services/dialog.service';
 import { UsersService } from '../../shared/services/users.service';
 
 describe('AuthInterceptor', () => {
+  let interceptor: AuthInterceptor;
   let mockDialogService: jasmine.SpyObj<DialogService>;
   let mockUsersService: jasmine.SpyObj<UsersService>;
 
@@ -19,10 +20,11 @@ describe('AuthInterceptor', () => {
         { provide: UsersService, useValue: mockUsersService },
       ],
     });
+
+    interceptor = TestBed.inject(AuthInterceptor);
   });
 
   it('should be created', () => {
-    const interceptor: AuthInterceptor = TestBed.inject(AuthInterceptor);
     expect(interceptor).toBeTruthy();
   });
 });

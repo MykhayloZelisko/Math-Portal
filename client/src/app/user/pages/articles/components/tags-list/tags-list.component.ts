@@ -51,7 +51,7 @@ export class TagsListComponent implements OnInit, OnDestroy {
       });
   }
 
-  public addTag(tag: TagInterface) {
+  public addTag(tag: TagInterface): void {
     this.tagsService.tag$.next(tag);
     this.checkRoute();
   }

@@ -33,19 +33,11 @@ export class NewTagComponent implements OnInit, OnDestroy, OnChanges {
   private destroy$: Subject<void> = new Subject<void>();
 
   public ngOnInit(): void {
-    this.tagCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (value: string) => {
-        this.tag = value;
-      },
-    });
+    this.initTag();
   }
 
-  public ngOnChanges() {
-    if (this.clearControl.clear) {
-      this.tag = '';
-      this.tagCtrl.setValue('');
-      this.clearControl = { clear: false };
-    }
+  public ngOnChanges(): void {
+    this.clearTag();
   }
 
   public ngOnDestroy(): void {
@@ -53,7 +45,23 @@ export class NewTagComponent implements OnInit, OnDestroy, OnChanges {
     this.destroy$.complete();
   }
 
-  public onAddTag() {
+  public initTag(): void {
+    this.tagCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (value: string) => {
+        this.tag = value;
+      },
+    });
+  }
+
+  public clearTag(): void {
+    if (this.clearControl.clear) {
+      this.tag = '';
+      this.tagCtrl.setValue('');
+      this.clearControl = { clear: false };
+    }
+  }
+
+  public onAddTag(): void {
     this.tag = this.tagCtrl.getRawValue();
     this.addTag.emit(this.tag.trim());
   }

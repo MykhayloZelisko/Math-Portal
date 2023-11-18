@@ -90,14 +90,14 @@ describe('ApplicationsComponent', () => {
   });
 
   describe('initRoute', () => {
-    it('should set linear system to control', function () {
+    it('should set linear system to control', () => {
       mockRouter.url = '/applications/linear-system';
       component.initRoute();
 
       expect(component.appCtrl.value).toEqual(APP_NAMES[1]);
     });
 
-    it('should set triangle to control', function () {
+    it('should set triangle to control', () => {
       mockRouter.url = '/applications/triangle';
       component.initRoute();
 

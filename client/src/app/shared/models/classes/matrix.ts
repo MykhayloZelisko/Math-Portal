@@ -3,7 +3,7 @@ import { abs, roundN } from '../../utils/number-functions';
 export class Matrix extends Array<Array<number>> {
   public size: [number, number] = [0, 0];
 
-  public constructor(m: number = 0, n: number = 0) {
+  public constructor(m: number, n: number) {
     // m - number of rows, n - number of columns
     super();
     if (m < 1 || m !== roundN(m, 0) || n < 1 || n !== roundN(n, 0)) {
@@ -60,10 +60,6 @@ export class Matrix extends Array<Array<number>> {
       }
     }
     return result;
-  }
-
-  public get(): Matrix {
-    return this;
   }
 
   public getRow(n: number): Matrix {

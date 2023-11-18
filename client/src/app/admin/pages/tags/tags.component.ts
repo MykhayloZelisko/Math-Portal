@@ -60,7 +60,7 @@ export class TagsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public addTag(value: string) {
+  public addTag(value: string): void {
     this.tagsService
       .createTag(value)
       .pipe(takeUntil(this.destroy$))
@@ -81,7 +81,7 @@ export class TagsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public removeTag(tag: TagInterface) {
+  public removeTag(tag: TagInterface): void {
     this.dialogService
       .openDialog(DialogTypeEnum.ConfirmDeleteTag, {
         title: 'ПОВІДОМЛЕННЯ',
@@ -99,7 +99,7 @@ export class TagsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public confirmRemoveTag(id: string) {
+  public confirmRemoveTag(id: string): void {
     this.tagsService
       .removeTag(id)
       .pipe(takeUntil(this.destroy$))
@@ -131,7 +131,7 @@ export class TagsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public updateTag(tag: TagInterface) {
+  public updateTag(tag: TagInterface): void {
     this.tagsService
       .updateTag(tag.id, tag.value)
       .pipe(takeUntil(this.destroy$))

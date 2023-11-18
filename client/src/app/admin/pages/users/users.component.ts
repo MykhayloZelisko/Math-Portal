@@ -41,7 +41,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     filter: '',
   };
 
-  public clearCurrentPageField = false;
+  public clearCurrentPageField: boolean = false;
 
   public paginatorConfig!: PaginatorConfigInterface;
 
@@ -63,22 +63,17 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private initUsersTable(params: UsersTableParamsInterface): void {
+  public initUsersTable(params: UsersTableParamsInterface): void {
     this.usersService
       .getUsersList(params)
       .pipe(takeUntil(this.destroy$))
       .subscribe((table: UsersTableInterface) => {
         this.usersTable = table;
-        this.paginatorConfig = {
-          itemsPerPage: this.filterParams.size,
-          currentPage: this.filterParams.page,
-          totalItems: table.total,
-        };
         this.cdr.detectChanges();
       });
   }
 
-  public onChangePaginatorConfig(event: PaginatorConfigInterface) {
+  public onChangePaginatorConfig(event: PaginatorConfigInterface): void {
     this.paginatorConfig = event;
     this.filterParams = {
       ...this.filterParams,
@@ -88,7 +83,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.initUsersTable(this.filterParams);
   }
 
-  public onSortColumn(event: SortColumnInterface) {
+  public onSortColumn(event: SortColumnInterface): void {
     this.filterParams = {
       ...this.filterParams,
       page: 1,
@@ -102,7 +97,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.initUsersTable(this.filterParams);
   }
 
-  private updateUserRole(event: UpdateUserRoleInterface): void {
+  public updateUserRole(event: UpdateUserRoleInterface): void {
     this.usersService
       .updateUserRole(event)
       .pipe(takeUntil(this.destroy$))
@@ -116,7 +111,7 @@ export class UsersComponent implements OnInit, OnDestroy {
             );
             sessionStorage.setItem(
               'exp',
-              JSON.stringify(`Bearer ${user.token.exp}`),
+              JSON.stringify(user.token.exp),
             );
             this.router.navigateByUrl('');
           } else {
@@ -164,7 +159,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   }
 
-  private deleteUser(id: string) {
+  public deleteUser(id: string): void {
     const currentUser = this.usersService.user$.getValue();
     this.usersService
       .deleteUser(id)
@@ -187,7 +182,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       });
   }
 
-  public confirmUpdateUserRole(event: UpdateUserRoleInterface) {
+  public confirmUpdateUserRole(event: UpdateUserRoleInterface): void {
     const currentUser = this.usersService.user$.getValue();
     if (currentUser && currentUser.id === event.userId) {
       this.dialogService
@@ -208,7 +203,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   }
 
-  public searchUser(event: string) {
+  public searchUser(event: string): void {
     this.filterParams = {
       ...this.filterParams,
       sortByName: 'default',

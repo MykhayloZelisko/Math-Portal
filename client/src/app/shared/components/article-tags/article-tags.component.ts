@@ -68,7 +68,7 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
     this.initFilteredList();
   }
 
-  public ngOnChanges() {
+  public ngOnChanges(): void {
     this.clearTags();
   }
 
@@ -77,7 +77,7 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
     this.destroy$.complete();
   }
 
-  private clearTags(): void {
+  public clearTags(): void {
     if (this.clearControl.clear) {
       this.selectedTags = [];
       this.tagInput.nativeElement.value = '';
@@ -86,7 +86,7 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private initTagList(): void {
+  public initTagList(): void {
     this.tagsService
       .getAllTags()
       .pipe(takeUntil(this.destroy$))
@@ -98,7 +98,7 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
       });
   }
 
-  private initFilteredList(): void {
+  public initFilteredList(): void {
     this.tagCtrl.valueChanges
       .pipe(startWith(null), takeUntil(this.destroy$))
       .subscribe({
@@ -124,7 +124,7 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public selected(event: MatAutocompleteSelectedEvent): void {
-    const tag = this.allTags.find((x) => x.value === event.option.viewValue);
+    const tag = this.allTags.find((item) => item.value === event.option.viewValue);
     if (tag) {
       const selectedTag = this.selectedTags.find((item) => item.id === tag.id);
       if (!selectedTag) {
@@ -136,7 +136,7 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private saveTags(tags: TagInterface[]): void {
+  public saveTags(tags: TagInterface[]): void {
     const tagsIds = tags.map((tag: TagInterface) => tag.id);
     this.saveTagsIds.emit(tagsIds);
   }

@@ -45,7 +45,7 @@ describe('ProfileGuard', () => {
     it('should open dialog and return false after closing it', (done) => {
       const component = { profileForm: { valid: true } } as ProfileComponent;
       spyOn(sessionStorage, 'getItem').and.returnValue('someToken');
-      spyOn(JSON, 'parse').and.returnValue(Date.now() + 10000);
+      spyOn(JSON, 'parse').and.returnValue(Date.now());
       mockDialogService.openDialog.and.returnValue(mockDialogRef);
       mockDialogRef.afterClosed.and.returnValue(of(false));
 

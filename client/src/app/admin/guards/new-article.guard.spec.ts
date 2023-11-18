@@ -58,7 +58,7 @@ describe('NewArticleGuard', () => {
         },
       } as NewArticleComponent;
       spyOn(sessionStorage, 'getItem').and.returnValue('token');
-      spyOn(JSON, 'parse').and.returnValue(Date.now() + 20000);
+      spyOn(JSON, 'parse').and.returnValue(Date.now());
       mockDialogService.openDialog.and.returnValue(mockDialogRef);
       mockDialogRef.afterClosed.and.returnValue(of(true));
 

@@ -133,7 +133,7 @@ describe('CommentsComponent', () => {
   });
 
   describe('deleteComment', () => {
-    it('should delete comment from list', function () {
+    it('should delete comment from list', () => {
       component.commentsTree = mockCommentsTree;
       mockCommentsService.deleteComment.and.returnValue(of(void 0));
       const id = 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834';

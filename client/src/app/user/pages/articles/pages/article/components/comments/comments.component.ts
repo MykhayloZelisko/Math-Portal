@@ -45,7 +45,7 @@ export class CommentsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.initComments();
     this.getUser();
   }
@@ -76,11 +76,11 @@ export class CommentsComponent implements OnInit {
     });
   }
 
-  public addComment(comment: CommentsTreeInterface) {
+  public addComment(comment: CommentsTreeInterface): void {
     this.commentsTree = [...this.commentsTree, comment];
   }
 
-  public deleteComment(id: string) {
+  public deleteComment(id: string): void {
     this.commentsService
       .deleteComment(id)
       .pipe(takeUntil(this.destroy$))

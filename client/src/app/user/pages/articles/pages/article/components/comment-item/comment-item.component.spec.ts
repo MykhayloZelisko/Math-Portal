@@ -85,7 +85,7 @@ describe('CommentItemComponent', () => {
   });
 
   describe('addComment', () => {
-    it('should add comment to list of children comments', function () {
+    it('should add comment to list of children comments', () => {
       spyOn(component, 'toggleComment');
       component.addComment(mockChildComment);
 

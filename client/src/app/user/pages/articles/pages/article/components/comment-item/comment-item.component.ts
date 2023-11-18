@@ -68,7 +68,7 @@ export class CommentItemComponent implements OnDestroy {
     this.isVisibleNewComment = !this.isVisibleNewComment;
   }
 
-  public addComment(comment: CommentsTreeInterface) {
+  public addComment(comment: CommentsTreeInterface): void {
     this.comment.children = [...this.comment.children, comment];
     this.toggleComment();
   }

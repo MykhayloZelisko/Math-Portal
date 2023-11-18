@@ -55,7 +55,7 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public changePaginationParams(event: ArticlesListParamsInterface) {
+  public changePaginationParams(event: ArticlesListParamsInterface): void {
     this.paginationParams = event;
     this.articlesList = [];
     this.initArticlesList(this.paginationParams);
@@ -77,7 +77,7 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
       });
   }
 
-  public loadMoreArticles() {
+  public loadMoreArticles(): void {
     this.paginationParams = {
       ...this.paginationParams,
       page: this.paginationParams.page + 1,

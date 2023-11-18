@@ -53,7 +53,7 @@ export class NewArticleComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
-  public saveTitle(title: string) {
+  public saveTitle(title: string): void {
     this.newArticle.title = title;
     this.isButtonDisable =
       !this.newArticle.title ||
@@ -61,7 +61,7 @@ export class NewArticleComponent implements OnDestroy {
       !this.newArticle.tagsIds.length;
   }
 
-  public saveContent(content: string) {
+  public saveContent(content: string): void {
     this.newArticle.content = content;
     this.isButtonDisable =
       !this.newArticle.title ||
@@ -69,7 +69,7 @@ export class NewArticleComponent implements OnDestroy {
       !this.newArticle.tagsIds.length;
   }
 
-  public saveTagsIds(tagsIds: string[]) {
+  public saveTagsIds(tagsIds: string[]): void {
     this.newArticle.tagsIds = tagsIds;
     this.isButtonDisable =
       !this.newArticle.title ||
