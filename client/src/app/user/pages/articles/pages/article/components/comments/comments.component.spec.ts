@@ -26,6 +26,16 @@ describe('CommentsComponent', () => {
     isAdmin: true,
     photo: null,
   };
+  const mockUser2: UserInterface = {
+    id: '35c90c0b-ba58-46f3-a091-bcdf66f51111',
+    email: 'mail2@mail.mail',
+    password: 'Pa$$word094',
+    firstName: 'John',
+    lastName: 'Doe',
+    fullName: 'John Doe',
+    isAdmin: true,
+    photo: 'photo',
+  };
   const mockCommentsList: CommentWithDescendantsInterface[] = [
     {
       id: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834',
@@ -40,8 +50,29 @@ describe('CommentsComponent', () => {
           nearestAncestorId: null,
           level: 1,
         },
+        {
+          descendantId: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0111',
+          nearestAncestorId: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834',
+          level: 2,
+        },
       ],
       user: mockUser,
+    },
+    {
+      id: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0111',
+      content: 'comment',
+      createdAt: '',
+      updatedAt: '',
+      likesUsersIds: [],
+      dislikesUsersIds: [],
+      descendantsList: [
+        {
+          descendantId: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0111',
+          nearestAncestorId: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834',
+          level: 2,
+        },
+      ],
+      user: mockUser2,
     },
   ];
   const mockCommentsTree: CommentsTreeInterface[] = [
@@ -55,7 +86,20 @@ describe('CommentsComponent', () => {
       likesUsersIds: [],
       dislikesUsersIds: [],
       user: mockUser,
-      children: [],
+      children: [
+        {
+          id: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0111',
+          content: 'comment',
+          createdAt: '',
+          updatedAt: '',
+          nearestAncestorId: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834',
+          level: 2,
+          likesUsersIds: [],
+          dislikesUsersIds: [],
+          user: { ...mockUser2, photo: 'http://localhost:3000/photo' },
+          children: [],
+        },
+      ],
     },
   ];
 
