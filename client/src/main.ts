@@ -5,12 +5,12 @@ import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './app/routes/app.routes';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthModule } from './app/auth/auth.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { MathjaxModule } from 'mathjax-angular';
 import { LoaderInterceptor } from './app/interceptors/loader.interceptor';
+import { AuthInterceptor } from './app/auth/interceptors/auth.interceptor';
 
 if (environment.production) {
   enableProdMode();
@@ -23,13 +23,17 @@ bootstrapApplication(AppComponent, {
       useClass: LoaderInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
     importProvidersFrom(
       RouterModule.forRoot(appRoutes, {
         scrollPositionRestoration: 'enabled',
         anchorScrolling: 'enabled',
       }),
       HttpClientModule,
-      AuthModule,
       BrowserAnimationsModule,
       MatDialogModule,
       AngularSvgIconModule.forRoot(),
