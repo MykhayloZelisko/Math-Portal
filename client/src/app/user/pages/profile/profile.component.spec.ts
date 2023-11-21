@@ -82,11 +82,53 @@ describe('ProfileComponent', () => {
       expect(message).toEqual(null as unknown as string);
     });
 
-    it('should return string', () => {
+    it(`should return string "Не валідне ім'я/прізвище"`, () => {
       component.profileForm.controls['firstName'].setValue('John1');
       const message = component.showMessage('firstName');
 
       expect(message).toBe(`Не валідне ім'я/прізвище`);
+    });
+
+    it(`should return string 'Кількість символів повинна бути не менша за 3'`, () => {
+      component.profileForm.controls['firstName'].setValue('Jo');
+      const message = component.showMessage('firstName');
+
+      expect(message).toBe('Кількість символів повинна бути не менша за 3');
+    });
+
+    it(`should return string "Поле обов'язкове для заповнення"`, () => {
+      component.profileForm.controls['firstName'].setValue('');
+      const message = component.showMessage('firstName');
+
+      expect(message).toBe(`Поле обов'язкове для заповнення`);
+    });
+
+    it(`should return string 'Кількість символів повинна бути від 8 до 32'`, () => {
+      component.profileForm.controls['password'].setValue('pass...');
+      const message = component.showMessage('password');
+
+      expect(message).toBe('Кількість символів повинна бути від 8 до 32');
+    });
+
+    it(`should return string 'Пароль повинен містити хоча б одну велику латинську літеру'`, () => {
+      component.profileForm.controls['password'].setValue('password1');
+      const message = component.showMessage('password');
+
+      expect(message).toBe('Пароль повинен містити хоча б одну велику латинську літеру');
+    });
+
+    it(`should return string 'Пароль повинен містити хоча б одну малу латинську літеру'`, () => {
+      component.profileForm.controls['password'].setValue('PASSWORD1');
+      const message = component.showMessage('password');
+
+      expect(message).toBe('Пароль повинен містити хоча б одну малу латинську літеру');
+    });
+
+    it(`should return string 'Пароль повинен містити хоча б один спецсимвол'`, () => {
+      component.profileForm.controls['password'].setValue('Password1');
+      const message = component.showMessage('password');
+
+      expect(message).toBe('Пароль повинен містити хоча б один спецсимвол');
     });
   });
 

@@ -6,7 +6,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from '../../shared/components/dialog/dialog.component';
 import { ArticleComponent } from '../pages/articles/pages/article/article.component';
 import { TagInterface } from '../../shared/models/interfaces/tag.interface';
-import { UserInterface } from '../../shared/models/interfaces/user.interface';
 import { ArticleInterface } from '../../shared/models/interfaces/article.interface';
 import { of } from 'rxjs';
 import { DialogTypeEnum } from '../../shared/models/enums/dialog-type.enum';

@@ -11,7 +11,6 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 describe('LoaderInterceptor', () => {
   let mockLoaderService: jasmine.SpyObj<LoaderService>;
   let httpController: HttpTestingController;
-  let interceptor: LoaderInterceptor;
   let http: HttpClient;
 
   beforeEach(() => {
@@ -20,7 +19,6 @@ describe('LoaderInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        LoaderInterceptor,
         { provide: LoaderService, useValue: mockLoaderService },
         {
           provide: HTTP_INTERCEPTORS,
@@ -29,17 +27,13 @@ describe('LoaderInterceptor', () => {
         },
       ],
     });
-    interceptor = TestBed.inject(LoaderInterceptor);
+
     httpController = TestBed.inject(HttpTestingController);
     http = TestBed.inject(HttpClient);
   });
 
   afterEach(() => {
     httpController.verify();
-  });
-
-  it('should be created', () => {
-    expect(interceptor).toBeTruthy();
   });
 
   it('should hide loader when request completes', () => {
