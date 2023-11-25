@@ -95,8 +95,16 @@
           comment.dislikesUsersIds.length
         }}</span>
       </div>
-      <button class="comment-item__btn-answer" (click)="toggleComment()">
+      <button class="comment-item__btn-answer" (click)="toggleNewComment()">
         Відповісти
+      </button>
+      <span *ngIf="commentsList.length">&#8226;</span>
+      <button
+        *ngIf="commentsList.length"
+        class="comment-item__btn-answer"
+        (click)="toggleChildrenComments()"
+      >
+        Відповіді ({{ total }})
       </button>
     </div>
     <app-new-comment
@@ -105,15 +113,24 @@
       [user]="user"
       [comment]="comment"
       [articleId]="articleId"
-      (addComment)="addComment($event)"
+      (addComment)="addComment()"
     ></app-new-comment>
-    <app-comment-item
-      class="comment-item__child-comment"
-      *ngFor="let child of comment.children"
-      [comment]="child"
-      [user]="user"
-      [articleId]="articleId"
-      (removeComment)="confirmRemove($event)"
-    ></app-comment-item>
+    <ng-container *ngIf="isVisibleChildren">
+      <button
+        class="comment-item__btn"
+        *ngIf="isButtonVisible"
+        (click)="loadMoreComments()"
+      >
+        Завантажити попередні коментарі ({{ commentsRest }})
+      </button>
+      <app-comment-item
+        class="comment-item__child-comment"
+        *ngFor="let child of commentsList"
+        [comment]="child"
+        [user]="user"
+        [articleId]="articleId"
+        (removeComment)="confirmRemove($event)"
+      ></app-comment-item>
+    </ng-container>
   </div>
 </div>

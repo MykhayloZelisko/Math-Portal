@@ -7,23 +7,13 @@ import { BehaviorSubject, of } from 'rxjs';
 import { DialogService } from '../../../shared/services/dialog.service';
 import { UsersTableInterface } from '../../../shared/models/interfaces/users-table.interface';
 import { SvgIconRegistryService } from 'angular-svg-icon';
-import {
-  UsersTableParamsInterface,
-} from '../../../shared/models/interfaces/users-table-params.interface';
-import {
-  PaginatorConfigInterface,
-} from '../../../shared/models/interfaces/paginator-config.interface';
+import { UsersTableParamsInterface } from '../../../shared/models/interfaces/users-table-params.interface';
+import { PaginatorConfigInterface } from '../../../shared/models/interfaces/paginator-config.interface';
 import { SortColumnInterface } from '../../../shared/models/interfaces/sort-column.interface';
-import {
-  UsersTableColumnNameEnum,
-} from '../../../shared/models/enums/users-table-column-name.enum';
+import { UsersTableColumnNameEnum } from '../../../shared/models/enums/users-table-column-name.enum';
 import { Router } from '@angular/router';
-import {
-  UserWithNullTokenInterface
-} from '../../../shared/models/interfaces/user-with-null-token.interface';
-import {
-  UpdateUserRoleInterface
-} from '../../../shared/models/interfaces/update-user-role.interface';
+import { UserWithNullTokenInterface } from '../../../shared/models/interfaces/user-with-null-token.interface';
+import { UpdateUserRoleInterface } from '../../../shared/models/interfaces/update-user-role.interface';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
 import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
@@ -64,7 +54,7 @@ describe('UsersComponent', () => {
     token: {
       token: 'token',
       exp: Date.now(),
-    }
+    },
   };
   const mockUserWithNullToken: UserWithNullTokenInterface = {
     user: {
@@ -161,8 +151,8 @@ describe('UsersComponent', () => {
   describe('onChangePaginatorConfig', () => {
     it('should change paginatorConfig and filterParams value', () => {
       spyOn(component, 'initUsersTable');
-      component.filterParams =  mockFilterParams;
-      const mockPaginatorConfig: PaginatorConfigInterface =  {
+      component.filterParams = mockFilterParams;
+      const mockPaginatorConfig: PaginatorConfigInterface = {
         itemsPerPage: 20,
         currentPage: 2,
         totalItems: 100,
@@ -178,7 +168,7 @@ describe('UsersComponent', () => {
   describe('onSortColumn', () => {
     it('should sort user table by role column', () => {
       spyOn(component, 'initUsersTable');
-      component.filterParams =  mockFilterParams;
+      component.filterParams = mockFilterParams;
       const mockSortEvent: SortColumnInterface = {
         columnName: UsersTableColumnNameEnum.Role,
         sorting: 'default',
@@ -191,7 +181,7 @@ describe('UsersComponent', () => {
 
     it('should sort user table by userName column', () => {
       spyOn(component, 'initUsersTable');
-      component.filterParams =  mockFilterParams;
+      component.filterParams = mockFilterParams;
       const mockSortEvent: SortColumnInterface = {
         columnName: UsersTableColumnNameEnum.UserName,
         sorting: 'default',
@@ -214,13 +204,21 @@ describe('UsersComponent', () => {
       };
       component.updateUserRole(mockRole);
 
-      expect(sessionStorage.setItem).toHaveBeenCalledWith('token', '"Bearer token"');
-      expect(sessionStorage.setItem).toHaveBeenCalledWith('exp', `${mockNoAdminWithToken.token?.exp}`);
+      expect(sessionStorage.setItem).toHaveBeenCalledWith(
+        'token',
+        '"Bearer token"',
+      );
+      expect(sessionStorage.setItem).toHaveBeenCalledWith(
+        'exp',
+        `${mockNoAdminWithToken.token?.exp}`,
+      );
       expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('');
     });
 
     it('should update another user role', () => {
-      mockUsersService.updateUserRole.and.returnValue(of(mockUserWithNullToken));
+      mockUsersService.updateUserRole.and.returnValue(
+        of(mockUserWithNullToken),
+      );
       component.usersTable = {
         ...mockUsersList,
         users: [{ ...mockUser, isAdmin: false }, mockUser2],
@@ -235,7 +233,7 @@ describe('UsersComponent', () => {
     });
   });
 
-  describe('confirmDelete' ,() => {
+  describe('confirmDelete', () => {
     it('should open confirm dialog and call deleteUser method with current user', () => {
       mockUsersService.user$.next(mockUser);
       mockDialogService.openDialog.and.returnValue(mockDialogRef);
@@ -243,10 +241,13 @@ describe('UsersComponent', () => {
       spyOn(component, 'deleteUser');
       component.confirmDelete(mockUser);
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.ConfirmDeleteProfile, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: 'Ви впевнені, що хочете видалити свій профіль?',
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.ConfirmDeleteProfile,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Ви впевнені, що хочете видалити свій профіль?',
+        },
+      );
       expect(component.deleteUser).toHaveBeenCalledWith(mockUser.id as string);
     });
 
@@ -257,10 +258,13 @@ describe('UsersComponent', () => {
       spyOn(component, 'deleteUser');
       component.confirmDelete(mockUser);
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.ConfirmDeleteProfile, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: 'Ви впевнені, що хочете видалити свій профіль?',
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.ConfirmDeleteProfile,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Ви впевнені, що хочете видалити свій профіль?',
+        },
+      );
       expect(component.deleteUser).not.toHaveBeenCalled();
     });
 
@@ -271,11 +275,14 @@ describe('UsersComponent', () => {
       spyOn(component, 'deleteUser');
       component.confirmDelete(mockUser2);
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.ConfirmDeleteOtherUser, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: '',
-        user: mockUser2,
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.ConfirmDeleteOtherUser,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: '',
+          user: mockUser2,
+        },
+      );
       expect(component.deleteUser).toHaveBeenCalledWith(mockUser2.id as string);
     });
 
@@ -286,11 +293,14 @@ describe('UsersComponent', () => {
       spyOn(component, 'deleteUser');
       component.confirmDelete(mockUser2);
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.ConfirmDeleteOtherUser, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: '',
-        user: mockUser2,
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.ConfirmDeleteOtherUser,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: '',
+          user: mockUser2,
+        },
+      );
       expect(component.deleteUser).not.toHaveBeenCalled();
     });
   });
@@ -302,10 +312,13 @@ describe('UsersComponent', () => {
       spyOn(sessionStorage, 'removeItem');
       component.deleteUser(mockUser.id as string);
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.Alert, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: 'Профіль успішно видалено.',
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.Alert,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Профіль успішно видалено.',
+        },
+      );
       expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('');
       expect(sessionStorage.removeItem).toHaveBeenCalledWith('token');
       expect(sessionStorage.removeItem).toHaveBeenCalledWith('exp');
@@ -334,10 +347,13 @@ describe('UsersComponent', () => {
       spyOn(component, 'updateUserRole');
       component.confirmUpdateUserRole(mockRole);
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.ConfirmUpdateCurrentUserRole, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: 'Ви понижуєте себе до звичайного користувача. Бажаєте продовжити?',
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.ConfirmUpdateCurrentUserRole,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Ви понижуєте себе до звичайного користувача. Бажаєте продовжити?',
+        },
+      );
       expect(component.updateUserRole).toHaveBeenCalledWith(mockRole);
     });
 
@@ -352,10 +368,13 @@ describe('UsersComponent', () => {
       spyOn(component, 'updateUserRole');
       component.confirmUpdateUserRole(mockRole);
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.ConfirmUpdateCurrentUserRole, {
-        title: 'ПОВІДОМЛЕННЯ',
-        text: 'Ви понижуєте себе до звичайного користувача. Бажаєте продовжити?',
-      });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
+        DialogTypeEnum.ConfirmUpdateCurrentUserRole,
+        {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Ви понижуєте себе до звичайного користувача. Бажаєте продовжити?',
+        },
+      );
       expect(component.updateUserRole).not.toHaveBeenCalled();
     });
 

@@ -5,9 +5,10 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { CommentWithDescendantsInterface } from '../models/interfaces/comment-with-descendants.interface';
 import { CreateCommentDataInterface } from '../models/interfaces/create-comment-data.interface';
 import { CommentInterface } from '../models/interfaces/comment.interface';
+import { CommentsListInterface } from '../models/interfaces/comments-list.interface';
+import { CommentWithLevelInterface } from '../models/interfaces/comment-with-level.interface';
 
 describe('CommentsService', () => {
   let service: CommentsService;
@@ -30,9 +31,9 @@ describe('CommentsService', () => {
       photo: null,
     },
   };
-  const mockComment: CommentWithDescendantsInterface = {
+  const mockComment: CommentWithLevelInterface = {
     ...newComment,
-    descendantsList: [],
+    level: 1,
   };
 
   beforeEach(() => {
@@ -51,15 +52,43 @@ describe('CommentsService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getCommentsList', () => {
+  describe('getCommentsListByArticleId', () => {
     it('should send request', () => {
       const articleId = '23a54326-57d8-41c7-b161-3627acd47d03';
-      const expectedResult: CommentWithDescendantsInterface[] = [mockComment];
-      service.getCommentsList(articleId).subscribe((result) => {
-        expect(result).toBe(expectedResult);
-      });
+      const expectedResult: CommentsListInterface = {
+        total: 10,
+        comments: [mockComment],
+      };
+      service
+        .getCommentsListByArticleId(articleId, { page: 1, size: 1 })
+        .subscribe((result) => {
+          expect(result).toBe(expectedResult);
+        });
 
-      const req = httpController.expectOne(`${service.baseUrl}/${articleId}`);
+      const req = httpController.expectOne(
+        `${service.baseUrl}/${articleId}?page=1&size=1`,
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(expectedResult);
+    });
+  });
+
+  describe('getCommentsListByCommentId', () => {
+    it('should send request', () => {
+      const commentId = '23a54326-57d8-41c7-b161-3627acd47d03';
+      const expectedResult: CommentsListInterface = {
+        total: 10,
+        comments: [mockComment],
+      };
+      service
+        .getCommentsListByCommentId(commentId, { page: 1, size: 1 })
+        .subscribe((result) => {
+          expect(result).toBe(expectedResult);
+        });
+
+      const req = httpController.expectOne(
+        `${service.baseUrl}/children/${commentId}?page=1&size=1`,
+      );
       expect(req.request.method).toBe('GET');
       req.flush(expectedResult);
     });
