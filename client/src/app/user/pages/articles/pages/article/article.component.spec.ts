@@ -83,7 +83,7 @@ describe('ArticleComponent', () => {
       ['loadSvg'],
     );
     mockCommentsService = jasmine.createSpyObj('CommentsService', [
-      'getCommentsList',
+      'getCommentsListByArticleId',
     ]);
     mockDialogRef = jasmine.createSpyObj('DialogRef', ['afterClosed']);
 
@@ -109,6 +109,10 @@ describe('ArticleComponent', () => {
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
@@ -156,7 +160,9 @@ describe('ArticleComponent', () => {
       mockRatingService.getCurrentArticleStatus.and.returnValue(
         throwError(() => {}),
       );
-      mockCommentsService.getCommentsList.and.returnValue(of([]));
+      mockCommentsService.getCommentsListByArticleId.and.returnValue(
+        of({ total: 0, comments: [] }),
+      );
       const mockNewArticle: CreateArticleInterface = {
         title: mockArticle.title,
         content: mockArticle.content,
@@ -175,7 +181,9 @@ describe('ArticleComponent', () => {
       mockRatingService.getCurrentArticleStatus.and.returnValue(
         of({ canBeRated: true }),
       );
-      mockCommentsService.getCommentsList.and.returnValue(of([]));
+      mockCommentsService.getCommentsListByArticleId.and.returnValue(
+        of({ total: 1, comments: [] }),
+      );
       const mockNewArticle: CreateArticleInterface = {
         title: mockArticle.title,
         content: mockArticle.content,

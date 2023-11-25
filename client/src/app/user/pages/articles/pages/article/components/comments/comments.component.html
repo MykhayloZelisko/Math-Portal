@@ -1,15 +1,22 @@
 <div class="comments">
   <div class="comments__title">
     <svg-icon src="assets/images/communication-chat.svg"></svg-icon>
-    <h3 class="comments__text">Коментарі</h3>
+    <h3 class="comments__text">Коментарі ({{ total }})</h3>
   </div>
   <app-new-comment
     [user]="user"
     [articleId]="articleId"
-    (addComment)="addComment($event)"
+    (addComment)="refreshComments()"
   ></app-new-comment>
+  <button
+    class="comments__button"
+    *ngIf="isButtonVisible"
+    (click)="loadMoreComments()"
+  >
+    Завантажити попередні коментарі ({{ commentsRest }})
+  </button>
   <app-comment-item
-    *ngFor="let comment of commentsTree"
+    *ngFor="let comment of commentsList"
     [comment]="comment"
     [user]="user"
     [articleId]="articleId"

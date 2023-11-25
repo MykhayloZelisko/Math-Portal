@@ -11,6 +11,7 @@ import {
   UsePipes,
   HttpStatus,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -27,6 +28,8 @@ import { UpdateLikeDislikeDto } from './dto/update-like-dislike.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { ValidationPipe } from '../pipes/validation/validation.pipe';
 import { ParseUUIDv4Pipe } from '../pipes/parse-uuidv4/parse-UUIDv4.pipe';
+import { ParseIntegerPipe } from '../pipes/parse-integer/parse-integer.pipe';
+import { CommentsListDto } from './dto/comments-list.dto';
 
 @ApiTags('Comments')
 @Controller('comments')
@@ -48,12 +51,33 @@ export class CommentsController {
   }
 
   @ApiOperation({ summary: 'Get list of comments for current article' })
-  @ApiResponse({ status: HttpStatus.OK, type: [Comment] })
-  @Get(':articleId')
-  public getAllComments(
+  @ApiResponse({ status: HttpStatus.OK, type: CommentsListDto })
+  @Get('/:articleId')
+  public getCommentsWithParamsByArticleId(
     @Param('articleId', ParseUUIDv4Pipe) articleId: string,
+    @Query('page', ParseIntegerPipe) page: number,
+    @Query('size', ParseIntegerPipe) size: number,
   ) {
-    return this.commentsService.getAllCommentsByArticleId(articleId);
+    return this.commentsService.getCommentsWithParamsByArticleId(
+      articleId,
+      page,
+      size,
+    );
+  }
+
+  @ApiOperation({ summary: 'Get list of children comments for parent one' })
+  @ApiResponse({ status: HttpStatus.OK, type: CommentsListDto })
+  @Get('/children/:commentId')
+  public getCommentsWithParamsByParentCommentId(
+    @Param('commentId', ParseUUIDv4Pipe) commentId: string,
+    @Query('page', ParseIntegerPipe) page: number,
+    @Query('size', ParseIntegerPipe) size: number,
+  ) {
+    return this.commentsService.getCommentsWithParamsByParentCommentId(
+      commentId,
+      page,
+      size,
+    );
   }
 
   @ApiOperation({ summary: 'Delete comment' })

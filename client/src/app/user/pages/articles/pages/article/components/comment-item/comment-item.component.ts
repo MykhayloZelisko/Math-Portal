@@ -5,19 +5,23 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CommentsTreeInterface } from '../../../../../../../shared/models/interfaces/comments-tree.interface';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NewCommentComponent } from '../new-comment/new-comment.component';
 import { UserInterface } from '../../../../../../../shared/models/interfaces/user.interface';
 import { CommentsService } from '../../../../../../../shared/services/comments.service';
-import { Subject, takeUntil } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
 import { CommentInterface } from '../../../../../../../shared/models/interfaces/comment.interface';
 import { RouterLink } from '@angular/router';
 import { ClickOutsideDirective } from '../../../../../../../shared/directives/click-outside.directive';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CommentWithLevelInterface } from '../../../../../../../shared/models/interfaces/comment-with-level.interface';
+import { CommentsListParamsInterface } from '../../../../../../../shared/models/interfaces/comments-list-params.interface';
+import { CommentsListInterface } from '../../../../../../../shared/models/interfaces/comments-list.interface';
+import { environment } from '../../../../../../../../environments/environment';
 
 @Component({
   selector: 'app-comment-item',
@@ -34,8 +38,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./comment-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommentItemComponent implements OnDestroy {
-  @Input() public comment!: CommentsTreeInterface;
+export class CommentItemComponent implements OnInit, OnDestroy {
+  @Input() public comment!: CommentWithLevelInterface;
 
   @Input() public user: UserInterface | null = null;
 
@@ -52,6 +56,21 @@ export class CommentItemComponent implements OnDestroy {
 
   public commentCtrl: FormControl = new FormControl('');
 
+  public isVisibleChildren: boolean = false;
+
+  public commentsList: CommentWithLevelInterface[] = [];
+
+  public commentsRest: number = 0;
+
+  public total: number = 0;
+
+  public isButtonVisible: boolean = false;
+
+  public paginationParams: CommentsListParamsInterface = {
+    page: 1,
+    size: 10,
+  };
+
   private destroy$: Subject<void> = new Subject<void>();
 
   public constructor(
@@ -59,18 +78,81 @@ export class CommentItemComponent implements OnDestroy {
     private cdr: ChangeDetectorRef,
   ) {}
 
+  public ngOnInit(): void {
+    this.initChildrenList(this.paginationParams);
+  }
+
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  public toggleComment(): void {
+  public initChildrenList(params: CommentsListParamsInterface): void {
+    this.isButtonVisible = false;
+    this.commentsService
+      .getCommentsListByCommentId(this.comment.id, params)
+      .pipe(
+        map((list: CommentsListInterface) => {
+          return {
+            total: list.total,
+            comments: list.comments.map(
+              (comment: CommentWithLevelInterface) => ({
+                ...comment,
+                user: {
+                  ...comment.user,
+                  photo: comment.user.photo
+                    ? `${environment.apiUrl}/${comment.user.photo}`
+                    : null,
+                },
+              }),
+            ),
+          };
+        }),
+        takeUntil(this.destroy$),
+      )
+      .subscribe({
+        next: (list: CommentsListInterface) => {
+          this.commentsList = [
+            ...list.comments.reverse(),
+            ...this.commentsList,
+          ];
+          this.isButtonVisible = list.total
+            ? list.total !== this.commentsList.length
+            : false;
+          this.total = list.total;
+          this.commentsRest =
+            list.total - this.commentsList.length > 10
+              ? 10
+              : list.total - this.commentsList.length;
+          this.cdr.detectChanges();
+        },
+      });
+  }
+
+  public loadMoreComments(): void {
+    this.paginationParams = {
+      ...this.paginationParams,
+      page: this.paginationParams.page + 1,
+    };
+    this.initChildrenList(this.paginationParams);
+  }
+
+  public toggleNewComment(): void {
     this.isVisibleNewComment = !this.isVisibleNewComment;
   }
 
-  public addComment(comment: CommentsTreeInterface): void {
-    this.comment.children = [...this.comment.children, comment];
-    this.toggleComment();
+  public addComment(): void {
+    this.refreshComments();
+    this.toggleNewComment();
+  }
+
+  public refreshComments(): void {
+    this.commentsList = [];
+    this.paginationParams = {
+      page: 1,
+      size: 10,
+    };
+    this.initChildrenList(this.paginationParams);
   }
 
   public likeComment(status: -1 | 1): void {
@@ -129,11 +211,13 @@ export class CommentItemComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.comment.children = this.comment.children.filter(
-            (comment: CommentsTreeInterface) => comment.id !== id,
-          );
+          this.refreshComments();
           this.cdr.detectChanges();
         },
       });
+  }
+
+  public toggleChildrenComments(): void {
+    this.isVisibleChildren = !this.isVisibleChildren;
   }
 }
