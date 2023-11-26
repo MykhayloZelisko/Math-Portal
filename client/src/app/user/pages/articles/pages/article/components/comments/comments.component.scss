@@ -15,19 +15,4 @@
     font-size: 24px;
     font-weight: 600;
   }
-
-  &__button {
-    background-color: $brown-1;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    font-family: $source;
-    font-size: 16px;
-    padding: 8px 24px;
-    color: $yellow-1;
-
-    &:hover {
-      background-color: $brown-2;
-    }
-  }
 }

@@ -1,12 +1,13 @@
 import { UserInterface } from './user.interface';
+import { DescendantInterface } from './descendant.interface';
 
-export interface CommentWithLevelInterface {
+export interface CommentWithDescendantsInterface {
   id: string;
   content: string;
   createdAt: string;
   updatedAt: string;
-  level: number;
   likesUsersIds: string[];
   dislikesUsersIds: string[];
   user: UserInterface;
+  descendantsList: DescendantInterface[];
 }

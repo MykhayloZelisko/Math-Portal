@@ -13,9 +13,7 @@ describe('Matrix', () => {
   });
 
   it('should throw an error', () => {
-    expect(() => new Matrix(0, 0)).toThrowError(
-      'The dimensions of the matrix are incorrect',
-    );
+    expect(() => new Matrix(0, 0)).toThrowError('The dimensions of the matrix are incorrect');
   });
 
   describe('sum', () => {
@@ -31,9 +29,7 @@ describe('Matrix', () => {
     it('should throw an error', () => {
       const matrixC = new Matrix(3, 3);
 
-      expect(() => Matrix.sum(matrixA, matrixC)).toThrowError(
-        'The dimensions of the matrices are not the same',
-      );
+      expect(() => Matrix.sum(matrixA, matrixC)).toThrowError('The dimensions of the matrices are not the same');
     });
   });
 
@@ -61,9 +57,7 @@ describe('Matrix', () => {
     it('should throw an error', () => {
       const matrixC = new Matrix(3, 3);
 
-      expect(() => Matrix.product(matrixA, matrixC)).toThrowError(
-        'Matrices are not concerted',
-      );
+      expect(() => Matrix.product(matrixA, matrixC)).toThrowError('Matrices are not concerted');
     });
   });
 
@@ -103,9 +97,7 @@ describe('Matrix', () => {
     });
 
     it('should throw an error', () => {
-      expect(() => matrixA.getColumn(5)).toThrowError(
-        'Column index is incorrect',
-      );
+      expect(() => matrixA.getColumn(5)).toThrowError('Column index is incorrect');
     });
   });
 
@@ -117,9 +109,7 @@ describe('Matrix', () => {
     });
 
     it('should throw an error', () => {
-      expect(() => matrixA.getCell(5, 10)).toThrowError(
-        'Index (5, 10) is incorrect',
-      );
+      expect(() => matrixA.getCell(5, 10)).toThrowError('Index (5, 10) is incorrect');
     });
   });
 
@@ -160,9 +150,7 @@ describe('Matrix', () => {
     it('should throw an error', () => {
       const matrixC = new Matrix(3, 1);
 
-      expect(() => matrixA.replaceColumn(1, matrixC)).toThrowError(
-        'The size of the new column is incorrect',
-      );
+      expect(() => matrixA.replaceColumn(1, matrixC)).toThrowError('The size of the new column is incorrect');
     });
   });
 
@@ -182,9 +170,7 @@ describe('Matrix', () => {
     it('should throw an error', () => {
       const matrixC = new Matrix(1, 3);
 
-      expect(() => matrixA.replaceRow(1, matrixC)).toThrowError(
-        'The size of the new row is incorrect',
-      );
+      expect(() => matrixA.replaceRow(1, matrixC)).toThrowError('The size of the new row is incorrect');
     });
   });
 
@@ -206,9 +192,7 @@ describe('Matrix', () => {
     it('should throw an error', () => {
       const matrixC = new Matrix(3, 3);
 
-      expect(() => matrixC.inverse()).toThrowError(
-        'The matrix is not invertible',
-      );
+      expect(() => matrixC.inverse()).toThrowError('The matrix is not invertible');
     });
   });
 

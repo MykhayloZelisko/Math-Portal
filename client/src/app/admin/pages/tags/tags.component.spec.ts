@@ -68,8 +68,8 @@ describe('TagsComponent', () => {
     );
     mockDialogRef = jasmine.createSpyObj('DialogRef', ['afterClosed']);
     mockUsersService = jasmine.createSpyObj('UsersService', [], {
-      user$: new BehaviorSubject<UserInterface | null>(null),
-    });
+      user$: new BehaviorSubject<UserInterface | null>(null)
+    })
 
     await TestBed.configureTestingModule({
       imports: [TagsComponent],
@@ -123,19 +123,16 @@ describe('TagsComponent', () => {
 
     it('should open error dialog', () => {
       mockTagsService.createTag.and.returnValue(
-        throwError(() => ({ status: HttpStatusCode.Conflict })),
+        throwError(() => ({ status: HttpStatusCode.Conflict }))
       );
       component.addTag(mockNewTag.value);
 
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
-        DialogTypeEnum.Alert,
-        {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Такий тег вже існує.',
-        },
-      );
-    });
-  });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.Alert, {
+        title: 'ПОВІДОМЛЕННЯ',
+        text: 'Такий тег вже існує.',
+      });
+    })
+  })
 
   describe('removeTag', () => {
     it('should call confirmRemoveTag method', () => {
@@ -144,7 +141,7 @@ describe('TagsComponent', () => {
       mockDialogRef.afterClosed.and.returnValue(of(mockNewTag.id));
       component.removeTag(mockNewTag);
 
-      expect(component.confirmRemoveTag).toHaveBeenCalledWith(mockNewTag.id);
+      expect(component.confirmRemoveTag).toHaveBeenCalledWith(mockNewTag.id)
     });
 
     it('should not call confirmRemoveTag method', () => {
@@ -153,9 +150,7 @@ describe('TagsComponent', () => {
       mockDialogRef.afterClosed.and.returnValue(of(undefined));
       component.removeTag(mockNewTag);
 
-      expect(component.confirmRemoveTag).not.toHaveBeenCalledWith(
-        mockNewTag.id,
-      );
+      expect(component.confirmRemoveTag).not.toHaveBeenCalledWith(mockNewTag.id)
     });
   });
 
@@ -165,47 +160,34 @@ describe('TagsComponent', () => {
       component.confirmRemoveTag(mockTagsList[0].id);
 
       expect(component.tagList).toEqual([mockTagsList[1]]);
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
-        DialogTypeEnum.Alert,
-        {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Тег успішно видалено.',
-        },
-      );
-    });
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.Alert, {
+        title: 'ПОВІДОМЛЕННЯ',
+        text: 'Тег успішно видалено.',
+      })
+    })
 
     it('should open error dialog about the last tag', () => {
       mockUsersService.user$.next(mockAdmin);
-      mockTagsService.removeTag.and.returnValue(
-        throwError(() => ({ status: HttpStatusCode.Forbidden })),
-      );
+      mockTagsService.removeTag.and.returnValue(throwError(() => ({ status: HttpStatusCode.Forbidden })));
       component.confirmRemoveTag(mockTagsList[0].id);
 
       expect(component.tagList).toEqual(mockTagsList);
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
-        DialogTypeEnum.Alert,
-        {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Тег не можна видалити поки він використовується і є єдиним тегом в статті.',
-        },
-      );
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.Alert, {
+        title: 'ПОВІДОМЛЕННЯ',
+        text: 'Тег не можна видалити поки він використовується і є єдиним тегом в статті.',
+      })
     });
 
     it('should open error dialog with general message', () => {
       mockUsersService.user$.next(mockUser);
-      mockTagsService.removeTag.and.returnValue(
-        throwError(() => ({ status: HttpStatusCode.Forbidden })),
-      );
+      mockTagsService.removeTag.and.returnValue(throwError(() => ({ status: HttpStatusCode.Forbidden })));
       component.confirmRemoveTag(mockTagsList[0].id);
 
       expect(component.tagList).toEqual(mockTagsList);
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
-        DialogTypeEnum.Alert,
-        {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Помилка видалення тега. Повторіть спробу пізніше.',
-        },
-      );
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.Alert, {
+        title: 'ПОВІДОМЛЕННЯ',
+        text: 'Помилка видалення тега. Повторіть спробу пізніше.',
+      })
     });
   });
 
@@ -215,13 +197,10 @@ describe('TagsComponent', () => {
       component.updateTag(mockUpdTag);
 
       expect(component.tagList).toEqual([component.tagList[0], mockUpdTag]);
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
-        DialogTypeEnum.Alert,
-        {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Тег успішно оновлено.',
-        },
-      );
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.Alert, {
+        title: 'ПОВІДОМЛЕННЯ',
+        text: 'Тег успішно оновлено.',
+      })
     });
 
     it('should not update tag and open error dialog', () => {
@@ -229,13 +208,10 @@ describe('TagsComponent', () => {
       component.updateTag(mockUpdTag);
 
       expect(component.tagList).toEqual(mockTagsList);
-      expect(mockDialogService.openDialog).toHaveBeenCalledWith(
-        DialogTypeEnum.Alert,
-        {
-          title: 'ПОВІДОМЛЕННЯ',
-          text: 'Помилка оновлення тега. Повторіть спробу пізніше.',
-        },
-      );
+      expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.Alert, {
+        title: 'ПОВІДОМЛЕННЯ',
+        text: 'Помилка оновлення тега. Повторіть спробу пізніше.',
+      })
     });
   });
 });

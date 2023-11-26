@@ -4,10 +4,16 @@ import { UsersTableComponent } from './users-table.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { UserInterface } from '../../../../../shared/models/interfaces/user.interface';
 import { UsersTableInterface } from '../../../../../shared/models/interfaces/users-table.interface';
-import { UsersTableColumnNameEnum } from '../../../../../shared/models/enums/users-table-column-name.enum';
+import {
+  UsersTableColumnNameEnum,
+} from '../../../../../shared/models/enums/users-table-column-name.enum';
 import { USERS_TABLE_HEADER } from '../../../../../shared/models/constants/user-table-header';
-import { TableHeaderInterface } from '../../../../../shared/models/interfaces/table-header.interface';
-import { PaginatorConfigInterface } from '../../../../../shared/models/interfaces/paginator-config.interface';
+import {
+  TableHeaderInterface
+} from '../../../../../shared/models/interfaces/table-header.interface';
+import {
+  PaginatorConfigInterface
+} from '../../../../../shared/models/interfaces/paginator-config.interface';
 import { SvgIconRegistryService } from 'angular-svg-icon';
 
 describe('UsersTableComponent', () => {
@@ -119,8 +125,7 @@ describe('UsersTableComponent', () => {
 
   describe('onSortColumn', () => {
     it('should set currentPage control value for all cases', () => {
-      const mockColumnName: UsersTableColumnNameEnum =
-        UsersTableColumnNameEnum.UserName;
+      const mockColumnName: UsersTableColumnNameEnum = UsersTableColumnNameEnum.UserName;
       component.sortParams[mockColumnName] = 'none';
       component.onSortColumn(mockColumnName);
 
@@ -128,8 +133,7 @@ describe('UsersTableComponent', () => {
     });
 
     it('should change and emit sortParams value in case "default"', () => {
-      const mockColumnName: UsersTableColumnNameEnum =
-        UsersTableColumnNameEnum.UserName;
+      const mockColumnName: UsersTableColumnNameEnum = UsersTableColumnNameEnum.UserName;
       component.sortParams[mockColumnName] = 'default';
       spyOn(component.sortColumn, 'emit');
       component.onSortColumn(mockColumnName);
@@ -142,8 +146,7 @@ describe('UsersTableComponent', () => {
     });
 
     it('should change and emit sortParams value in case "asc"', () => {
-      const mockColumnName: UsersTableColumnNameEnum =
-        UsersTableColumnNameEnum.UserName;
+      const mockColumnName: UsersTableColumnNameEnum = UsersTableColumnNameEnum.UserName;
       component.sortParams[mockColumnName] = 'asc';
       spyOn(component.sortColumn, 'emit');
       component.onSortColumn(mockColumnName);
@@ -156,8 +159,7 @@ describe('UsersTableComponent', () => {
     });
 
     it('should change and emit sortParams value in case "desc"', () => {
-      const mockColumnName: UsersTableColumnNameEnum =
-        UsersTableColumnNameEnum.UserName;
+      const mockColumnName: UsersTableColumnNameEnum = UsersTableColumnNameEnum.UserName;
       component.sortParams[mockColumnName] = 'desc';
       spyOn(component.sortColumn, 'emit');
       component.onSortColumn(mockColumnName);
@@ -198,7 +200,7 @@ describe('UsersTableComponent', () => {
 
       expect(headerStyle).toEqual({
         'justify-content': mockHeaderItem.headerContentPosition,
-      });
+      })
     });
   });
 
@@ -209,7 +211,7 @@ describe('UsersTableComponent', () => {
 
       expect(contentPosition).toEqual({
         'text-align': 'center',
-      });
+      })
     });
   });
 
@@ -224,9 +226,7 @@ describe('UsersTableComponent', () => {
 
       expect(component.paginatorConfig).toEqual(mockPaginatorConfig);
       expect(component.paginationForm.controls['currentPage'].value).toBe(1);
-      expect(component.changePaginatorConfig.emit).toHaveBeenCalledWith(
-        mockPaginatorConfig,
-      );
+      expect(component.changePaginatorConfig.emit).toHaveBeenCalledWith(mockPaginatorConfig);
     });
   });
 
@@ -255,9 +255,7 @@ describe('UsersTableComponent', () => {
       expect(component.paginatorConfig).toEqual(mockPaginatorConfig);
       expect(component.pageArray.length).toBe(124);
       expect(component.paginationForm.controls['currentPage'].value).toBe(1);
-      expect(component.changePaginatorConfig.emit).toHaveBeenCalledWith(
-        mockPaginatorConfig,
-      );
+      expect(component.changePaginatorConfig.emit).toHaveBeenCalledWith(mockPaginatorConfig);
     });
   });
 
@@ -273,9 +271,7 @@ describe('UsersTableComponent', () => {
       component.updateCurrentPage();
 
       expect(component.paginatorConfig).toEqual(mockPaginatorConfig);
-      expect(component.changePaginatorConfig.emit).toHaveBeenCalledWith(
-        mockPaginatorConfig,
-      );
+      expect(component.changePaginatorConfig.emit).toHaveBeenCalledWith(mockPaginatorConfig);
     });
   });
 
@@ -286,7 +282,7 @@ describe('UsersTableComponent', () => {
 
       expect(component.updateRole.emit).toHaveBeenCalledWith({
         userId: mockUser.id as string,
-        isAdmin: !mockUser.isAdmin,
+        isAdmin: !mockUser.isAdmin
       });
     });
   });

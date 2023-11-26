@@ -67,11 +67,11 @@ export class Comment extends Model<Comment, CommentCreationAttrsInterface> {
     foreignKey: 'descendantId',
     as: 'ancestorsList',
   })
-  public ancestorsList: CommentsTree[];
+  public ancestors: CommentsTree[];
 
   @HasMany(() => CommentsTree, {
     foreignKey: 'ancestorId',
     as: 'descendantsList',
   })
-  public descendantsList: CommentsTree[];
+  public descendants: CommentsTree[];
 }

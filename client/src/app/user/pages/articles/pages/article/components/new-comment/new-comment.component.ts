@@ -5,7 +5,6 @@ import {
   EventEmitter,
   forwardRef,
   Input,
-  OnDestroy,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,11 +13,11 @@ import { CommentItemComponent } from '../comment-item/comment-item.component';
 import { UserInterface } from '../../../../../../../shared/models/interfaces/user.interface';
 import { RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CommentsTreeInterface } from '../../../../../../../shared/models/interfaces/comments-tree.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { CommentsService } from '../../../../../../../shared/services/comments.service';
 import { CommentInterface } from '../../../../../../../shared/models/interfaces/comment.interface';
 import { environment } from '../../../../../../../../environments/environment';
-import { CommentWithLevelInterface } from '../../../../../../../shared/models/interfaces/comment-with-level.interface';
 
 @Component({
   selector: 'app-new-comment',
@@ -34,18 +33,19 @@ import { CommentWithLevelInterface } from '../../../../../../../shared/models/in
   styleUrls: ['./new-comment.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewCommentComponent implements OnDestroy {
+export class NewCommentComponent {
   @Input() public user: UserInterface | null = null;
 
-  @Input() public comment!: CommentWithLevelInterface;
+  @Input() public comment!: CommentsTreeInterface;
 
   @Input() public articleId: string = '';
 
-  @Output() public addComment: EventEmitter<void> = new EventEmitter<void>();
+  @Output() public addComment: EventEmitter<CommentsTreeInterface> =
+    new EventEmitter<CommentsTreeInterface>();
 
   public commentCtrl: FormControl = new FormControl('');
 
-  public newComment!: CommentWithLevelInterface;
+  public newComment!: CommentsTreeInterface;
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -53,11 +53,6 @@ export class NewCommentComponent implements OnDestroy {
     private commentsService: CommentsService,
     private cdr: ChangeDetectorRef,
   ) {}
-
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 
   public sendComment(): void {
     if (!this.commentCtrl.getRawValue()) {
@@ -80,6 +75,7 @@ export class NewCommentComponent implements OnDestroy {
             createdAt: comment.createdAt,
             updatedAt: comment.updatedAt,
             level: commentData.level,
+            nearestAncestorId: commentData.parentCommentId,
             likesUsersIds: comment.likesUsersIds,
             dislikesUsersIds: comment.dislikesUsersIds,
             user: {
@@ -88,8 +84,9 @@ export class NewCommentComponent implements OnDestroy {
                 ? `${environment.apiUrl}/${comment.user.photo}`
                 : null,
             },
+            children: [],
           };
-          this.addComment.emit();
+          this.addComment.emit(this.newComment);
           this.commentCtrl.setValue('');
           this.cdr.detectChanges();
         },

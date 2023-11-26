@@ -14,7 +14,7 @@ import { UsersService } from '../users/users.service';
 import { ArticlesService } from '../articles/articles.service';
 import { User } from '../users/models/user.model';
 import { FindOptions } from 'sequelize/types/model';
-import { Op } from 'sequelize';
+import sequelize, { Op } from 'sequelize';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateLikeDislikeDto } from './dto/update-like-dislike.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
@@ -152,16 +152,40 @@ export class CommentsService {
 
   public async getAllCommentsByArticleId(articleId: string) {
     const comments = await this.commentRepository.findAll({
-      attributes: ['id'],
+      attributes: [
+        'id',
+        'content',
+        'createdAt',
+        'updatedAt',
+        'likesUsersIds',
+        'dislikesUsersIds',
+      ],
       include: [
+        {
+          model: User,
+          association: 'user',
+          attributes: ['id', 'firstName', 'lastName', 'fullName', 'photo'],
+        },
         {
           model: CommentsTree,
           as: 'descendantsList',
+          attributes: ['descendantId', 'nearestAncestorId', 'level'],
           where: {
             articleId: articleId,
+            ancestorId: {
+              [Op.or]: [
+                {
+                  [Op.eq]: sequelize.col('nearest_ancestor_id'),
+                },
+                {
+                  [Op.eq]: sequelize.col('descendant_id'),
+                },
+              ],
+            },
           },
         },
       ],
+      order: [['id', 'ASC']],
     });
     return comments;
   }
@@ -233,129 +257,5 @@ export class CommentsService {
       where: { userId },
     });
     return comments;
-  }
-
-  public async getCommentsWithParamsByArticleId(
-    articleId: string,
-    page: number,
-    size: number,
-  ) {
-    const comments = await this.commentRepository.findAll({
-      attributes: [
-        'id',
-        'content',
-        'createdAt',
-        'updatedAt',
-        'likesUsersIds',
-        'dislikesUsersIds',
-      ],
-      include: [
-        {
-          model: User,
-          association: 'user',
-          attributes: ['id', 'firstName', 'lastName', 'fullName', 'photo'],
-        },
-        {
-          model: CommentsTree,
-          as: 'descendantsList',
-          attributes: ['level'],
-          where: {
-            articleId: articleId,
-            level: 1,
-          },
-        },
-      ],
-      offset: (page - 1) * size,
-      limit: size,
-      order: [['createdAt', 'DESC']],
-    });
-    const total = await this.commentRepository.count({
-      include: [
-        {
-          model: CommentsTree,
-          as: 'descendantsList',
-          where: {
-            articleId: articleId,
-            level: 1,
-          },
-        },
-      ],
-    });
-    const mappedComments = comments.map((comment: Comment) => ({
-      id: comment.id,
-      content: comment.content,
-      createdAt: comment.createdAt,
-      updatedAt: comment.updatedAt,
-      likesUsersIds: comment.likesUsersIds,
-      dislikesUsersIds: comment.dislikesUsersIds,
-      user: comment.user,
-      level: 1,
-    }));
-    return { total, comments: mappedComments };
-  }
-
-  public async getCommentsWithParamsByParentCommentId(
-    commentId: string,
-    page: number,
-    size: number,
-  ) {
-    const comments = await this.commentRepository.findAll({
-      attributes: [
-        'id',
-        'content',
-        'createdAt',
-        'updatedAt',
-        'likesUsersIds',
-        'dislikesUsersIds',
-      ],
-      include: [
-        {
-          model: User,
-          association: 'user',
-          attributes: ['id', 'firstName', 'lastName', 'fullName', 'photo'],
-        },
-        {
-          model: CommentsTree,
-          as: 'descendantsList',
-          attributes: ['level'],
-          where: {
-            nearestAncestorId: commentId,
-            [Op.not]: {
-              ancestorId: commentId,
-            },
-          },
-        },
-      ],
-      offset: (page - 1) * size,
-      limit: size,
-      order: [['createdAt', 'DESC']],
-    });
-    const total = await this.commentRepository.count({
-      distinct: true,
-      col: 'id',
-      include: [
-        {
-          model: CommentsTree,
-          as: 'descendantsList',
-          where: {
-            nearestAncestorId: commentId,
-            [Op.not]: {
-              ancestorId: commentId,
-            },
-          },
-        },
-      ],
-    });
-    const mappedComments = comments.map((comment: Comment) => ({
-      id: comment.id,
-      content: comment.content,
-      createdAt: comment.createdAt,
-      updatedAt: comment.updatedAt,
-      likesUsersIds: comment.likesUsersIds,
-      dislikesUsersIds: comment.dislikesUsersIds,
-      user: comment.user,
-      level: comment.descendantsList[0].level,
-    }));
-    return { total, comments: mappedComments };
   }
 }

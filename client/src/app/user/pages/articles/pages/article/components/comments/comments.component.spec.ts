@@ -7,9 +7,8 @@ import { BehaviorSubject, of } from 'rxjs';
 import { UserInterface } from '../../../../../../../shared/models/interfaces/user.interface';
 import { SvgIconRegistryService } from 'angular-svg-icon';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CommentWithLevelInterface } from '../../../../../../../shared/models/interfaces/comment-with-level.interface';
-import { CommentsListInterface } from '../../../../../../../shared/models/interfaces/comments-list.interface';
-import { CommentsListParamsInterface } from '../../../../../../../shared/models/interfaces/comments-list-params.interface';
+import { CommentWithDescendantsInterface } from '../../../../../../../shared/models/interfaces/comment-with-descendants.interface';
+import { CommentsTreeInterface } from '../../../../../../../shared/models/interfaces/comments-tree.interface';
 
 describe('CommentsComponent', () => {
   let component: CommentsComponent;
@@ -37,47 +36,76 @@ describe('CommentsComponent', () => {
     isAdmin: true,
     photo: 'photo',
   };
-  const mockCommentOne: CommentWithLevelInterface = {
-    id: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834',
-    content: 'comment',
-    createdAt: '',
-    updatedAt: '',
-    level: 1,
-    likesUsersIds: [],
-    dislikesUsersIds: [],
-    user: mockUser,
-  };
-  const mockCommentTwo: CommentWithLevelInterface = {
-    id: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0111',
-    content: 'comment',
-    createdAt: '',
-    updatedAt: '',
-    level: 1,
-    likesUsersIds: [],
-    dislikesUsersIds: [],
-    user: mockUser2,
-  };
-  const mockCommentsList: CommentsListInterface = {
-    total: 20,
-    comments: [mockCommentOne, mockCommentTwo],
-  };
-  const mockEmptyList: CommentsListInterface = {
-    total: 0,
-    comments: [],
-  };
-  const mockComments: CommentWithLevelInterface[] = [
+  const mockCommentsList: CommentWithDescendantsInterface[] = [
     {
-      ...mockCommentTwo,
-      user: { ...mockUser2, photo: 'http://localhost:3000/photo' },
+      id: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834',
+      content: 'comment',
+      createdAt: '',
+      updatedAt: '',
+      likesUsersIds: [],
+      dislikesUsersIds: [],
+      descendantsList: [
+        {
+          descendantId: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834',
+          nearestAncestorId: null,
+          level: 1,
+        },
+        {
+          descendantId: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0111',
+          nearestAncestorId: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834',
+          level: 2,
+        },
+      ],
+      user: mockUser,
     },
-    mockCommentOne,
+    {
+      id: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0111',
+      content: 'comment',
+      createdAt: '',
+      updatedAt: '',
+      likesUsersIds: [],
+      dislikesUsersIds: [],
+      descendantsList: [
+        {
+          descendantId: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0111',
+          nearestAncestorId: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834',
+          level: 2,
+        },
+      ],
+      user: mockUser2,
+    },
   ];
-  const mockParams: CommentsListParamsInterface = { page: 1, size: 10 };
+  const mockCommentsTree: CommentsTreeInterface[] = [
+    {
+      id: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834',
+      content: 'comment',
+      createdAt: '',
+      updatedAt: '',
+      nearestAncestorId: null,
+      level: 1,
+      likesUsersIds: [],
+      dislikesUsersIds: [],
+      user: mockUser,
+      children: [
+        {
+          id: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0111',
+          content: 'comment',
+          createdAt: '',
+          updatedAt: '',
+          nearestAncestorId: 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834',
+          level: 2,
+          likesUsersIds: [],
+          dislikesUsersIds: [],
+          user: { ...mockUser2, photo: 'http://localhost:3000/photo' },
+          children: [],
+        },
+      ],
+    },
+  ];
 
   beforeEach(async () => {
     mockCommentsService = jasmine.createSpyObj('CommentsService', [
-      'getCommentsListByArticleId',
-      'getCommentsListByCommentId',
+      'getCommentsList',
       'deleteComment',
     ]);
     mockUsersService = jasmine.createSpyObj('UsersService', [], {
@@ -100,12 +128,7 @@ describe('CommentsComponent', () => {
       ],
     }).compileComponents();
 
-    mockCommentsService.getCommentsListByArticleId.and.returnValue(
-      of(mockCommentsList),
-    );
-    mockCommentsService.getCommentsListByCommentId.and.returnValue(
-      of(mockEmptyList),
-    );
+    mockCommentsService.getCommentsList.and.returnValue(of(mockCommentsList));
 
     fixture = TestBed.createComponent(CommentsComponent);
     component = fixture.componentInstance;
@@ -129,23 +152,9 @@ describe('CommentsComponent', () => {
 
   describe('initComments', () => {
     it('should init comments list', () => {
-      component.commentsList = [];
-      component.initComments({ page: 1, size: 10 });
+      component.initComments();
 
-      expect(component.commentsList).toEqual(mockComments);
-    });
-  });
-
-  describe('loadMoreComments', () => {
-    it('should call initComments method', () => {
-      component.paginationParams = mockParams;
-      spyOn(component, 'initComments');
-      component.loadMoreComments();
-
-      expect(component.initComments).toHaveBeenCalledWith({
-        ...mockParams,
-        page: 2,
-      });
+      expect(component.commentsTree).toEqual(mockCommentsTree);
     });
   });
 
@@ -158,23 +167,23 @@ describe('CommentsComponent', () => {
     });
   });
 
-  describe('refreshComments', () => {
-    it('should call initComments method', () => {
-      spyOn(component, 'initComments');
-      component.refreshComments();
+  describe('addComment', () => {
+    it('should add comment to list', () => {
+      component.commentsTree = [];
+      component.addComment(mockCommentsTree[0]);
 
-      expect(component.initComments).toHaveBeenCalledWith(mockParams);
+      expect(component.commentsTree).toEqual([mockCommentsTree[0]]);
     });
   });
 
   describe('deleteComment', () => {
-    it('should call refreshComments method', () => {
-      spyOn(component, 'refreshComments');
+    it('should delete comment from list', () => {
+      component.commentsTree = mockCommentsTree;
       mockCommentsService.deleteComment.and.returnValue(of(void 0));
       const id = 'ae01ab89-a342-4c8f-9b0c-23d26a8d0834';
       component.deleteComment(id);
 
-      expect(component.refreshComments).toHaveBeenCalled();
+      expect(component.commentsTree).toEqual([]);
     });
   });
 });
