@@ -79,9 +79,7 @@ describe('ArticleTitleComponent', () => {
   describe('changeTitle', () => {
     it('should emit new title value', () => {
       component.title = 'title';
-      spyOn(component.titleCtrl.valueChanges, 'pipe').and.returnValue(
-        of('new title'),
-      );
+      spyOn(component.titleCtrl.valueChanges, 'pipe').and.returnValue(of('new title'));
       spyOn(component.saveTitle, 'emit');
       component.changeTitle();
 

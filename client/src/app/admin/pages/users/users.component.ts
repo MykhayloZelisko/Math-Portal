@@ -109,7 +109,10 @@ export class UsersComponent implements OnInit, OnDestroy {
               'token',
               JSON.stringify(`Bearer ${user.token.token}`),
             );
-            sessionStorage.setItem('exp', JSON.stringify(user.token.exp));
+            sessionStorage.setItem(
+              'exp',
+              JSON.stringify(user.token.exp),
+            );
             this.router.navigateByUrl('');
           } else {
             const users = this.usersTable.users.map((item: UserInterface) =>

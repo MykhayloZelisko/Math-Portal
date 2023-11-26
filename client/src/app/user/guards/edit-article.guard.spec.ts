@@ -66,7 +66,7 @@ describe('EditArticleGuard', () => {
           title: mockArticle.title,
           content: mockArticle.content,
           tagsIds: mockTagsIds,
-        },
+        }
       } as ArticleComponent;
       guard.canDeactivate(component).subscribe((result) => {
         expect(result).toBe(true);
@@ -83,20 +83,17 @@ describe('EditArticleGuard', () => {
           title: mockArticle.title,
           content: mockArticle.content,
           tagsIds: mockTagsIds,
-        },
+        }
       } as ArticleComponent;
       spyOn(sessionStorage, 'getItem').and.returnValue(String(Date.now()));
       mockDialogService.openDialog.and.returnValue(mockDialogRef);
       mockDialogRef.afterClosed.and.returnValue(of(false));
       guard.canDeactivate(component).subscribe((result) => {
         expect(result).toBe(false);
-        expect(mockDialogService.openDialog).toHaveBeenCalledWith(
-          DialogTypeEnum.ConfirmRedirect,
-          {
-            title: 'ПОВІДОМЛЕННЯ',
-            text: 'Ви покидаєте сторінку. Всі незбережені дані будуть втрачені.',
-          },
-        );
+        expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.ConfirmRedirect, {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Ви покидаєте сторінку. Всі незбережені дані будуть втрачені.',
+        })
         done();
       });
     });

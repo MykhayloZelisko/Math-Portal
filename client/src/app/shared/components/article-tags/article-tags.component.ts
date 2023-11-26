@@ -124,9 +124,7 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public selected(event: MatAutocompleteSelectedEvent): void {
-    const tag = this.allTags.find(
-      (item) => item.value === event.option.viewValue,
-    );
+    const tag = this.allTags.find((item) => item.value === event.option.viewValue);
     if (tag) {
       const selectedTag = this.selectedTags.find((item) => item.id === tag.id);
       if (!selectedTag) {

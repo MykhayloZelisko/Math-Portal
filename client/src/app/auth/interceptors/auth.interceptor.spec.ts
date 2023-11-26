@@ -6,10 +6,7 @@ import { UsersService } from '../../shared/services/users.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from '../../shared/components/dialog/dialog.component';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { DialogTypeEnum } from '../../shared/models/enums/dialog-type.enum';
@@ -62,15 +59,12 @@ describe('AuthInterceptor', () => {
 
     http.get(requestUrl).subscribe({
       error: () => {
-        expect(mockDialogService.openDialog).toHaveBeenCalledWith(
-          DialogTypeEnum.JWTAlert,
-          {
-            title: 'ПОВІДОМЛЕННЯ',
-            text: 'Закінчився термін дії токена. Ви будете вилогінені з системи.',
-          },
-        );
+        expect(mockDialogService.openDialog).toHaveBeenCalledWith(DialogTypeEnum.JWTAlert, {
+          title: 'ПОВІДОМЛЕННЯ',
+          text: 'Закінчився термін дії токена. Ви будете вилогінені з системи.',
+        });
         expect(router.navigateByUrl).not.toHaveBeenCalled();
-      },
+      }
     });
 
     const req = httpController.expectOne(requestUrl);
@@ -90,7 +84,7 @@ describe('AuthInterceptor', () => {
     http.get(requestUrl).subscribe({
       error: () => {
         expect(router.navigateByUrl).toHaveBeenCalledWith('');
-      },
+      }
     });
     const req = httpController.expectOne(requestUrl);
     req.error(new ProgressEvent('error'));
@@ -106,7 +100,7 @@ describe('AuthInterceptor', () => {
       req.flush({});
 
       expect(req.request.headers.has('Authorization')).toBe(false);
-    });
+    })
   });
 
   it('should add authorization header to a request', () => {
@@ -119,14 +113,14 @@ describe('AuthInterceptor', () => {
     expect(req.request.headers.has('Authorization')).toBe(true);
   });
 
-  it('should not have Authorization header', () => {
+  it('should ...', () => {
     const requestUrl = 'users';
-    spyOn(router, 'navigateByUrl');
     spyOn(sessionStorage, 'getItem').and.returnValue('');
+
     http.get(requestUrl).subscribe({
       error: () => {
-        expect(router.navigateByUrl).not.toHaveBeenCalled();
-      },
+        expect(req.request.headers.has('Authorization')).toBe(false);
+      }
     });
     const req = httpController.expectOne(requestUrl);
     req.error(new ProgressEvent('error'));

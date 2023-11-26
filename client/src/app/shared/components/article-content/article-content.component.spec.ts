@@ -79,9 +79,7 @@ describe('ArticleContentComponent', () => {
   describe('changeContent', () => {
     it('should emit new content value', () => {
       component.content = 'content';
-      spyOn(component.contentCtrl.valueChanges, 'pipe').and.returnValue(
-        of('new content'),
-      );
+      spyOn(component.contentCtrl.valueChanges, 'pipe').and.returnValue(of('new content'));
       spyOn(component.saveContent, 'emit');
       component.changeContent();
 

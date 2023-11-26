@@ -5,9 +5,9 @@ import { CommentsService } from '../../../../../../../shared/services/comments.s
 import { SvgIconRegistryService } from 'angular-svg-icon';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UserInterface } from '../../../../../../../shared/models/interfaces/user.interface';
+import { CommentsTreeInterface } from '../../../../../../../shared/models/interfaces/comments-tree.interface';
 import { CommentInterface } from '../../../../../../../shared/models/interfaces/comment.interface';
 import { of } from 'rxjs';
-import { CommentWithLevelInterface } from '../../../../../../../shared/models/interfaces/comment-with-level.interface';
 
 describe('NewCommentComponent', () => {
   let component: NewCommentComponent;
@@ -48,13 +48,17 @@ describe('NewCommentComponent', () => {
       photo: 'photo',
     },
   };
-  const mockCommentWithLevel: CommentWithLevelInterface = {
+  const mockCommentTree: CommentsTreeInterface = {
     ...mockComment,
     level: 1,
+    nearestAncestorId: null,
+    children: [],
   };
-  const mockCommentWithLevelTwo: CommentWithLevelInterface = {
+  const mockCommentTreeWithParentComment: CommentsTreeInterface = {
     ...mockCommentWithUserPhoto,
     level: 2,
+    nearestAncestorId: '860eb69a-d767-46f8-bd94-dc2643c56d72',
+    children: [],
   };
 
   beforeEach(async () => {
@@ -100,13 +104,13 @@ describe('NewCommentComponent', () => {
       mockCommentsService.createComment.and.returnValue(of(mockComment));
       component.sendComment();
 
-      expect(component.newComment).toEqual(mockCommentWithLevel);
-      expect(component.addComment.emit).toHaveBeenCalled();
+      expect(component.newComment).toEqual(mockCommentTree);
+      expect(component.addComment.emit).toHaveBeenCalledWith(mockCommentTree);
     });
 
     it('should create new comment level 2 with user photo and emit it', () => {
       component.commentCtrl.setValue('new comment');
-      component.comment = mockCommentWithLevel;
+      component.comment = mockCommentTree;
       spyOn(component.addComment, 'emit');
       mockCommentsService.createComment.and.returnValue(
         of(mockCommentWithUserPhoto),
@@ -114,13 +118,19 @@ describe('NewCommentComponent', () => {
       component.sendComment();
 
       expect(component.newComment).toEqual({
-        ...mockCommentWithLevelTwo,
+        ...mockCommentTreeWithParentComment,
         user: {
           ...mockUser,
           photo: 'http://localhost:3000/photo',
         },
       });
-      expect(component.addComment.emit).toHaveBeenCalled();
+      expect(component.addComment.emit).toHaveBeenCalledWith({
+        ...mockCommentTreeWithParentComment,
+        user: {
+          ...mockUser,
+          photo: 'http://localhost:3000/photo',
+        },
+      });
     });
   });
 });
