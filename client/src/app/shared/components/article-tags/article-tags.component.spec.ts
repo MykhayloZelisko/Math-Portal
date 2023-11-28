@@ -127,7 +127,7 @@ describe('ArticleTagsComponent', () => {
       component.remove(mockTagsList[0]);
 
       expect(component.selectedTags).toEqual([mockTagsList[1]]);
-      expect(component.saveTags).toHaveBeenCalledWith([mockTagsList[1]])
+      expect(component.saveTags).toHaveBeenCalledWith([mockTagsList[1]]);
     });
   });
 
@@ -138,7 +138,7 @@ describe('ArticleTagsComponent', () => {
       const mockEvent: MatAutocompleteSelectedEvent = {
         option: {
           viewValue: 'Tag 2',
-        }
+        },
       } as MatAutocompleteSelectedEvent;
       spyOn(component, 'saveTags');
       component.selected(mockEvent);
@@ -155,7 +155,7 @@ describe('ArticleTagsComponent', () => {
       const mockEvent: MatAutocompleteSelectedEvent = {
         option: {
           viewValue: 'Tag 1',
-        }
+        },
       } as MatAutocompleteSelectedEvent;
       spyOn(component, 'saveTags');
       component.selected(mockEvent);

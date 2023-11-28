@@ -114,14 +114,18 @@ describe('ProfileComponent', () => {
       component.profileForm.controls['password'].setValue('password1');
       const message = component.showMessage('password');
 
-      expect(message).toBe('Пароль повинен містити хоча б одну велику латинську літеру');
+      expect(message).toBe(
+        'Пароль повинен містити хоча б одну велику латинську літеру',
+      );
     });
 
     it(`should return string 'Пароль повинен містити хоча б одну малу латинську літеру'`, () => {
       component.profileForm.controls['password'].setValue('PASSWORD1');
       const message = component.showMessage('password');
 
-      expect(message).toBe('Пароль повинен містити хоча б одну малу латинську літеру');
+      expect(message).toBe(
+        'Пароль повинен містити хоча б одну малу латинську літеру',
+      );
     });
 
     it(`should return string 'Пароль повинен містити хоча б один спецсимвол'`, () => {

@@ -45,6 +45,7 @@ bootstrapApplication(AppComponent, {
           tex: {
             inlineMath: [['$', '$']],
             packages: ['base', 'require', 'ams'],
+            tags: 'ams',
           },
           svg: { fontCache: 'global' },
         },

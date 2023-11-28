@@ -27,7 +27,7 @@ describe('NewTagComponent', () => {
       component.ngOnInit();
 
       expect(component.initTag).toHaveBeenCalled();
-    })
+    });
   });
 
   describe('ngOnChanges', () => {
@@ -36,7 +36,7 @@ describe('NewTagComponent', () => {
       component.ngOnChanges();
 
       expect(component.clearTag).toHaveBeenCalled();
-    })
+    });
   });
 
   describe('initTag', () => {

@@ -75,7 +75,7 @@ describe('TagItemComponent', () => {
       expect(component.updateTag.emit).toHaveBeenCalledWith({
         id: mockTag.id,
         value: 'new value',
-      })
+      });
     });
   });
 });

@@ -32,7 +32,9 @@ describe('UsersFilterComponent', () => {
 
   describe('initSearchValue', () => {
     it('should emit search value', () => {
-      spyOn(component.searchUserCtrl.valueChanges, 'pipe').and.returnValue(of('search'));
+      spyOn(component.searchUserCtrl.valueChanges, 'pipe').and.returnValue(
+        of('search'),
+      );
       spyOn(component.searchUser, 'emit');
       component.initSearchValue();
 
