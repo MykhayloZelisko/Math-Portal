@@ -82,6 +82,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
+    // @ts-ignore
+    window.MathJax.texReset();
     this.initArticle();
     this.initUserRole();
   }
@@ -215,6 +217,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
             title: 'ПОВІДОМЛЕННЯ',
             text: 'Стаття оновлена успішно',
           });
+          // @ts-ignore
+          window.MathJax.texReset();
           this.isEditable = false;
           this.cdr.detectChanges();
         },
