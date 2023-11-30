@@ -116,7 +116,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 (tag: TagInterface) => tag.id,
               );
               // @ts-ignore
-              window.MathJax.texReset();
+              if (window.MathJax.texReset) {
+                // @ts-ignore
+                window.MathJax.texReset();
+              }
             },
             error: (error: HttpErrorResponse) => {
               return throwError(() => error);
