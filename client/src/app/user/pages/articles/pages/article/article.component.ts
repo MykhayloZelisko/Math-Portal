@@ -84,8 +84,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.initArticle();
     this.initUserRole();
-    // @ts-ignore
-    window.MathJax.texReset();
   }
 
   public ngOnDestroy(): void {
@@ -117,6 +115,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
               this.newArticle.tagsIds = this.article.tags.map(
                 (tag: TagInterface) => tag.id,
               );
+              // @ts-ignore
+              window.MathJax.texReset();
             },
             error: (error: HttpErrorResponse) => {
               return throwError(() => error);
