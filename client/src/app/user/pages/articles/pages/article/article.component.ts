@@ -82,10 +82,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    // @ts-ignore
-    window.MathJax.texReset();
     this.initArticle();
     this.initUserRole();
+    // @ts-ignore
+    window.MathJax.texReset();
   }
 
   public ngOnDestroy(): void {
