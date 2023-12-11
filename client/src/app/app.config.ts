@@ -11,10 +11,13 @@ import { authInterceptor } from './auth/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(appRoutes, withInMemoryScrolling({
-      scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'enabled',
-    })),
+    provideRouter(
+      appRoutes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+      }),
+    ),
     provideAnimations(),
     provideHttpClient(withInterceptors([loaderInterceptor, authInterceptor])),
     importProvidersFrom(
@@ -35,5 +38,5 @@ export const appConfig: ApplicationConfig = {
         src: 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/startup.js',
       }),
     ),
-  ]
+  ],
 };

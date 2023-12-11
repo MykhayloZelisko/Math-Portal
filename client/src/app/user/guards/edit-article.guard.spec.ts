@@ -4,7 +4,7 @@ import { editArticleGuard } from './edit-article.guard';
 
 describe('editArticleGuard', () => {
   const executeGuard: CanDeactivateFn = (...guardParameters) =>
-      TestBed.runInInjectionContext(() => editArticleGuard(...guardParameters));
+    TestBed.runInInjectionContext(() => editArticleGuard(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

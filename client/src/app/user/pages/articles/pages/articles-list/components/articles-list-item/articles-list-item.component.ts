@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 import { ArticleInterface } from '../../../../../../../shared/models/interfaces/article.interface';
 import { MathjaxModule } from 'mathjax-angular';
 import { Router } from '@angular/router';

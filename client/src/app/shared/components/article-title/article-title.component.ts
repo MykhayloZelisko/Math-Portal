@@ -17,12 +17,7 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-article-title',
   standalone: true,
-  imports: [
-    AngularSvgIconModule,
-    MathjaxModule,
-    ReactiveFormsModule,
-    NgIf,
-  ],
+  imports: [AngularSvgIconModule, MathjaxModule, ReactiveFormsModule, NgIf],
   templateUrl: './article-title.component.html',
   styleUrl: './article-title.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

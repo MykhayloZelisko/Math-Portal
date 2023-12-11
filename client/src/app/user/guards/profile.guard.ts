@@ -5,7 +5,9 @@ import { inject } from '@angular/core';
 import { DialogService } from '../../shared/services/dialog.service';
 import { DialogTypeEnum } from '../../shared/models/enums/dialog-type.enum';
 
-export const profileGuard: CanDeactivateFn<ProfileComponent> = (component: ProfileComponent) => {
+export const profileGuard: CanDeactivateFn<ProfileComponent> = (
+  component: ProfileComponent,
+) => {
   const dialogService = inject(DialogService);
   if (
     component.profileForm.valid &&

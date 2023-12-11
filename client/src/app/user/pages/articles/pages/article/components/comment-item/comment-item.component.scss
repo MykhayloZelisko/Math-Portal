@@ -2,8 +2,7 @@
 
 .comment-item {
   display: grid;
-  column-gap: 10px;
-  row-gap: 5px;
+  gap: 5px 10px;
   grid-template-columns: 50px 1fr;
   grid-template-rows: 50px max-content;
 

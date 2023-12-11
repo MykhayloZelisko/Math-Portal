@@ -7,7 +7,9 @@ import { DialogTypeEnum } from '../../shared/models/enums/dialog-type.enum';
 import { TagInterface } from '../../shared/models/interfaces/tag.interface';
 import { CreateArticleInterface } from '../../shared/models/interfaces/create-article.interface';
 
-export const editArticleGuard: CanDeactivateFn<ArticleComponent> = (component: ArticleComponent) => {
+export const editArticleGuard: CanDeactivateFn<ArticleComponent> = (
+  component: ArticleComponent,
+) => {
   const dialogService = inject(DialogService);
   if (!component.isEditable) {
     return of(true);

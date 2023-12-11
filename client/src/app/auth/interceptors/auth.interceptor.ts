@@ -14,7 +14,10 @@ import { LayoutRouteNameEnum } from '../../shared/models/enums/layout-route-name
 import { ArticlesRouteNameEnum } from '../../shared/models/enums/articles-route-name.enum';
 import { Router } from '@angular/router';
 
-export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
+export const authInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+) => {
   const dialogService = inject(DialogService);
   const usersService = inject(UsersService);
   const router = inject(Router);
@@ -68,4 +71,4 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
       );
     }
   }
-}
+};

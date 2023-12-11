@@ -4,7 +4,7 @@ import { profileGuard } from './profile.guard';
 
 describe('profileGuard', () => {
   const executeGuard: CanDeactivateFn = (...guardParameters) =>
-      TestBed.runInInjectionContext(() => profileGuard(...guardParameters));
+    TestBed.runInInjectionContext(() => profileGuard(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

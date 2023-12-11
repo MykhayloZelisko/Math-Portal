@@ -5,7 +5,9 @@ import { DialogTypeEnum } from '../../shared/models/enums/dialog-type.enum';
 import { DialogService } from '../../shared/services/dialog.service';
 import { inject } from '@angular/core';
 
-export const newArticleGuard: CanDeactivateFn<NewArticleComponent> = (component: NewArticleComponent) => {
+export const newArticleGuard: CanDeactivateFn<NewArticleComponent> = (
+  component: NewArticleComponent,
+) => {
   const dialogService = inject(DialogService);
   if (
     (component.newArticle.title ||
@@ -23,4 +25,4 @@ export const newArticleGuard: CanDeactivateFn<NewArticleComponent> = (component:
   } else {
     return of(true);
   }
-}
+};

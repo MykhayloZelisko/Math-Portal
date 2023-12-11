@@ -13,7 +13,14 @@ import { DialogDataInterface } from '../../models/interfaces/dialog-data.interfa
 @Component({
   selector: 'app-dialog',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, MatButtonModule, NgIf, NgSwitch, NgSwitchCase],
+  imports: [
+    MatIconModule,
+    MatDialogModule,
+    MatButtonModule,
+    NgIf,
+    NgSwitch,
+    NgSwitchCase,
+  ],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -13,4 +13,4 @@ export const adminGuard: CanActivateFn = () => {
   } else {
     return of(router.parseUrl('/'));
   }
-}
+};
