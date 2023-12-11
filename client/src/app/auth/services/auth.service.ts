@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { RegistrationInterface } from '../../shared/models/interfaces/registration.interface';
@@ -12,7 +12,7 @@ import { LoginInterface } from '../../shared/models/interfaces/login.interface';
 export class AuthService {
   public readonly baseUrl = `${environment.apiUrl}/auth`;
 
-  public constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   public registration(data: RegistrationInterface): Observable<void> {
     return this.httpClient.post<void>(`${this.baseUrl}/registration`, data);

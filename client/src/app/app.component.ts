@@ -1,28 +1,28 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { UsersService } from './shared/services/users.service';
 import { Subject, takeUntil } from 'rxjs';
 import { UserInterface } from './shared/models/interfaces/user.interface';
 import { LoaderComponent } from './components/loader/loader.component';
 
 @Component({
-  standalone: true,
   selector: 'app-root',
+  standalone: true,
+  imports: [LoaderComponent, RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, CommonModule, LoaderComponent],
 })
 export class AppComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(private usersService: UsersService) {}
+  private usersService = inject(UsersService);
 
   public ngOnInit(): void {
     this.getCurrentUser();

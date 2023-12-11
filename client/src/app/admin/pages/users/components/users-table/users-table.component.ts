@@ -3,12 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   OnInit,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TableHeaderInterface } from '../../../../../shared/models/interfaces/table-header.interface';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { UsersTableInterface } from '../../../../../shared/models/interfaces/users-table.interface';
@@ -24,19 +24,23 @@ import { SortColumnInterface } from '../../../../../shared/models/interfaces/sor
 import { UserInterface } from '../../../../../shared/models/interfaces/user.interface';
 import { UpdateUserRoleInterface } from '../../../../../shared/models/interfaces/update-user-role.interface';
 import { DropdownModule } from 'primeng/dropdown';
+import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-users-table',
   standalone: true,
   imports: [
-    CommonModule,
     AngularSvgIconModule,
     NgxPaginationModule,
     ReactiveFormsModule,
     DropdownModule,
+    NgIf,
+    NgForOf,
+    NgStyle,
+    NgClass,
   ],
   templateUrl: './users-table.component.html',
-  styleUrls: ['./users-table.component.scss'],
+  styleUrl: './users-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersTableComponent implements OnInit, OnChanges {
@@ -77,12 +81,14 @@ export class UsersTableComponent implements OnInit, OnChanges {
 
   public usersTableHeader: TableHeaderInterface[] = USERS_TABLE_HEADER;
 
+  private fb = inject(FormBuilder);
+
   public paginationForm: FormGroup = this.fb.group({
     pageSize: [this.rowsPerPage[0]],
     currentPage: [1],
   });
 
-  public constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
+  private cdr = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.initSortParams();

@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ArticlesFilterComponent } from './components/articles-filter/articles-filter.component';
 import { ArticlesListParamsInterface } from '../../../../../shared/models/interfaces/articles-list-params.interface';
 import { ArticlesListItemComponent } from './components/articles-list-item/articles-list-item.component';
@@ -14,13 +14,14 @@ import { ArticlesService } from '../../../../../shared/services/articles.service
 import { Subject, takeUntil } from 'rxjs';
 import { ArticlesListInterface } from '../../../../../shared/models/interfaces/articles-list.interface';
 import { TagsService } from '../../../../../shared/services/tags.service';
+import { NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-articles-list',
   standalone: true,
-  imports: [CommonModule, ArticlesFilterComponent, ArticlesListItemComponent],
+  imports: [ArticlesFilterComponent, ArticlesListItemComponent, NgForOf, NgIf],
   templateUrl: './articles-list.component.html',
-  styleUrls: ['./articles-list.component.scss'],
+  styleUrl: './articles-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticlesListComponent implements OnInit, OnDestroy {
@@ -37,11 +38,11 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private articlesService: ArticlesService,
-    private cdr: ChangeDetectorRef,
-    private tagsService: TagsService,
-  ) {}
+  private articlesService = inject(ArticlesService);
+
+  private cdr = inject(ChangeDetectorRef);
+
+  private tagsService = inject(TagsService);
 
   public ngOnInit(): void {
     const tag = this.tagsService.tag$.getValue();

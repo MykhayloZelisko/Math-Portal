@@ -4,7 +4,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MathjaxModule } from 'mathjax-angular';
@@ -15,19 +14,20 @@ import { TriangleInterface } from '../../../../../shared/models/interfaces/trian
 import { TriangleTaskConfigInterface } from '../../../../../shared/models/interfaces/triangle-task-config.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { TriangleStringInterface } from '../../../../../shared/models/interfaces/triangle-string.interface';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-solving-triangle',
   standalone: true,
   imports: [
-    CommonModule,
     DropdownModule,
     ReactiveFormsModule,
     MathjaxModule,
     SolvingTriangleFormComponent,
+    NgForOf,
   ],
   templateUrl: './solving-triangle.component.html',
-  styleUrls: ['./solving-triangle.component.scss'],
+  styleUrl: './solving-triangle.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SolvingTriangleComponent implements OnInit, OnDestroy {

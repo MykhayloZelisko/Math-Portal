@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
@@ -13,18 +13,24 @@ import { DialogDataInterface } from '../../models/interfaces/dialog-data.interfa
 @Component({
   selector: 'app-dialog',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatDialogModule, MatButtonModule],
+  imports: [
+    MatIconModule,
+    MatDialogModule,
+    MatButtonModule,
+    NgIf,
+    NgSwitch,
+    NgSwitchCase,
+  ],
   templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.scss'],
+  styleUrl: './dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogComponent {
   public readonly DialogType = DialogTypeEnum;
 
-  public constructor(
-    @Inject(MAT_DIALOG_DATA) public data: DialogDataInterface,
-    private dialogRef: MatDialogRef<DialogComponent>,
-  ) {}
+  public data: DialogDataInterface = inject(MAT_DIALOG_DATA);
+
+  private dialogRef = inject(MatDialogRef<DialogComponent>);
 
   public close(): void {
     this.dialogRef.close();

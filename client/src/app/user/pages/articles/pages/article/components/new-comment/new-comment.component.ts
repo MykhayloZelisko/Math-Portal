@@ -4,10 +4,10 @@ import {
   Component,
   EventEmitter,
   forwardRef,
+  inject,
   Input,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { CommentItemComponent } from '../comment-item/comment-item.component';
 import { UserInterface } from '../../../../../../../shared/models/interfaces/user.interface';
@@ -18,19 +18,20 @@ import { Subject, takeUntil } from 'rxjs';
 import { CommentsService } from '../../../../../../../shared/services/comments.service';
 import { CommentInterface } from '../../../../../../../shared/models/interfaces/comment.interface';
 import { environment } from '../../../../../../../../environments/environment';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-new-comment',
   standalone: true,
   imports: [
-    CommonModule,
     AngularSvgIconModule,
     forwardRef(() => CommentItemComponent),
     RouterLink,
     ReactiveFormsModule,
+    NgIf,
   ],
   templateUrl: './new-comment.component.html',
-  styleUrls: ['./new-comment.component.scss'],
+  styleUrl: './new-comment.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewCommentComponent {
@@ -49,10 +50,9 @@ export class NewCommentComponent {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private commentsService: CommentsService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  private commentsService = inject(CommentsService);
+
+  private cdr = inject(ChangeDetectorRef);
 
   public sendComment(): void {
     if (!this.commentCtrl.getRawValue()) {

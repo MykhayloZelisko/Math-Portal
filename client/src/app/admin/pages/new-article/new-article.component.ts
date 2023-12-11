@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ArticleTagsComponent } from '../../../shared/components/article-tags/article-tags.component';
 import { ArticleTitleComponent } from '../../../shared/components/article-title/article-title.component';
 import { ArticleContentComponent } from '../../../shared/components/article-content/article-content.component';
@@ -19,14 +19,13 @@ import { AlertComponent } from './components/alert/alert.component';
   selector: 'app-new-article',
   standalone: true,
   imports: [
-    CommonModule,
     ArticleTagsComponent,
     ArticleTitleComponent,
     ArticleContentComponent,
     AlertComponent,
   ],
   templateUrl: './new-article.component.html',
-  styleUrls: ['./new-article.component.scss'],
+  styleUrl: './new-article.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewArticleComponent implements OnDestroy {
@@ -42,11 +41,11 @@ export class NewArticleComponent implements OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private articlesService: ArticlesService,
-    private dialogService: DialogService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  private articlesService = inject(ArticlesService);
+
+  private dialogService = inject(DialogService);
+
+  private cdr = inject(ChangeDetectorRef);
 
   public ngOnDestroy(): void {
     this.destroy$.next();

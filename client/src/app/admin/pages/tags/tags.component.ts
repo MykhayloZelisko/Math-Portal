@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NewTagComponent } from './components/new-tag/new-tag.component';
 import { TagInterface } from '../../../shared/models/interfaces/tag.interface';
@@ -16,13 +16,14 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { DialogService } from '../../../shared/services/dialog.service';
 import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
 import { UsersService } from '../../../shared/services/users.service';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-tags',
   standalone: true,
-  imports: [CommonModule, FormsModule, NewTagComponent, TagItemComponent],
+  imports: [FormsModule, NewTagComponent, TagItemComponent, NgForOf],
   templateUrl: './tags.component.html',
-  styleUrls: ['./tags.component.scss'],
+  styleUrl: './tags.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagsComponent implements OnInit, OnDestroy {
@@ -32,12 +33,13 @@ export class TagsComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private tagsService: TagsService,
-    private dialogService: DialogService,
-    private cdr: ChangeDetectorRef,
-    private usersService: UsersService,
-  ) {}
+  private tagsService = inject(TagsService);
+
+  private dialogService = inject(DialogService);
+
+  private cdr = inject(ChangeDetectorRef);
+
+  private usersService = inject(UsersService);
 
   public ngOnInit(): void {
     this.initTagList();

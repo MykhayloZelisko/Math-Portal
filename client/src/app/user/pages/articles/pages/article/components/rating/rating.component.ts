@@ -2,20 +2,21 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnInit,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RatingType } from '../../../../../../../shared/models/types/rating.type';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-rating',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgClass],
   templateUrl: './rating.component.html',
-  styleUrls: ['./rating.component.scss'],
+  styleUrl: './rating.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RatingComponent implements OnInit {
@@ -30,7 +31,7 @@ export class RatingComponent implements OnInit {
 
   public ratingForm!: FormGroup;
 
-  public constructor(private fb: FormBuilder) {}
+  private fb = inject(FormBuilder);
 
   public ngOnInit(): void {
     this.initForm();

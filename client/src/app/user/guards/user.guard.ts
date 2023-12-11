@@ -1,23 +1,15 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
+import { inject } from '@angular/core';
 import { UsersService } from '../../shared/services/users.service';
+import { Observable, of } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class UserGuard implements CanActivate {
-  public constructor(
-    private usersService: UsersService,
-    private router: Router,
-  ) {}
-
-  public canActivate(): Observable<boolean | UrlTree> {
-    const user = this.usersService.user$.getValue();
-    if (user) {
-      return of(true);
-    } else {
-      return of(this.router.parseUrl('/'));
-    }
+export const userGuard: CanActivateFn = (): Observable<boolean | UrlTree> => {
+  const usersService = inject(UsersService);
+  const router = inject(Router);
+  const user = usersService.user$.getValue();
+  if (user) {
+    return of(true);
+  } else {
+    return of(router.parseUrl('/'));
   }
-}
+};

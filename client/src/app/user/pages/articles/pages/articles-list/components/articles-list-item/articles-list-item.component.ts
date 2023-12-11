@@ -1,5 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 import { ArticleInterface } from '../../../../../../../shared/models/interfaces/article.interface';
 import { MathjaxModule } from 'mathjax-angular';
 import { Router } from '@angular/router';
@@ -8,15 +12,15 @@ import { BypassHtmlPipe } from '../../../../../../../shared/pipes/bypass-html.pi
 @Component({
   selector: 'app-articles-list-item',
   standalone: true,
-  imports: [CommonModule, MathjaxModule, BypassHtmlPipe],
+  imports: [MathjaxModule, BypassHtmlPipe],
   templateUrl: './articles-list-item.component.html',
-  styleUrls: ['./articles-list-item.component.scss'],
+  styleUrl: './articles-list-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticlesListItemComponent {
   @Input() public article!: ArticleInterface;
 
-  public constructor(private router: Router) {}
+  private router = inject(Router);
 
   public openArticle(): void {
     this.router.navigateByUrl(`articles/${this.article.id}`);

@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+} from '@angular/core';
+import { NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
@@ -19,9 +24,9 @@ import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgIf],
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss'],
+  styleUrl: './registration.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationComponent implements OnDestroy {
@@ -32,6 +37,8 @@ export class RegistrationComponent implements OnDestroy {
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   public regName: RegExp = /^([A-Z]{1}[a-z-]+|[А-Я]{1}[а-я-]+)$/;
+
+  private fb = inject(FormBuilder);
 
   public registrationForm: FormGroup = this.fb.group({
     email: [null, [requiredValidator(), emailPatternValidator(this.regEmail)]],
@@ -71,12 +78,11 @@ export class RegistrationComponent implements OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private dialogService: DialogService,
-  ) {}
+  private authService = inject(AuthService);
+
+  private router = inject(Router);
+
+  private dialogService = inject(DialogService);
 
   public ngOnDestroy(): void {
     this.destroy$.next();

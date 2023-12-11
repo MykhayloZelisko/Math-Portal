@@ -2,21 +2,22 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TagInterface } from '../../../../../shared/models/interfaces/tag.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { TagsService } from '../../../../../shared/services/tags.service';
 import { Router } from '@angular/router';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-tags-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgForOf],
   templateUrl: './tags-list.component.html',
-  styleUrls: ['./tags-list.component.scss'],
+  styleUrl: './tags-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagsListComponent implements OnInit, OnDestroy {
@@ -24,11 +25,11 @@ export class TagsListComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private tagsService: TagsService,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-  ) {}
+  private tagsService = inject(TagsService);
+
+  private cdr = inject(ChangeDetectorRef);
+
+  private router = inject(Router);
 
   public ngOnInit(): void {
     this.initTagsList();

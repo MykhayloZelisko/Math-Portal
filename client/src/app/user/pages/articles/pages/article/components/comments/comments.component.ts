@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   Input,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { CommentsService } from '../../../../../../../shared/services/comments.service';
 import { map, Subject, takeUntil } from 'rxjs';
 import { CommentWithDescendantsInterface } from '../../../../../../../shared/models/interfaces/comment-with-descendants.interface';
@@ -16,18 +16,19 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NewCommentComponent } from '../new-comment/new-comment.component';
 import { UsersService } from '../../../../../../../shared/services/users.service';
 import { UserInterface } from '../../../../../../../shared/models/interfaces/user.interface';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-comments',
   standalone: true,
   imports: [
-    CommonModule,
     CommentItemComponent,
     AngularSvgIconModule,
     NewCommentComponent,
+    NgForOf,
   ],
   templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.scss'],
+  styleUrl: './comments.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentsComponent implements OnInit {
@@ -39,11 +40,11 @@ export class CommentsComponent implements OnInit {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private commentsService: CommentsService,
-    private usersService: UsersService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  private commentsService = inject(CommentsService);
+
+  private usersService = inject(UsersService);
+
+  private cdr = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.initComments();

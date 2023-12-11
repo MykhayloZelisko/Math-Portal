@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -9,7 +10,6 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TriangleTaskConfigInterface } from '../../../../../../../shared/models/interfaces/triangle-task-config.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MathjaxModule } from 'mathjax-angular';
@@ -29,13 +29,14 @@ import {
   roundN,
   sin,
 } from '../../../../../../../shared/utils/number-functions';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-solving-triangle-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MathjaxModule],
+  imports: [ReactiveFormsModule, MathjaxModule, NgIf],
   templateUrl: './solving-triangle-form.component.html',
-  styleUrls: ['./solving-triangle-form.component.scss'],
+  styleUrl: './solving-triangle-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SolvingTriangleFormComponent
@@ -48,6 +49,8 @@ export class SolvingTriangleFormComponent
 
   public triangles: TriangleInterface[] = [];
 
+  private fb = inject(FormBuilder);
+
   public triangleForm: FormGroup = this.fb.group({
     control_1: null,
     control_2: null,
@@ -55,8 +58,6 @@ export class SolvingTriangleFormComponent
   });
 
   private destroy$: Subject<void> = new Subject<void>();
-
-  public constructor(private fb: FormBuilder) {}
 
   public ngOnInit(): void {
     this.initTriangle();

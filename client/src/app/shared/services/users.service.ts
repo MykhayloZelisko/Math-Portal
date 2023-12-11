@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -18,7 +18,7 @@ export class UsersService {
   public user$: BehaviorSubject<UserInterface | null> =
     new BehaviorSubject<UserInterface | null>(null);
 
-  public constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   public getCurrentUser(): Observable<UserInterface> {
     return this.httpClient.get<UserInterface>(`${this.baseUrl}/current`);

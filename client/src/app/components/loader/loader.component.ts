@@ -1,19 +1,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { LoaderService } from '../../shared/services/loader.service';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-loader',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgIf, AsyncPipe],
   templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.scss'],
+  styleUrl: './loader.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoaderComponent implements OnInit, OnDestroy {
@@ -21,7 +22,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(private loaderService: LoaderService) {}
+  private loaderService = inject(LoaderService);
 
   public ngOnInit(): void {
     this.isLoading$ = this.loaderService.isLoading$;

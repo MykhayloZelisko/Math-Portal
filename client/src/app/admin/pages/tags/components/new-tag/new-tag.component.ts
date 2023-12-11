@@ -8,16 +8,15 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-new-tag',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './new-tag.component.html',
-  styleUrls: ['./new-tag.component.scss'],
+  styleUrl: './new-tag.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewTagComponent implements OnInit, OnDestroy, OnChanges {
