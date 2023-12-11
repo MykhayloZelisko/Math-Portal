@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-alert',
   standalone: true,
-  imports: [CommonModule, AngularSvgIconModule],
+  imports: [AngularSvgIconModule, NgIf],
   templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.scss'],
+  styleUrl: './alert.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AlertComponent {

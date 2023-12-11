@@ -6,7 +6,6 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
@@ -15,9 +14,9 @@ const DEBOUNCE_TIME = 600;
 @Component({
   selector: 'app-users-filter',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './users-filter.component.html',
-  styleUrls: ['./users-filter.component.scss'],
+  styleUrl: './users-filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersFilterComponent implements OnInit, OnDestroy {

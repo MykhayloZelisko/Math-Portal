@@ -1,10 +1,9 @@
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AppNameInterface } from '../../../shared/models/interfaces/app-name.interface';
 import { APP_NAMES } from '../../../shared/models/constants/app-names';
 import { DropdownModule } from 'primeng/dropdown';
@@ -16,9 +15,9 @@ import { AppNameEnum } from '../../../shared/models/enums/app-name.enum';
 @Component({
   selector: 'app-applications',
   standalone: true,
-  imports: [CommonModule, DropdownModule, ReactiveFormsModule, RouterOutlet],
+  imports: [DropdownModule, ReactiveFormsModule, RouterOutlet],
   templateUrl: './applications.component.html',
-  styleUrls: ['./applications.component.scss'],
+  styleUrl: './applications.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplicationsComponent implements OnInit, OnDestroy {
@@ -28,7 +27,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(private router: Router) {}
+  private router = inject(Router);
 
   public ngOnInit(): void {
     this.initApp();

@@ -1,11 +1,11 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { UserInterface } from '../../../shared/models/interfaces/user.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { UsersService } from '../../../shared/services/users.service';
@@ -27,9 +27,9 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgIf],
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  styleUrl: './profile.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent implements OnInit, OnDestroy {
@@ -42,6 +42,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   public regName: RegExp = /^([A-Z]{1}[a-z-]+|[А-Я]{1}[а-я-]+)$/;
+
+  private fb = inject(FormBuilder);
 
   public profileForm: FormGroup = this.fb.group({
     email: [null, [requiredValidator(), emailPatternValidator(this.regEmail)]],
@@ -87,13 +89,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private usersService: UsersService,
-    private fb: FormBuilder,
-    private dialogService: DialogService,
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  private usersService = inject(UsersService);
+
+  private dialogService = inject(DialogService);
+
+  private router = inject(Router);
+
+  private cdr = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.initUser();

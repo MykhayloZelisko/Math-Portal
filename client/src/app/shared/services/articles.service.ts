@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CreateArticleInterface } from '../models/interfaces/create-article.interface';
@@ -13,7 +13,7 @@ import { ArticlesListInterface } from '../models/interfaces/articles-list.interf
 export class ArticlesService {
   public readonly baseUrl = `${environment.apiUrl}/articles`;
 
-  public constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   public createArticle(
     article: CreateArticleInterface,

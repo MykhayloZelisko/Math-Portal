@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ArticlesService } from '../../../../../shared/services/articles.service';
 import { ArticleInterface } from '../../../../../shared/models/interfaces/article.interface';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -30,12 +30,12 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { CurrentArticleStatusInterface } from '../../../../../shared/models/interfaces/current-article-status.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PageNotFoundComponent } from '../../../page-not-found/page-not-found.component';
+import { NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-article',
   standalone: true,
   imports: [
-    CommonModule,
     MathjaxModule,
     AngularSvgIconModule,
     RatingComponent,
@@ -44,9 +44,11 @@ import { PageNotFoundComponent } from '../../../page-not-found/page-not-found.co
     ArticleContentComponent,
     CommentsComponent,
     PageNotFoundComponent,
+    NgIf,
+    NgForOf,
   ],
   templateUrl: './article.component.html',
-  styleUrls: ['./article.component.scss'],
+  styleUrl: './article.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleComponent implements OnInit, OnDestroy {
@@ -70,16 +72,21 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private articlesService: ArticlesService,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    private tagsService: TagsService,
-    private router: Router,
-    private ratingService: RatingService,
-    private usersService: UsersService,
-    private dialogService: DialogService,
-  ) {}
+  private articlesService = inject(ArticlesService);
+
+  private route = inject(ActivatedRoute);
+
+  private cdr = inject(ChangeDetectorRef);
+
+  private tagsService = inject(TagsService);
+
+  private router = inject(Router);
+
+  private ratingService = inject(RatingService);
+
+  private usersService = inject(UsersService);
+
+  private dialogService = inject(DialogService);
 
   public ngOnInit(): void {
     this.initArticle();
@@ -116,7 +123,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
                 (tag: TagInterface) => tag.id,
               );
               // @ts-ignore
-              if (window.MathJax.texReset) {
+              if (typeof window.MathJax.texReset === 'function') {
                 // @ts-ignore
                 window.MathJax.texReset();
               }
@@ -221,7 +228,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
             text: 'Стаття оновлена успішно',
           });
           // @ts-ignore
-          window.MathJax.texReset();
+          if (typeof window.MathJax.texReset === 'function') {
+            // @ts-ignore
+            window.MathJax.texReset();
+          }
           this.isEditable = false;
           this.cdr.detectChanges();
         },

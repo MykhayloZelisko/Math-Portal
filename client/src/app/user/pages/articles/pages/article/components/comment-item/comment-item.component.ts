@@ -3,11 +3,11 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnDestroy,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { CommentsTreeInterface } from '../../../../../../../shared/models/interfaces/comments-tree.interface';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NewCommentComponent } from '../new-comment/new-comment.component';
@@ -18,17 +18,20 @@ import { CommentInterface } from '../../../../../../../shared/models/interfaces/
 import { RouterLink } from '@angular/router';
 import { ClickOutsideDirective } from '../../../../../../../shared/directives/click-outside.directive';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe, NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-comment-item',
   standalone: true,
   imports: [
-    CommonModule,
     AngularSvgIconModule,
     NewCommentComponent,
     RouterLink,
     ClickOutsideDirective,
     ReactiveFormsModule,
+    NgIf,
+    DatePipe,
+    NgForOf,
   ],
   templateUrl: './comment-item.component.html',
   styleUrls: ['./comment-item.component.scss'],
@@ -54,10 +57,9 @@ export class CommentItemComponent implements OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private commentsService: CommentsService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  private commentsService = inject(CommentsService);
+
+  private cdr = inject(ChangeDetectorRef);
 
   public ngOnDestroy(): void {
     this.destroy$.next();

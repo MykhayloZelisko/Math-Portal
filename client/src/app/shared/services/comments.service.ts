@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { CreateCommentDataInterface } from '../models/interfaces/create-comment-
 export class CommentsService {
   public readonly baseUrl = `${environment.apiUrl}/comments`;
 
-  public constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   public getCommentsList(
     articleId: string,

@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
+  EventEmitter, inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -10,7 +10,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -23,12 +22,12 @@ import { TagInterface } from '../../models/interfaces/tag.interface';
 import { startWith, Subject, takeUntil } from 'rxjs';
 import { TagsService } from '../../services/tags.service';
 import { MathjaxModule } from 'mathjax-angular';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-article-tags',
   standalone: true,
   imports: [
-    CommonModule,
     MathjaxModule,
     FormsModule,
     MatFormFieldModule,
@@ -36,9 +35,10 @@ import { MathjaxModule } from 'mathjax-angular';
     MatIconModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
+    NgForOf,
   ],
   templateUrl: './article-tags.component.html',
-  styleUrls: ['./article-tags.component.scss'],
+  styleUrl: './article-tags.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
@@ -60,7 +60,7 @@ export class ArticleTagsComponent implements OnInit, OnDestroy, OnChanges {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(private tagsService: TagsService) {}
+  private tagsService = inject(TagsService);
 
   public ngOnInit(): void {
     this.selectedTags = [...this.selectedTags];

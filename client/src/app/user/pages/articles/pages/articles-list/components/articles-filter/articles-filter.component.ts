@@ -2,32 +2,27 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
+  EventEmitter, inject,
   OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TagInterface } from '../../../../../../../shared/models/interfaces/tag.interface';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { TagsService } from '../../../../../../../shared/services/tags.service';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { ArticlesListParamsInterface } from '../../../../../../../shared/models/interfaces/articles-list-params.interface';
+import { NgForOf, NgIf } from '@angular/common';
 
 const DEBOUNCE_TIME = 600;
 
 @Component({
   selector: 'app-articles-filter',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AngularSvgIconModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, AngularSvgIconModule, NgIf, NgForOf],
   templateUrl: './articles-filter.component.html',
-  styleUrls: ['./articles-filter.component.scss'],
+  styleUrl: './articles-filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticlesFilterComponent implements OnInit, OnDestroy {
@@ -48,10 +43,9 @@ export class ArticlesFilterComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private tagsService: TagsService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  private tagsService = inject(TagsService);
+
+  private cdr = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.initTagsList();

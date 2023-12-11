@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { UpdateArticleRatingInterface } from '../models/interfaces/update-articl
 export class RatingService {
   public readonly baseUrl = `${environment.apiUrl}/rating`;
 
-  public constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   public getCurrentArticleStatus(
     articleId: string,

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../components/dialog/dialog.component';
 import { DialogContentInterface } from '../models/interfaces/dialog-content.interface';
@@ -9,7 +9,7 @@ import { DialogTypeEnum } from '../models/enums/dialog-type.enum';
   providedIn: 'root',
 })
 export class DialogService {
-  public constructor(private dialog: MatDialog) {}
+  private dialog = inject(MatDialog);
 
   public openDialog(
     dialogType: DialogTypeEnum,

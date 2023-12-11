@@ -8,23 +8,23 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MathjaxModule } from 'mathjax-angular';
 import { Subject, takeUntil } from 'rxjs';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-article-title',
   standalone: true,
   imports: [
-    CommonModule,
     AngularSvgIconModule,
     MathjaxModule,
     ReactiveFormsModule,
+    NgIf,
   ],
   templateUrl: './article-title.component.html',
-  styleUrls: ['./article-title.component.scss'],
+  styleUrl: './article-title.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleTitleComponent implements OnInit, OnDestroy, OnChanges {

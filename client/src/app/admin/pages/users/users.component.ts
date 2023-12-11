@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { UsersFilterComponent } from './components/users-filter/users-filter.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { Subject, takeUntil } from 'rxjs';
@@ -25,9 +25,9 @@ import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, UsersFilterComponent, UsersTableComponent],
+  imports: [UsersFilterComponent, UsersTableComponent],
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+  styleUrl: './users.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersComponent implements OnInit, OnDestroy {
@@ -47,12 +47,13 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private usersService: UsersService,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-    private dialogService: DialogService,
-  ) {}
+  private usersService = inject(UsersService);
+
+  private cdr = inject(ChangeDetectorRef);
+
+  private router = inject(Router);
+
+  private dialogService = inject(DialogService);
 
   public ngOnInit(): void {
     this.initUsersTable(this.filterParams);

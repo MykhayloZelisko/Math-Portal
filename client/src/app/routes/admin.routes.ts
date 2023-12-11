@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { AdminRouteNameEnum } from '../shared/models/enums/admin-route-name.enum';
-import { NewArticleGuard } from '../admin/guards/new-article.guard';
+import { newArticleGuard } from '../admin/guards/new-article.guard';
 
 export const AdminRoutes: Routes = [
   {
@@ -31,7 +31,7 @@ export const AdminRoutes: Routes = [
             (m) => m.NewArticleComponent,
           ),
         data: { path: AdminRouteNameEnum.NewArticle },
-        canDeactivate: [NewArticleGuard],
+        canDeactivate: [newArticleGuard],
       },
       {
         path: '',

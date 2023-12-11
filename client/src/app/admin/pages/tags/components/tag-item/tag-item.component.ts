@@ -7,18 +7,18 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TagInterface } from '../../../../../shared/models/interfaces/tag.interface';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { FormsModule } from '@angular/forms';
 import { BypassHtmlPipe } from '../../../../../shared/pipes/bypass-html.pipe';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-tag-item',
   standalone: true,
-  imports: [CommonModule, AngularSvgIconModule, FormsModule, BypassHtmlPipe],
+  imports: [AngularSvgIconModule, FormsModule, BypassHtmlPipe, NgClass, NgIf],
   templateUrl: './tag-item.component.html',
-  styleUrls: ['./tag-item.component.scss'],
+  styleUrl: './tag-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagItemComponent {

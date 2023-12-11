@@ -2,11 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule, NgClass, NgFor } from '@angular/common';
+import { NgFor } from '@angular/common';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -21,9 +22,9 @@ import { AdminRouteNameEnum } from '../../../shared/models/enums/admin-route-nam
 @Component({
   selector: 'app-tabs',
   standalone: true,
-  imports: [CommonModule, RouterLink, NgFor, NgClass, MatTabsModule],
+  imports: [RouterLink, NgFor, MatTabsModule],
   templateUrl: './tabs.component.html',
-  styleUrls: ['./tabs.component.scss'],
+  styleUrl: './tabs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabsComponent implements OnInit, OnDestroy {
@@ -33,11 +34,11 @@ export class TabsComponent implements OnInit, OnDestroy {
 
   public activeRoute!: AdminRouteNameEnum;
 
-  public constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private changeDetector: ChangeDetectorRef,
-  ) {}
+  private router = inject(Router);
+
+  private activatedRoute = inject(ActivatedRoute);
+
+  private changeDetector = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.setActiveRoute();

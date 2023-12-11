@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
+import { CommonModule, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, switchMap, takeUntil, tap } from 'rxjs';
@@ -18,12 +18,14 @@ import { DialogTypeEnum } from '../../../shared/models/enums/dialog-type.enum';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgIf],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnDestroy {
+  private fb = inject(FormBuilder);
+
   public loginForm: FormGroup = this.fb.group({
     email: [null, [requiredValidator()]],
     password: [null, [requiredValidator()]],
@@ -31,13 +33,13 @@ export class LoginComponent implements OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService,
-    private usersService: UsersService,
-    private dialogService: DialogService,
-  ) {}
+  private authService = inject(AuthService);
+
+  private router = inject(Router);
+
+  private dialogService = inject(DialogService);
+
+  private usersService = inject(UsersService);
 
   public ngOnDestroy(): void {
     this.destroy$.next();

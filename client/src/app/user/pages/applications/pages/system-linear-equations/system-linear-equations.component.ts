@@ -1,10 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { InputNumberModule } from 'primeng/inputnumber';
 import {
   FormArray,
@@ -23,6 +23,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { Matrix } from '../../../../../shared/models/classes/matrix';
 import { MathjaxModule } from 'mathjax-angular';
 import { VarStatusEnum } from '../../../../../shared/models/enums/var-status.enum';
+import { NgForOf, NgIf } from '@angular/common';
 
 const MIN_NUMBER: number = 2;
 const MAX_NUMBER: number = 10;
@@ -31,16 +32,17 @@ const MAX_NUMBER: number = 10;
   selector: 'app-system-linear-equations',
   standalone: true,
   imports: [
-    CommonModule,
     InputNumberModule,
     FormsModule,
     ReactiveFormsModule,
     AngularSvgIconModule,
     DropdownModule,
     MathjaxModule,
+    NgForOf,
+    NgIf,
   ],
   templateUrl: './system-linear-equations.component.html',
-  styleUrls: ['./system-linear-equations.component.scss'],
+  styleUrl: './system-linear-equations.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
@@ -67,7 +69,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(private fb: FormBuilder) {}
+  private fb = inject(FormBuilder);
 
   public ngOnInit(): void {
     this.initParamsForm();

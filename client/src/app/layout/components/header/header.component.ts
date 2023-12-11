@@ -1,11 +1,10 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserInterface } from '../../../shared/models/interfaces/user.interface';
 import { UsersService } from '../../../shared/services/users.service';
@@ -15,19 +14,20 @@ import { UserRouteNameEnum } from '../../../shared/models/enums/user-route-name.
 import { LayoutRouteNameEnum } from '../../../shared/models/enums/layout-route-name.enum';
 import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
 import { ArticlesRouteNameEnum } from '../../../shared/models/enums/articles-route-name.enum';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
-    CommonModule,
     RouterLink,
     AngularSvgIconModule,
     ClickOutsideDirective,
     RouterLinkActive,
+    NgIf,
   ],
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
@@ -37,11 +37,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(
-    private usersService: UsersService,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-  ) {}
+  private usersService = inject(UsersService);
+
+  private cdr = inject(ChangeDetectorRef);
+
+  private router = inject(Router);
 
   public ngOnInit(): void {
     this.initUser();
