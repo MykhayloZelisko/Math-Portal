@@ -107,7 +107,7 @@ describe('authInterceptor', () => {
       const req = httpController.expectOne(requestUrl);
       req.flush({});
 
-      expect(req.request.headers.has('Authorization')).toBe(false);
+      expect(req.request.headers.has('Authorization')).toBeFalse();
     });
   });
 
@@ -118,7 +118,7 @@ describe('authInterceptor', () => {
     const req = httpController.expectOne(requestUrl);
     req.flush({});
 
-    expect(req.request.headers.has('Authorization')).toBe(true);
+    expect(req.request.headers.has('Authorization')).toBeTrue();
   });
 
   it('should not have Authorization header', () => {

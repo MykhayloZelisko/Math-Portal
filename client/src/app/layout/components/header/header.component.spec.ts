@@ -70,14 +70,14 @@ describe('HeaderComponent', () => {
     it('should open dropdown', () => {
       component.isActiveDropDown = false;
       component.openDropDown();
-      expect(component.isActiveDropDown).toBe(true);
+      expect(component.isActiveDropDown).toBeTrue();
     });
   });
 
   describe('closeDropDown', () => {
     it('should close dropdown', () => {
       component.closeDropDown();
-      expect(component.isActiveDropDown).toBe(false);
+      expect(component.isActiveDropDown).toBeFalse();
     });
   });
 

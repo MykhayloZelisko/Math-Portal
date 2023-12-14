@@ -142,7 +142,7 @@ describe('ProfileComponent', () => {
       component.profileForm.controls['confirmPassword'].setValue('Pa$$word091');
       const matchPass = component.matchPasswords();
 
-      expect(matchPass).toBe(false);
+      expect(matchPass).toBeFalse();
     });
 
     it('should return true when confirmPassword and password fields are the same', () => {
@@ -150,7 +150,7 @@ describe('ProfileComponent', () => {
       component.profileForm.controls['confirmPassword'].setValue('Pa$$word094');
       const matchPass = component.matchPasswords();
 
-      expect(matchPass).toBe(true);
+      expect(matchPass).toBeTrue();
     });
   });
 

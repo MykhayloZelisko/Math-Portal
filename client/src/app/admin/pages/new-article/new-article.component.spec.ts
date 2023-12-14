@@ -86,7 +86,7 @@ describe('NewArticleComponent', () => {
       component.saveTitle(mockNewArticle.title);
 
       expect(component.newArticle.title).toBe(mockNewArticle.title);
-      expect(component.isButtonDisable).toBe(false);
+      expect(component.isButtonDisable).toBeFalse();
     });
   });
 
@@ -99,7 +99,7 @@ describe('NewArticleComponent', () => {
       component.saveContent(mockNewArticle.content);
 
       expect(component.newArticle.content).toBe(mockNewArticle.content);
-      expect(component.isButtonDisable).toBe(false);
+      expect(component.isButtonDisable).toBeFalse();
     });
   });
 
@@ -112,7 +112,7 @@ describe('NewArticleComponent', () => {
       component.saveTagsIds(mockNewArticle.tagsIds);
 
       expect(component.newArticle.tagsIds).toEqual(mockNewArticle.tagsIds);
-      expect(component.isButtonDisable).toBe(false);
+      expect(component.isButtonDisable).toBeFalse();
     });
   });
 

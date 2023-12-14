@@ -14,8 +14,7 @@ describe('editArticleGuard', () => {
   const guard: CanDeactivateFn<ArticleComponent> = (
     component: ArticleComponent,
   ) =>
-    // eslint-disable-next-line
-    // @ts-ignore
+    // @ts-expect-error: Error arguments number
     TestBed.runInInjectionContext(() => editArticleGuard(component));
   let mockDialogService: jasmine.SpyObj<DialogService>;
   let mockDialogRef: jasmine.SpyObj<MatDialogRef<DialogComponent>>;
@@ -56,10 +55,9 @@ describe('editArticleGuard', () => {
     it('should return true when isEditable is equal false', (done) => {
       const component = { isEditable: false } as ArticleComponent;
 
-      // eslint-disable-next-line
-      // @ts-ignore
+      // @ts-expect-error: Error arguments number
       guard(component).subscribe((result) => {
-        expect(result).toBe(true);
+        expect(result).toBeTrue();
         done();
       });
     });
@@ -76,10 +74,9 @@ describe('editArticleGuard', () => {
         },
       } as ArticleComponent;
 
-      // eslint-disable-next-line
-      // @ts-ignore
+      // @ts-expect-error: Error arguments number
       guard(component).subscribe((result) => {
-        expect(result).toBe(true);
+        expect(result).toBeTrue();
         done();
       });
     });
@@ -99,10 +96,9 @@ describe('editArticleGuard', () => {
       mockDialogService.openDialog.and.returnValue(mockDialogRef);
       mockDialogRef.afterClosed.and.returnValue(of(false));
 
-      // eslint-disable-next-line
-      // @ts-ignore
+      // @ts-expect-error: Error arguments number
       guard(component).subscribe((result) => {
-        expect(result).toBe(false);
+        expect(result).toBeFalse();
         expect(mockDialogService.openDialog).toHaveBeenCalledWith(
           DialogTypeEnum.ConfirmRedirect,
           {

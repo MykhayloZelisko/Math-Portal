@@ -41,10 +41,10 @@ export function commentsListMapper(
     commentsTree = commentsTree.filter(
       (item: CommentsTreeInterface) => item.level !== k,
     );
-    for (let i = 0; i < commentsTree.length; i++) {
-      for (let j = 0; j < commentsList.length; j++) {
-        if (commentsList[j].nearestAncestorId === commentsTree[i].id) {
-          commentsTree[i].children.push(commentsList[j]);
+    for (const item of commentsTree) {
+      for (const childrenItem of commentsList) {
+        if (childrenItem.nearestAncestorId === item.id) {
+          item.children.push(childrenItem);
         }
       }
     }

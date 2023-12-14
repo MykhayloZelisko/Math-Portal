@@ -236,7 +236,7 @@ describe('UsersTableComponent', () => {
 
       expect(component.paginatorConfig).toEqual(mockPaginatorConfig);
       expect(component.pageArray.length).toBe(124);
-      expect(component.isPaginatorInit).toBe(true);
+      expect(component.isPaginatorInit).toBeTrue();
     });
   });
 

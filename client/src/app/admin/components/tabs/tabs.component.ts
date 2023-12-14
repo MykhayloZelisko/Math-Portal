@@ -28,11 +28,11 @@ import { AdminRouteNameEnum } from '../../../shared/models/enums/admin-route-nam
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabsComponent implements OnInit, OnDestroy {
-  private destroy$: Subject<void> = new Subject<void>();
-
   @Input() public tabs: TabItemInterface[] = [];
 
   public activeRoute!: AdminRouteNameEnum;
+
+  private destroy$: Subject<void> = new Subject<void>();
 
   private router = inject(Router);
 

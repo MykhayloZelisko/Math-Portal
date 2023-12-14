@@ -13,8 +13,7 @@ describe('newArticleGuard', () => {
   const guard: CanDeactivateFn<NewArticleComponent> = (
     component: NewArticleComponent,
   ) =>
-    // eslint-disable-next-line
-    // @ts-ignore
+    // @ts-expect-error: Error arguments number
     TestBed.runInInjectionContext(() => newArticleGuard(component));
   let mockDialogService: jasmine.SpyObj<DialogService>;
   let mockDialogRef: jasmine.SpyObj<MatDialogRef<DialogComponent>>;
@@ -47,10 +46,9 @@ describe('newArticleGuard', () => {
       spyOn(sessionStorage, 'getItem').and.returnValue('someToken');
       spyOn(JSON, 'parse').and.returnValue(1);
 
-      // eslint-disable-next-line
-      // @ts-ignore
+      // @ts-expect-error: Error arguments number
       guard(component).subscribe((result) => {
-        expect(result).toBe(true);
+        expect(result).toBeTrue();
         done();
       });
     });
@@ -68,8 +66,7 @@ describe('newArticleGuard', () => {
       mockDialogService.openDialog.and.returnValue(mockDialogRef);
       mockDialogRef.afterClosed.and.returnValue(of(true));
 
-      // eslint-disable-next-line
-      // @ts-ignore
+      // @ts-expect-error: Error arguments number
       guard(component).subscribe((result) => {
         expect(mockDialogService.openDialog).toHaveBeenCalledWith(
           DialogTypeEnum.ConfirmRedirect,
@@ -78,7 +75,7 @@ describe('newArticleGuard', () => {
             text: 'Ви покидаєте сторінку. Всі незбережені дані будуть втрачені.',
           },
         );
-        expect(result).toBe(true);
+        expect(result).toBeTrue();
         done();
       });
     });

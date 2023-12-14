@@ -20,11 +20,11 @@ import { NgClass } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RatingComponent implements OnInit {
-  @Input() public rating: number = 0;
+  @Input() public rating = 0;
 
-  @Input() public votes: number = 0;
+  @Input() public votes = 0;
 
-  @Input() public isActive: boolean = false;
+  @Input() public isActive = false;
 
   @Output() public activeRating: EventEmitter<RatingType> =
     new EventEmitter<RatingType>();

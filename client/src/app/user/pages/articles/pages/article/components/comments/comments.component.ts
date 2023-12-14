@@ -32,7 +32,7 @@ import { NgForOf } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommentsComponent implements OnInit {
-  @Input() public articleId: string = '';
+  @Input() public articleId = '';
 
   public user: UserInterface | null = null;
 

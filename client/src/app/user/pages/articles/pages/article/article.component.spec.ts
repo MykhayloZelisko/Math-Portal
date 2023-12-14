@@ -132,7 +132,7 @@ describe('ArticleComponent', () => {
       mockUsersService.user$.next(mockUser);
       component.initUserRole();
 
-      expect(component.isAdmin).toBe(true);
+      expect(component.isAdmin).toBeTrue();
     });
 
     it('should set false in isAdmin, when user is null', () => {
@@ -140,7 +140,7 @@ describe('ArticleComponent', () => {
       mockUsersService.user$.next(null);
       component.initUserRole();
 
-      expect(component.isAdmin).toBe(false);
+      expect(component.isAdmin).toBeFalse();
     });
   });
 
@@ -169,7 +169,7 @@ describe('ArticleComponent', () => {
 
       expect(component.article).toEqual(mockArticle);
       expect(component.newArticle).toEqual(mockNewArticle);
-      expect(component.isRatingActive).toBe(false);
+      expect(component.isRatingActive).toBeFalse();
     });
 
     it('should init article and newArticle without error in status', () => {
@@ -188,7 +188,7 @@ describe('ArticleComponent', () => {
 
       expect(component.article).toEqual(mockArticle);
       expect(component.newArticle).toEqual(mockNewArticle);
-      expect(component.isRatingActive).toBe(true);
+      expect(component.isRatingActive).toBeTrue();
     });
   });
 
@@ -214,7 +214,7 @@ describe('ArticleComponent', () => {
 
       expect(component.article.rating).toBe(mockRating.rating);
       expect(component.article.votes).toBe(mockRating.votes);
-      expect(component.isRatingActive).toBe(false);
+      expect(component.isRatingActive).toBeFalse();
     });
   });
 
@@ -276,7 +276,7 @@ describe('ArticleComponent', () => {
     it('should be true isEditable value', () => {
       component.editArticle();
 
-      expect(component.isEditable).toBe(true);
+      expect(component.isEditable).toBeTrue();
     });
   });
 
@@ -284,7 +284,7 @@ describe('ArticleComponent', () => {
     it('should be false isEditable value', () => {
       component.cancelEdit();
 
-      expect(component.isEditable).toBe(false);
+      expect(component.isEditable).toBeFalse();
     });
   });
 
@@ -316,7 +316,7 @@ describe('ArticleComponent', () => {
           text: 'Стаття оновлена успішно',
         },
       );
-      expect(component.isEditable).toBe(false);
+      expect(component.isEditable).toBeFalse();
     });
 
     it('should open error dialog', () => {
@@ -344,7 +344,7 @@ describe('ArticleComponent', () => {
       component.saveTagsIds([mockTag.id, mockTag2.id]);
 
       expect(component.newArticle.tagsIds).toEqual([mockTag.id, mockTag2.id]);
-      expect(component.isSaveButtonDisable).toBe(true);
+      expect(component.isSaveButtonDisable).toBeTrue();
     });
 
     it('should save tags ids but content is falsy', () => {
@@ -356,7 +356,7 @@ describe('ArticleComponent', () => {
       component.saveTagsIds([mockTag.id, mockTag2.id]);
 
       expect(component.newArticle.tagsIds).toEqual([mockTag.id, mockTag2.id]);
-      expect(component.isSaveButtonDisable).toBe(true);
+      expect(component.isSaveButtonDisable).toBeTrue();
     });
 
     it('should save tags ids', () => {
@@ -368,7 +368,7 @@ describe('ArticleComponent', () => {
       component.saveTagsIds([mockTag.id, mockTag2.id]);
 
       expect(component.newArticle.tagsIds).toEqual([mockTag.id, mockTag2.id]);
-      expect(component.isSaveButtonDisable).toBe(false);
+      expect(component.isSaveButtonDisable).toBeFalse();
     });
   });
 
@@ -382,7 +382,7 @@ describe('ArticleComponent', () => {
       component.saveTitle('New title');
 
       expect(component.newArticle.title).toBe('New title');
-      expect(component.isSaveButtonDisable).toBe(true);
+      expect(component.isSaveButtonDisable).toBeTrue();
     });
 
     it('should save title but content is falsy', () => {
@@ -394,7 +394,7 @@ describe('ArticleComponent', () => {
       component.saveTitle('New title');
 
       expect(component.newArticle.title).toBe('New title');
-      expect(component.isSaveButtonDisable).toBe(true);
+      expect(component.isSaveButtonDisable).toBeTrue();
     });
 
     it('should save title', () => {
@@ -406,7 +406,7 @@ describe('ArticleComponent', () => {
       component.saveTitle('New title');
 
       expect(component.newArticle.title).toBe('New title');
-      expect(component.isSaveButtonDisable).toBe(false);
+      expect(component.isSaveButtonDisable).toBeFalse();
     });
   });
 
@@ -420,7 +420,7 @@ describe('ArticleComponent', () => {
       component.saveContent('New content');
 
       expect(component.newArticle.content).toBe('New content');
-      expect(component.isSaveButtonDisable).toBe(true);
+      expect(component.isSaveButtonDisable).toBeTrue();
     });
 
     it('should save content but title is falsy', () => {
@@ -432,7 +432,7 @@ describe('ArticleComponent', () => {
       component.saveContent('New content');
 
       expect(component.newArticle.content).toBe('New content');
-      expect(component.isSaveButtonDisable).toBe(true);
+      expect(component.isSaveButtonDisable).toBeTrue();
     });
 
     it('should save content', () => {
@@ -444,7 +444,7 @@ describe('ArticleComponent', () => {
       component.saveContent('New content');
 
       expect(component.newArticle.content).toBe('New content');
-      expect(component.isSaveButtonDisable).toBe(false);
+      expect(component.isSaveButtonDisable).toBeFalse();
     });
   });
 });

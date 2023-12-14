@@ -13,7 +13,7 @@ describe('BypassHtmlPipe', () => {
         {
           provide: DomSanitizer,
           useValue: {
-            bypassSecurityTrustHtml: (value: string) => value,
+            bypassSecurityTrustHtml: (value: string): string => value,
           },
         },
       ],
@@ -33,6 +33,6 @@ describe('BypassHtmlPipe', () => {
 
   it('should return undefined', () => {
     const str = pipe.transform('');
-    expect(str).toBe(undefined);
+    expect(str).toBeUndefined();
   });
 });

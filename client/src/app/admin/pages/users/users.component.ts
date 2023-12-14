@@ -41,7 +41,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     filter: '',
   };
 
-  public clearCurrentPageField: boolean = false;
+  public clearCurrentPageField = false;
 
   public paginatorConfig!: PaginatorConfigInterface;
 

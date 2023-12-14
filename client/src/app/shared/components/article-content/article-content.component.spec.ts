@@ -71,7 +71,7 @@ describe('ArticleContentComponent', () => {
 
       expect(component.content).toBe('');
       expect(component.contentCtrl.value).toBe('');
-      expect(component.clearControl.clear).toBe(false);
+      expect(component.clearControl.clear).toBeFalse();
     });
   });
 
@@ -93,7 +93,7 @@ describe('ArticleContentComponent', () => {
     it('isContentEditable should be false', () => {
       component.showContent();
 
-      expect(component.isContentEditable).toBe(false);
+      expect(component.isContentEditable).toBeFalse();
     });
   });
 
@@ -101,7 +101,7 @@ describe('ArticleContentComponent', () => {
     it('isContentEditable should be true', () => {
       component.editContent();
 
-      expect(component.isContentEditable).toBe(true);
+      expect(component.isContentEditable).toBeTrue();
     });
   });
 });

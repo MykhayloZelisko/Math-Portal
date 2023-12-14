@@ -39,7 +39,7 @@ export class NewCommentComponent {
 
   @Input() public comment!: CommentsTreeInterface;
 
-  @Input() public articleId: string = '';
+  @Input() public articleId = '';
 
   @Output() public addComment: EventEmitter<CommentsTreeInterface> =
     new EventEmitter<CommentsTreeInterface>();

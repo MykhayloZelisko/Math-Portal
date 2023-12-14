@@ -42,16 +42,16 @@ export class CommentItemComponent implements OnDestroy {
 
   @Input() public user: UserInterface | null = null;
 
-  @Input() public articleId: string = '';
+  @Input() public articleId = '';
 
   @Output() public removeComment: EventEmitter<string> =
     new EventEmitter<string>();
 
-  public isVisibleNewComment: boolean = false;
+  public isVisibleNewComment = false;
 
-  public isActiveDropDown: boolean = false;
+  public isActiveDropDown = false;
 
-  public isCommentEditable: boolean = false;
+  public isCommentEditable = false;
 
   public commentCtrl: FormControl = new FormControl('');
 

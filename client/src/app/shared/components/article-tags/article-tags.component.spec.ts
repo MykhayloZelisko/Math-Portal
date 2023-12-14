@@ -88,7 +88,7 @@ describe('ArticleTagsComponent', () => {
       expect(component.selectedTags.length).toBe(0);
       expect(component.tagInput.nativeElement.value).toBe('');
       expect(component.tagCtrl.value).toBe('');
-      expect(component.clearControl.clear).toBe(false);
+      expect(component.clearControl.clear).toBeFalse();
     });
   });
 

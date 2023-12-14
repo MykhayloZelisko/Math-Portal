@@ -83,7 +83,7 @@ describe('RegistrationComponent', () => {
       component.registrationForm.controls['password'].setValue('');
       const matchPass = component.matchPasswords();
 
-      expect(matchPass).toBe(false);
+      expect(matchPass).toBeFalse();
     });
 
     it('should return false when confirmPassword field is empty', () => {
@@ -91,7 +91,7 @@ describe('RegistrationComponent', () => {
       component.registrationForm.controls['confirmPassword'].setValue('');
       const matchPass = component.matchPasswords();
 
-      expect(matchPass).toBe(false);
+      expect(matchPass).toBeFalse();
     });
 
     it('should return false when confirmPassword and password fields are different', () => {
@@ -101,7 +101,7 @@ describe('RegistrationComponent', () => {
       );
       const matchPass = component.matchPasswords();
 
-      expect(matchPass).toBe(false);
+      expect(matchPass).toBeFalse();
     });
 
     it('should return true when confirmPassword and password fields are the same', () => {
@@ -111,7 +111,7 @@ describe('RegistrationComponent', () => {
       );
       const matchPass = component.matchPasswords();
 
-      expect(matchPass).toBe(true);
+      expect(matchPass).toBeTrue();
     });
   });
 });

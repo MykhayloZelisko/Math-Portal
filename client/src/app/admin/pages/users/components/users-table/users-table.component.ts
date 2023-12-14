@@ -71,7 +71,7 @@ export class UsersTableComponent implements OnInit, OnChanges {
   @Output()
   public clearPageControl: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  public sortParams: { [key: string]: SortingType } = {};
+  public sortParams: Record<string, SortingType> = {};
 
   public isPaginatorInit = false;
 
@@ -132,17 +132,17 @@ export class UsersTableComponent implements OnInit, OnChanges {
     });
   }
 
-  public getHeaderStyle(headerItem: TableHeaderInterface): {
-    [key: string]: HeaderContentPositionType;
-  } {
+  public getHeaderStyle(
+    headerItem: TableHeaderInterface,
+  ): Record<string, HeaderContentPositionType> {
     return {
       'justify-content': headerItem.headerContentPosition,
     };
   }
 
-  public getContentPosition(index: number): {
-    [key: string]: TableContentPositionType;
-  } {
+  public getContentPosition(
+    index: number,
+  ): Record<string, TableContentPositionType> {
     return {
       'text-align': this.usersTableHeader[index].tableContentPosition,
     };

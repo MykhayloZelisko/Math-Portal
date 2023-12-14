@@ -25,11 +25,11 @@ import { NgIf } from '@angular/common';
 export class ArticleTitleComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public clearControl: { clear: boolean } = { clear: false };
 
-  @Input() public title: string = '';
+  @Input() public title = '';
 
   @Output() public saveTitle: EventEmitter<string> = new EventEmitter<string>();
 
-  public isTitleEditable: boolean = true;
+  public isTitleEditable = true;
 
   public titleCtrl: FormControl = new FormControl('');
 

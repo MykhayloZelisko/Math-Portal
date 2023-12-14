@@ -58,17 +58,17 @@ export class ArticleComponent implements OnInit, OnDestroy {
     tagsIds: [],
   };
 
-  public isAdmin: boolean = false;
+  public isAdmin = false;
 
-  public isEditable: boolean = false;
+  public isEditable = false;
 
   public article!: ArticleInterface;
 
-  public finalRequest: boolean = false;
+  public finalRequest = false;
 
-  public isRatingActive: boolean = false;
+  public isRatingActive = false;
 
-  public isSaveButtonDisable: boolean = false;
+  public isSaveButtonDisable = false;
 
   private destroy$: Subject<void> = new Subject<void>();
 
