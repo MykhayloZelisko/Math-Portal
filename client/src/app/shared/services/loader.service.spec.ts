@@ -12,4 +12,22 @@ describe('LoaderService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  describe('show', () => {
+    it('should show loader', () => {
+      service.isLoading$.subscribe((value: boolean) => {
+        expect(value).toBe(true);
+      });
+      service.show();
+    });
+  });
+
+  describe('hide', () => {
+    it('should hide loader', () => {
+      service.isLoading$.subscribe((value: boolean) => {
+        expect(value).toBe(false);
+      });
+      service.hide();
+    });
+  });
 });

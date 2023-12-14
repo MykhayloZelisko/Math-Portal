@@ -17,9 +17,9 @@
     <div class="comment-item__user-details">
       <div class="comment-item__name">{{ comment.user.fullName }}</div>
       <div class="comment-item__time">
-        {{ comment.createdAt | date : 'dd.MM.YYYY HH:mm' }}
+        {{ comment.createdAt | date: 'dd.MM.YYYY HH:mm' }}
         <span *ngIf="comment.createdAt !== comment.updatedAt"
-          >(змінено {{ comment.updatedAt | date : 'dd.MM.YYYY HH:mm' }})</span
+          >(змінено {{ comment.updatedAt | date: 'dd.MM.YYYY HH:mm' }})</span
         >
       </div>
     </div>

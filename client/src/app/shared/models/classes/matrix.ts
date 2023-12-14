@@ -1,6 +1,6 @@
 import { abs, roundN } from '../../utils/number-functions';
 
-export class Matrix extends Array<Array<number>> {
+export class Matrix extends Array<number[]> {
   public size: [number, number] = [0, 0];
 
   public constructor(m: number, n: number) {
