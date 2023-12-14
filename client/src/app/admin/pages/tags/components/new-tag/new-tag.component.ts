@@ -27,7 +27,7 @@ export class NewTagComponent implements OnInit, OnDestroy, OnChanges {
 
   public tagCtrl: FormControl = new FormControl('');
 
-  public tag: string = '';
+  public tag = '';
 
   private destroy$: Subject<void> = new Subject<void>();
 

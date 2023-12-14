@@ -27,7 +27,7 @@ import { NgForOf, NgIf } from '@angular/common';
 export class ArticlesListComponent implements OnInit, OnDestroy {
   public articlesList: ArticleInterface[] = [];
 
-  public isButtonVisible: boolean = false;
+  public isButtonVisible = false;
 
   public paginationParams: ArticlesListParamsInterface = {
     filter: '',

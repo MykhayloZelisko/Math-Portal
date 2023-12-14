@@ -34,7 +34,7 @@ import { NgIf } from '@angular/common';
 export class HeaderComponent implements OnInit, OnDestroy {
   public user: UserInterface | null = null;
 
-  public isActiveDropDown: boolean = false;
+  public isActiveDropDown = false;
 
   private destroy$: Subject<void> = new Subject<void>();
 

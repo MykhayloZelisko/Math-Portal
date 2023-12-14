@@ -79,7 +79,7 @@ describe('CommentItemComponent', () => {
       component.isVisibleNewComment = false;
       component.toggleComment();
 
-      expect(component.isVisibleNewComment).toBe(true);
+      expect(component.isVisibleNewComment).toBeTrue();
     });
   });
 
@@ -120,7 +120,7 @@ describe('CommentItemComponent', () => {
   describe('closeDropDown', () => {
     it('should close dropdown', () => {
       component.closeDropDown();
-      expect(component.isActiveDropDown).toBe(false);
+      expect(component.isActiveDropDown).toBeFalse();
     });
   });
 
@@ -128,7 +128,7 @@ describe('CommentItemComponent', () => {
     it('should open dropdown', () => {
       component.isActiveDropDown = false;
       component.openDropDown();
-      expect(component.isActiveDropDown).toBe(true);
+      expect(component.isActiveDropDown).toBeTrue();
     });
   });
 
@@ -138,7 +138,7 @@ describe('CommentItemComponent', () => {
       component.editComment();
 
       expect(component.closeDropDown).toHaveBeenCalled();
-      expect(component.isCommentEditable).toBe(true);
+      expect(component.isCommentEditable).toBeTrue();
       expect(component.commentCtrl.value).toBe(mockComment.content);
     });
   });
@@ -147,7 +147,7 @@ describe('CommentItemComponent', () => {
     it('should make comment not editable', () => {
       component.cancelEditComment();
 
-      expect(component.isCommentEditable).toBe(false);
+      expect(component.isCommentEditable).toBeFalse();
     });
   });
 

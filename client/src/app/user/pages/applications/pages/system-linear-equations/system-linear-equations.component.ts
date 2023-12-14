@@ -25,8 +25,8 @@ import { MathjaxModule } from 'mathjax-angular';
 import { VarStatusEnum } from '../../../../../shared/models/enums/var-status.enum';
 import { NgForOf, NgIf } from '@angular/common';
 
-const MIN_NUMBER: number = 2;
-const MAX_NUMBER: number = 10;
+const MIN_NUMBER = 2;
+const MAX_NUMBER = 10;
 
 @Component({
   selector: 'app-system-linear-equations',
@@ -329,8 +329,7 @@ export class SystemLinearEquationsComponent implements OnInit, OnDestroy {
           expandMatrix = expandMatrix.rowsLinearCombination(j, lambda, i);
         }
       }
-      for (let i = 0; i < freeVarsIndexes.length; i++) {
-        const index = freeVarsIndexes[i];
+      for (const index of freeVarsIndexes) {
         this.resultToString[index] = `$x_{${index + 1}}=x_{${index + 1}}$`;
       }
       for (let i = 0; i < notFreeVarsIndexes.length; i++) {

@@ -25,12 +25,12 @@ import { NgIf } from '@angular/common';
 export class ArticleContentComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public clearControl: { clear: boolean } = { clear: false };
 
-  @Input() public content: string = '';
+  @Input() public content = '';
 
   @Output() public saveContent: EventEmitter<string> =
     new EventEmitter<string>();
 
-  public isContentEditable: boolean = true;
+  public isContentEditable = true;
 
   public contentCtrl: FormControl = new FormControl('');
 

@@ -403,7 +403,7 @@ describe('UsersComponent', () => {
       component.searchUser('user');
 
       expect(component.filterParams).toEqual(newParams);
-      expect(component.clearCurrentPageField).toBe(true);
+      expect(component.clearCurrentPageField).toBeTrue();
       expect(component.initUsersTable).toHaveBeenCalledWith(newParams);
     });
   });
@@ -412,7 +412,7 @@ describe('UsersComponent', () => {
     it('should set true into clearCurrentPageField property', () => {
       component.onClearPageControl(true);
 
-      expect(component.clearCurrentPageField).toBe(true);
+      expect(component.clearCurrentPageField).toBeTrue();
     });
   });
 });

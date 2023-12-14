@@ -11,7 +11,7 @@ import { NgIf } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AlertComponent {
-  public isAlertVisible: boolean = true;
+  public isAlertVisible = true;
 
   public toggleAlert(): void {
     this.isAlertVisible = !this.isAlertVisible;

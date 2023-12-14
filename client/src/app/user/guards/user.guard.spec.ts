@@ -7,8 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 
 describe('userGuard', () => {
   const guard: CanActivateFn = () =>
-    // eslint-disable-next-line
-    // @ts-ignore
+    // @ts-expect-error: Error arguments number
     TestBed.runInInjectionContext(() => userGuard());
   let mockUsersService: jasmine.SpyObj<UsersService>;
   let mockRouter: jasmine.SpyObj<Router>;
@@ -44,10 +43,10 @@ describe('userGuard', () => {
   describe('canActivate', () => {
     it('should not redirect', (done) => {
       mockUsersService.user$.next(mockUser);
-      // eslint-disable-next-line
-      // @ts-ignore
+
+      // @ts-expect-error: Error arguments number
       guard().subscribe((result: boolean | UrlTree) => {
-        expect(result).toBe(true);
+        expect(result).toBeTrue();
         done();
       });
     });
@@ -56,8 +55,8 @@ describe('userGuard', () => {
       mockUsersService.user$.next(null);
       const urlTree: UrlTree = {} as UrlTree;
       mockRouter.parseUrl.and.returnValue(urlTree);
-      // eslint-disable-next-line
-      // @ts-ignore
+
+      // @ts-expect-error: Error arguments number
       guard().subscribe((result: boolean | UrlTree) => {
         expect(result).toBe(urlTree);
         expect(mockRouter.parseUrl).toHaveBeenCalledWith('/');

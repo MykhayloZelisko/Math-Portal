@@ -51,7 +51,7 @@ describe('TagItemComponent', () => {
     it('isEditable value should be true', () => {
       component.editTag();
 
-      expect(component.isEditable).toBe(true);
+      expect(component.isEditable).toBeTrue();
     });
   });
 
@@ -59,7 +59,7 @@ describe('TagItemComponent', () => {
     it('isEditable value should be false', () => {
       component.cancelEditTag();
 
-      expect(component.isEditable).toBe(false);
+      expect(component.isEditable).toBeFalse();
       expect(component.tagItem.nativeElement.innerHTML).toBe(mockTag.value);
     });
   });

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from '../components/dialog/dialog.component';
 import { DialogContentInterface } from '../models/interfaces/dialog-content.interface';
 import { DialogDataInterface } from '../models/interfaces/dialog-data.interface';
@@ -20,7 +20,7 @@ export class DialogService {
       tag: undefined,
       article: undefined,
     },
-  ) {
+  ): MatDialogRef<DialogComponent> {
     const dialogData: DialogDataInterface = {
       dialogType: dialogType,
       data: dialogContent,

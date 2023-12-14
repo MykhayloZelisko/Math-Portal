@@ -58,17 +58,17 @@ export class ArticleComponent implements OnInit, OnDestroy {
     tagsIds: [],
   };
 
-  public isAdmin: boolean = false;
+  public isAdmin = false;
 
-  public isEditable: boolean = false;
+  public isEditable = false;
 
   public article!: ArticleInterface;
 
-  public finalRequest: boolean = false;
+  public finalRequest = false;
 
-  public isRatingActive: boolean = false;
+  public isRatingActive = false;
 
-  public isSaveButtonDisable: boolean = false;
+  public isSaveButtonDisable = false;
 
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -122,11 +122,9 @@ export class ArticleComponent implements OnInit, OnDestroy {
               this.newArticle.tagsIds = this.article.tags.map(
                 (tag: TagInterface) => tag.id,
               );
-              // eslint-disable-next-line
-              // @ts-ignore
+              // @ts-expect-error: Mathjax error
               if (typeof window.MathJax.texReset === 'function') {
-                // eslint-disable-next-line
-                // @ts-ignore
+                // @ts-expect-error: Mathjax error
                 window.MathJax.texReset();
               }
             },
@@ -229,11 +227,9 @@ export class ArticleComponent implements OnInit, OnDestroy {
             title: 'ПОВІДОМЛЕННЯ',
             text: 'Стаття оновлена успішно',
           });
-          // eslint-disable-next-line
-          // @ts-ignore
+          // @ts-expect-error: Mathjax error
           if (typeof window.MathJax.texReset === 'function') {
-            // eslint-disable-next-line
-            // @ts-ignore
+            // @ts-expect-error: Mathjax error
             window.MathJax.texReset();
           }
           this.isEditable = false;

@@ -176,7 +176,7 @@ describe('SystemLinearEquationsComponent', () => {
       component.initSystem();
 
       component.solvingLinearSystemOptions.forEach((option) => {
-        expect(option.disable).toBe(false);
+        expect(option.disable).toBeFalse();
       });
     });
 
@@ -190,7 +190,7 @@ describe('SystemLinearEquationsComponent', () => {
       component.initSystem();
 
       expect(component.solvingLinearSystemOptions).toEqual(mockOptions);
-      expect(component.methodCtrl.value).toBe(null);
+      expect(component.methodCtrl.value).toBeNull();
     });
 
     it('should set method when form values and component values are equal', () => {
@@ -239,7 +239,7 @@ describe('SystemLinearEquationsComponent', () => {
       );
       const result = component.forbidInput(mockEvent);
 
-      expect(result).toBe(false);
+      expect(result).toBeFalse();
       expect(mockEvent.preventDefault).toHaveBeenCalled();
     });
   });

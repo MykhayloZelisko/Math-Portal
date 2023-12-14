@@ -37,7 +37,7 @@ export class NewArticleComponent implements OnDestroy {
 
   public clearControl: { clear: boolean } = { clear: false };
 
-  public isButtonDisable: boolean = true;
+  public isButtonDisable = true;
 
   private destroy$: Subject<void> = new Subject<void>();
 

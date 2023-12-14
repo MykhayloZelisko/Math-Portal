@@ -37,7 +37,7 @@ describe('AlertComponent', () => {
       component.isAlertVisible = false;
       component.toggleAlert();
 
-      expect(component.isAlertVisible).toBe(true);
+      expect(component.isAlertVisible).toBeTrue();
     });
   });
 });

@@ -42,6 +42,7 @@ describe('AppComponent', () => {
     it('should call getCurrentUser', () => {
       const getCurrentUserSpy = spyOn(app, 'getCurrentUser');
       app.ngOnInit();
+
       expect(getCurrentUserSpy).toHaveBeenCalled();
     });
   });

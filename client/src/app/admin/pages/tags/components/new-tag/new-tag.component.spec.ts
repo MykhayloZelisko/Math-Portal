@@ -55,7 +55,7 @@ describe('NewTagComponent', () => {
 
       expect(component.tag).toBe('');
       expect(component.tagCtrl.value).toBe('');
-      expect(component.clearControl.clear).toBe(false);
+      expect(component.clearControl.clear).toBeFalse();
     });
 
     it('should not clear tag control and tag value', () => {
@@ -65,7 +65,7 @@ describe('NewTagComponent', () => {
 
       expect(component.tag).toBe('tag 2');
       expect(component.tagCtrl.value).toBe('tag 2');
-      expect(component.clearControl.clear).toBe(false);
+      expect(component.clearControl.clear).toBeFalse();
     });
   });
 

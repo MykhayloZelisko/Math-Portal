@@ -35,7 +35,7 @@ export class TagItemComponent {
   public updateTag: EventEmitter<TagInterface> =
     new EventEmitter<TagInterface>();
 
-  public isEditable: boolean = false;
+  public isEditable = false;
 
   public deleteTag(): void {
     this.removeTag.emit(this.tag);

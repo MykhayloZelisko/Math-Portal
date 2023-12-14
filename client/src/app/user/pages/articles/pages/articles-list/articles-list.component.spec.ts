@@ -117,7 +117,7 @@ describe('ArticlesListComponent', () => {
         ...mockArticlesList.articles,
         ...mockArticlesList.articles,
       ]);
-      expect(component.isButtonVisible).toBe(false);
+      expect(component.isButtonVisible).toBeFalse();
     });
 
     it('should hide button when articles list is empty', () => {
@@ -133,7 +133,7 @@ describe('ArticlesListComponent', () => {
         page: 1,
       });
 
-      expect(component.isButtonVisible).toBe(false);
+      expect(component.isButtonVisible).toBeFalse();
     });
   });
 

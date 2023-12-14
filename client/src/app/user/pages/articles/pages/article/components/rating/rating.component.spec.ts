@@ -26,7 +26,7 @@ describe('RatingComponent', () => {
       component.initForm();
 
       expect(component.ratingForm.controls['rating'].value).toBe(0);
-      expect(component.ratingForm.controls['rating'].disabled).toBe(true);
+      expect(component.ratingForm.controls['rating'].disabled).toBeTrue();
     });
   });
 

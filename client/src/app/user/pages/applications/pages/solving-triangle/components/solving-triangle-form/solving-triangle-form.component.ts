@@ -286,13 +286,13 @@ export class SolvingTriangleFormComponent
     if (this.triangles.length === 2) {
       this.triangles[1].angle_b = Math.PI - this.triangles[0].angle_b;
     }
-    for (let i = 0; i < this.triangles.length; i++) {
-      calcAngle(this.triangles[i], { angle: 'c', calculate: 'sum' });
-      calcSide(this.triangles[i], { side: 'c', calculate: 'sinAC' });
-      altitudesSSS(this.triangles[i], true, true, true);
-      mediansSSS(this.triangles[i], true, true, true);
-      bisectorsSSS(this.triangles[i], true, true, true);
-      radiusSSS(this.triangles[i], true, true, true, true, true);
+    for (const item of this.triangles) {
+      calcAngle(item, { angle: 'c', calculate: 'sum' });
+      calcSide(item, { side: 'c', calculate: 'sinAC' });
+      altitudesSSS(item, true, true, true);
+      mediansSSS(item, true, true, true);
+      bisectorsSSS(item, true, true, true);
+      radiusSSS(item, true, true, true, true, true);
     }
   }
 
@@ -352,13 +352,13 @@ export class SolvingTriangleFormComponent
         this.triangles[1].angle_b = Math.PI - this.triangles[0].angle_b;
       }
     }
-    for (let i = 0; i < this.triangles.length; i++) {
-      calcAngle(this.triangles[i], { angle: 'c', calculate: 'sum' });
-      calcSide(this.triangles[i], { side: 'c', calculate: 'sinAC' });
-      altitudesSSS(this.triangles[i], true, true, false);
-      mediansSSS(this.triangles[i], true, true, true);
-      bisectorsSSS(this.triangles[i], true, true, true);
-      radiusSSS(this.triangles[i], true, true, true, true, true);
+    for (const item of this.triangles) {
+      calcAngle(item, { angle: 'c', calculate: 'sum' });
+      calcSide(item, { side: 'c', calculate: 'sinAC' });
+      altitudesSSS(item, true, true, false);
+      mediansSSS(item, true, true, true);
+      bisectorsSSS(item, true, true, true);
+      radiusSSS(item, true, true, true, true, true);
     }
   }
 
@@ -367,14 +367,14 @@ export class SolvingTriangleFormComponent
     if (this.triangles.length === 2) {
       this.triangles[1].angle_c = Math.PI - this.triangles[0].angle_c;
     }
-    for (let i = 0; i < this.triangles.length; i++) {
-      calcSide(this.triangles[i], { side: 'c', calculate: 'cos' });
-      calcAngle(this.triangles[i], { angle: 'a', calculate: 'cos' });
-      calcAngle(this.triangles[i], { angle: 'b', calculate: 'sum' });
-      altitudesSSS(this.triangles[i], false, true, true);
-      mediansSSS(this.triangles[i], true, true, true);
-      bisectorsSSS(this.triangles[i], true, true, true);
-      radiusSSS(this.triangles[i], true, true, true, true, true);
+    for (const item of this.triangles) {
+      calcSide(item, { side: 'c', calculate: 'cos' });
+      calcAngle(item, { angle: 'a', calculate: 'cos' });
+      calcAngle(item, { angle: 'b', calculate: 'sum' });
+      altitudesSSS(item, false, true, true);
+      mediansSSS(item, true, true, true);
+      bisectorsSSS(item, true, true, true);
+      radiusSSS(item, true, true, true, true, true);
     }
   }
 
@@ -413,7 +413,7 @@ export class SolvingTriangleFormComponent
 
   public showResult(): void {
     this.triangles = this.triangles.map((triangle: TriangleInterface) => {
-      (Object.keys(triangle) as Array<keyof TriangleInterface>).forEach(
+      (Object.keys(triangle) as (keyof TriangleInterface)[]).forEach(
         (key: keyof TriangleInterface) => {
           triangle[key] = roundN(triangle[key], 10);
         },
