@@ -34,7 +34,7 @@
   <tbody class="users-table__body">
     <tr
       class="users-table__row"
-      *ngFor="let user of tableContent.users | paginate : paginatorConfig"
+      *ngFor="let user of tableContent.users | paginate: paginatorConfig"
     >
       <td class="users-table__cell" [ngStyle]="getContentPosition(0)">
         {{ user.fullName }}
