@@ -16,6 +16,7 @@ import sequelize, { FindOptions, Op, QueryTypes, Sequelize } from 'sequelize';
 import { CommentsService } from '../comments/comments.service';
 import { Comment } from '../comments/models/comment.model';
 import * as process from 'process';
+import { ArticlesListDto } from './dto/articles-list.dto';
 
 @Injectable()
 export class ArticlesService {
@@ -34,7 +35,9 @@ export class ArticlesService {
     @InjectModel(Article) private articleRepository: typeof Article,
   ) {}
 
-  public async createArticle(createArticleDto: CreateArticleDto) {
+  public async createArticle(
+    createArticleDto: CreateArticleDto,
+  ): Promise<Article> {
     const tags = await this.tagsService.getAllTags({
       where: {
         id: createArticleDto.tagsIds,
@@ -54,7 +57,10 @@ export class ArticlesService {
     return this.getArticleById(article.id);
   }
 
-  public async updateArticle(id: string, updateArticleDto: UpdateArticleDto) {
+  public async updateArticle(
+    id: string,
+    updateArticleDto: UpdateArticleDto,
+  ): Promise<Article> {
     const article = await this.getArticleById(id);
     if (!article) {
       throw new NotFoundException('Article not found');
@@ -77,7 +83,7 @@ export class ArticlesService {
     throw new BadRequestException('Article is not updated');
   }
 
-  public async removeArticle(id: string) {
+  public async removeArticle(id: string): Promise<void> {
     const article = await this.getArticleById(id);
     const comments = await this.commentsService.getAllCommentsByArticleId(id);
     const commentsIds = comments.map((comment: Comment) => comment.id);
@@ -89,7 +95,7 @@ export class ArticlesService {
     throw new NotFoundException('Article not found');
   }
 
-  public async getArticleById(id: string) {
+  public async getArticleById(id: string): Promise<Article> {
     const article = await this.articleRepository.findByPk(
       id,
       this.articleOptions,
@@ -100,7 +106,9 @@ export class ArticlesService {
     throw new NotFoundException('Article not found');
   }
 
-  public async getAllArticles(options?: FindOptions<Article>) {
+  public async getAllArticles(
+    options?: FindOptions<Article>,
+  ): Promise<Article[]> {
     const articles = await this.articleRepository.findAll(options);
     return articles;
   }
@@ -110,11 +118,11 @@ export class ArticlesService {
     size: number,
     filter: string,
     tagsIds: string[],
-  ) {
+  ): Promise<ArticlesListDto> {
     try {
       const sequelizeInstance = new Sequelize(
-        process.env.POSTGRES_DB,
-        process.env.POSTGRES_USER,
+        String(process.env.POSTGRES_DB),
+        String(process.env.POSTGRES_USER),
         process.env.POSTGRES_PASSWORD,
         { dialect: 'postgres' },
       );

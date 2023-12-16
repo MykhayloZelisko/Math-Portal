@@ -38,7 +38,7 @@ export class RatingController {
   public updateArticleRating(
     @Req() request: Request,
     @Body() createRatingDto: CreateRatingDto,
-  ) {
+  ): Promise<ArticleRatingDto> {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.ratingService.updateArticleRating(createRatingDto, token);
   }
@@ -53,7 +53,7 @@ export class RatingController {
   public getCurrentArticleStatus(
     @Req() request: Request,
     @Query('articleId', ParseUUIDv4Pipe) articleId: string,
-  ) {
+  ): Promise<CurrentArticleStatusDto> {
     const token = request.headers['authorization'] // eslint-disable-line
       ? request.headers['authorization'].split(' ')[1] // eslint-disable-line
       : '';

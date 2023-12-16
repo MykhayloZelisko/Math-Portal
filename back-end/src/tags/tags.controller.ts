@@ -36,14 +36,14 @@ export class TagsController {
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Post()
-  public createTag(@Body() createTagDto: CreateTagDto) {
+  public createTag(@Body() createTagDto: CreateTagDto): Promise<Tag> {
     return this.tagsService.createTag(createTagDto);
   }
 
   @ApiOperation({ summary: 'Get all tags' })
   @ApiResponse({ status: HttpStatus.OK, type: [Tag] })
   @Get()
-  public getAllTags() {
+  public getAllTags(): Promise<Tag[]> {
     return this.tagsService.getAllTags({ order: [['value', 'ASC']] });
   }
 
@@ -52,7 +52,7 @@ export class TagsController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeTag(@Param('id', ParseUUIDv4Pipe) id: string) {
+  public removeTag(@Param('id', ParseUUIDv4Pipe) id: string): Promise<void> {
     return this.tagsService.removeTag(id);
   }
 
@@ -64,7 +64,7 @@ export class TagsController {
   public updateTag(
     @Param('id', ParseUUIDv4Pipe) id: string,
     @Body(ValidationPipe) updateTagDto: UpdateTagDto,
-  ) {
+  ): Promise<Tag> {
     return this.tagsService.updateTag(id, updateTagDto);
   }
 }

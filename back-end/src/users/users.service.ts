@@ -20,6 +20,9 @@ import { TokenWithExpDto } from '../auth/dto/token-with-exp.dto';
 import { RatingService } from '../rating/rating.service';
 import { CommentsService } from '../comments/comments.service';
 import { Comment } from '../comments/models/comment.model';
+import { UsersListDto } from './dto/users-list.dto';
+import { UserWithTokenDto } from './dto/user-with-token.dto';
+import { UserWithNullTokenDto } from './dto/user-with-null-token.dto';
 
 @Injectable()
 export class UsersService {
@@ -33,18 +36,16 @@ export class UsersService {
     private commentsService: CommentsService,
   ) {}
 
-  public async createUser(createUserDto: CreateUserDto) {
+  public async createUser(createUserDto: CreateUserDto): Promise<User> {
     const userWithFullName = {
       ...createUserDto,
       fullName: `${createUserDto.firstName} ${createUserDto.lastName}`,
     };
-    const user = await this.userRepository.create(userWithFullName);
-    return user;
+    return this.userRepository.create(userWithFullName);
   }
 
-  public async getAllUsers(options?: FindOptions<User>) {
-    const users = await this.userRepository.findAll(options);
-    return users;
+  public async getAllUsers(options?: FindOptions<User>): Promise<User[]> {
+    return this.userRepository.findAll(options);
   }
 
   public async getAllUsersWithParams(
@@ -53,19 +54,19 @@ export class UsersService {
     sortByName: string,
     sortByRole: string,
     filter: string,
-  ) {
-    const order = [];
+  ): Promise<UsersListDto> {
+    const order: [string, string][] = [];
     if (
       sortByRole.toLowerCase() === 'asc' ||
       sortByRole.toLowerCase() === 'desc'
     ) {
-      order.push([['isAdmin', sortByRole]]);
+      order.push(['isAdmin', sortByRole]);
     }
     if (
       sortByName.toLowerCase() === 'asc' ||
       sortByName.toLowerCase() === 'desc'
     ) {
-      order.push([['fullName', sortByName]]);
+      order.push(['fullName', sortByName]);
     }
 
     let filterOptions: FindOptions<User> = {
@@ -104,7 +105,7 @@ export class UsersService {
     return { total, users };
   }
 
-  public async removeUser(id: string) {
+  public async removeUser(id: string): Promise<void> {
     const user = await this.getUserById(id);
     if (user) {
       await this.removeUserCommentsDescendants(user.id);
@@ -115,7 +116,7 @@ export class UsersService {
     throw new NotFoundException('User not found');
   }
 
-  public async removeCurrentUser(token: string) {
+  public async removeCurrentUser(token: string): Promise<void> {
     const currentUser = await this.jwtService.verifyAsync(token);
     const user = await this.getUserById(currentUser.id);
     if (user) {
@@ -129,12 +130,11 @@ export class UsersService {
     throw new NotFoundException('User not found');
   }
 
-  public async getUserByEmail(email: string) {
-    const user = await this.userRepository.findOne({ where: { email } });
-    return user;
+  public async getUserByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { email } });
   }
 
-  public async getUserById(id: string) {
+  public async getUserById(id: string): Promise<User> {
     const user = await this.userRepository.findByPk(id);
     if (!user) {
       throw new NotFoundException('User not found');
@@ -145,7 +145,7 @@ export class UsersService {
   public async updateUserRole(
     updateUserRoleDto: UpdateUserRoleDto,
     token: string,
-  ) {
+  ): Promise<UserWithNullTokenDto> {
     const userByToken = await this.jwtService.verifyAsync(token);
     const currentUser = await this.userRepository.findByPk(userByToken.id);
     const user = await this.getUserById(updateUserRoleDto.userId);
@@ -161,7 +161,7 @@ export class UsersService {
     throw new NotFoundException('User not found');
   }
 
-  public async getCurrentUser(token: string) {
+  public async getCurrentUser(token: string): Promise<User> {
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.userRepository.findByPk(userByToken.id);
     if (user) {
@@ -170,7 +170,10 @@ export class UsersService {
     throw new NotFoundException('User not found');
   }
 
-  public async updateCurrentUser(updateUserDto: UpdateUserDto, token: string) {
+  public async updateCurrentUser(
+    updateUserDto: UpdateUserDto,
+    token: string,
+  ): Promise<UserWithTokenDto> {
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.userRepository.findByPk(userByToken.id);
     if (user) {
@@ -198,7 +201,9 @@ export class UsersService {
     throw new NotFoundException('User not found');
   }
 
-  public async removeCurrentUserPhoto(token: string) {
+  public async removeCurrentUserPhoto(
+    token: string,
+  ): Promise<UserWithTokenDto> {
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.userRepository.findByPk(userByToken.id);
     if (user && user.photo) {
@@ -214,7 +219,7 @@ export class UsersService {
   public async updateCurrentUserPhoto(
     image: Express.Multer.File,
     token: string,
-  ) {
+  ): Promise<UserWithTokenDto> {
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.userRepository.findByPk(userByToken.id);
     if (user) {
@@ -233,14 +238,12 @@ export class UsersService {
     throw new NotFoundException('User not found');
   }
 
-  private async removeUserCommentsDescendants(id: string) {
+  private async removeUserCommentsDescendants(id: string): Promise<void> {
     const userComments = await this.commentsService.getAllCommentsByUserId(id);
     const userCommentsIds = userComments.map((comment: Comment) => comment.id);
     let setOfDescendantsIds = new Set<string>();
-    for (let i = 0; i < userCommentsIds.length; i++) {
-      const descendantsIds = await this.commentsService.getDescendantsIds(
-        userCommentsIds[i],
-      );
+    for (const item of userCommentsIds) {
+      const descendantsIds = await this.commentsService.getDescendantsIds(item);
       setOfDescendantsIds = new Set([
         ...setOfDescendantsIds,
         ...descendantsIds,

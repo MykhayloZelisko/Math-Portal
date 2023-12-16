@@ -40,7 +40,9 @@ export class ArticlesController {
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Post()
-  public createArticle(@Body() createArticleDto: CreateArticleDto) {
+  public createArticle(
+    @Body() createArticleDto: CreateArticleDto,
+  ): Promise<Article> {
     return this.articlesService.createArticle(createArticleDto);
   }
 
@@ -52,7 +54,7 @@ export class ArticlesController {
   public updateArticle(
     @Param('id', ParseUUIDv4Pipe) id: string,
     @Body(ValidationPipe) updateArticleDto: UpdateArticleDto,
-  ) {
+  ): Promise<Article> {
     return this.articlesService.updateArticle(id, updateArticleDto);
   }
 
@@ -61,14 +63,18 @@ export class ArticlesController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeArticle(@Param('id', ParseUUIDv4Pipe) id: string) {
+  public removeArticle(
+    @Param('id', ParseUUIDv4Pipe) id: string,
+  ): Promise<void> {
     return this.articlesService.removeArticle(id);
   }
 
   @ApiOperation({ summary: 'Get article' })
   @ApiResponse({ status: HttpStatus.OK, type: Article })
   @Get(':id')
-  public getArticleById(@Param('id', ParseUUIDv4Pipe) id: string) {
+  public getArticleById(
+    @Param('id', ParseUUIDv4Pipe) id: string,
+  ): Promise<Article> {
     return this.articlesService.getArticleById(id);
   }
 
@@ -80,7 +86,7 @@ export class ArticlesController {
     @Query('size', ParseIntegerPipe) size: number,
     @Query('filter') filter: string,
     @Query('tagsIds', ParseIdsArrayPipe) tagsIdsQuery: string,
-  ) {
+  ): Promise<ArticlesListDto> {
     const tagsIds = tagsIdsQuery ? tagsIdsQuery.split(',').map(String) : [];
     return this.articlesService.getAllArticlesWithParams(
       page,
