@@ -8,7 +8,7 @@ import { validate as uuidValidate, version as uuidVersion } from 'uuid';
 
 @Injectable()
 export class ParseIdsArrayPipe implements PipeTransform {
-  public transform(value: string, metadata: ArgumentMetadata) {
+  public transform(value: string, metadata: ArgumentMetadata): string {
     const tagsIds = value ? value.split(',').map(String) : [];
     let isValid = true;
     tagsIds.forEach((id: string) => {

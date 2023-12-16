@@ -8,7 +8,7 @@ module.exports = {
   plugins: ['@typescript-eslint/eslint-plugin'],
   extends: [
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
+    'plugin:@typescript-eslint/stylistic',
     'airbnb-typescript/base',
     'prettier',
     'plugin:prettier/recommended'
@@ -20,22 +20,17 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
-    '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/typedef': [
-      'warn',
-      {
-        'call-signature': true,
-        parameter: true,
-        'arrow-parameter': true,
-        'property-declaration': true,
-        'variable-declaration': true,
-        'member-variable-declaration': true,
-        'object-destructuring': true,
-        'array-destructuring': true
-      }
-    ],
+    '@typescript-eslint/explicit-member-accessibility': ['warn'],
+    '@typescript-eslint/no-duplicate-enum-values': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'warn',
+    '@typescript-eslint/no-duplicate-type-constituents': 'error',
+    '@typescript-eslint/no-for-in-array': 'error',
+    '@typescript-eslint/no-implied-eval': 'error',
+    '@typescript-eslint/no-mixed-enums': 'error',
+    '@typescript-eslint/prefer-includes': 'error',
+    '@typescript-eslint/prefer-nullish-coalescing': ['error', { ignoreConditionalTests: true }],
     'prettier/prettier': [
       'error',
       {
@@ -55,8 +50,6 @@ module.exports = {
     'prefer-const': 'warn',
     curly: 'warn',
     eqeqeq: ['warn', 'smart'],
-    'no-magic-numbers': ['warn', { 'ignore': [-1, 0, 1, 2, 3, 4, 5, 100, 8, 32]}],
-    '@typescript-eslint/no-inferrable-types': 'off',
-    '@typescript-eslint/explicit-member-accessibility': ['warn']
+    'no-magic-numbers': ['warn', { 'ignore': [-1, 0, 1, 2, 3, 4, 5, 100, 8, 32, 3000]}],
   },
 };

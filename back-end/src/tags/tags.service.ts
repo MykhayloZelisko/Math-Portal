@@ -19,23 +19,21 @@ export class TagsService {
     @InjectModel(ArticleTags) private articleTagRepository: typeof ArticleTags,
   ) {}
 
-  public async getAllTags(options?: FindOptions<Tag>) {
-    const tags = await this.tagRepository.findAll(options);
-    return tags;
+  public async getAllTags(options?: FindOptions<Tag>): Promise<Tag[]> {
+    return this.tagRepository.findAll(options);
   }
 
-  public async getTagByValue(value: string) {
-    const tag = await this.tagRepository.findOne({
+  public async getTagByValue(value: string): Promise<Tag | null> {
+    return this.tagRepository.findOne({
       where: sequelize.where(
         sequelize.fn('LOWER', sequelize.col('value')),
         'LIKE',
         value.toLowerCase(),
       ),
     });
-    return tag;
   }
 
-  public async createTag(createTagDto: CreateTagDto) {
+  public async createTag(createTagDto: CreateTagDto): Promise<Tag> {
     const tag = await this.getTagByValue(createTagDto.value);
     if (tag) {
       throw new ConflictException('Tag already exists');
@@ -47,7 +45,7 @@ export class TagsService {
     throw new BadRequestException('Tag is not created');
   }
 
-  public async removeTag(id: string) {
+  public async removeTag(id: string): Promise<void> {
     const tag = await this.tagRepository.findByPk(id);
     if (tag) {
       const subQuery = await this.articleTagRepository.findAll({
@@ -84,7 +82,10 @@ export class TagsService {
     throw new NotFoundException('Tag not found');
   }
 
-  public async updateTag(tagId: string, updateTagDto: UpdateTagDto) {
+  public async updateTag(
+    tagId: string,
+    updateTagDto: UpdateTagDto,
+  ): Promise<Tag> {
     if (!updateTagDto.value) {
       throw new BadRequestException('Tag is not updated');
     }

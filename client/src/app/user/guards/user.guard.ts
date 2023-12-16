@@ -1,7 +1,7 @@
-import { CanActivateFn, Router, UrlTree } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { UsersService } from '../../shared/services/users.service';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 export const userGuard: CanActivateFn = () => {
   const usersService = inject(UsersService);

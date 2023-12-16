@@ -7,7 +7,7 @@ import {
 
 @Injectable()
 export class ParseIntegerPipe implements PipeTransform {
-  public async transform(value: string, metadata: ArgumentMetadata) {
+  public transform(value: string, metadata: ArgumentMetadata): string {
     const isNumber = !isNaN(parseFloat(value)) && isFinite(Number(value));
     const isInteger = Number(value) === Math.trunc(Number(value));
     const isPositive = Number(value) > 0;

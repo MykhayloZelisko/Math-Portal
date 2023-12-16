@@ -12,6 +12,8 @@ import { UsersService } from '../users/users.service';
 import { ArticlesService } from '../articles/articles.service';
 import { JwtService } from '@nestjs/jwt';
 import { Op } from 'sequelize';
+import { ArticleRatingDto } from './dto/article-rating.dto';
+import { CurrentArticleStatusDto } from './dto/current-article-status.dto';
 
 @Injectable()
 export class RatingService {
@@ -26,7 +28,7 @@ export class RatingService {
   public async updateArticleRating(
     createRatingDto: CreateRatingDto,
     token: string,
-  ) {
+  ): Promise<ArticleRatingDto> {
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const article = await this.articlesService.getArticleById(
@@ -70,7 +72,10 @@ export class RatingService {
     };
   }
 
-  public async getCurrentArticleStatus(articleId: string, token: string) {
+  public async getCurrentArticleStatus(
+    articleId: string,
+    token: string,
+  ): Promise<CurrentArticleStatusDto> {
     try {
       const userByToken = await this.jwtService.verifyAsync(token);
       const user = await this.usersService.getUserById(userByToken.id);
@@ -96,18 +101,18 @@ export class RatingService {
     }
   }
 
-  public async recalculateArticlesRating(userId: string) {
+  public async recalculateArticlesRating(userId: string): Promise<void> {
     const articlesIds = await this.ratingRepository.findAll({
       attributes: ['articleId'],
       where: { userId },
     });
     const ids = articlesIds.map((row: Rating) => row.articleId);
 
-    for (let i = 0; i < ids.length; i++) {
-      const article = await this.articlesService.getArticleById(ids[i]);
+    for (const articleId of ids) {
+      const article = await this.articlesService.getArticleById(articleId);
       const sumRatingCurrentArticle = await this.ratingRepository.sum('rate', {
         where: {
-          articleId: ids[i],
+          articleId: articleId,
           userId: {
             [Op.not]: userId,
           },
@@ -115,17 +120,16 @@ export class RatingService {
       });
       const countRatingCurrentArticle = await this.ratingRepository.count({
         where: {
-          articleId: ids[i],
+          articleId: articleId,
           userId: {
             [Op.not]: userId,
           },
         },
       });
-      const articleRating =
+      article.rating =
         Math.round(
           (sumRatingCurrentArticle / countRatingCurrentArticle) * 100,
         ) / 100;
-      article.rating = articleRating;
       article.votes = countRatingCurrentArticle;
       await article.save();
     }

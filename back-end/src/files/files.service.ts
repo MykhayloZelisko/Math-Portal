@@ -5,7 +5,7 @@ import { v4 as uuidV4 } from 'uuid';
 
 @Injectable()
 export class FilesService {
-  public async createImageFile(file: Express.Multer.File) {
+  public async createImageFile(file: Express.Multer.File): Promise<string> {
     try {
       const fileName = uuidV4() + path.extname(file.originalname);
       const filePath = path.resolve(__dirname, '..', '..', 'static');
@@ -19,7 +19,7 @@ export class FilesService {
     }
   }
 
-  public async removeImageFile(fileName: string) {
+  public async removeImageFile(fileName: string): Promise<void> {
     const filePath = path.resolve(__dirname, '..', '..', 'static', fileName);
     fs.unlink(filePath, (err) => {
       if (err) {

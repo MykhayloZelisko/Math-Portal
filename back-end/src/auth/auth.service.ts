@@ -11,6 +11,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { User } from '../users/models/user.model';
+import { TokenWithExpDto } from './dto/token-with-exp.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,12 +20,12 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  public async login(loginDto: LoginDto) {
+  public async login(loginDto: LoginDto): Promise<TokenWithExpDto> {
     const user = await this.validateUser(loginDto);
     return this.generateToken(user);
   }
 
-  public async registration(createUserDto: CreateUserDto) {
+  public async registration(createUserDto: CreateUserDto): Promise<void> {
     const candidate = await this.userService.getUserByEmail(
       createUserDto.email,
     );
@@ -38,7 +39,7 @@ export class AuthService {
     });
   }
 
-  public async generateToken(user: User) {
+  public async generateToken(user: User): Promise<TokenWithExpDto> {
     const payload = {
       id: user.id,
       email: user.email,
@@ -52,7 +53,7 @@ export class AuthService {
     return { token: token, exp: decodedToken.exp };
   }
 
-  private async validateUser(loginDto: LoginDto) {
+  public async validateUser(loginDto: LoginDto): Promise<User> {
     const user = await this.userService.getUserByEmail(loginDto.email);
     if (user) {
       const passwordEquals = await bcrypt.compare(

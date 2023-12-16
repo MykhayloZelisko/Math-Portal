@@ -52,7 +52,7 @@ export class UsersController {
   public updateUserRole(
     @Req() request: Request,
     @Body() updateUserRoleDto: UpdateUserRoleDto,
-  ) {
+  ): Promise<UserWithNullTokenDto> {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.usersService.updateUserRole(updateUserRoleDto, token);
   }
@@ -68,7 +68,7 @@ export class UsersController {
     @Query('sortByName', SortingPipe) sortByName: string,
     @Query('sortByRole', SortingPipe) sortByRole: string,
     @Query('filter') filter: string,
-  ) {
+  ): Promise<UsersListDto> {
     return this.usersService.getAllUsersWithParams(
       page,
       size,
@@ -83,7 +83,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Get('/current')
-  public getCurrentUser(@Req() request: Request) {
+  public getCurrentUser(@Req() request: Request): Promise<User> {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.usersService.getCurrentUser(token);
   }
@@ -93,7 +93,9 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Delete('/current/photo')
-  public removeCurrentUserPhoto(@Req() request: Request) {
+  public removeCurrentUserPhoto(
+    @Req() request: Request,
+  ): Promise<UserWithTokenDto> {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.usersService.removeCurrentUserPhoto(token);
   }
@@ -103,7 +105,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Delete('/current')
-  public removeCurrentUser(@Req() request: Request) {
+  public removeCurrentUser(@Req() request: Request): Promise<void> {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.usersService.removeCurrentUser(token);
   }
@@ -113,7 +115,7 @@ export class UsersController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeUser(@Param('id', ParseUUIDv4Pipe) id: string) {
+  public removeUser(@Param('id', ParseUUIDv4Pipe) id: string): Promise<void> {
     return this.usersService.removeUser(id);
   }
 
@@ -138,7 +140,7 @@ export class UsersController {
   public updateCurrentUserPhoto(
     @Req() request: Request,
     @UploadedFile(ParseImageFilePipe) image: Express.Multer.File,
-  ) {
+  ): Promise<UserWithTokenDto> {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.usersService.updateCurrentUserPhoto(image, token);
   }
@@ -152,7 +154,7 @@ export class UsersController {
   public updateCurrentUser(
     @Req() request: Request,
     @Body() updateUserDto: UpdateUserDto,
-  ) {
+  ): Promise<UserWithTokenDto> {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.usersService.updateCurrentUser(updateUserDto, token);
   }

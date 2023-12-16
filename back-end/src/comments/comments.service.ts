@@ -33,7 +33,7 @@ export class CommentsService {
   public async createComment(
     createCommentDto: CreateCommentDto,
     token: string,
-  ) {
+  ): Promise<Comment> {
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const article = await this.articlesService.getArticleById(
@@ -90,7 +90,7 @@ export class CommentsService {
     id: string,
     updateCommentDto: UpdateCommentDto,
     token: string,
-  ) {
+  ): Promise<Comment> {
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const comment = await this.getCommentById(id);
@@ -124,7 +124,7 @@ export class CommentsService {
   public async getCommentById(
     id: string,
     options?: Omit<FindOptions<Comment>, 'where'>,
-  ) {
+  ): Promise<Comment> {
     const comment = await this.commentRepository.findByPk(id, options);
     if (comment) {
       return comment;
@@ -132,7 +132,7 @@ export class CommentsService {
     throw new NotFoundException('Comment not found');
   }
 
-  public async removeComment(id: string) {
+  public async removeComment(id: string): Promise<void> {
     const comment = await this.getCommentById(id);
     if (comment) {
       const commentsIds = await this.getDescendantsIds(id);
@@ -142,7 +142,7 @@ export class CommentsService {
     throw new NotFoundException('Comment not found');
   }
 
-  public async removeCommentsArray(ids: string[]) {
+  public async removeCommentsArray(ids: string[]): Promise<void> {
     await this.commentRepository.destroy({
       where: {
         id: ids,
@@ -150,7 +150,9 @@ export class CommentsService {
     });
   }
 
-  public async getAllCommentsByArticleId(articleId: string) {
+  public async getAllCommentsByArticleId(
+    articleId: string,
+  ): Promise<Comment[]> {
     const comments = await this.commentRepository.findAll({
       attributes: [
         'id',
@@ -193,7 +195,7 @@ export class CommentsService {
   public async addLikeDislike(
     updateLikeDislikeDto: UpdateLikeDislikeDto,
     token: string,
-  ) {
+  ): Promise<Comment> {
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const comment = await this.getCommentById(updateLikeDislikeDto.commentId);
@@ -243,7 +245,7 @@ export class CommentsService {
     });
   }
 
-  public async getDescendantsIds(ancestorId: string) {
+  public async getDescendantsIds(ancestorId: string): Promise<string[]> {
     const commentsTree = await this.treeRepository.findAll({
       attributes: ['descendantId'],
       where: { ancestorId },
@@ -251,11 +253,10 @@ export class CommentsService {
     return commentsTree.map((tree: CommentsTree) => tree.descendantId);
   }
 
-  public async getAllCommentsByUserId(userId: string) {
-    const comments = await this.commentRepository.findAll({
+  public async getAllCommentsByUserId(userId: string): Promise<Comment[]> {
+    return this.commentRepository.findAll({
       attributes: ['id'],
       where: { userId },
     });
-    return comments;
   }
 }

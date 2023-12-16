@@ -42,7 +42,7 @@ export class CommentsController {
   public createComment(
     @Req() request: Request,
     @Body() createCommentDto: CreateCommentDto,
-  ) {
+  ): Promise<Comment> {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.commentsService.createComment(createCommentDto, token);
   }
@@ -52,7 +52,7 @@ export class CommentsController {
   @Get(':articleId')
   public getAllComments(
     @Param('articleId', ParseUUIDv4Pipe) articleId: string,
-  ) {
+  ): Promise<Comment[]> {
     return this.commentsService.getAllCommentsByArticleId(articleId);
   }
 
@@ -61,7 +61,7 @@ export class CommentsController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public remove(@Param('id', ParseUUIDv4Pipe) id: string) {
+  public remove(@Param('id', ParseUUIDv4Pipe) id: string): Promise<void> {
     return this.commentsService.removeComment(id);
   }
 
@@ -74,7 +74,7 @@ export class CommentsController {
   public updateLikesStatus(
     @Req() request: Request,
     @Body() updateLikeDislikeDto: UpdateLikeDislikeDto,
-  ) {
+  ): Promise<Comment> {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.commentsService.addLikeDislike(updateLikeDislikeDto, token);
   }
@@ -88,7 +88,7 @@ export class CommentsController {
     @Req() request: Request,
     @Param('id', ParseUUIDv4Pipe) id: string,
     @Body(ValidationPipe) updateCommentDto: UpdateCommentDto,
-  ) {
+  ): Promise<Comment> {
     const token = request.headers['authorization'].split(' ')[1]; // eslint-disable-line
     return this.commentsService.updateComment(id, updateCommentDto, token);
   }
