@@ -20,14 +20,6 @@ import { ArticlesListDto } from './dto/articles-list.dto';
 
 @Injectable()
 export class ArticlesService {
-  private articleOptions: FindOptions<Article> = {
-    include: {
-      association: 'tags',
-      model: Tag,
-      through: { attributes: [] },
-    },
-  };
-
   public constructor(
     private tagsService: TagsService,
     @Inject(forwardRef(() => CommentsService))
@@ -96,10 +88,13 @@ export class ArticlesService {
   }
 
   public async getArticleById(id: string): Promise<Article> {
-    const article = await this.articleRepository.findByPk(
-      id,
-      this.articleOptions,
-    );
+    const article = await this.articleRepository.findByPk(id, {
+      include: {
+        association: 'tags',
+        model: Tag,
+        through: { attributes: [] },
+      },
+    });
     if (article) {
       return article;
     }
@@ -109,8 +104,7 @@ export class ArticlesService {
   public async getAllArticles(
     options?: FindOptions<Article>,
   ): Promise<Article[]> {
-    const articles = await this.articleRepository.findAll(options);
-    return articles;
+    return this.articleRepository.findAll(options);
   }
 
   public async getAllArticlesWithParams(

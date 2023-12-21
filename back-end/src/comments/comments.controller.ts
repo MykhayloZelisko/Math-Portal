@@ -39,7 +39,7 @@ export class CommentsController {
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Post()
-  public createComment(
+  public async createComment(
     @Req() request: Request,
     @Body() createCommentDto: CreateCommentDto,
   ): Promise<Comment> {
@@ -50,7 +50,7 @@ export class CommentsController {
   @ApiOperation({ summary: 'Get list of comments for current article' })
   @ApiResponse({ status: HttpStatus.OK, type: [Comment] })
   @Get(':articleId')
-  public getAllComments(
+  public async getAllComments(
     @Param('articleId', ParseUUIDv4Pipe) articleId: string,
   ): Promise<Comment[]> {
     return this.commentsService.getAllCommentsByArticleId(articleId);
@@ -61,7 +61,9 @@ export class CommentsController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public remove(@Param('id', ParseUUIDv4Pipe) id: string): Promise<void> {
+  public async removeComment(
+    @Param('id', ParseUUIDv4Pipe) id: string,
+  ): Promise<void> {
     return this.commentsService.removeComment(id);
   }
 
@@ -71,7 +73,7 @@ export class CommentsController {
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Put('/likes')
-  public updateLikesStatus(
+  public async updateLikesStatus(
     @Req() request: Request,
     @Body() updateLikeDislikeDto: UpdateLikeDislikeDto,
   ): Promise<Comment> {
@@ -84,7 +86,7 @@ export class CommentsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @Put(':id')
-  public updateComment(
+  public async updateComment(
     @Req() request: Request,
     @Param('id', ParseUUIDv4Pipe) id: string,
     @Body(ValidationPipe) updateCommentDto: UpdateCommentDto,

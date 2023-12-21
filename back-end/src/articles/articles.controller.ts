@@ -40,7 +40,7 @@ export class ArticlesController {
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Post()
-  public createArticle(
+  public async createArticle(
     @Body() createArticleDto: CreateArticleDto,
   ): Promise<Article> {
     return this.articlesService.createArticle(createArticleDto);
@@ -51,7 +51,7 @@ export class ArticlesController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Put(':id')
-  public updateArticle(
+  public async updateArticle(
     @Param('id', ParseUUIDv4Pipe) id: string,
     @Body(ValidationPipe) updateArticleDto: UpdateArticleDto,
   ): Promise<Article> {
@@ -63,7 +63,7 @@ export class ArticlesController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeArticle(
+  public async removeArticle(
     @Param('id', ParseUUIDv4Pipe) id: string,
   ): Promise<void> {
     return this.articlesService.removeArticle(id);
@@ -72,7 +72,7 @@ export class ArticlesController {
   @ApiOperation({ summary: 'Get article' })
   @ApiResponse({ status: HttpStatus.OK, type: Article })
   @Get(':id')
-  public getArticleById(
+  public async getArticleById(
     @Param('id', ParseUUIDv4Pipe) id: string,
   ): Promise<Article> {
     return this.articlesService.getArticleById(id);
@@ -81,7 +81,7 @@ export class ArticlesController {
   @ApiOperation({ summary: 'Get list of articles' })
   @ApiResponse({ status: HttpStatus.OK, type: ArticlesListDto })
   @Get()
-  public getAllArticles(
+  public async getAllArticles(
     @Query('page', ParseIntegerPipe) page: number,
     @Query('size', ParseIntegerPipe) size: number,
     @Query('filter') filter: string,

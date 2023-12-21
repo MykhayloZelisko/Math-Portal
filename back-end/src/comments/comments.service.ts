@@ -153,7 +153,7 @@ export class CommentsService {
   public async getAllCommentsByArticleId(
     articleId: string,
   ): Promise<Comment[]> {
-    const comments = await this.commentRepository.findAll({
+    return this.commentRepository.findAll({
       attributes: [
         'id',
         'content',
@@ -189,7 +189,6 @@ export class CommentsService {
       ],
       order: [['id', 'ASC']],
     });
-    return comments;
   }
 
   public async addLikeDislike(

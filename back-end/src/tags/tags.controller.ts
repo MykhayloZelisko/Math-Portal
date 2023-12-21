@@ -36,14 +36,14 @@ export class TagsController {
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Post()
-  public createTag(@Body() createTagDto: CreateTagDto): Promise<Tag> {
+  public async createTag(@Body() createTagDto: CreateTagDto): Promise<Tag> {
     return this.tagsService.createTag(createTagDto);
   }
 
   @ApiOperation({ summary: 'Get all tags' })
   @ApiResponse({ status: HttpStatus.OK, type: [Tag] })
   @Get()
-  public getAllTags(): Promise<Tag[]> {
+  public async getAllTags(): Promise<Tag[]> {
     return this.tagsService.getAllTags({ order: [['value', 'ASC']] });
   }
 
@@ -52,7 +52,9 @@ export class TagsController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Delete(':id')
-  public removeTag(@Param('id', ParseUUIDv4Pipe) id: string): Promise<void> {
+  public async removeTag(
+    @Param('id', ParseUUIDv4Pipe) id: string,
+  ): Promise<void> {
     return this.tagsService.removeTag(id);
   }
 
@@ -61,7 +63,7 @@ export class TagsController {
   @UseGuards(AdminGuard)
   @ApiBearerAuth()
   @Put(':id')
-  public updateTag(
+  public async updateTag(
     @Param('id', ParseUUIDv4Pipe) id: string,
     @Body(ValidationPipe) updateTagDto: UpdateTagDto,
   ): Promise<Tag> {

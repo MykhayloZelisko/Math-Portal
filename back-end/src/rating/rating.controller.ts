@@ -35,7 +35,7 @@ export class RatingController {
   @UsePipes(ValidationPipe)
   @ApiBearerAuth()
   @Post()
-  public updateArticleRating(
+  public async updateArticleRating(
     @Req() request: Request,
     @Body() createRatingDto: CreateRatingDto,
   ): Promise<ArticleRatingDto> {
@@ -50,7 +50,7 @@ export class RatingController {
   @UseGuards(AuthWithoutExceptionsGuard)
   @ApiBearerAuth()
   @Get()
-  public getCurrentArticleStatus(
+  public async getCurrentArticleStatus(
     @Req() request: Request,
     @Query('articleId', ParseUUIDv4Pipe) articleId: string,
   ): Promise<CurrentArticleStatusDto> {
