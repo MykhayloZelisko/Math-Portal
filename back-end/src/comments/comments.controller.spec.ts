@@ -80,7 +80,7 @@ describe('CommentsController', () => {
         level: 1,
         parentCommentId: null,
       };
-      mockCommentsService.createComment.mockReturnValue(mockComment);
+      mockCommentsService.createComment.mockResolvedValue(mockComment);
       const result = await controller.createComment(mockRequest, mockCreateDto);
 
       expect(result).toEqual(mockComment);
@@ -90,7 +90,7 @@ describe('CommentsController', () => {
   describe('getAllComments', () => {
     it('should get list of comments for current article', async () => {
       const expectedResult: Comment[] = [mockComment, mockComment2];
-      mockCommentsService.getAllCommentsByArticleId.mockReturnValue(
+      mockCommentsService.getAllCommentsByArticleId.mockResolvedValue(
         expectedResult,
       );
       const articleId = '1d508305-f824-4429-9df1-c0a89a10f36b';
@@ -103,7 +103,7 @@ describe('CommentsController', () => {
   describe('removeComment', () => {
     it('should remove comment', async () => {
       const commentId = '39d9b8a9-41bd-4d98-9158-2e18ea371429';
-      mockCommentsService.removeComment.mockReturnValue(void 0);
+      mockCommentsService.removeComment.mockResolvedValue(void 0);
       const result = await controller.removeComment(commentId);
 
       expect(result).toBeUndefined();
@@ -116,7 +116,7 @@ describe('CommentsController', () => {
         commentId: '3af51ac7-7b6b-465e-8a1b-d6a28d3e6296',
         status: 1,
       };
-      mockCommentsService.addLikeDislike.mockReturnValue(mockComment);
+      mockCommentsService.addLikeDislike.mockResolvedValue(mockComment);
       const result = await controller.updateLikesStatus(mockRequest, mockLikes);
 
       expect(result).toEqual(mockComment);
@@ -129,7 +129,7 @@ describe('CommentsController', () => {
         content: 'new comment',
       };
       const commentId = '3af51ac7-7b6b-465e-8a1b-d6a28d3e6296';
-      mockCommentsService.updateComment.mockReturnValue(mockComment);
+      mockCommentsService.updateComment.mockResolvedValue(mockComment);
       const result = await controller.updateComment(
         mockRequest,
         commentId,

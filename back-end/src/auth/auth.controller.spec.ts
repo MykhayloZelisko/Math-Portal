@@ -35,7 +35,7 @@ describe('AuthController', () => {
         email: 'email@mail.com',
         password: 'Pa$$word094',
       };
-      mockAuthService.login.mockReturnValue(mockToken);
+      mockAuthService.login.mockResolvedValue(mockToken);
       const result = await controller.login(mockLoginDto);
 
       expect(result).toEqual(mockToken);
@@ -50,7 +50,7 @@ describe('AuthController', () => {
         firstName: 'John',
         lastName: 'Doe',
       };
-      mockAuthService.registration.mockReturnValue(void 0);
+      mockAuthService.registration.mockResolvedValue(void 0);
       const result = await controller.registration(mockNewUser);
 
       expect(result).toBeUndefined();

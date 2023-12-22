@@ -85,7 +85,7 @@ describe('UsersController', () => {
         isAdmin: false,
         userId: '6869d59c-1858-46a2-b8ff-273f29e4566e',
       };
-      mockUsersService.updateUserRole.mockReturnValue(userWithNullToken);
+      mockUsersService.updateUserRole.mockResolvedValue(userWithNullToken);
       const result = await controller.updateUserRole(mockRequest, mockRoleData);
 
       expect(result).toEqual(userWithNullToken);
@@ -98,7 +98,7 @@ describe('UsersController', () => {
         total: 22,
         users: [mockUser, mockUser2],
       };
-      mockUsersService.getAllUsersWithParams.mockReturnValue(expectedResult);
+      mockUsersService.getAllUsersWithParams.mockResolvedValue(expectedResult);
       const result = await controller.getAllUsers(3, 10, 'default', 'default', '');
 
       expect(result).toEqual(expectedResult);
@@ -107,7 +107,7 @@ describe('UsersController', () => {
 
   describe('getCurrentUser', () => {
     it('should get current user', async () => {
-      mockUsersService.getCurrentUser.mockReturnValue(mockUser);
+      mockUsersService.getCurrentUser.mockResolvedValue(mockUser);
       const result = await controller.getCurrentUser(mockRequest);
 
       expect(result).toEqual(mockUser);
@@ -116,7 +116,7 @@ describe('UsersController', () => {
 
   describe('removeCurrentUserPhoto', () => {
     it('should delete photo', async () => {
-      mockUsersService.removeCurrentUserPhoto.mockReturnValue(mockUser);
+      mockUsersService.removeCurrentUserPhoto.mockResolvedValue(mockUser);
       const result = await controller.removeCurrentUserPhoto(mockRequest);
 
       expect(result).toEqual(mockUser);
@@ -125,7 +125,7 @@ describe('UsersController', () => {
 
   describe('removeCurrentUser', () => {
     it('should remove current user', async () => {
-      mockUsersService.removeCurrentUser.mockReturnValue(void 0);
+      mockUsersService.removeCurrentUser.mockResolvedValue(void 0);
       const result = await controller.removeCurrentUser(mockRequest);
 
       expect(result).toBeUndefined();
@@ -134,7 +134,7 @@ describe('UsersController', () => {
 
   describe('removeUser', () => {
     it('should remove user', async () => {
-      mockUsersService.removeUser.mockReturnValue(void 0);
+      mockUsersService.removeUser.mockResolvedValue(void 0);
       const userId = '6869d59c-1858-46a2-b8ff-273f29e4566e';
       const result = await controller.removeUser(userId);
 
@@ -145,7 +145,7 @@ describe('UsersController', () => {
   describe('updateCurrentUserPhoto', () => {
     it('should update photo', async () => {
       const mockImage: Express.Multer.File = {} as Express.Multer.File;
-      mockUsersService.updateCurrentUserPhoto.mockReturnValue(userWithToken);
+      mockUsersService.updateCurrentUserPhoto.mockResolvedValue(userWithToken);
       const result = await controller.updateCurrentUserPhoto(mockRequest, mockImage);
 
       expect(result).toEqual(userWithToken);
@@ -161,7 +161,7 @@ describe('UsersController', () => {
         newPassword: null,
         password: 'Pa$$word094',
       };
-      mockUsersService.updateCurrentUser.mockReturnValue(userWithToken);
+      mockUsersService.updateCurrentUser.mockResolvedValue(userWithToken);
       const result = await controller.updateCurrentUser(mockRequest, userData);
 
       expect(result).toEqual(userWithToken);

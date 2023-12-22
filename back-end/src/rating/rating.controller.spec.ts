@@ -53,7 +53,7 @@ describe('RatingController', () => {
         rating: 4.7,
         votes: 10,
       };
-      mockRatingService.updateArticleRating.mockReturnValue(expectedResult);
+      mockRatingService.updateArticleRating.mockResolvedValue(expectedResult);
       const result = await controller.updateArticleRating(
         mockRequest,
         mockRating,
@@ -67,7 +67,7 @@ describe('RatingController', () => {
     it('should be able to rate', async () => {
       const articleId = '6869d59c-1858-46a2-b8ff-273f29e4566e';
       const expectedResult: CurrentArticleStatusDto = { canBeRated: true };
-      mockRatingService.getCurrentArticleStatus.mockReturnValue(expectedResult);
+      mockRatingService.getCurrentArticleStatus.mockResolvedValue(expectedResult);
       const result = await controller.getCurrentArticleStatus(
         mockRequest,
         articleId,
@@ -82,7 +82,7 @@ describe('RatingController', () => {
       const mockRequest2: Request = {
         headers: {} as unknown as Headers,
       } as Request;
-      mockRatingService.getCurrentArticleStatus.mockReturnValue(expectedResult);
+      mockRatingService.getCurrentArticleStatus.mockResolvedValue(expectedResult);
       const result = await controller.getCurrentArticleStatus(
         mockRequest2,
         articleId,

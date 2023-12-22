@@ -69,7 +69,7 @@ describe('ArticlesController', () => {
 
   describe('createArticle', () => {
     it('should create article', async () => {
-      mockArticlesService.createArticle.mockReturnValue(mockArticle);
+      mockArticlesService.createArticle.mockResolvedValue(mockArticle);
       const mockDto: CreateArticleDto = {
         title: 'Title',
         content: 'Text',
@@ -83,7 +83,7 @@ describe('ArticlesController', () => {
 
   describe('updateArticle', () => {
     it('should update article', async () => {
-      mockArticlesService.updateArticle.mockReturnValue(mockArticle);
+      mockArticlesService.updateArticle.mockResolvedValue(mockArticle);
       const mockDto: UpdateArticleDto = {
         title: 'Title',
         content: 'Text',
@@ -98,7 +98,7 @@ describe('ArticlesController', () => {
 
   describe('removeArticle', () => {
     it('should remove article', async () => {
-      mockArticlesService.removeArticle.mockReturnValue(void 0);
+      mockArticlesService.removeArticle.mockResolvedValue(void 0);
       const id = '53ef5af1-581a-4e3f-abfb-a7e31c4d1890';
       const result = await controller.removeArticle(id);
 
@@ -108,7 +108,7 @@ describe('ArticlesController', () => {
 
   describe('getArticleById', () => {
     it('should get article by id', async () => {
-      mockArticlesService.getArticleById.mockReturnValue(mockArticle);
+      mockArticlesService.getArticleById.mockResolvedValue(mockArticle);
       const id = '53ef5af1-581a-4e3f-abfb-a7e31c4d1890';
       const result = await controller.getArticleById(id);
 
@@ -122,7 +122,7 @@ describe('ArticlesController', () => {
         total: 22,
         articles: [mockArticle, mockArticle2],
       };
-      mockArticlesService.getAllArticlesWithParams.mockReturnValue(
+      mockArticlesService.getAllArticlesWithParams.mockResolvedValue(
         expectedResult,
       );
       const result = await controller.getAllArticles(3, 10, 'text', '');
@@ -135,7 +135,7 @@ describe('ArticlesController', () => {
         total: 31,
         articles: [mockArticle2],
       };
-      mockArticlesService.getAllArticlesWithParams.mockReturnValue(
+      mockArticlesService.getAllArticlesWithParams.mockResolvedValue(
         expectedResult,
       );
       const tagId = '68f48b22-8104-4b47-b846-3db152d8b0ee';
