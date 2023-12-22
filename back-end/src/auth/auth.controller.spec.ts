@@ -39,6 +39,7 @@ describe('AuthController', () => {
       const result = await controller.login(mockLoginDto);
 
       expect(result).toEqual(mockToken);
+      expect(mockAuthService.login).toHaveBeenCalledWith(mockLoginDto);
     });
   });
 
@@ -54,6 +55,7 @@ describe('AuthController', () => {
       const result = await controller.registration(mockNewUser);
 
       expect(result).toBeUndefined();
+      expect(mockAuthService.registration).toHaveBeenCalledWith(mockNewUser);
     });
   });
 });

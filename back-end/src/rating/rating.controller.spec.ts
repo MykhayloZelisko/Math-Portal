@@ -60,6 +60,7 @@ describe('RatingController', () => {
       );
 
       expect(result).toEqual(expectedResult);
+      expect(mockRatingService.updateArticleRating).toHaveBeenCalledWith(mockRating, 'token');
     });
   });
 
@@ -74,6 +75,7 @@ describe('RatingController', () => {
       );
 
       expect(result).toEqual(expectedResult);
+      expect(mockRatingService.getCurrentArticleStatus).toHaveBeenCalledWith(articleId, 'token');
     });
 
     it('should not be able to rate', async () => {
@@ -89,6 +91,7 @@ describe('RatingController', () => {
       );
 
       expect(result).toEqual(expectedResult);
+      expect(mockRatingService.getCurrentArticleStatus).toHaveBeenCalledWith(articleId, '');
     });
   });
 });

@@ -89,6 +89,7 @@ describe('UsersController', () => {
       const result = await controller.updateUserRole(mockRequest, mockRoleData);
 
       expect(result).toEqual(userWithNullToken);
+      expect(mockUsersService.updateUserRole).toHaveBeenCalledWith(mockRoleData, 'token');
     });
   });
 
@@ -102,6 +103,7 @@ describe('UsersController', () => {
       const result = await controller.getAllUsers(3, 10, 'default', 'default', '');
 
       expect(result).toEqual(expectedResult);
+      expect(mockUsersService.getAllUsersWithParams).toHaveBeenCalledWith(3, 10, 'default', 'default', '');
     });
   });
 
@@ -111,6 +113,7 @@ describe('UsersController', () => {
       const result = await controller.getCurrentUser(mockRequest);
 
       expect(result).toEqual(mockUser);
+      expect(mockUsersService.getCurrentUser).toHaveBeenCalledWith('token');
     });
   });
 
@@ -120,6 +123,7 @@ describe('UsersController', () => {
       const result = await controller.removeCurrentUserPhoto(mockRequest);
 
       expect(result).toEqual(mockUser);
+      expect(mockUsersService.removeCurrentUserPhoto).toHaveBeenCalledWith('token');
     });
   });
 
@@ -129,6 +133,7 @@ describe('UsersController', () => {
       const result = await controller.removeCurrentUser(mockRequest);
 
       expect(result).toBeUndefined();
+      expect(mockUsersService.removeCurrentUser).toHaveBeenCalledWith('token');
     });
   });
 
@@ -139,6 +144,7 @@ describe('UsersController', () => {
       const result = await controller.removeUser(userId);
 
       expect(result).toBeUndefined();
+      expect(mockUsersService.removeUser).toHaveBeenCalledWith(userId);
     });
   });
 
@@ -149,6 +155,7 @@ describe('UsersController', () => {
       const result = await controller.updateCurrentUserPhoto(mockRequest, mockImage);
 
       expect(result).toEqual(userWithToken);
+      expect(mockUsersService.updateCurrentUserPhoto).toHaveBeenCalledWith(mockImage, 'token');
     });
   });
 
@@ -165,6 +172,7 @@ describe('UsersController', () => {
       const result = await controller.updateCurrentUser(mockRequest, userData);
 
       expect(result).toEqual(userWithToken);
+      expect(mockUsersService.updateCurrentUser).toHaveBeenCalledWith(userData, 'token');
     });
   });
 });

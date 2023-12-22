@@ -84,6 +84,7 @@ describe('CommentsController', () => {
       const result = await controller.createComment(mockRequest, mockCreateDto);
 
       expect(result).toEqual(mockComment);
+      expect(mockCommentsService.createComment).toHaveBeenCalledWith(mockCreateDto, 'token');
     });
   });
 
@@ -97,6 +98,7 @@ describe('CommentsController', () => {
       const result = await controller.getAllComments(articleId);
 
       expect(result).toEqual(expectedResult);
+      expect(mockCommentsService.getAllCommentsByArticleId).toHaveBeenCalledWith(articleId);
     });
   });
 
@@ -107,6 +109,7 @@ describe('CommentsController', () => {
       const result = await controller.removeComment(commentId);
 
       expect(result).toBeUndefined();
+      expect(mockCommentsService.removeComment).toHaveBeenCalledWith(commentId);
     });
   });
 
@@ -120,6 +123,7 @@ describe('CommentsController', () => {
       const result = await controller.updateLikesStatus(mockRequest, mockLikes);
 
       expect(result).toEqual(mockComment);
+      expect(mockCommentsService.addLikeDislike).toHaveBeenCalledWith(mockLikes, 'token');
     });
   });
 
@@ -137,6 +141,7 @@ describe('CommentsController', () => {
       );
 
       expect(result).toEqual(mockComment);
+      expect(mockCommentsService.updateComment).toHaveBeenCalledWith(commentId, mockUpdateDto, 'token');
     });
   });
 });

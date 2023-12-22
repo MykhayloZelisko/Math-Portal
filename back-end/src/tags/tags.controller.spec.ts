@@ -5,7 +5,6 @@ import { AdminGuard } from '../auth/guards/admin/admin.guard';
 import { Tag } from './models/tag.model';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { ForbiddenException, NotFoundException } from '@nestjs/common';
 
 describe('TagsController', () => {
   let controller: TagsController;
@@ -50,6 +49,7 @@ describe('TagsController', () => {
       const result = await controller.createTag(tagData);
 
       expect(result).toEqual(mockTag);
+      expect(mockTagsService.createTag).toHaveBeenCalledWith(tagData);
     });
   });
 
@@ -60,6 +60,7 @@ describe('TagsController', () => {
       const result = await controller.getAllTags();
 
       expect(result).toEqual(expectedResult);
+      expect(mockTagsService.getAllTags).toHaveBeenCalled();
     });
   });
 
@@ -70,6 +71,7 @@ describe('TagsController', () => {
       const result = await controller.removeTag(tagId);
 
       expect(result).toBeUndefined();
+      expect(mockTagsService.removeTag).toHaveBeenCalledWith(tagId);
     });
   });
 
@@ -81,6 +83,7 @@ describe('TagsController', () => {
       const result = await controller.updateTag(tagId, tagData);
 
       expect(result).toEqual(mockTag);
+      expect(mockTagsService.updateTag).toHaveBeenCalledWith(tagId, tagData);
     });
   });
 });

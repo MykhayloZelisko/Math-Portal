@@ -78,6 +78,7 @@ describe('ArticlesController', () => {
       const result = await controller.createArticle(mockDto);
 
       expect(result).toEqual(mockArticle);
+      expect(mockArticlesService.createArticle).toHaveBeenCalledWith(mockDto);
     });
   });
 
@@ -93,6 +94,7 @@ describe('ArticlesController', () => {
       const result = await controller.updateArticle(id, mockDto);
 
       expect(result).toEqual(mockArticle);
+      expect(mockArticlesService.updateArticle).toHaveBeenCalledWith(id, mockDto);
     });
   });
 
@@ -103,6 +105,7 @@ describe('ArticlesController', () => {
       const result = await controller.removeArticle(id);
 
       expect(result).toBeUndefined();
+      expect(mockArticlesService.removeArticle).toHaveBeenCalledWith(id);
     });
   });
 
@@ -113,6 +116,7 @@ describe('ArticlesController', () => {
       const result = await controller.getArticleById(id);
 
       expect(result).toEqual(mockArticle);
+      expect(mockArticlesService.getArticleById).toHaveBeenCalledWith(id);
     });
   });
 
@@ -128,6 +132,7 @@ describe('ArticlesController', () => {
       const result = await controller.getAllArticles(3, 10, 'text', '');
 
       expect(result).toEqual(expectedResult);
+      expect(mockArticlesService.getAllArticlesWithParams).toHaveBeenCalledWith(3, 10, 'text', []);
     });
 
     it('should get list of articles when tagsQuery is not empty', async () => {
@@ -142,6 +147,7 @@ describe('ArticlesController', () => {
       const result = await controller.getAllArticles(3, 10, 'text', tagId);
 
       expect(result).toEqual(expectedResult);
+      expect(mockArticlesService.getAllArticlesWithParams).toHaveBeenCalledWith(3, 10, 'text', [tagId]);
     });
   });
 });
