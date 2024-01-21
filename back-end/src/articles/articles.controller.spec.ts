@@ -94,7 +94,10 @@ describe('ArticlesController', () => {
       const result = await controller.updateArticle(id, mockDto);
 
       expect(result).toEqual(mockArticle);
-      expect(mockArticlesService.updateArticle).toHaveBeenCalledWith(id, mockDto);
+      expect(mockArticlesService.updateArticle).toHaveBeenCalledWith(
+        id,
+        mockDto,
+      );
     });
   });
 
@@ -132,7 +135,12 @@ describe('ArticlesController', () => {
       const result = await controller.getAllArticles(3, 10, 'text', '');
 
       expect(result).toEqual(expectedResult);
-      expect(mockArticlesService.getAllArticlesWithParams).toHaveBeenCalledWith(3, 10, 'text', []);
+      expect(mockArticlesService.getAllArticlesWithParams).toHaveBeenCalledWith(
+        3,
+        10,
+        'text',
+        [],
+      );
     });
 
     it('should get list of articles when tagsQuery is not empty', async () => {
@@ -147,7 +155,12 @@ describe('ArticlesController', () => {
       const result = await controller.getAllArticles(3, 10, 'text', tagId);
 
       expect(result).toEqual(expectedResult);
-      expect(mockArticlesService.getAllArticlesWithParams).toHaveBeenCalledWith(3, 10, 'text', [tagId]);
+      expect(mockArticlesService.getAllArticlesWithParams).toHaveBeenCalledWith(
+        3,
+        10,
+        'text',
+        [tagId],
+      );
     });
   });
 });

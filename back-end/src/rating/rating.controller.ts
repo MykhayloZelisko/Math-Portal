@@ -20,7 +20,6 @@ import { RatingService } from './rating.service';
 import { ArticleRatingDto } from './dto/article-rating.dto';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { CurrentArticleStatusDto } from './dto/current-article-status.dto';
-import { AuthWithoutExceptionsGuard } from '../auth/guards/auth-without-exceptions/auth-without-exceptions.guard';
 import { ValidationPipe } from '../pipes/validation/validation.pipe';
 import { ParseUUIDv4Pipe } from '../pipes/parse-uuidv4/parse-UUIDv4.pipe';
 
@@ -47,7 +46,6 @@ export class RatingController {
     summary: 'Check if the article can be rated by the current user',
   })
   @ApiResponse({ status: HttpStatus.OK, type: CurrentArticleStatusDto })
-  @UseGuards(AuthWithoutExceptionsGuard)
   @ApiBearerAuth()
   @Get()
   public async getCurrentArticleStatus(

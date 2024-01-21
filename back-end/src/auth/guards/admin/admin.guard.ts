@@ -1,7 +1,6 @@
 import {
   CanActivate,
   ExecutionContext,
-  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -13,19 +12,17 @@ export class AdminGuard implements CanActivate {
 
   public canActivate(context: ExecutionContext): boolean {
     const req = context.switchToHttp().getRequest();
+    const authHeader = req.headers.authorization;
+    const [bearer, token] = authHeader ? authHeader.split(' ') : [];
+    if (bearer !== 'Bearer' || !token) {
+      throw new UnauthorizedException('User is not authorized');
+    }
     try {
-      const authHeader = req.headers.authorization;
-      const bearer = authHeader.split(' ')[0];
-      const token = authHeader.split(' ')[1];
-      if (bearer !== 'Bearer' || !token) {
-        throw new UnauthorizedException({ message: 'User is not authorized' });
-      }
-
       const admin = this.jwtService.verify(token);
       req.user = admin;
       return admin.isAdmin;
     } catch (e) {
-      throw new ForbiddenException({ message: 'Access denied' });
+      throw new UnauthorizedException('User is not authorized');
     }
   }
 }

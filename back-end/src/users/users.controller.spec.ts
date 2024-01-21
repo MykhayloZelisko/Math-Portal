@@ -89,7 +89,10 @@ describe('UsersController', () => {
       const result = await controller.updateUserRole(mockRequest, mockRoleData);
 
       expect(result).toEqual(userWithNullToken);
-      expect(mockUsersService.updateUserRole).toHaveBeenCalledWith(mockRoleData, 'token');
+      expect(mockUsersService.updateUserRole).toHaveBeenCalledWith(
+        mockRoleData,
+        'token',
+      );
     });
   });
 
@@ -100,10 +103,22 @@ describe('UsersController', () => {
         users: [mockUser, mockUser2],
       };
       mockUsersService.getAllUsersWithParams.mockResolvedValue(expectedResult);
-      const result = await controller.getAllUsers(3, 10, 'default', 'default', '');
+      const result = await controller.getAllUsers(
+        3,
+        10,
+        'default',
+        'default',
+        '',
+      );
 
       expect(result).toEqual(expectedResult);
-      expect(mockUsersService.getAllUsersWithParams).toHaveBeenCalledWith(3, 10, 'default', 'default', '');
+      expect(mockUsersService.getAllUsersWithParams).toHaveBeenCalledWith(
+        3,
+        10,
+        'default',
+        'default',
+        '',
+      );
     });
   });
 
@@ -123,7 +138,9 @@ describe('UsersController', () => {
       const result = await controller.removeCurrentUserPhoto(mockRequest);
 
       expect(result).toEqual(mockUser);
-      expect(mockUsersService.removeCurrentUserPhoto).toHaveBeenCalledWith('token');
+      expect(mockUsersService.removeCurrentUserPhoto).toHaveBeenCalledWith(
+        'token',
+      );
     });
   });
 
@@ -152,10 +169,16 @@ describe('UsersController', () => {
     it('should update photo', async () => {
       const mockImage: Express.Multer.File = {} as Express.Multer.File;
       mockUsersService.updateCurrentUserPhoto.mockResolvedValue(userWithToken);
-      const result = await controller.updateCurrentUserPhoto(mockRequest, mockImage);
+      const result = await controller.updateCurrentUserPhoto(
+        mockRequest,
+        mockImage,
+      );
 
       expect(result).toEqual(userWithToken);
-      expect(mockUsersService.updateCurrentUserPhoto).toHaveBeenCalledWith(mockImage, 'token');
+      expect(mockUsersService.updateCurrentUserPhoto).toHaveBeenCalledWith(
+        mockImage,
+        'token',
+      );
     });
   });
 
@@ -172,7 +195,10 @@ describe('UsersController', () => {
       const result = await controller.updateCurrentUser(mockRequest, userData);
 
       expect(result).toEqual(userWithToken);
-      expect(mockUsersService.updateCurrentUser).toHaveBeenCalledWith(userData, 'token');
+      expect(mockUsersService.updateCurrentUser).toHaveBeenCalledWith(
+        userData,
+        'token',
+      );
     });
   });
 });

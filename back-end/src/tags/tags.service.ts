@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ConflictException,
   ForbiddenException,
   Injectable,
@@ -38,66 +37,57 @@ export class TagsService {
     if (tag) {
       throw new ConflictException('Tag already exists');
     }
-    const newTag = await this.tagRepository.create(createTagDto);
-    if (newTag) {
-      return newTag;
-    }
-    throw new BadRequestException('Tag is not created');
+    return this.tagRepository.create(createTagDto);
   }
 
   public async removeTag(id: string): Promise<void> {
     const tag = await this.tagRepository.findByPk(id);
-    if (tag) {
-      const subQuery = await this.articleTagRepository.findAll({
-        attributes: ['articleId'],
-        where: {
-          tagId: {
-            [Op.ne]: id,
-          },
-        },
-      });
-
-      const excludedArticleIds = subQuery.map(
-        (row: ArticleTags) => row.articleId,
-      );
-
-      const count = await this.articleTagRepository.count({
-        distinct: true,
-        col: 'article_id',
-        where: {
-          articleId: {
-            [Op.notIn]: excludedArticleIds,
-          },
-        },
-      });
-      if (count) {
-        throw new ForbiddenException(
-          'A tag cannot be removed while it is in use and is the only tag in the article',
-        );
-      } else {
-        await this.tagRepository.destroy({ where: { id } });
-        return;
-      }
+    if (!tag) {
+      throw new NotFoundException('Tag not found');
     }
-    throw new NotFoundException('Tag not found');
+
+    const subQuery = await this.articleTagRepository.findAll({
+      attributes: ['articleId'],
+      where: {
+        tagId: {
+          [Op.ne]: id,
+        },
+      },
+    });
+
+    const excludedArticleIds = subQuery.map(
+      (row: ArticleTags) => row.articleId,
+    );
+
+    const count = await this.articleTagRepository.count({
+      distinct: true,
+      col: 'article_id',
+      where: {
+        articleId: {
+          [Op.notIn]: excludedArticleIds,
+        },
+      },
+    });
+
+    if (count) {
+      throw new ForbiddenException(
+        'A tag cannot be removed while it is in use and is the only tag in the article',
+      );
+    } else {
+      await this.tagRepository.destroy({ where: { id } });
+    }
   }
 
   public async updateTag(
     tagId: string,
     updateTagDto: UpdateTagDto,
   ): Promise<Tag> {
-    if (!updateTagDto.value) {
-      throw new BadRequestException('Tag is not updated');
-    }
     const tag = await this.tagRepository.findByPk(tagId);
-    if (tag) {
-      tag.value = updateTagDto.value;
-      const newTag = await tag.save();
-      if (!newTag) {
-        throw new BadRequestException('Tag is not updated');
-      }
-      return tag;
+    if (!tag) {
+      throw new NotFoundException('Tag not found');
     }
-    throw new NotFoundException('Tag not found');
+    tag.value = updateTagDto.value;
+    await tag.save();
+    return tag;
   }
 }

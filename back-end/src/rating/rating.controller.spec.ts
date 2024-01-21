@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RatingController } from './rating.controller';
 import { RatingService } from './rating.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard';
-import { AuthWithoutExceptionsGuard } from '../auth/guards/auth-without-exceptions/auth-without-exceptions.guard';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { ArticleRatingDto } from './dto/article-rating.dto';
 import { CurrentArticleStatusDto } from './dto/current-article-status.dto';
@@ -14,9 +13,6 @@ describe('RatingController', () => {
     getCurrentArticleStatus: jest.fn(),
   };
   const mockJwtAuthGuard = {
-    canActivate: jest.fn(),
-  };
-  const mockAuthWithoutExceptionsGuard = {
     canActivate: jest.fn(),
   };
   const mockRequest: Request = {
@@ -32,8 +28,6 @@ describe('RatingController', () => {
     })
       .overrideGuard(JwtAuthGuard)
       .useValue(mockJwtAuthGuard)
-      .overrideGuard(AuthWithoutExceptionsGuard)
-      .useValue(mockAuthWithoutExceptionsGuard)
       .compile();
 
     controller = module.get<RatingController>(RatingController);
@@ -60,7 +54,10 @@ describe('RatingController', () => {
       );
 
       expect(result).toEqual(expectedResult);
-      expect(mockRatingService.updateArticleRating).toHaveBeenCalledWith(mockRating, 'token');
+      expect(mockRatingService.updateArticleRating).toHaveBeenCalledWith(
+        mockRating,
+        'token',
+      );
     });
   });
 
@@ -68,14 +65,19 @@ describe('RatingController', () => {
     it('should be able to rate', async () => {
       const articleId = '6869d59c-1858-46a2-b8ff-273f29e4566e';
       const expectedResult: CurrentArticleStatusDto = { canBeRated: true };
-      mockRatingService.getCurrentArticleStatus.mockResolvedValue(expectedResult);
+      mockRatingService.getCurrentArticleStatus.mockResolvedValue(
+        expectedResult,
+      );
       const result = await controller.getCurrentArticleStatus(
         mockRequest,
         articleId,
       );
 
       expect(result).toEqual(expectedResult);
-      expect(mockRatingService.getCurrentArticleStatus).toHaveBeenCalledWith(articleId, 'token');
+      expect(mockRatingService.getCurrentArticleStatus).toHaveBeenCalledWith(
+        articleId,
+        'token',
+      );
     });
 
     it('should not be able to rate', async () => {
@@ -84,14 +86,19 @@ describe('RatingController', () => {
       const mockRequest2: Request = {
         headers: {} as unknown as Headers,
       } as Request;
-      mockRatingService.getCurrentArticleStatus.mockResolvedValue(expectedResult);
+      mockRatingService.getCurrentArticleStatus.mockResolvedValue(
+        expectedResult,
+      );
       const result = await controller.getCurrentArticleStatus(
         mockRequest2,
         articleId,
       );
 
       expect(result).toEqual(expectedResult);
-      expect(mockRatingService.getCurrentArticleStatus).toHaveBeenCalledWith(articleId, '');
+      expect(mockRatingService.getCurrentArticleStatus).toHaveBeenCalledWith(
+        articleId,
+        '',
+      );
     });
   });
 });
