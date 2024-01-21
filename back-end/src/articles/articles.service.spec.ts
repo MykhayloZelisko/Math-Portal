@@ -90,7 +90,7 @@ describe('ArticlesService', () => {
   const mockResult: ArticlesListDto = {
     total: 12,
     articles: mockArticles,
-  }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -208,11 +208,19 @@ describe('ArticlesService', () => {
   describe('removeArticle', () => {
     it('should remove article', async () => {
       jest.spyOn(service, 'getArticleById').mockResolvedValue(mockArticle);
-      mockCommentsService.getAllCommentsByArticleId.mockResolvedValue([mockComment, mockComment2]);
+      mockCommentsService.getAllCommentsByArticleId.mockResolvedValue([
+        mockComment,
+        mockComment2,
+      ]);
       await service.removeArticle(mockArticle.id);
 
-      expect(mockArticleRepository.destroy).toHaveBeenCalledWith({ where: { id: mockArticle.id } });
-      expect(mockCommentsService.removeCommentsArray).toHaveBeenCalledWith([mockComment.id, mockComment2.id]);
+      expect(mockArticleRepository.destroy).toHaveBeenCalledWith({
+        where: { id: mockArticle.id },
+      });
+      expect(mockCommentsService.removeCommentsArray).toHaveBeenCalledWith([
+        mockComment.id,
+        mockComment2.id,
+      ]);
     });
   });
 
@@ -221,7 +229,9 @@ describe('ArticlesService', () => {
       mockArticleRepository.findByPk.mockResolvedValue(null);
       const result = service.getArticleById(mockArticle.id);
 
-      await expect(result).rejects.toThrow(new NotFoundException('Article not found'));
+      await expect(result).rejects.toThrow(
+        new NotFoundException('Article not found'),
+      );
     });
 
     it('should return article by id', async () => {
@@ -240,13 +250,15 @@ describe('ArticlesService', () => {
       expect(result).toEqual(mockArticles);
     });
   });
-  
+
   describe('getAllArticlesWithParams', () => {
     it('should throw internal server error', async () => {
       jest.spyOn(service, 'getAllArticles').mockRejectedValue(new Error());
       const result = service.getAllArticlesWithParams(1, 10, '', []);
 
-      await expect(result).rejects.toThrow(new InternalServerErrorException('Internal server error'));
+      await expect(result).rejects.toThrow(
+        new InternalServerErrorException('Internal server error'),
+      );
     });
 
     it('should return part of articles without filters', async () => {
@@ -259,10 +271,16 @@ describe('ArticlesService', () => {
 
     it('should return part of articles with text and tags', async () => {
       // @ts-expect-error: query error
-      jest.spyOn(Sequelize.prototype, 'query').mockResolvedValueOnce(mockArticles);
+      jest
+        .spyOn(Sequelize.prototype, 'query')
+        .mockResolvedValueOnce(mockArticles);
       // @ts-expect-error: query error
-      jest.spyOn(Sequelize.prototype, 'query').mockResolvedValueOnce([{ total: 12 }]);
-      const result = await service.getAllArticlesWithParams(1, 10, 'text', [mockTag.id]);
+      jest
+        .spyOn(Sequelize.prototype, 'query')
+        .mockResolvedValueOnce([{ total: 12 }]);
+      const result = await service.getAllArticlesWithParams(1, 10, 'text', [
+        mockTag.id,
+      ]);
 
       expect(result).toEqual(mockResult);
     });
@@ -272,7 +290,9 @@ describe('ArticlesService', () => {
       jest.spyOn(Sequelize.prototype, 'query').mockResolvedValueOnce([]);
       // @ts-expect-error: query error
       jest.spyOn(Sequelize.prototype, 'query').mockResolvedValueOnce([]);
-      const result = await service.getAllArticlesWithParams(1, 10, 'text', [mockTag.id]);
+      const result = await service.getAllArticlesWithParams(1, 10, 'text', [
+        mockTag.id,
+      ]);
 
       expect(result).toEqual({ total: 0, articles: [] });
     });
@@ -287,10 +307,16 @@ describe('ArticlesService', () => {
 
     it('should return part of articles without text but with tags', async () => {
       // @ts-expect-error: query error
-      jest.spyOn(Sequelize.prototype, 'query').mockResolvedValueOnce(mockArticles);
+      jest
+        .spyOn(Sequelize.prototype, 'query')
+        .mockResolvedValueOnce(mockArticles);
       // @ts-expect-error: query error
-      jest.spyOn(Sequelize.prototype, 'query').mockResolvedValueOnce([{ total: 12 }]);
-      const result = await service.getAllArticlesWithParams(1, 10, ' ', [mockTag.id]);
+      jest
+        .spyOn(Sequelize.prototype, 'query')
+        .mockResolvedValueOnce([{ total: 12 }]);
+      const result = await service.getAllArticlesWithParams(1, 10, ' ', [
+        mockTag.id,
+      ]);
 
       expect(result).toEqual(mockResult);
     });
@@ -300,7 +326,9 @@ describe('ArticlesService', () => {
       jest.spyOn(Sequelize.prototype, 'query').mockResolvedValueOnce([]);
       // @ts-expect-error: query error
       jest.spyOn(Sequelize.prototype, 'query').mockResolvedValueOnce([]);
-      const result = await service.getAllArticlesWithParams(1, 10, ' ', [mockTag.id]);
+      const result = await service.getAllArticlesWithParams(1, 10, ' ', [
+        mockTag.id,
+      ]);
 
       expect(result).toEqual({ total: 0, articles: [] });
     });

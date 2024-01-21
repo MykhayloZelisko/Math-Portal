@@ -68,7 +68,7 @@ export class ArticlesService {
       article.content = updateArticleDto.content;
       await article.save();
       await article.$set('tags', tags);
-      return this.getArticleById(id);
+      return await this.getArticleById(id);
     } catch {
       throw new BadRequestException('Article is not updated');
     }

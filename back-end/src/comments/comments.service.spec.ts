@@ -147,17 +147,17 @@ describe('CommentsService', () => {
         content: 'Comment',
         level: 2,
         parentCommentId: mockComment.id,
-      }
+      };
       const result = await service.createComment(mockData, 'token');
 
-      for (let i = 0; i < mockComments.length; i++) {
+      for (const item of mockComments) {
         expect(mockTreeRepository.create).toHaveBeenCalledWith({
-          ancestorId: mockComments[i].id,
+          ancestorId: item.id,
           nearestAncestorId: mockComment.id,
           descendantId: mockComment2.id,
           level: 2,
           articleId: mockArticle.id,
-        })
+        });
       }
       expect(result).toEqual(mockComment2);
     });
@@ -168,9 +168,15 @@ describe('CommentsService', () => {
       mockJwtService.verifyAsync.mockResolvedValue({ id: mockUser2.id });
       mockUsersService.getUserById.mockResolvedValue(mockUser2);
       jest.spyOn(service, 'getCommentById').mockResolvedValue(mockComment);
-      const result = service.updateComment(mockComment.id, { content: 'Comment'}, 'token');
+      const result = service.updateComment(
+        mockComment.id,
+        { content: 'Comment' },
+        'token',
+      );
 
-      await expect(result).rejects.toThrow(new ForbiddenException('The user is not the author of the comment'));
+      await expect(result).rejects.toThrow(
+        new ForbiddenException('The user is not the author of the comment'),
+      );
     });
 
     it('should return updated comment', async () => {
@@ -179,7 +185,11 @@ describe('CommentsService', () => {
       jest.spyOn(service, 'getCommentById').mockResolvedValueOnce(mockComment);
       jest.spyOn(mockComment, 'save').mockResolvedValue(mockComment);
       jest.spyOn(service, 'getCommentById').mockResolvedValueOnce(mockComment);
-      const result = await service.updateComment(mockComment.id, { content: 'Comment'}, 'token');
+      const result = await service.updateComment(
+        mockComment.id,
+        { content: 'Comment' },
+        'token',
+      );
 
       expect(result).toEqual(mockComment);
     });
@@ -190,7 +200,9 @@ describe('CommentsService', () => {
       mockCommentRepository.findByPk.mockResolvedValue(null);
       const result = service.getCommentById(mockComment.id);
 
-      await expect(result).rejects.toThrow(new NotFoundException('Comment not found'));
+      await expect(result).rejects.toThrow(
+        new NotFoundException('Comment not found'),
+      );
     });
 
     it('should return comment', async () => {
@@ -216,13 +228,18 @@ describe('CommentsService', () => {
     it('should delete comments array', async () => {
       await service.removeCommentsArray(mockIds);
 
-      expect(mockCommentRepository.destroy).toHaveBeenCalledWith({ where: { id: mockIds } });
+      expect(mockCommentRepository.destroy).toHaveBeenCalledWith({
+        where: { id: mockIds },
+      });
     });
   });
-  
+
   describe('addLikeDislike', () => {
     it('should delete dislike', async () => {
-      const mockResult = { ...mockComment2, dislikesUsersIds: [] } as unknown as Comment;
+      const mockResult = {
+        ...mockComment2,
+        dislikesUsersIds: [],
+      } as unknown as Comment;
       mockJwtService.verifyAsync.mockResolvedValue({ id: mockUser.id });
       mockUsersService.getUserById.mockResolvedValue(mockUser);
       jest.spyOn(service, 'getCommentById').mockResolvedValueOnce(mockComment2);
@@ -238,7 +255,10 @@ describe('CommentsService', () => {
     });
 
     it('should add dislike', async () => {
-      const mockResult = { ...mockComment, dislikesUsersIds: [mockUser2.id, mockUser.id] } as Comment;
+      const mockResult = {
+        ...mockComment,
+        dislikesUsersIds: [mockUser2.id, mockUser.id],
+      } as Comment;
       mockJwtService.verifyAsync.mockResolvedValue({ id: mockUser.id });
       mockUsersService.getUserById.mockResolvedValue(mockUser);
       jest.spyOn(service, 'getCommentById').mockResolvedValueOnce(mockComment);
@@ -254,7 +274,10 @@ describe('CommentsService', () => {
     });
 
     it('should delete like', async () => {
-      const mockResult = { ...mockComment2, likesUsersIds: [] } as unknown as Comment;
+      const mockResult = {
+        ...mockComment2,
+        likesUsersIds: [],
+      } as unknown as Comment;
       mockJwtService.verifyAsync.mockResolvedValue({ id: mockUser2.id });
       mockUsersService.getUserById.mockResolvedValue(mockUser2);
       jest.spyOn(service, 'getCommentById').mockResolvedValueOnce(mockComment2);
@@ -270,7 +293,10 @@ describe('CommentsService', () => {
     });
 
     it('should add like', async () => {
-      const mockResult = { ...mockComment, likesUsersIds: [mockUser.id, mockUser2.id] } as unknown as Comment;
+      const mockResult = {
+        ...mockComment,
+        likesUsersIds: [mockUser.id, mockUser2.id],
+      } as unknown as Comment;
       mockJwtService.verifyAsync.mockResolvedValue({ id: mockUser2.id });
       mockUsersService.getUserById.mockResolvedValue(mockUser2);
       jest.spyOn(service, 'getCommentById').mockResolvedValueOnce(mockComment);
@@ -297,7 +323,7 @@ describe('CommentsService', () => {
 
   describe('getDescendantsIds', () => {
     it('should return array of descendants', async () => {
-      const mockTree: CommentsTree[] = [
+      const mockTree2: CommentsTree[] = [
         {
           id: 'a5daf536-67c5-4319-929e-b8df74d863bd',
           ancestorId: mockComment2.id,
@@ -319,11 +345,11 @@ describe('CommentsService', () => {
           descendant: mockComment2,
         } as CommentsTree,
       ];
-      const mockIds: string[] = [mockComment2.id, mockComment.id];
-      mockTreeRepository.findAll.mockResolvedValue(mockTree);
+      const mockIds2: string[] = [mockComment2.id, mockComment.id];
+      mockTreeRepository.findAll.mockResolvedValue(mockTree2);
       const result = await service.getDescendantsIds(mockComment2.id);
 
-      expect(result).toEqual(mockIds);
+      expect(result).toEqual(mockIds2);
     });
   });
 
