@@ -29,10 +29,16 @@ export class ArticleTags extends Model<ArticleTags> {
   public id: string;
 
   @ForeignKey(() => Article)
-  @Column({ type: DataType.INTEGER })
-  public articleId: number;
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+  })
+  public articleId: string;
 
   @ForeignKey(() => Tag)
-  @Column({ type: DataType.INTEGER })
-  public tagId: number;
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+  })
+  public tagId: string;
 }

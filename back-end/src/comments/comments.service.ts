@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ForbiddenException,
   forwardRef,
   Inject,
@@ -36,12 +35,7 @@ export class CommentsService {
   ): Promise<Comment> {
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
-    const article = await this.articlesService.getArticleById(
-      createCommentDto.articleId,
-    );
-    if (!user || !article) {
-      throw new BadRequestException('Comment is not created');
-    }
+    await this.articlesService.getArticleById(createCommentDto.articleId);
     const comment = await this.commentRepository.create({
       content: createCommentDto.content,
       userId: user.id,
@@ -94,9 +88,6 @@ export class CommentsService {
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const comment = await this.getCommentById(id);
-    if (!comment) {
-      throw new NotFoundException('Comment not found');
-    }
     if (comment.userId !== user.id) {
       throw new ForbiddenException('The user is not the author of the comment');
     }
@@ -126,20 +117,16 @@ export class CommentsService {
     options?: Omit<FindOptions<Comment>, 'where'>,
   ): Promise<Comment> {
     const comment = await this.commentRepository.findByPk(id, options);
-    if (comment) {
-      return comment;
+    if (!comment) {
+      throw new NotFoundException('Comment not found');
     }
-    throw new NotFoundException('Comment not found');
+    return comment;
   }
 
   public async removeComment(id: string): Promise<void> {
     const comment = await this.getCommentById(id);
-    if (comment) {
-      const commentsIds = await this.getDescendantsIds(id);
-      await this.removeCommentsArray(commentsIds);
-      return;
-    }
-    throw new NotFoundException('Comment not found');
+    const commentsIds = await this.getDescendantsIds(comment.id);
+    await this.removeCommentsArray(commentsIds);
   }
 
   public async removeCommentsArray(ids: string[]): Promise<void> {
@@ -153,7 +140,7 @@ export class CommentsService {
   public async getAllCommentsByArticleId(
     articleId: string,
   ): Promise<Comment[]> {
-    const comments = await this.commentRepository.findAll({
+    return this.commentRepository.findAll({
       attributes: [
         'id',
         'content',
@@ -189,7 +176,6 @@ export class CommentsService {
       ],
       order: [['id', 'ASC']],
     });
-    return comments;
   }
 
   public async addLikeDislike(
@@ -199,9 +185,6 @@ export class CommentsService {
     const userByToken = await this.jwtService.verifyAsync(token);
     const user = await this.usersService.getUserById(userByToken.id);
     const comment = await this.getCommentById(updateLikeDislikeDto.commentId);
-    if (!comment) {
-      throw new NotFoundException('Comment not found');
-    }
     if (updateLikeDislikeDto.status === -1) {
       const index = comment.dislikesUsersIds.findIndex(
         (userId: string) => userId === user.id,

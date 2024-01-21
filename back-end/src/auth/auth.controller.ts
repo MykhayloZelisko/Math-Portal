@@ -15,7 +15,7 @@ export class AuthController {
   @ApiResponse({ status: HttpStatus.CREATED, type: TokenWithExpDto })
   @UsePipes(ValidationPipe)
   @Post('/login')
-  public login(@Body() loginDto: LoginDto): Promise<TokenWithExpDto> {
+  public async login(@Body() loginDto: LoginDto): Promise<TokenWithExpDto> {
     return this.authService.login(loginDto);
   }
 
@@ -23,7 +23,9 @@ export class AuthController {
   @ApiResponse({ status: HttpStatus.CREATED })
   @UsePipes(ValidationPipe)
   @Post('/registration')
-  public registration(@Body() createUserDto: CreateUserDto): Promise<void> {
+  public async registration(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<void> {
     return this.authService.registration(createUserDto);
   }
 }

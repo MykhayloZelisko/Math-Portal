@@ -20,14 +20,6 @@ import { ArticlesListDto } from './dto/articles-list.dto';
 
 @Injectable()
 export class ArticlesService {
-  private articleOptions: FindOptions<Article> = {
-    include: {
-      association: 'tags',
-      model: Tag,
-      through: { attributes: [] },
-    },
-  };
-
   public constructor(
     private tagsService: TagsService,
     @Inject(forwardRef(() => CommentsService))
@@ -46,15 +38,16 @@ export class ArticlesService {
     if (!tags.length) {
       throw new BadRequestException('Article is not created');
     }
-    const article = await this.articleRepository.create({
-      title: createArticleDto.title,
-      content: createArticleDto.content,
-    });
-    if (!article) {
+    try {
+      const article = await this.articleRepository.create({
+        title: createArticleDto.title,
+        content: createArticleDto.content,
+      });
+      await article.$set('tags', tags);
+      return await this.getArticleById(article.id);
+    } catch {
       throw new BadRequestException('Article is not created');
     }
-    await article.$set('tags', tags);
-    return this.getArticleById(article.id);
   }
 
   public async updateArticle(
@@ -62,55 +55,53 @@ export class ArticlesService {
     updateArticleDto: UpdateArticleDto,
   ): Promise<Article> {
     const article = await this.getArticleById(id);
-    if (!article) {
-      throw new NotFoundException('Article not found');
+    const tags = await this.tagsService.getAllTags({
+      where: {
+        id: updateArticleDto.tagsIds,
+      },
+    });
+    if (!tags.length) {
+      throw new BadRequestException('Article is not updated');
     }
-    if (updateArticleDto.tagsIds.length) {
-      const tags = await this.tagsService.getAllTags({
-        where: {
-          id: updateArticleDto.tagsIds,
-        },
-      });
-      if (!tags.length) {
-        throw new BadRequestException('Article is not updated');
-      }
+    try {
       article.title = updateArticleDto.title;
       article.content = updateArticleDto.content;
       await article.save();
       await article.$set('tags', tags);
-      return this.getArticleById(id);
+      return await this.getArticleById(id);
+    } catch {
+      throw new BadRequestException('Article is not updated');
     }
-    throw new BadRequestException('Article is not updated');
   }
 
   public async removeArticle(id: string): Promise<void> {
     const article = await this.getArticleById(id);
-    const comments = await this.commentsService.getAllCommentsByArticleId(id);
+    const comments = await this.commentsService.getAllCommentsByArticleId(
+      article.id,
+    );
     const commentsIds = comments.map((comment: Comment) => comment.id);
-    if (article) {
-      await this.articleRepository.destroy({ where: { id } });
-      await this.commentsService.removeCommentsArray(commentsIds);
-      return;
-    }
-    throw new NotFoundException('Article not found');
+    await this.articleRepository.destroy({ where: { id } });
+    await this.commentsService.removeCommentsArray(commentsIds);
   }
 
   public async getArticleById(id: string): Promise<Article> {
-    const article = await this.articleRepository.findByPk(
-      id,
-      this.articleOptions,
-    );
-    if (article) {
-      return article;
+    const article = await this.articleRepository.findByPk(id, {
+      include: {
+        association: 'tags',
+        model: Tag,
+        through: { attributes: [] },
+      },
+    });
+    if (!article) {
+      throw new NotFoundException('Article not found');
     }
-    throw new NotFoundException('Article not found');
+    return article;
   }
 
   public async getAllArticles(
     options?: FindOptions<Article>,
   ): Promise<Article[]> {
-    const articles = await this.articleRepository.findAll(options);
-    return articles;
+    return this.articleRepository.findAll(options);
   }
 
   public async getAllArticlesWithParams(

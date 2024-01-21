@@ -35,6 +35,7 @@ export const AdminRoutes: Routes = [
       },
       {
         path: '',
+        pathMatch: 'full',
         redirectTo: AdminRouteNameEnum.Users,
       },
     ],
