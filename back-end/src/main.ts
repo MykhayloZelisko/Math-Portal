@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as process from 'process';
 
 async function bootstrap(): Promise<void> {
   const PORT = Number(process.env.PORT) ?? 3000;
