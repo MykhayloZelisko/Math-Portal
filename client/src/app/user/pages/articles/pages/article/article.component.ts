@@ -11,7 +11,7 @@ import { ArticleInterface } from '../../../../../shared/models/interfaces/articl
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
 import { MathjaxModule } from 'mathjax-angular';
-import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SvgIconComponent } from 'angular-svg-icon';
 import { TagInterface } from '../../../../../shared/models/interfaces/tag.interface';
 import { TagsService } from '../../../../../shared/services/tags.service';
 import { RatingComponent } from './components/rating/rating.component';
@@ -37,7 +37,7 @@ import { NgForOf, NgIf } from '@angular/common';
   standalone: true,
   imports: [
     MathjaxModule,
-    AngularSvgIconModule,
+    SvgIconComponent,
     RatingComponent,
     ArticleTagsComponent,
     ArticleTitleComponent,

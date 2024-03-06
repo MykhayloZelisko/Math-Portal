@@ -14,7 +14,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SvgIconComponent } from 'angular-svg-icon';
 import { DropdownModule } from 'primeng/dropdown';
 import { SolvingLinearSystemInterface } from '../../../../../shared/models/interfaces/solving-linear-system.interface';
 import { SOLVING_LINEAR_SYSTEM } from '../../../../../shared/models/constants/solving-linear-system';
@@ -35,7 +35,7 @@ const MAX_NUMBER = 10;
     InputNumberModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularSvgIconModule,
+    SvgIconComponent,
     DropdownModule,
     MathjaxModule,
     NgForOf,

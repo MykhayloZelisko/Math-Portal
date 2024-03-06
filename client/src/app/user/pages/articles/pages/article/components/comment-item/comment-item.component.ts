@@ -9,7 +9,7 @@ import {
   Output,
 } from '@angular/core';
 import { CommentsTreeInterface } from '../../../../../../../shared/models/interfaces/comments-tree.interface';
-import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SvgIconComponent } from 'angular-svg-icon';
 import { NewCommentComponent } from '../new-comment/new-comment.component';
 import { UserInterface } from '../../../../../../../shared/models/interfaces/user.interface';
 import { CommentsService } from '../../../../../../../shared/services/comments.service';
@@ -24,7 +24,7 @@ import { DatePipe, NgForOf, NgIf } from '@angular/common';
   selector: 'app-comment-item',
   standalone: true,
   imports: [
-    AngularSvgIconModule,
+    SvgIconComponent,
     NewCommentComponent,
     RouterLink,
     ClickOutsideDirective,

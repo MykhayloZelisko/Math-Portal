@@ -8,7 +8,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SvgIconComponent } from 'angular-svg-icon';
 import { CommentItemComponent } from '../comment-item/comment-item.component';
 import { UserInterface } from '../../../../../../../shared/models/interfaces/user.interface';
 import { RouterLink } from '@angular/router';
@@ -24,7 +24,7 @@ import { NgIf } from '@angular/common';
   selector: 'app-new-comment',
   standalone: true,
   imports: [
-    AngularSvgIconModule,
+    SvgIconComponent,
     forwardRef(() => CommentItemComponent),
     RouterLink,
     ReactiveFormsModule,

@@ -10,7 +10,7 @@ import {
   Output,
 } from '@angular/core';
 import { TableHeaderInterface } from '../../../../../shared/models/interfaces/table-header.interface';
-import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SvgIconComponent } from 'angular-svg-icon';
 import { UsersTableInterface } from '../../../../../shared/models/interfaces/users-table.interface';
 import { SortingType } from '../../../../../shared/models/types/sorting.type';
 import { USERS_TABLE_HEADER } from '../../../../../shared/models/constants/user-table-header';
@@ -30,7 +30,7 @@ import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
   selector: 'app-users-table',
   standalone: true,
   imports: [
-    AngularSvgIconModule,
+    SvgIconComponent,
     NgxPaginationModule,
     ReactiveFormsModule,
     DropdownModule,

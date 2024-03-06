@@ -8,7 +8,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SvgIconComponent } from 'angular-svg-icon';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MathjaxModule } from 'mathjax-angular';
 import { Subject, takeUntil } from 'rxjs';
@@ -17,7 +17,7 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-article-title',
   standalone: true,
-  imports: [AngularSvgIconModule, MathjaxModule, ReactiveFormsModule, NgIf],
+  imports: [SvgIconComponent, MathjaxModule, ReactiveFormsModule, NgIf],
   templateUrl: './article-title.component.html',
   styleUrl: './article-title.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
