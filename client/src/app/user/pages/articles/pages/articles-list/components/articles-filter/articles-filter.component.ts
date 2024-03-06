@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TagInterface } from '../../../../../../../shared/models/interfaces/tag.interface';
-import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SvgIconComponent } from 'angular-svg-icon';
 import { TagsService } from '../../../../../../../shared/services/tags.service';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { ArticlesListParamsInterface } from '../../../../../../../shared/models/interfaces/articles-list-params.interface';
@@ -24,7 +24,7 @@ const DEBOUNCE_TIME = 600;
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    AngularSvgIconModule,
+    SvgIconComponent,
     NgIf,
     NgForOf,
   ],

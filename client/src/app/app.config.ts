@@ -4,7 +4,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { appRoutes } from './routes/app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
-import { AngularSvgIconModule } from 'angular-svg-icon';
+import { provideAngularSvgIcon } from 'angular-svg-icon';
 import { MathjaxModule } from 'mathjax-angular';
 import { loaderInterceptor } from './interceptors/loader.interceptor';
 import { authInterceptor } from './auth/interceptors/auth.interceptor';
@@ -19,10 +19,10 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideAnimations(),
+    provideAngularSvgIcon(),
     provideHttpClient(withInterceptors([loaderInterceptor, authInterceptor])),
     importProvidersFrom(
       MatDialogModule,
-      AngularSvgIconModule.forRoot(),
       MathjaxModule.forRoot({
         config: {
           loader: {

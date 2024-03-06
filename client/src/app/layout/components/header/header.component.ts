@@ -10,7 +10,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserInterface } from '../../../shared/models/interfaces/user.interface';
 import { UsersService } from '../../../shared/services/users.service';
 import { Subject, takeUntil } from 'rxjs';
-import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SvgIconComponent } from 'angular-svg-icon';
 import { UserRouteNameEnum } from '../../../shared/models/enums/user-route-name.enum';
 import { LayoutRouteNameEnum } from '../../../shared/models/enums/layout-route-name.enum';
 import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
@@ -22,7 +22,7 @@ import { NgIf } from '@angular/common';
   standalone: true,
   imports: [
     RouterLink,
-    AngularSvgIconModule,
+    SvgIconComponent,
     ClickOutsideDirective,
     RouterLinkActive,
     NgIf,

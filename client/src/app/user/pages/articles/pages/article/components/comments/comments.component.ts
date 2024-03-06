@@ -12,7 +12,7 @@ import { CommentWithDescendantsInterface } from '../../../../../../../shared/mod
 import { CommentsTreeInterface } from '../../../../../../../shared/models/interfaces/comments-tree.interface';
 import { commentsListMapper } from '../../../../../../../shared/utils/comments-list-mapper';
 import { CommentItemComponent } from '../comment-item/comment-item.component';
-import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SvgIconComponent } from 'angular-svg-icon';
 import { NewCommentComponent } from '../new-comment/new-comment.component';
 import { UsersService } from '../../../../../../../shared/services/users.service';
 import { UserInterface } from '../../../../../../../shared/models/interfaces/user.interface';
@@ -23,7 +23,7 @@ import { NgForOf } from '@angular/common';
   standalone: true,
   imports: [
     CommentItemComponent,
-    AngularSvgIconModule,
+    SvgIconComponent,
     NewCommentComponent,
     NgForOf,
   ],
