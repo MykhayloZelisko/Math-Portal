@@ -15,7 +15,6 @@ import { TagsService } from '../tags/tags.service';
 import sequelize, { FindOptions, Op, QueryTypes, Sequelize } from 'sequelize';
 import { CommentsService } from '../comments/comments.service';
 import { Comment } from '../comments/models/comment.model';
-import * as process from 'process';
 import { ArticlesListDto } from './dto/articles-list.dto';
 
 @Injectable()
