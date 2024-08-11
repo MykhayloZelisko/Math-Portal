@@ -1,4 +1,4 @@
-@import "variables";
+@import 'variables';
 
 .solving-triangle {
   display: flex;
@@ -46,7 +46,8 @@
 ::ng-deep {
   .solving-triangle {
     & .p-dropdown-panel {
-      filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%)) drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
+      filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%))
+        drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
       border-radius: 4px;
 
       & .p-dropdown-items {

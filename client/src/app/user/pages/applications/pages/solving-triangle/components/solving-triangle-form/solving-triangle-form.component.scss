@@ -1,4 +1,4 @@
-@import "variables";
+@import 'variables';
 
 .solving-triangle-form {
   &__form {
@@ -27,7 +27,7 @@
     }
 
     &:focus {
-      border-color:  $brown-2;
+      border-color: $brown-2;
       outline: none;
     }
 
@@ -43,7 +43,7 @@
     }
 
     /* Firefox */
-    &[type="number"] {
+    &[type='number'] {
       appearance: textfield;
     }
   }

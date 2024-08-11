@@ -1,4 +1,4 @@
-@import "variables";
+@import 'variables';
 
 :host {
   display: flex;
@@ -36,7 +36,7 @@
     }
 
     &::after {
-      content: "* required";
+      content: '* required';
       position: absolute;
       top: 4px;
       right: 0;
@@ -59,7 +59,7 @@
     }
 
     &:focus {
-      border-color:  $brown-2;
+      border-color: $brown-2;
       outline: none;
     }
 
