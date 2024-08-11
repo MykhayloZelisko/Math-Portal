@@ -1,4 +1,4 @@
-import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { CreateUserDto } from './create-user.dto';
 import {
   IsNotEmpty,
@@ -6,7 +6,6 @@ import {
   IsString,
   Length,
   Matches,
-  MinLength,
 } from 'class-validator';
 
 export class UpdateUserDto extends OmitType(CreateUserDto, []) {
