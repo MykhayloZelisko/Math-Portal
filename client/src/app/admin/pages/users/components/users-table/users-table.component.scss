@@ -181,7 +181,7 @@
     padding: 0 8px 0 0 !important;
 
     &::after {
-      content: url("../../../../../../assets/images/arrow_right.svg") !important;
+      content: url('../../../../../../assets/images/arrow_right.svg') !important;
       position: relative;
       top: 1px;
     }
@@ -191,7 +191,7 @@
     padding: 0 8px 0 0 !important;
 
     &::after {
-      content: url("../../../../../../assets/images/arrow_right_brown.svg") !important;
+      content: url('../../../../../../assets/images/arrow_right_brown.svg') !important;
       position: relative;
       top: 1px;
     }
@@ -201,7 +201,7 @@
     padding: 0 0 0 8px !important;
 
     &::before {
-      content: url("../../../../../../assets/images/arrow_left.svg") !important;
+      content: url('../../../../../../assets/images/arrow_left.svg') !important;
       position: relative;
       top: 1px;
     }
@@ -211,7 +211,7 @@
     padding: 0 0 0 8px !important;
 
     &::before {
-      content: url("../../../../../../assets/images/arrow_left_brown.svg") !important;
+      content: url('../../../../../../assets/images/arrow_left_brown.svg') !important;
       position: relative;
       top: 1px;
     }
@@ -251,7 +251,8 @@
   }
 
   .p-dropdown-panel {
-    filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%)) drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
+    filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%))
+      drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
     border-radius: 4px;
 
     & .p-dropdown-items {

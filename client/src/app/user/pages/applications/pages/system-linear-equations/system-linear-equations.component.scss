@@ -1,4 +1,4 @@
-@import "variables";
+@import 'variables';
 
 .system-linear-equations {
   display: flex;
@@ -55,7 +55,7 @@
     }
 
     &:focus {
-      border-color:  $brown-2;
+      border-color: $brown-2;
       outline: none;
     }
 
@@ -71,7 +71,7 @@
     }
 
     /* Firefox */
-    &[type="number"] {
+    &[type='number'] {
       appearance: textfield;
     }
   }
@@ -173,7 +173,8 @@
 ::ng-deep {
   .solving-linear-system {
     & .p-dropdown-panel {
-      filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%)) drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
+      filter: drop-shadow(0 1px 3px rgb(29 30 38 / 10%))
+        drop-shadow(0 3px 6px rgb(29 30 38 / 10%));
       border-radius: 4px;
 
       & .p-dropdown-items {

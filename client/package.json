@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.scss\" \"src/**/*.html\"",
     "test": "ng test",
     "lint": "ng lint && npx stylelint \"src/**/*.scss\" && npx eslint-config-prettier \"src/**/*.html\"",
     "lint-fix": "ng lint --fix && npx stylelint \"src/**/*.scss\" --fix && npx eslint-config-prettier \"src/**/*.html\" --fix"

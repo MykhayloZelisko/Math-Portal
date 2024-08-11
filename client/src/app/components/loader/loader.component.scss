@@ -1,9 +1,13 @@
-@use "sass:math";
-@import "variables";
+@use 'sass:math';
+@import 'variables';
 
 @keyframes spinner {
-  0% { opacity: 1 }
-  100% { opacity: 0 }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .loader {
@@ -47,5 +51,3 @@
     }
   }
 }
-
-

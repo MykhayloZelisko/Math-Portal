@@ -21,13 +21,7 @@ const DEBOUNCE_TIME = 600;
 @Component({
   selector: 'app-articles-filter',
   standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    SvgIconComponent,
-    NgIf,
-    NgForOf,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SvgIconComponent, NgIf, NgForOf],
   templateUrl: './articles-filter.component.html',
   styleUrl: './articles-filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
